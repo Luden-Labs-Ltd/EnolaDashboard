@@ -1,0 +1,29 @@
+.layout {
+    display: grid;
+    grid-template-areas:
+        "navbar header header"
+        "navbar  main main"
+        "navbar  main main"
+    ;
+    grid-template-columns: 216px 1fr;
+    grid-template-rows: 60px 1fr;
+    min-height: 100vh;
+}
+
+.header {
+    grid-area: header;
+    background-color: var(--mainBackgroundColor);
+    display: flex;
+    justify-content: end;
+    padding: 10px 20px;
+}
+
+
+.navbar {
+    background-color: var(--mainBackgroundColor);
+    grid-area: navbar;
+}
+
+.main {
+    grid-area: main;
+}
