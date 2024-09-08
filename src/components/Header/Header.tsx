@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import styles from "@styles/main.layout.module.css";
+import styles from "@styles/main.layout.module.scss";
 
 export default function Header() {
   return (

@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
-import styles from "@styles/main.layout.module.css";
+import "@styles/globals.css";
+import "@styles/utils/reset.scss";
+import styles from "@styles/main.layout.module.scss";
 import Header from "@components/Header/Header";
+import { NextIntlClientProvider } from "next-intl";
+import { getLocale, getMessages } from "next-intl/server";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -10,19 +14,26 @@ export const metadata: Metadata = {
   description: "Admin panel for family's",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+  const locale = await getLocale();
+ 
+  const messages = await getMessages();
+
   return (
-    <html lang="en">
+    <html lang={locale}>
       <body className={inter.className}>
-        <div className={styles.layout}>
-          <Header />
-          <nav className={styles.navbar}>Nav</nav>
-          <div className={styles.main}>{children}</div>
-        </div>
+        <NextIntlClientProvider messages={messages}>
+          <div className={styles.layout}>
+            <Header />
+            <nav className={styles.navbar}>Nav</nav>
+            <div className={styles.main}>{children}</div>
+          </div>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

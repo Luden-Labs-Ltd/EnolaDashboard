@@ -1,3 +1,5 @@
+@import "./utils/colors.scss";
+
 .layout {
     display: grid;
     grid-template-areas:
@@ -12,7 +14,7 @@
 
 .header {
     grid-area: header;
-    background-color: var(--mainBackgroundColor);
+    background-color: $mainBackgroundColor;
     display: flex;
     justify-content: end;
     padding: 10px 20px;
@@ -20,7 +22,7 @@
 
 
 .navbar {
-    background-color: var(--mainBackgroundColor);
+    background-color: $mainBackgroundColor;
     grid-area: navbar;
 }
 
