@@ -1,5 +1,15 @@
 {
     "HomePage": {
         "title": "GOMORDJOBA!"
+    },
+    "NavBar": {
+        "families": "משפחות",
+        "log_out": "התנתק.י",
+        "users": "משתמשים",
+        "dashboard": "דשבורד",
+        "tasks": "משימות",
+        "needs": "צרכים",
+        "resources": "משאבים",
+        "supporters": "תומכים"
     }
 }

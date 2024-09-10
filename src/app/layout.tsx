@@ -6,6 +6,8 @@ import styles from "@styles/main.layout.module.scss";
 import Header from "@components/Header/Header";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
+import NavBar from "@components/NavBar";
+import { NAVIGATION_ITEMS } from "shared/constants/navbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,9 +21,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
   const locale = await getLocale();
- 
   const messages = await getMessages();
 
   return (
@@ -30,7 +30,9 @@ export default async function RootLayout({
         <NextIntlClientProvider messages={messages}>
           <div className={styles.layout}>
             <Header />
-            <nav className={styles.navbar}>Nav</nav>
+            <nav className={styles.navbar}>
+              <NavBar navigationItems={NAVIGATION_ITEMS} />
+            </nav>
             <div className={styles.main}>{children}</div>
           </div>
         </NextIntlClientProvider>
