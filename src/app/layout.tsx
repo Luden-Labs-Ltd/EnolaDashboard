@@ -1,40 +1,34 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { NextIntlClientProvider } from "next-intl";
+import { Space_Grotesk, Rubik } from "next/font/google";
+import { getLocale, getMessages } from "next-intl/server";
 import "@styles/globals.css";
 import "@styles/utils/reset.scss";
-import styles from "@styles/main.layout.module.scss";
-import Header from "@components/Header/Header";
-import { NextIntlClientProvider } from "next-intl";
-import { getLocale, getMessages } from "next-intl/server";
-import NavBar from "@components/NavBar";
-import { NAVIGATION_ITEMS } from "shared/constants/navbar";
 
-const inter = Inter({ subsets: ["latin"] });
+const SpaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-grotesk",
+});
 
-export const metadata: Metadata = {
-  title: "Enola App",
-  description: "Admin panel for family's",
-};
+const RubikFont = Rubik({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-rubik",
+});
 
 export default async function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   const locale = await getLocale();
   const messages = await getMessages();
 
   return (
-    <html lang={locale}>
-      <body className={inter.className}>
+    <html lang={locale} className={`${SpaceGrotesk.variable} ${RubikFont.variable} font-grotesk`}>
+      <body>
         <NextIntlClientProvider messages={messages}>
-          <div className={styles.layout}>
-            <Header />
-            <nav className={styles.navbar}>
-              <NavBar navigationItems={NAVIGATION_ITEMS} />
-            </nav>
-            <div className={styles.main}>{children}</div>
-          </div>
+          <main>{children}</main>
         </NextIntlClientProvider>
       </body>
     </html>
