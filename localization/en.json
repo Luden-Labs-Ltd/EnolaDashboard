@@ -2,6 +2,12 @@
     "HomePage": {
         "title": "Hello world!"
     },
+    "Auth": {
+        "send_code": "Send Code",
+        "resend_otp": "Resend otp",
+        "code": "enter code",
+        "log_in": "log in"
+    },
     "NavBar": {
         "families": "Families",
         "log_out": "Log Out",

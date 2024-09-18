@@ -1,12 +1,9 @@
-import { useTranslations } from "next-intl";
+import SingInContent from "./ui/content";
 
 export default function SignInPage() {
-
-  const t = useTranslations('HomePage');
-
   return (
-    <main className="">
-      <h2 className="text-yellow-300 font-bold text-2xl">SING IN</h2>
+    <main className="gap-5 flex flex-col items-center w-full max-w-500px">
+      <SingInContent />
     </main>
   );
 }
