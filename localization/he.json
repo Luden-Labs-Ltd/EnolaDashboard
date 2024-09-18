@@ -2,6 +2,12 @@
     "HomePage": {
         "title": "GOMORDJOBA!"
     },
+    "Auth": {
+        "send_code": "שליחת הודעה במסרון",
+        "resend_otp": "שלח שוב",
+        "code": "קוד שהתקבל בהודעה",
+        "log_in": "היכנס"
+    },
     "NavBar": {
         "families": "משפחות",
         "log_out": "התנתק.י",

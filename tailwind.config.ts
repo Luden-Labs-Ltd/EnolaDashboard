@@ -12,6 +12,9 @@ const config: Config = {
         rubik: ["var(--font-rubik)"],
         grotesk: ["var(--font-grotesk)"],
       },
+      maxWidth: {
+        '500px': '500px',
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":

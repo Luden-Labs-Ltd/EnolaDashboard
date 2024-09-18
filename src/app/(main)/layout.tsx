@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import styles from "@styles/main.layout.module.scss";
-import Header from "@components/Header/Header";
-import NavBar from "@components/NavBar";
+import Header from "@widgets/Header/Header";
+import NavBar from "@widgets/NavBar";
 import { NAVIGATION_ITEMS } from "shared/constants/navbar";
 
 export const metadata: Metadata = {
@@ -16,7 +16,7 @@ export default async function RootLayout({
 }>) {
 
   return (
-    <div className={inter.className}>
+    <div>
       <div className={styles.layout}>
         <Header />
         <nav className={styles.navbar}>
