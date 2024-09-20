@@ -40,6 +40,9 @@ export async function sendOtpCode(formData: FormData) {
   if (process.env.NODE_ENV === "development") {
     const code = response.headers.get("x-requested-user");
     console.info("OTP", code);
+    if (code) {
+      cookies().set("OTP", code, config);
+    }
   }
 }
 
