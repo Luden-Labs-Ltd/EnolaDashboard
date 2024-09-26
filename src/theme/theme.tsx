@@ -121,10 +121,12 @@ export const theme = createTheme({
       xs: 0,
       sm: 600,
       md: 960,
+      // @ts-ignore
       tablet: 1024,
       lg: 1280,
       xl: 1920,
     },
+      // @ts-ignore
     keys: ["xs", "sm", "md", "tablet", "lg", "xl"],
   },
   palette: {
@@ -157,6 +159,7 @@ export const theme = createTheme({
     },
   },
   typography: {
+      // @ts-ignore
     fontFamily: [
       "Roboto",
       "Helvetica Neue",

@@ -4,7 +4,6 @@ import type { NextRequest } from "next/server";
 
 export async function middleware(request: NextRequest) {
   // const user = await getUserMeLoader();
-  const user = {ok: true}
   const token = await getAuthToken()
   const currentPath = request.nextUrl.pathname;
 
