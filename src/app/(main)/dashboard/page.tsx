@@ -1,7 +1,13 @@
-export default function DashboardPage() {
+import { getDashboardInfo } from "./actions";
+import Cards from "./widgets/Cards";
+import CharWithFilters from "./widgets/CharWithFilters/CharWithFilters";
+
+export default async function DashboardPage() {
+  const data = await getDashboardInfo();
   return (
-    <main className="">
-      <h2 className="text-yellow-300 font-bold text-2xl">Dashboard</h2>
+    <main>
+      <Cards />
+      <CharWithFilters />
     </main>
   );
 }
