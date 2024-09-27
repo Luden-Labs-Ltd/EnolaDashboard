@@ -3,7 +3,7 @@ import DashboardCard from '../ui/Card'
 
 const Cards = () => {
   return (
-    <div className="flex gap-10">
+    <div className="flex gap-10 flex-wrap">
       <DashboardCard
         title="Families"
         firstValue={100}

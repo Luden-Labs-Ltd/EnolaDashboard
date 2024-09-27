@@ -1,7 +1,26 @@
+"use client";
+
 import React from "react";
 import FilterButton from "../FilterButton/FilterButton";
 import { ButtonOwnProps } from "@mui/material";
 import { FilterStateType } from "../CharWithFilters";
+import "react-date-range/dist/styles.css"; // main css file
+import dynamic from "next/dynamic";
+import { DateRangeItem } from "../../../ui/DateRange/DateRangePicker";
+
+const DateRangePicker = dynamic(
+  () => import("../../../ui/DateRange/DateRangePicker"),
+  {
+    ssr: false,
+    loading: () => {
+      return (
+        <div className="min-w-72 h-10 rounded-lg">
+          <div className="skeleton"></div>
+        </div>
+      );
+    },
+  }
+);
 
 export type FilterItem = {
   label: string;
@@ -13,28 +32,35 @@ interface FiltersItems {
   filterState: FilterStateType;
   filtersItems: Array<FilterItem>;
   onChangeItemFilter: (filterId: string) => void;
+  onChangeDate: (dates: Array<DateRangeItem>) => void;
 }
 
 const Filters: React.FC<FiltersItems> = ({
   filtersItems,
   filterState,
   onChangeItemFilter,
+  onChangeDate,
 }) => {
   return (
     <div className="flex gap-5 items-center justify-between flex-row mt-7 mb-7">
-      <div>Datepicker</div>
-      <div className="flex gap-5 items-center">
+      <div>
+        <DateRangePicker onChangeDate={onChangeDate} dates={filterState.days} />
+      </div>
+      <div className="flex gap-5 flex-wrap items-center">
         {filtersItems.map((item) => {
           return (
-            <>
-              <FilterButton
-                color={item.color}
-                variant={filterState.activeItemsFilters.includes(item.id) ? "contained" : "outlined"}
-                onClick={() => onChangeItemFilter(item.id)}
-              >
-                {item.label}
-              </FilterButton>
-            </>
+            <FilterButton
+              key={item.id}
+              color={item.color}
+              variant={
+                filterState.activeItemsFilters.includes(item.id)
+                  ? "contained"
+                  : "outlined"
+              }
+              onClick={() => onChangeItemFilter(item.id)}
+            >
+              {item.label}
+            </FilterButton>
           );
         })}
       </div>

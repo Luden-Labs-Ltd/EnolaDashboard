@@ -2,16 +2,25 @@
 import React, { useState } from "react";
 import Chart from "../../ui/Chart/Chart";
 import Filters, { FilterItem } from "./Filters/Filters";
+import { addDays } from "date-fns";
+import { DateRangeItem } from "../../ui/DateRange/DateRangePicker";
 
 export type FilterStateType = {
   activeItemsFilters: Array<string>;
-  currentDate: Date;
+  days: Array<DateRangeItem>;
 };
 
 const CharWithFilters = () => {
+  const currentDate = new Date("12/09/2000");
   const [filters, setFilters] = useState<FilterStateType>({
     activeItemsFilters: [],
-    currentDate: new Date(),
+    days: [
+      {
+        startDate: currentDate,
+        endDate: addDays(currentDate, 7),
+        key: "selection",
+      },
+    ],
   });
 
   const filtersItems: Array<FilterItem> = [
@@ -53,12 +62,16 @@ const CharWithFilters = () => {
           activeItemsFilters: filteredItems,
         };
       }
-      const newActiveItems = [...prev.activeItemsFilters, filterId]
+      const newActiveItems = [...prev.activeItemsFilters, filterId];
       return {
         ...prev,
         activeItemsFilters: newActiveItems,
       };
     });
+  };
+
+  const onChangeDate = (newDates: Array<DateRangeItem>) => {
+    console.log(newDates);
   };
 
   return (
@@ -67,6 +80,7 @@ const CharWithFilters = () => {
         filtersItems={filtersItems}
         filterState={filters}
         onChangeItemFilter={onChangeItemFilter}
+        onChangeDate={onChangeDate}
       />
       <Chart />
     </div>

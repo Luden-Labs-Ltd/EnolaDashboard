@@ -5,7 +5,7 @@ interface FilterButtonProps extends ButtonProps  {}
 
 const FilterButton: React.FC<FilterButtonProps> = ({variant = "outlined", type, ...rest}) => {
   return (
-    <Button type="button" variant={variant} {...rest} />
+    <Button type="button" className="text-nowrap" variant={variant} {...rest} />
   );
 };
 
