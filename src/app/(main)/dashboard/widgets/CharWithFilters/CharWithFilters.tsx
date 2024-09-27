@@ -71,7 +71,12 @@ const CharWithFilters = () => {
   };
 
   const onChangeDate = (newDates: Array<DateRangeItem>) => {
-    console.log(newDates);
+    setFilters((prev) => {
+      return {
+        ...prev,
+        days: newDates,
+      };
+    });
   };
 
   return (

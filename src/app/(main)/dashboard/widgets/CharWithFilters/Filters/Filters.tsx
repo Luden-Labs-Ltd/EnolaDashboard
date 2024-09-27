@@ -6,18 +6,17 @@ import { ButtonOwnProps } from "@mui/material";
 import { FilterStateType } from "../CharWithFilters";
 import "react-date-range/dist/styles.css"; // main css file
 import dynamic from "next/dynamic";
-import { DateRangeItem } from "../../../ui/DateRange/DateRangePicker";
+import {
+  DatepickerSkeletton,
+  DateRangeItem,
+} from "../../../ui/DateRange/DateRangePicker";
 
 const DateRangePicker = dynamic(
   () => import("../../../ui/DateRange/DateRangePicker"),
   {
     ssr: false,
     loading: () => {
-      return (
-        <div className="min-w-72 h-10 rounded-lg">
-          <div className="skeleton"></div>
-        </div>
-      );
+      return <DatepickerSkeletton />;
     },
   }
 );

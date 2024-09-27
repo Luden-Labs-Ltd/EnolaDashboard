@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { Button } from "@mui/material";
+import classNames from "classnames";
+import React, { useState } from "react";
 import { DateRangePicker as DateRangeLibrary } from "react-date-range";
 import "./daterange.css";
 import styles from "./daterange.module.scss";
-import classNames from "classnames";
-import { Button } from "@mui/material";
 
 export type DateRangeItem = {
   startDate: Date;
@@ -16,7 +16,11 @@ interface DateRangePickerProps {
   onChangeDate: (dates: Array<DateRangeItem>) => void;
 }
 
-const DateRangePicker: React.FC<DateRangePickerProps> = ({ dates, onChangeDate }) => {
+const DateRangePicker: React.FC<DateRangePickerProps> = ({
+  dates,
+  onChangeDate,
+}) => {
+  const originDates = [...dates]
   const [datepickerState, setDatepickerState] = useState({
     dates: dates,
   });
@@ -28,14 +32,21 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({ dates, onChangeDate }
   const onDateChange = (item: any) => {
     const newDates = item.selection;
     return setDatepickerState({
-      dates: [newDates]
+      dates: [newDates],
     });
+  };
+
+  const onCloseHandler = () => {
+    setDatepickerState({
+      dates: originDates
+    })
+    setIsDropDownOpen(false);
   };
 
   const onSetHandler = () => {
     onChangeDate?.(datepickerState.dates);
     setIsDropDownOpen(false);
-  }
+  };
 
   return (
     <div
@@ -61,7 +72,7 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({ dates, onChangeDate }
         />
         <div className="flex justify-end p-2 gap-6">
           <Button
-            onClick={() => setIsDropDownOpen(false)}
+            onClick={onCloseHandler}
             disableTouchRipple={true}
             type="button"
             variant="text"
@@ -78,6 +89,14 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({ dates, onChangeDate }
           </Button>
         </div>
       </div>
+    </div>
+  );
+};
+
+export const DatepickerSkeletton = () => {
+  return (
+    <div className="min-w-72 h-10 rounded-lg">
+      <div className="skeleton"></div>
     </div>
   );
 };
