@@ -23,7 +23,7 @@ export const NAVIGATION_ITEMS: Array<NavigationItemType> = [
   {
     icon: "hand",
     translateKey: "needs",
-    disabled: true,
+    disabled: false,
     navigateTo: "needs",
   },
   {

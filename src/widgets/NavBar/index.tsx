@@ -24,35 +24,23 @@ const NavBar: React.FC<NavBarProps> = ({
     <div className={styles.navbar}>
       <div className={styles.top}>
         <div className={styles.topLogoWrapper}>
-          <Image
-            alt="logo navbar"
-            src={Logo}
-          />
-          <Image
-            alt="burgerIcon"
-            src={Burger}
-          />
+          <Image alt="logo navbar" src={Logo} />
+          <Image alt="burgerIcon" src={Burger} />
         </div>
         <div className={styles.programName}>Program_name</div>
       </div>
-      <ul className={styles.itemList}>
-        {navigationItems.map((item, index) => {
-          const elementKey = `${index}-${item.translateKey}`;
+      <div className={styles.content}>
+        <ul className={styles.itemList}>
+          {navigationItems.map((item, index) => {
+            const elementKey = `${index}-${item.translateKey}`;
 
-          return <NavigationItem item={item} key={elementKey} />;
-        })}
-      </ul>
-      {/* <a
-        className={styles.item}
-        onClick={logOutComponent.clickHandler}
-        href="#"
-      >
-        <div className={styles.itemIcon}>{logOutComponent.icon}</div>
-        <div className={styles.itemLabel}>{logOutComponent.label}</div>
-      </a> */}
-      <form
+            return <NavigationItem item={item} key={elementKey} />;
+          })}
+        </ul>
+
+        <form
           action={async () => {
-            'use server';
+            "use server";
             await logoutAction();
           }}
         >
@@ -60,6 +48,7 @@ const NavBar: React.FC<NavBarProps> = ({
             <div className="hidden md:block">Sign Out</div>
           </button>
         </form>
+      </div>
     </div>
   );
 };

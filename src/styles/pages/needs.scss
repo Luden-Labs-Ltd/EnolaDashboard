@@ -1,0 +1,8 @@
+@import "../utils/colors.scss";
+
+button.roundedBtn {
+    border-radius: 63px;
+    color: $white;
+    font-size: 15px;
+    font-family: var(--font-rubik);
+}
