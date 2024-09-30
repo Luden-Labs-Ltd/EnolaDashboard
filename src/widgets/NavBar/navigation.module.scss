@@ -42,6 +42,15 @@
     border-bottom: 0.5px solid #A3ABC3;
   }
 
+  .content {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
   .itemList {
     display: flex;
     flex: 1;
