@@ -1,23 +1,109 @@
 "use client";
-import React, { useState } from "react";
-import Chart from "../../ui/Chart/Chart";
-import Filters, { FilterItem } from "./Filters/Filters";
-import { addDays } from "date-fns";
+import { addDays, isWithinInterval } from "date-fns";
+import dynamic from "next/dynamic";
+import { useMemo, useState } from "react";
 import { DateRangeItem } from "../../ui/DateRange/DateRangePicker";
+import Filters, { FilterItem } from "./Filters/Filters";
 
 export type FilterStateType = {
   activeItemsFilters: Array<string>;
   days: Array<DateRangeItem>;
 };
 
+type BaseLineData = {
+  data: { value: number; date: Date }[];
+  id: string;
+  color: string;
+};
+
+type Filters = {
+  minDate: Date;
+  maxDate: Date;
+  activeFilters: string[]
+}
+
+type CreateCharDataArguments = {
+  originData: BaseLineData[];
+  filters: Filters;
+}
+
+
+type CreateBaseLineObject = {
+  item: BaseLineData;
+  minDate: Date;
+  maxDate: Date;
+}
+const createBaseLineObject = ({
+  item,
+  minDate,
+  maxDate
+}: CreateBaseLineObject) => {
+  const {data, id, color} = item
+  const dataArray = data.filter((item) => {
+    if (!minDate || !maxDate) {
+      return true
+    }
+    const isBetween = isWithinInterval(item.date, {
+      start: minDate,
+      end: maxDate
+    })
+
+    return isBetween;
+  })
+  const lineObject = {
+    name: id,
+    data: dataArray,
+    type: "line",
+    stack: "x",
+    symbolSize: 10,
+    lineStyle: {
+      normal: {
+        color: color,
+        width: 4,
+        type: "solid",
+      },
+    },
+  };
+  return lineObject;
+};
+
+const createCharData = ({originData, filters}: CreateCharDataArguments) => {
+  let filteredData = originData;
+  if (filters.activeFilters.length) {
+    filteredData = originData.filter((item) =>
+      filters.activeFilters.includes(item.id)
+    );
+  }
+
+  const result = []
+  filteredData.forEach(item => {
+    const chartLineObject = createBaseLineObject({
+      item: item,
+      minDate: filters.minDate,
+      maxDate: filters.maxDate,
+    })
+    if (chartLineObject) {
+      result.push(chartLineObject)
+    }
+  })
+  
+  return result
+}
+
+const Echarts = dynamic(() => import("../../ui/Chart/Echarts"), {
+  ssr: false,
+  loading: () => {
+    return <div>loading</div>;
+  },
+});
+
 const CharWithFilters = () => {
-  const currentDate = new Date("12/09/2000");
   const [filters, setFilters] = useState<FilterStateType>({
     activeItemsFilters: [],
     days: [
       {
-        startDate: currentDate,
-        endDate: addDays(currentDate, 7),
+        startDate: null,
+        endDate: null,
         key: "selection",
       },
     ],
@@ -50,6 +136,76 @@ const CharWithFilters = () => {
       color: "error",
     },
   ];
+
+  const ChartData = useMemo(() => {
+    const data = createCharData({
+      originData: [
+        {
+          data: [
+            { value: 10, date: new Date(2024, 8, 1 )},
+            { value: 22, date: new Date(2024, 8, 2) },
+            { value: 28, date: new Date(2024, 8, 3) },
+            { value: 43, date: new Date(2024, 8, 4) },
+            { value: 48, date: new Date(2024, 8, 5) },
+          ],
+          id: "active_user",
+          color: "#269ACF",
+        },
+        {
+          data: [
+            { value: 15, date: new Date(2024, 9, 1) },
+            { value: 14, date: new Date(2024, 9, 2) },
+            { value: 13, date: new Date(2024, 9, 3) },
+            { value: 30, date: new Date(2024, 9, 4) },
+            { value: 14, date: new Date(2024, 9, 5) },
+            { value: 19, date: new Date(2024, 9, 6) },
+          ],
+          id: "families",
+          color: "purple",
+        },
+        {
+          data: [
+            { value: 12, date: new Date(2024, 2, Math.floor(Math.random() * 31) + 1) },
+            { value: 50, date: new Date(2024, 2, Math.floor(Math.random() * 31) + 1) },
+            { value: 30, date: new Date(2024, 2, Math.floor(Math.random() * 31) + 1) },
+            { value: 2, date: new Date(2024, 2, Math.floor(Math.random() * 31) + 1) },
+            { value: 45, date: new Date(2024, 2, Math.floor(Math.random() * 31) + 1) },
+          ],
+          id: "supporters",
+          color: "orange",
+        },
+        {
+          data: [
+            { value: 5, date: new Date(2024, 3, Math.floor(Math.random() * 30) + 1) },
+            { value: 4, date: new Date(2024, 3, Math.floor(Math.random() * 30) + 1) },
+            { value: 3, date: new Date(2024, 3, Math.floor(Math.random() * 30) + 1) },
+            { value: 5, date: new Date(2024, 3, Math.floor(Math.random() * 30) + 1) },
+            { value: 10, date: new Date(2024, 3, Math.floor(Math.random() * 30) + 1) },
+          ],
+          id: "open_tasks",
+          color: "green",
+        },
+        {
+          data: [
+            { value: 10, date: new Date(2024, 4, Math.floor(Math.random() * 31) + 1) },
+            { value: 15, date: new Date(2024, 4, Math.floor(Math.random() * 31) + 1) },
+            { value: 18, date: new Date(2024, 4, Math.floor(Math.random() * 31) + 1) },
+            { value: 10, date: new Date(2024, 4, Math.floor(Math.random() * 31) + 1) },
+            { value: 30, date: new Date(2024, 4, Math.floor(Math.random() * 31) + 1) },
+          ],
+          id: "completed_tasks",
+          color: "red",
+        },
+      ],
+      filters: {
+        activeFilters: filters.activeItemsFilters,
+        minDate: filters.days[0]?.startDate,
+        maxDate: filters.days[0]?.endDate,
+      }
+    })
+
+    return data
+  }, [filters]);
 
   const onChangeItemFilter = (filterId: string) => {
     setFilters((prev) => {
@@ -87,7 +243,22 @@ const CharWithFilters = () => {
         onChangeItemFilter={onChangeItemFilter}
         onChangeDate={onChangeDate}
       />
-      <Chart />
+      <Echarts
+        loading={false}
+        options={{
+          tooltip: {
+            trigger: "item",
+          },
+          xAxis: {
+            type: "category",
+            data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+          },
+          yAxis: {
+            type: "value",
+          },
+          series: ChartData,
+        }}
+      />
     </div>
   );
 };

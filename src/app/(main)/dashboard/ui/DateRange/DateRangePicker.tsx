@@ -4,10 +4,11 @@ import React, { useState } from "react";
 import { DateRangePicker as DateRangeLibrary } from "react-date-range";
 import "./daterange.css";
 import styles from "./daterange.module.scss";
+import { addDays } from "date-fns";
 
 export type DateRangeItem = {
-  startDate: Date;
-  endDate: Date;
+  startDate: Date | null;
+  endDate: Date | null;
   key: "selection";
 };
 
@@ -20,14 +21,27 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
   dates,
   onChangeDate,
 }) => {
-  const originDates = [...dates]
+  const originDates = [...dates];
+
+  const currentDate = new Date()
+  const defaultDates = [
+    {
+      startDate: currentDate,
+      endDate: addDays(currentDate, 7),
+      key: "selection",
+    } as const,
+  ];
+
   const [datepickerState, setDatepickerState] = useState({
     dates: dates,
   });
 
+  const isDatesNull = !datepickerState.dates[0].startDate && !datepickerState.dates[0].endDate
   const [isDropDownOpen, setIsDropDownOpen] = useState(false);
 
-  const dateTemplate = `${datepickerState.dates[0]?.startDate.toLocaleDateString()} - ${datepickerState.dates[0]?.endDate.toLocaleDateString()}`;
+  const firstDate = datepickerState.dates[0]?.startDate?.toLocaleDateString();
+  const secondeDate = datepickerState.dates[0]?.endDate?.toLocaleDateString();
+  const dateTemplate = isDatesNull ? "Set Date" : `${firstDate} - ${secondeDate}`;
 
   const onDateChange = (item: any) => {
     const newDates = item.selection;
@@ -38,13 +52,39 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
 
   const onCloseHandler = () => {
     setDatepickerState({
-      dates: originDates
-    })
+      dates: originDates,
+    });
     setIsDropDownOpen(false);
   };
 
+  const onClearHandler = () => {
+    const nullDates = [
+      {
+        startDate: null,
+        endDate: null,
+        key: "selection",
+      },
+    ];
+
+    setDatepickerState({
+      // @ts-ignore
+      dates: nullDates,
+    });
+    // @ts-ignore
+    onChangeDate(nullDates);
+    setIsDropDownOpen(false);
+  };
+
+
   const onSetHandler = () => {
-    onChangeDate?.(datepickerState.dates);
+    if (!isDatesNull) {
+      onChangeDate?.(datepickerState.dates);
+      return setIsDropDownOpen(false);
+    }
+    onChangeDate?.(defaultDates);
+    setDatepickerState({
+      dates: defaultDates
+    })
     setIsDropDownOpen(false);
   };
 
@@ -67,26 +107,36 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
           moveRangeOnFirstSelection={false}
           months={1}
           rangeColors={["#859EE8"]}
-          ranges={datepickerState.dates}
+          ranges={isDatesNull ?  defaultDates : datepickerState.dates}
           direction="horizontal"
         />
-        <div className="flex justify-end p-2 gap-6">
+        <div className="flex justify-between p-2">
           <Button
-            onClick={onCloseHandler}
+            onClick={onClearHandler}
             disableTouchRipple={true}
             type="button"
             variant="text"
           >
-            Close
+            Clear
           </Button>
-          <Button
-            onClick={onSetHandler}
-            disableTouchRipple={true}
-            type="button"
-            variant="contained"
-          >
-            Set
-          </Button>
+          <div className="flex gap-6">
+            <Button
+              onClick={onCloseHandler}
+              disableTouchRipple={true}
+              type="button"
+              variant="text"
+            >
+              Close
+            </Button>
+            <Button
+              onClick={onSetHandler}
+              disableTouchRipple={true}
+              type="button"
+              variant="contained"
+            >
+              Set
+            </Button>
+          </div>
         </div>
       </div>
     </div>
