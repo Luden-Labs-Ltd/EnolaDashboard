@@ -1,12 +1,13 @@
-"use client"
-import React from "react";
-import InfoCard from "../ui/InfoCard";
-import { Button } from "@mui/material";
-import withTheme from "shared/hoc/withTheme";
-import AddIcon from "./assets/AddIcon";
-import '@styles/pages/needs.scss'
+import React from 'react'
+import InfoCard from '@components/InfoCard';
+import AddIcon from 'shared/assets/AddIcon';
 
-function NeedsContent() {
+
+interface FirstEnterScreenProps {
+  onClick: () => void;
+}
+
+const  FirstEnterScreen: React.FC<FirstEnterScreenProps> = ({onClick}) => {
   return (
     <div className="h-full w-full flex justify-center items-center">
       <InfoCard step={1} maxWidth={500}>
@@ -21,22 +22,19 @@ function NeedsContent() {
         </p>
 
         <div className="max-w-80 w-full">
-        <Button
-          fullWidth
+        <button
           type="button"
           className="roundedBtn font-rubik"
           color="primary"
-          variant="contained"
+          onClick={onClick}
           data-testid="sendOtp"
-          startIcon={<AddIcon />}
-          size="medium"
+          // startIcon={<AddIcon />}
         >
           Create Template
-        </Button>
+        </button>
         </div>
       </InfoCard>
     </div>
-  );
+  )
 }
-
-export default withTheme(NeedsContent);
+export default FirstEnterScreen

@@ -1,11 +1,11 @@
 "use client";
 
 import PhoneField from "@components/PhoneField";
-import { Button, Link, TextField } from "@mui/material";
+import { Button } from "@components/shadowCDN/button";
+import { Input } from "@components/shadowCDN/input";
 import { authenticate, sendOtpCode } from "auth/action";
 import { useTranslations } from "next-intl";
 import React, { useState } from "react";
-import withTheme from "shared/hoc/withTheme";
 
 function SingInContent() {
   const t = useTranslations("Auth");
@@ -40,44 +40,22 @@ function SingInContent() {
 
       {showSubmit ? (
         <>
-          <TextField
-            label={t("code")}
+          <Input
             value={otp}
             name="code"
+            className="bg-white"
             onChange={(e) => setOtp(e.target.value)}
             data-testid="otp"
-            fullWidth
           />
-          <Link
-            component="button"
-            type="button"
-            variant="body1"
-            color="secondary"
-            onClick={sendOtpCodeHandler}
-          >
+          <Button type="button" variant={"link"} color="secondary" onClick={sendOtpCodeHandler}>
             {t("resend_otp")}
-          </Link>
-          <Button
-            fullWidth
-            type="submit"
-            color="primary"
-            variant="contained"
-            data-testid="logInBtn"
-            size="large"
-          >
+          </Button>
+          <Button type="submit" size="xl" color="primary" data-testid="logInBtn">
             {t("log_in").toUpperCase()}
           </Button>
         </>
       ) : (
-        <Button
-          fullWidth
-          type="button"
-          onClick={sendOtpCodeHandler}
-          color="primary"
-          variant="contained"
-          data-testid="sendOtp"
-          size="large"
-        >
+        <Button size={"full"} onClick={sendOtpCodeHandler} data-testid="sendOtp">
           {t("send_code").toUpperCase()}
         </Button>
       )}
@@ -85,4 +63,4 @@ function SingInContent() {
   );
 }
 
-export default withTheme(SingInContent);
+export default SingInContent;

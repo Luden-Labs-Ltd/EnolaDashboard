@@ -1,15 +1,10 @@
 import React from "react";
 import PhoneInput, { PhoneInputProps } from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-import FormHelperText, {
-  FormHelperTextProps,
-} from "@mui/material/FormHelperText";
 // import InputLabel from "@mui/material/InputLabel";
-import FormControl from "@mui/material/FormControl";
 
 interface PhoneFieldProps extends PhoneInputProps {
   helperText?: string;
-  FormHelperTextProps?: FormHelperTextProps;
   error?: boolean;
   required?: boolean;
   // label: string;
@@ -23,7 +18,6 @@ interface PhoneFieldProps extends PhoneInputProps {
 
 const PhoneField: React.FC<PhoneFieldProps> = ({
   helperText,
-  FormHelperTextProps,
   error,
   required,
   // label,
@@ -37,7 +31,7 @@ const PhoneField: React.FC<PhoneFieldProps> = ({
   ...rest
 }) => {
   return (
-    <FormControl fullWidth={fullWidth}>
+    <div className="w-full">
       {/* {label && (
         <InputLabel
           classes={{ root: "label" }}
@@ -71,12 +65,12 @@ const PhoneField: React.FC<PhoneFieldProps> = ({
         country={country}
         {...rest}
       />
-      {helperText && (
+      {/* {helperText && (
         <FormHelperText error={error} {...FormHelperTextProps}>
           {helperText}
         </FormHelperText>
-      )}
-    </FormControl>
+      )} */}
+    </div>
   );
 };
 

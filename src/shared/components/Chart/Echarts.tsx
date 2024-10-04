@@ -1,5 +1,3 @@
-/* Created by Dhaval Laiya */
-
 import React, { useEffect, useRef, useState } from "react";
 import * as echarts from "echarts";
 import cx from "classnames";
@@ -56,6 +54,7 @@ const ECharts: React.FC<EchartsProps> = (props) => {
   return (
     <div className="echarts-parent position-relative">
       <div
+        //@ts-ignore
         ref={chartRef}
         style={newStyle}
         className={cx("echarts-react", className)}
