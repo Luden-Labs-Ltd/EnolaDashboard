@@ -2,8 +2,8 @@
 import { addDays, isWithinInterval } from "date-fns";
 import dynamic from "next/dynamic";
 import { useMemo, useState } from "react";
-import { DateRangeItem } from "../../ui/DateRange/DateRangePicker";
 import Filters, { FilterItem } from "./Filters/Filters";
+import { DateRangeItem } from "@components/DateRange/DateRangePicker";
 
 export type FilterStateType = {
   activeItemsFilters: Array<string>;
@@ -17,8 +17,8 @@ type BaseLineData = {
 };
 
 type Filters = {
-  minDate: Date;
-  maxDate: Date;
+  minDate: Date | null;
+  maxDate: Date | null;
   activeFilters: string[]
 }
 
@@ -27,11 +27,28 @@ type CreateCharDataArguments = {
   filters: Filters;
 }
 
+type lineObject = {
+  name: string;
+  data: {
+      value: number;
+      date: Date;
+  }[];
+  type: string;
+  stack: string;
+  symbolSize: number;
+  lineStyle: {
+      normal: {
+          color: string;
+          width: number;
+          type: string;
+      };
+  };
+}
 
 type CreateBaseLineObject = {
   item: BaseLineData;
-  minDate: Date;
-  maxDate: Date;
+  minDate: Date | null;
+  maxDate: Date | null;
 }
 const createBaseLineObject = ({
   item,
@@ -75,7 +92,7 @@ const createCharData = ({originData, filters}: CreateCharDataArguments) => {
     );
   }
 
-  const result = []
+  const result: lineObject[] = []
   filteredData.forEach(item => {
     const chartLineObject = createBaseLineObject({
       item: item,
@@ -90,7 +107,7 @@ const createCharData = ({originData, filters}: CreateCharDataArguments) => {
   return result
 }
 
-const Echarts = dynamic(() => import("../../ui/Chart/Echarts"), {
+const Echarts = dynamic(() => import("@components/Chart/Echarts"), {
   ssr: false,
   loading: () => {
     return <div>loading</div>;

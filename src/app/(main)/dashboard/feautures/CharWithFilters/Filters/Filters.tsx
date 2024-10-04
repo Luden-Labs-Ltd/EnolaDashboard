@@ -1,18 +1,17 @@
 "use client";
 
 import React from "react";
-import FilterButton from "../FilterButton/FilterButton";
-import { ButtonOwnProps } from "@mui/material";
+import FilterButton, { FilterColors } from "../FilterButton/FilterButton";
 import { FilterStateType } from "../CharWithFilters";
 import "react-date-range/dist/styles.css"; // main css file
 import dynamic from "next/dynamic";
 import {
   DatepickerSkeletton,
   DateRangeItem,
-} from "../../../ui/DateRange/DateRangePicker";
+} from "@components/DateRange/DateRangePicker";
 
 const DateRangePicker = dynamic(
-  () => import("../../../ui/DateRange/DateRangePicker"),
+  () => import("@components/DateRange/DateRangePicker"),
   {
     ssr: false,
     loading: () => {
@@ -24,7 +23,7 @@ const DateRangePicker = dynamic(
 export type FilterItem = {
   label: string;
   id: string;
-  color: ButtonOwnProps["color"];
+  color: FilterColors;
 };
 
 interface FiltersItems {
@@ -53,8 +52,8 @@ const Filters: React.FC<FiltersItems> = ({
               color={item.color}
               variant={
                 filterState.activeItemsFilters.includes(item.id)
-                  ? "contained"
-                  : "outlined"
+                  ? "active"
+                  : "disabled"
               }
               onClick={() => onChangeItemFilter(item.id)}
             >

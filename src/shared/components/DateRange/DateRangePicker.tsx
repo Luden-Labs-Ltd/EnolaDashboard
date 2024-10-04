@@ -1,10 +1,10 @@
-import { Button } from "@mui/material";
 import classNames from "classnames";
 import React, { useState } from "react";
 import { DateRangePicker as DateRangeLibrary } from "react-date-range";
 import "./daterange.css";
 import styles from "./daterange.module.scss";
 import { addDays } from "date-fns";
+import { Button } from "@components/shadowCDN/button";
 
 export type DateRangeItem = {
   startDate: Date | null;
@@ -107,32 +107,31 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
           moveRangeOnFirstSelection={false}
           months={1}
           rangeColors={["#859EE8"]}
+          // @ts-ignore
           ranges={isDatesNull ?  defaultDates : datepickerState.dates}
           direction="horizontal"
         />
         <div className="flex justify-between p-2">
           <Button
             onClick={onClearHandler}
-            disableTouchRipple={true}
+            variant={"outline"}
             type="button"
-            variant="text"
           >
             Clear
           </Button>
           <div className="flex gap-6">
             <Button
               onClick={onCloseHandler}
-              disableTouchRipple={true}
               type="button"
-              variant="text"
+              variant={"outline"}
             >
               Close
             </Button>
             <Button
               onClick={onSetHandler}
-              disableTouchRipple={true}
               type="button"
-              variant="contained"
+              className="submitDateBtn"
+              variant={"default"}
             >
               Set
             </Button>

@@ -22,10 +22,13 @@
       "@/*": ["./src/*"],
       "@styles/*": ["styles/*"],
       "@components/*": ["shared/components/*"],
+      "@hooks/*": ["shared/hooks/*"],
+      "@lib/*": ["shared/lib/*"],
+      "@utils": ["shared/utils/index.ts"],
       "@widgets/*": ["widgets/*"],
       "public/*": ["./public/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "./@types/*.ts"],
   "exclude": ["node_modules"]
 }

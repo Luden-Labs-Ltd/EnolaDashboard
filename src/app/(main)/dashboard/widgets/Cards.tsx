@@ -1,5 +1,5 @@
+import DashboardCard from '@components/Card'
 import React from 'react'
-import DashboardCard from '../ui/Card'
 
 const Cards = () => {
   return (
