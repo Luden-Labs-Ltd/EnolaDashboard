@@ -1,13 +1,13 @@
-import React from 'react'
-import InfoCard from '@components/InfoCard';
-import AddIcon from 'shared/assets/AddIcon';
-
+import React from "react";
+import InfoCard from "@components/InfoCard";
+import AddIcon from "shared/assets/AddIcon";
+import { Button } from "@components/shadowCDN/button";
 
 interface FirstEnterScreenProps {
   onClick: () => void;
 }
 
-const  FirstEnterScreen: React.FC<FirstEnterScreenProps> = ({onClick}) => {
+const FirstEnterScreen: React.FC<FirstEnterScreenProps> = ({ onClick }) => {
   return (
     <div className="h-full w-full flex justify-center items-center">
       <InfoCard step={1} maxWidth={500}>
@@ -22,19 +22,19 @@ const  FirstEnterScreen: React.FC<FirstEnterScreenProps> = ({onClick}) => {
         </p>
 
         <div className="max-w-80 w-full">
-        <button
-          type="button"
-          className="roundedBtn font-rubik"
-          color="primary"
-          onClick={onClick}
-          data-testid="sendOtp"
-          // startIcon={<AddIcon />}
-        >
-          Create Template
-        </button>
+          <Button
+            withIcon
+            variant="default"
+            size="full"
+            rounded={"circle"}
+            onClick={onClick}
+          >
+            <AddIcon />
+            <span>Create Template</span>
+          </Button>
         </div>
       </InfoCard>
     </div>
-  )
-}
-export default FirstEnterScreen
+  );
+};
+export default FirstEnterScreen;

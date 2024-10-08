@@ -2,19 +2,22 @@
 
 .category {
     flex: 1;
-    padding: 16px;
+    padding: 12px 0 16px 0;
     max-width: 260px;
 }
 
 .title {
     font-size: 20px;
     color: $primaryColor;
+    padding: 0 16px;
     font-weight: 550;
 }
 
 .headerPanel {
     display: flex;
     justify-content: flex-end;
+    background-color: $white;
+    border-radius: 0px 20px 0px 0px;
     padding: 16px;
 }
 
@@ -26,6 +29,5 @@
 
 .content {
     background-color: $mainBackgroundColor;
-    border-radius: 0px 0px 20px 0;
-    flex: 1;
+    border-radius: 0 20px 20px 0px;
 }
