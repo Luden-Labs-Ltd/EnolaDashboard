@@ -6,6 +6,7 @@ import Logo from "../../../public/images/logo/medium-logo.png";
 import Burger from "../../../public/images/icons/burger.svg";
 import NavigationItem from "./NavigationItem";
 import { logoutAction } from "auth/action";
+import { Button } from "@components/shadowCDN/button";
 
 interface NavBarProps {
   navigationItems: Array<NavigationItemType>;
@@ -44,9 +45,9 @@ const NavBar: React.FC<NavBarProps> = ({
             await logoutAction();
           }}
         >
-          <button className="flex h-[48px] grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3">
+          <Button variant="ghost">
             <div className="hidden md:block">Sign Out</div>
-          </button>
+          </Button>
         </form>
       </div>
     </div>

@@ -16,7 +16,7 @@ const buttonVariants = cva(
         outline:
           "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
         secondary:
-          "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
+          "bg-secondary text-secondary-foreground shadow-sm border-secondaryBorder border hover:bg-accent",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
       },
@@ -27,6 +27,10 @@ const buttonVariants = cva(
         xl: "h-10 rounded-md px-20",
         lg: "h-10 rounded-md px-8",
         icon: "h-9 w-9",
+      },
+      rounded: {
+        default: "",
+        circle: "rounded-full",
       },
     },
     defaultVariants: {
@@ -40,14 +44,15 @@ export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   asChild?: boolean
+  withIcon?: boolean
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
+  ({ className, variant, rounded, size, asChild = false, withIcon = false, ...props }, ref) => {
     const Comp = asChild ? Slot : "button"
     return (
       <Comp
-        className={cn(buttonVariants({variant, size, className }))}
+        className={cn(buttonVariants({variant, size, rounded, className }), {"gap-2": withIcon})}
         ref={ref}
         {...props}
       />
