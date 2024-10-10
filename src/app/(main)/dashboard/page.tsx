@@ -1,13 +1,5 @@
-import { getDashboardInfo } from "./actions";
-import CharWithFilters from "./feautures/CharWithFilters/CharWithFilters";
-import Cards from "./widgets/Cards";
+import Dashboard from "page/dashboard";
 
 export default async function DashboardPage() {
-  const data = await getDashboardInfo();
-  return (
-    <main>
-      <Cards />
-      <CharWithFilters />
-    </main>
-  );
+  return <Dashboard/>
 }

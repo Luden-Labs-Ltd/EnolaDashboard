@@ -2,7 +2,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { Space_Grotesk, Rubik } from "next/font/google";
 import { getLocale, getMessages } from "next-intl/server";
 import "@styles/globals.css";
-import "@styles/utils/reset.scss";
+import "@styles/reset.scss";
 
 const SpaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
