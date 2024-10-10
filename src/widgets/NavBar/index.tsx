@@ -5,8 +5,8 @@ import { NavigationItemType } from "shared/constants/navbar";
 import Logo from "../../../public/images/logo/medium-logo.png";
 import Burger from "../../../public/images/icons/burger.svg";
 import NavigationItem from "./NavigationItem";
-import { logoutAction } from "auth/action";
 import { Button } from "@components/shadowCDN/button";
+import { logoutAction } from "entities/auth/action";
 
 interface NavBarProps {
   navigationItems: Array<NavigationItemType>;

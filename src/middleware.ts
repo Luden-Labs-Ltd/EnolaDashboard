@@ -1,4 +1,4 @@
-import { getAuthToken } from "auth/token";
+import { getAuthToken } from "entities/auth/token";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 

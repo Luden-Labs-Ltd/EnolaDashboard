@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from 'next/image';
 import ImageStub from '../../../public/images/logo/huge_logo.png';
-import styles from '@styles/layouts/auth.module.scss'
+import styles from '../../page/singin/styles/auth.module.scss';
 
 export const metadata: Metadata = {
   title: "Enola App Auth",
