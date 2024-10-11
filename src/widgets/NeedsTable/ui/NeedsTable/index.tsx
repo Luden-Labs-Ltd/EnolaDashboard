@@ -20,15 +20,17 @@ import DeleteIcon from "shared/assets/DeleteIcon";
 import EditIcon from "shared/assets/EditIcon";
 import { Task, useTasksStore } from "entities/task";
 import { ScrollArea } from "@components/shadowCDN/scroll-area";
+import { SetTaskAsDefaultModal } from "features/set-task-as-default";
+import TooltipWrapper from "@components/TooltipWrapper";
 
 interface NeedsTableProps {}
 
 const NeedsTable: React.FC<NeedsTableProps> = () => {
   const { categoryState, setCurrentCategory } = useCategoryStore();
-  const { tasksState } = useTasksStore();
+  const { tasksState, toggleSelectedTask } = useTasksStore();
 
   const { activeCategories, currentCategory } = categoryState;
-  const { activeTasks } = tasksState;
+  const { activeTasks, selectedTasks } = tasksState;
 
   const onCategoryClick = (payload: CategoryPressCallbackArguments) => {
     const newCategory = activeCategories.find(
@@ -38,6 +40,10 @@ const NeedsTable: React.FC<NeedsTableProps> = () => {
       setCurrentCategory(newCategory);
     }
   };
+
+  const onTaskClick = (taskId: string, active: boolean) => {
+    toggleSelectedTask(taskId)
+  }
 
   return (
     <TableLayout>
@@ -71,13 +77,17 @@ const NeedsTable: React.FC<NeedsTableProps> = () => {
         <HeaderPanel>
           <TaskControlLayout>
             <div className="flex gap-[16px] items-center">
-              <Button size={"icon"} variant={"ghost"}>
-                <EditIcon />
-              </Button>
+              <TooltipWrapper text="Edit">
+                <Button size={"icon"} variant={"ghost"}>
+                  <EditIcon />
+                </Button>
+              </TooltipWrapper>
 
-              <Button size={"icon"} variant={"ghost"}>
-                <DeleteIcon />
-              </Button>
+              <TooltipWrapper text="Delete">
+                <Button size={"icon"} variant={"ghost"}>
+                  <DeleteIcon />
+                </Button>
+              </TooltipWrapper>
             </div>
             <AddTaskModal category={currentCategory} />
           </TaskControlLayout>
@@ -85,7 +95,16 @@ const NeedsTable: React.FC<NeedsTableProps> = () => {
         <ScrollArea className="p-[16px] max-h-[68vh]">
           <div className="flex flex-1 flex-col gap-[12px]">
             {activeTasks.map((task) => {
-              return <Task key={task.id} id={task.id} title={task.title} />;
+              return (
+                <Task
+                  onPress={onTaskClick}
+                  key={task.id}
+                  id={task.id}
+                  active={selectedTasks.includes(task.id)}
+                  title={task.title}
+                  taskActions={<SetTaskAsDefaultModal />}
+                />
+              );
             })}
           </div>
         </ScrollArea>
