@@ -1,0 +1,76 @@
+"use client";
+import { Button } from "@components/shadowCDN/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@components/shadowCDN/dialog";
+import { Switch } from "@components/shadowCDN/switch";
+import TooltipWrapper from "@components/TooltipWrapper";
+import { useTasksStore } from "entities/task";
+import React, { useState } from "react";
+import CheckIcon from "shared/assets/CheckIcon";
+
+interface SetDefaultModalProps {}
+
+const SetTaskAsDefaultModal: React.FC<SetDefaultModalProps> = ({}) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
+  const { tasksState } = useTasksStore();
+  const { tasks } = tasksState;
+
+  const handleSetDefault = () => {
+    setIsOpen(false);
+    console.log("activate logic");
+  };
+
+  const onSwitchChange = () => {
+    setIsChecked(!isChecked);
+    setIsOpen(true);
+  };
+
+  const handleClose = () => {
+    setIsOpen(false);
+    setIsChecked(false);
+  };
+
+  return (
+    <Dialog onOpenChange={handleClose} open={isOpen}>
+      <TooltipWrapper text="Set as Default">
+        <Switch
+          onCheckedChange={onSwitchChange}
+          checked={isChecked}
+          disabled={isChecked}
+          variant={"secondary"}
+          icon={<CheckIcon />}
+        />
+      </TooltipWrapper>
+      <DialogContent className="flex items-center flex-col w-full max-w-sm">
+        <DialogHeader>
+          <DialogTitle>Are you sure?</DialogTitle>
+        </DialogHeader>
+        <DialogDescription>
+          After clicking the Activate button, it will be impossible to make
+          changes to categories and tasks.
+        </DialogDescription>
+        <div className="flex gap-6">
+          <Button
+            rounded={"circle"}
+            variant={"secondary"}
+            onClick={handleClose}
+            size={"lg"}
+          >
+            Cancel
+          </Button>
+          <Button rounded={"circle"} onClick={handleSetDefault} size={"lg"}>
+            Activate
+          </Button>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+export default SetTaskAsDefaultModal;

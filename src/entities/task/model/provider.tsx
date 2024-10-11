@@ -12,6 +12,7 @@ import { TaskType } from ".";
 type TasksContextState = {
   tasks: TaskType[];
   activeTasks: TaskType[];
+  selectedTasks: string[];
 };
 
 type TasksProviderValue = {
@@ -30,6 +31,7 @@ export const TasksStoreProvider: React.FC<
   const [tasksState, setTasksState] = useState<TasksContextState>({
     tasks: tasks,
     activeTasks: activeTasks,
+    selectedTasks: [],
   });
 
   return (
@@ -74,10 +76,22 @@ export const useTasksStore = () => {
     setData((prev) => ({ ...prev, activeTasks: activeTasks }));
   };
 
+  const toggleSelectedTask = (taskId: string) => {
+    const isTaskAlreadySelect = tasksState.selectedTasks.includes(taskId);
+
+    if (isTaskAlreadySelect) {
+      const filteredSelectedTask = tasksState.selectedTasks.filter((currentId) => currentId !== taskId)
+      return setData((prev) => ({ ...prev, selectedTasks: filteredSelectedTask }));
+    }
+    const newSelectedTasks = [...tasksState.selectedTasks, taskId]
+    setData((prev) => ({ ...prev, selectedTasks: newSelectedTasks }));
+  };
+
 
   return {
     tasksState,
     toggleActiveTask,
-    revalidateActiveTasks
+    revalidateActiveTasks,
+    toggleSelectedTask
   };
 };
