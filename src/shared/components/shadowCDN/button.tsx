@@ -48,12 +48,15 @@ export interface ButtonProps
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, rounded, size, asChild = false, withIcon = false, ...props }, ref) => {
+  ({ className, variant, rounded, size, asChild = false, withIcon = false, color, ...props }, ref) => {
     const Comp = asChild ? Slot : "button"
     return (
       <Comp
         className={cn(buttonVariants({variant, size, rounded, className }), {"gap-2": withIcon})}
         ref={ref}
+        style={{
+          color: color ? color : ""
+        }}
         {...props}
       />
     )

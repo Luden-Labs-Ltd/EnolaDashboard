@@ -22,6 +22,8 @@ import { Task, useTasksStore } from "entities/task";
 import { ScrollArea } from "@components/shadowCDN/scroll-area";
 import { SetTaskAsDefaultModal } from "features/set-task-as-default";
 import TooltipWrapper from "@components/TooltipWrapper";
+import { DeleteTasks } from "features/delete-tasks";
+import { EditTasks } from "features/edit-tasks";
 
 interface NeedsTableProps {}
 
@@ -42,8 +44,8 @@ const NeedsTable: React.FC<NeedsTableProps> = () => {
   };
 
   const onTaskClick = (taskId: string, active: boolean) => {
-    toggleSelectedTask(taskId)
-  }
+    toggleSelectedTask(taskId);
+  };
 
   return (
     <TableLayout>
@@ -77,17 +79,8 @@ const NeedsTable: React.FC<NeedsTableProps> = () => {
         <HeaderPanel>
           <TaskControlLayout>
             <div className="flex gap-[16px] items-center">
-              <TooltipWrapper text="Edit">
-                <Button size={"icon"} variant={"ghost"}>
-                  <EditIcon />
-                </Button>
-              </TooltipWrapper>
-
-              <TooltipWrapper text="Delete">
-                <Button size={"icon"} variant={"ghost"}>
-                  <DeleteIcon />
-                </Button>
-              </TooltipWrapper>
+              <EditTasks />
+              <DeleteTasks />
             </div>
             <AddTaskModal category={currentCategory} />
           </TaskControlLayout>

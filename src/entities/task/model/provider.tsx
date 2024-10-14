@@ -87,11 +87,27 @@ export const useTasksStore = () => {
     setData((prev) => ({ ...prev, selectedTasks: newSelectedTasks }));
   };
 
+  const deleteSelectedTasks = () => {
+    const currentSelectedTasks = tasksState.selectedTasks
+
+    if (!currentSelectedTasks.length) {
+      return
+    }
+
+    const newTasks = tasksState.tasks.filter((task) => {
+      return !currentSelectedTasks.includes(task.id)
+    })
+    const activeTasks = newTasks.filter((task) => task.active);
+
+    setData((prev) => ({ ...prev, tasks: newTasks,  selectedTasks: [], activeTasks }));
+  };
+
 
   return {
     tasksState,
     toggleActiveTask,
     revalidateActiveTasks,
-    toggleSelectedTask
+    toggleSelectedTask,
+    deleteSelectedTasks,
   };
 };
