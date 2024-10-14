@@ -1,0 +1,1 @@
+export {default as EditTasks} from './ui/EditTasksModal';

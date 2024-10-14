@@ -40,3 +40,6 @@ export const getCategories = async (): Promise<CategoryType[]> => {
 
   return categories;
 };
+
+
+
