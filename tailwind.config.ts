@@ -24,6 +24,9 @@ const config: Config = {
       maxWidth: {
         "500px": "500px",
       },
+      boxShadow: {
+        'table': '0px 0px 13.3px 0px rgba(49, 58, 86, 0.05)', // #313A560D in rgba
+      },
       colors: {
         border: "hsl(var(--border))",
         secondaryBorder: "hsl(var(--secondary-border))",
