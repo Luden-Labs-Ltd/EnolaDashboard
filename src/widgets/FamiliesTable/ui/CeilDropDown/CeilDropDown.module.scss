@@ -1,0 +1,13 @@
+.DropDownWrapper {
+  padding: 8px;
+
+  .DropdownMenuItem {
+    gap: 8px;
+    cursor: pointer;
+
+    svg {
+      width: 17px;
+      height: 17px;
+    }
+  }
+}
