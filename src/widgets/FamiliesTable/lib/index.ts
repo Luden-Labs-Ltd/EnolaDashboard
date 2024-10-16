@@ -6,6 +6,11 @@ type TableData = {
   rows: Array<Array<RowItem>>;
 };
 
+type TableDataConverterDto = {
+  families: FamilyType[];
+  selectedFamilies: string[];
+};
+
 const createHeader = (
   headerId: string,
   headerValue: string,
@@ -18,19 +23,32 @@ const createHeader = (
   };
 };
 
-const createRow = (
-  rowId: string,
-  rowValue: string | number,
-  type: RowItemType
-): RowItem => {
+const createRow = ({
+  rowId,
+  familyId,
+  rowValue,
+  type,
+  isActive,
+}: {
+  rowId: string;
+  familyId: string;
+  rowValue: string | number;
+  type: RowItemType;
+  isActive?: boolean;
+}): RowItem => {
   return {
     id: rowId,
+    familyId: familyId,
     value: rowValue,
     type,
+    isActive,
   };
 };
 
-export const tableDataConverter = (families: FamilyType[]) => {
+export const tableDataConverter = ({
+  families,
+  selectedFamilies,
+}: TableDataConverterDto) => {
   const resultData: TableData = {
     headers: [],
     rows: [],
@@ -53,19 +71,44 @@ export const tableDataConverter = (families: FamilyType[]) => {
 
       if (!resultData.rows[index]) {
         resultData.rows[index] = [
-          createRow("select-" + currentRowId, "", RowItemType.SELECT),
-          createRow(currentRowId, rowValue, RowItemType.VALUE),
+          createRow({
+            rowId: "select-" + currentRowId,
+            familyId: family.id,
+            rowValue: "",
+            type: RowItemType.SELECT,
+            isActive: selectedFamilies.includes(family.id),
+          }),
+          createRow({
+            rowId: currentRowId,
+            familyId: family.id,
+            rowValue: rowValue,
+            type: RowItemType.VALUE,
+            isActive: selectedFamilies.includes(family.id),
+          }),
         ];
       } else {
         resultData.rows[index].push(
-          createRow(currentRowId, rowValue, RowItemType.VALUE)
+          createRow({
+            rowId: currentRowId,
+            familyId: family.id,
+            rowValue: rowValue,
+            type: RowItemType.VALUE,
+            isActive: selectedFamilies.includes(family.id),
+          })
         );
       }
 
-      const isLastElementInRow = headersAndRows.length - 1 === headersAndRowsIndex
+      const isLastElementInRow =
+        headersAndRows.length - 1 === headersAndRowsIndex;
       if (isLastElementInRow) {
         resultData.rows[index].push(
-          createRow("actions-" + currentRowId, "", RowItemType.ACTIONS)
+          createRow({
+            rowId: "actions-" + currentRowId,
+            familyId: family.id,
+            rowValue: "",
+            type: RowItemType.ACTIONS,
+            isActive: selectedFamilies.includes(family.id),
+          })
         );
       }
     });
@@ -77,7 +120,6 @@ export const tableDataConverter = (families: FamilyType[]) => {
   resultData.headers.push(
     createHeader("actions-header", "", HeaderItemType.EMPTY)
   );
-
 
   return resultData;
 };

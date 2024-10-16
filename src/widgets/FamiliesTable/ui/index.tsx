@@ -4,18 +4,21 @@ import {
   TableHeader,
   TableRow,
 } from "@components/shadowCDN/table";
-import { FamilyType } from "entities/families";
+import { FamilyType, useFamiliesStore } from "entities/families";
 import React from "react";
 import { tableDataConverter } from "../lib";
 import { Ceil } from "./Ceil";
 import { Header } from "./Header";
 
 interface FamiliesTableProps {
-  families: FamilyType[];
 }
 
-const FamiliesTable: React.FC<FamiliesTableProps> = ({ families }) => {
-  const tableData = tableDataConverter(families);
+const FamiliesTable: React.FC<FamiliesTableProps> = () => {
+  const {familiesState} = useFamiliesStore()
+  const tableData = tableDataConverter({
+    families: familiesState.families,
+    selectedFamilies: familiesState.selectedFamilies,
+  });
   return (
     <>
       <Table>

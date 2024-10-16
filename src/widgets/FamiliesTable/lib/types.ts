@@ -18,6 +18,8 @@ export type HeaderItem = {
 
 export type RowItem = {
   id: string;
+  familyId: string;
   value: string | number;
   type: RowItemType;
+  isActive?: boolean;
 };
