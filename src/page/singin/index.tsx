@@ -2,10 +2,10 @@
 
 import PhoneField from "@components/PhoneField";
 import { Button } from "@components/shadowCDN/button";
-import { Input } from "@components/shadowCDN/input";
 import { authenticate, sendOtpCode } from "entities/auth/action";
 import { useTranslations } from "next-intl";
 import React, { useState } from "react";
+import { OtpInput } from "./ui/OtpInput/OtpInput";
 
 function SingInPage() {
   const t = useTranslations("Auth");
@@ -40,22 +40,34 @@ function SingInPage() {
 
       {showSubmit ? (
         <>
-          <Input
+          <OtpInput
             value={otp}
             name="code"
-            className="bg-white"
-            onChange={(e) => setOtp(e.target.value)}
-            data-testid="otp"
+            onChange={(value) => setOtp(value)}
           />
-          <Button type="button" variant={"link"} color="secondary" onClick={sendOtpCodeHandler}>
+          <Button
+            type="button"
+            variant={"link"}
+            color="secondary"
+            onClick={sendOtpCodeHandler}
+          >
             {t("resend_otp")}
           </Button>
-          <Button type="submit" size="xl" color="primary" data-testid="logInBtn">
+          <Button
+            type="submit"
+            size="xl"
+            color="primary"
+            data-testid="logInBtn"
+          >
             {t("log_in").toUpperCase()}
           </Button>
         </>
       ) : (
-        <Button size={"full"} onClick={sendOtpCodeHandler} data-testid="sendOtp">
+        <Button
+          size={"full"}
+          onClick={sendOtpCodeHandler}
+          data-testid="sendOtp"
+        >
           {t("send_code").toUpperCase()}
         </Button>
       )}
