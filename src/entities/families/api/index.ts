@@ -1,128 +1,20 @@
-import { FamilyType } from "../model";
+"use server"
+import { getAuthToken } from "entities/auth/token";
+import { FamilyApi } from "./types";
 
-export const getFamilies = async (): Promise<FamilyType[]> => {
-  const familys: FamilyType[] = [
+export const getFamiliesFromApi = async (): Promise<FamilyApi[]> => {
+  const token = await getAuthToken()
+  
+  const response = await fetch(
+    process.env.BASE_URL_BACKEND + "/api/v2/families",
     {
-      id: "1",
-      name: "Johnson Family",
-      caregiver: "Alice Johnson",
-      lastSeen: "2023-10-01T10:00:00Z",
-      lastActive: "2023-10-03T09:30:00Z",
-      enrolmentSource: "Referral",
-      tasks: 5,
-      supporters: 3,
-    },
-    {
-      id: "2",
-      name: "Smith Family",
-      caregiver: "Bob Smith",
-      lastSeen: "2023-10-02T11:00:00Z",
-      lastActive: "2023-10-04T10:00:00Z",
-      enrolmentSource: "Website",
-      tasks: 4,
-      supporters: 5,
-    },
-    {
-      id: "3",
-      name: "Williams Family",
-      caregiver: "Cathy Williams",
-      lastSeen: "2023-09-30T15:00:00Z",
-      lastActive: "2023-10-01T14:00:00Z",
-      enrolmentSource: "Event",
-      tasks: 6,
-      supporters: 2,
-    },
-    {
-      id: "4",
-      name: "Brown Family",
-      caregiver: "David Brown",
-      lastSeen: "2023-10-02T10:30:00Z",
-      lastActive: "2023-10-02T11:30:00Z",
-      enrolmentSource: "Referral",
-      tasks: 3,
-      supporters: 4,
-    },
-    {
-      id: "5",
-      name: "Miller Family",
-      caregiver: "Emily Miller",
-      lastSeen: "2023-10-01T09:00:00Z",
-      lastActive: "2023-10-03T09:00:00Z",
-      enrolmentSource: "Website",
-      tasks: 7,
-      supporters: 1,
-    },
-    {
-      id: "6",
-      name: "Jones Family",
-      caregiver: "Frank Jones",
-      lastSeen: "2023-10-03T14:00:00Z",
-      lastActive: "2023-10-04T13:00:00Z",
-      enrolmentSource: "Event",
-      tasks: 2,
-      supporters: 6,
-    },
-    {
-      id: "7",
-      name: "Garcia Family",
-      caregiver: "Grace Garcia",
-      lastSeen: "2023-10-01T11:00:00Z",
-      lastActive: "2023-10-04T10:30:00Z",
-      enrolmentSource: "Referral",
-      tasks: 4,
-      supporters: 3,
-    },
-    {
-      id: "8",
-      name: "Martinez Family",
-      caregiver: "Harry Martinez",
-      lastSeen: "2023-10-02T16:00:00Z",
-      lastActive: "2023-10-02T14:30:00Z",
-      enrolmentSource: "Website",
-      tasks: 6,
-      supporters: 4,
-    },
-    {
-      id: "9",
-      name: "Davis Family",
-      caregiver: "Ivy Davis",
-      lastSeen: "2023-10-03T09:00:00Z",
-      lastActive: "2023-10-03T11:00:00Z",
-      enrolmentSource: "Event",
-      tasks: 5,
-      supporters: 2,
-    },
-    {
-      id: "10",
-      name: "Lopez Family",
-      caregiver: "James Lopez",
-      lastSeen: "2023-09-30T13:00:00Z",
-      lastActive: "2023-10-01T11:00:00Z",
-      enrolmentSource: "Referral",
-      tasks: 3,
-      supporters: 5,
-    },
-    // {
-    //   id: "11",
-    //   name: "Wilson Family",
-    //   caregiver: "Karen Wilson",
-    //   lastSeen: "2023-10-03T15:00:00Z",
-    //   lastActive: "2023-10-04T12:00:00Z",
-    //   enrolmentSource: "Website",
-    //   tasks: 6,
-    //   supporters: 3,
-    // },
-    // {
-    //   id: "12",
-    //   name: "Anderson Family",
-    //   caregiver: "Leo Anderson",
-    //   lastSeen: "2023-10-01T12:30:00Z",
-    //   lastActive: "2023-10-02T13:30:00Z",
-    //   enrolmentSource: "Event",
-    //   tasks: 2,
-    //   supporters: 7,
-    // },
-  ];
-
-  return familys;
+      method: "GET",
+      // @ts-ignore
+      headers: {
+        "Authorization": token
+      }
+    }
+  );
+  const resJSON = await response.json()
+  return resJSON;
 };

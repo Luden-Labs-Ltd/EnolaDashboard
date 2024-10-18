@@ -23,7 +23,7 @@ export const Ceil: React.FC<CeilProps> = ({ ceil }) => {
   if (ceil.type === RowItemType.ACTIONS) {
     return (
       <TableCell>
-        <CeilDropDown />
+        <CeilDropDown ceil={ceil} />
       </TableCell>
     );
   }

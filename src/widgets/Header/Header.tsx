@@ -9,10 +9,12 @@ import { useTranslations } from "next-intl";
 import { Avatar, AvatarFallback, AvatarImage } from "@components/shadowCDN/avatar";
 
 export default function Header() {
-  const t = useTranslations("NavBar")
+  const t = useTranslations("Header")
   const pathname = usePathname();
-  const currentPath = pathname.replace("/", "");
-  const currentRouteName = t(currentPath)
+ 
+  const pathItems = pathname.split("/").filter((part) => part !== "");
+  const mainRoute = pathItems[0]
+  const currentRouteName = t(mainRoute)
 
   return (
     <header className={classNames(styles.header, stylesHeader.headerInner)}>

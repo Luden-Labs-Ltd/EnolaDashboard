@@ -30,7 +30,7 @@ const ArchiveFamily: React.FC<ArchiveFamilyActionProps> = ({}) => {
       <DialogTrigger asChild>
         <Button withIcon>
           <AddIcon />
-          <span>Archive Family</span>
+          <span>Add Family</span>
         </Button>
       </DialogTrigger>
       <DialogContent className="flex items-center flex-col w-full max-w-sm">

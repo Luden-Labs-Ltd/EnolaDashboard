@@ -17,5 +17,16 @@
         "needs": "Needs",
         "resources": "Resources",
         "supporters": "Supporters"
+    },
+    "Header": {
+        "families": "Families",
+        "log_out": "Log Out",
+        "users": "Users",
+        "dashboard": "Dashboard",
+        "tasks": "Tasks",
+        "needs": "Needs",
+        "resources": "Resources",
+        "supporters": "Supporters",
+        "family": "Family"
     }
 }

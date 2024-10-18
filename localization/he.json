@@ -17,5 +17,16 @@
         "needs": "צרכים",
         "resources": "משאבים",
         "supporters": "תומכים"
+    },
+    "Header": {
+        "families": "משפחות",
+        "log_out": "התנתק.י",
+        "users": "משתמשים",
+        "dashboard": "דשבורד",
+        "tasks": "משימות",
+        "needs": "צרכים",
+        "resources": "משאבים",
+        "supporters": "תומכים",
+        "family": "משפחות"
     }
 }
