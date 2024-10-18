@@ -1,5 +1,5 @@
 export type FamilyType = {
-    id: string;
+    id: number;
     name: string;
     caregiver: string;
     lastSeen: string;

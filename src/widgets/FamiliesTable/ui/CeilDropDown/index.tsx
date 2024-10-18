@@ -13,8 +13,14 @@ import ViewIcon from "shared/assets/ViewIcon";
 import styles from "./CeilDropDown.module.scss";
 import { ArchiveFamily } from "features/archive-family";
 import ArchiveIcon from "shared/assets/ArchiveIcon";
+import Link from "next/link";
+import { RowItem } from "@widgets/FamiliesTable/lib/types";
 
-function CeilDropDown() {
+interface CeilDropDownProps {
+  ceil: RowItem;
+}
+
+const CeilDropDown: React.FC<CeilDropDownProps> = ({ceil}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const onOpen = () => {
@@ -32,10 +38,15 @@ function CeilDropDown() {
           <DotsIcon />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent onInteractOutside={onClose} className={styles.DropDownWrapper}>
-        <DropdownMenuItem className={styles.DropdownMenuItem}>
-          <ViewIcon />
-          <span>View</span>
+      <DropdownMenuContent
+        onInteractOutside={onClose}
+        className={styles.DropDownWrapper}
+      >
+        <DropdownMenuItem >
+          <Link href={`/family/${ceil.familyId}`} className={styles.DropdownMenuItem}>
+            <ViewIcon />
+            <span>View</span>
+          </Link>
         </DropdownMenuItem>
         <DropdownMenuItem className={styles.DropdownMenuItem}>
           <ShareIcon />
@@ -47,7 +58,10 @@ function CeilDropDown() {
         </DropdownMenuItem>
 
         <ArchiveFamily callback={onClose}>
-          <DropdownMenuItem onClick={onOpen} className={styles.DropdownMenuItem}>
+          <DropdownMenuItem
+            onClick={onOpen}
+            className={styles.DropdownMenuItem}
+          >
             <ArchiveIcon />
             <span>Archive</span>
           </DropdownMenuItem>

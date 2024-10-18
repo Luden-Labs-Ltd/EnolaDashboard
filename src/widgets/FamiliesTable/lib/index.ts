@@ -8,7 +8,7 @@ type TableData = {
 
 type TableDataConverterDto = {
   families: FamilyType[];
-  selectedFamilies: string[];
+  selectedFamilies: number[];
 };
 
 const createHeader = (
@@ -31,7 +31,7 @@ const createRow = ({
   isActive,
 }: {
   rowId: string;
-  familyId: string;
+  familyId: number;
   rowValue: string | number;
   type: RowItemType;
   isActive?: boolean;

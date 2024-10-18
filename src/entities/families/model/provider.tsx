@@ -11,7 +11,7 @@ import { FamilyType } from ".";
 
 type FamiliesContextState = {
   families: FamilyType[];
-  selectedFamilies: string[];
+  selectedFamilies: number[];
 };
 
 type FamiliesProviderValue = {
@@ -53,7 +53,7 @@ export const useFamiliesStore = () => {
   }
   const { familiesState, setData } = familiesContext;
 
-  const toggleSelectedFamilies = (familyId: string) => {
+  const toggleSelectedFamilies = (familyId: number) => {
     const isFamilyAlreadySelect = familiesState.selectedFamilies.includes(familyId);
 
     if (isFamilyAlreadySelect) {
@@ -64,24 +64,20 @@ export const useFamiliesStore = () => {
     setData((prev) => ({ ...prev, selectedFamilies: newSelectedFamilies }));
   };
 
-  // const deleteSelectedTasks = () => {
-  //   const currentSelectedTasks = tasksState.selectedTasks
+  const toggleMainSelect = () => {
+    const isIndeterminate = familiesState.selectedFamilies.length > 0 && familiesState.selectedFamilies.length !== familiesState.families.length
+    const isChecked = familiesState.selectedFamilies.length === familiesState.families.length
 
-  //   if (!currentSelectedTasks.length) {
-  //     return
-  //   }
-
-  //   const newTasks = tasksState.tasks.filter((task) => {
-  //     return !currentSelectedTasks.includes(task.id)
-  //   })
-  //   const activeTasks = newTasks.filter((task) => task.active);
-
-  //   setData((prev) => ({ ...prev, tasks: newTasks,  selectedTasks: [], activeTasks }));
-  // };
-
+    if (isIndeterminate || isChecked) {
+      return setData((prev) => ({...prev, selectedFamilies: []}));
+    }
+    const selectedFamilies = familiesState.families.map((family) => family.id)
+    return setData((prev) => ({...prev, selectedFamilies: selectedFamilies}));
+  };
 
   return {
     familiesState,
     toggleSelectedFamilies,
+    toggleMainSelect,
   };
 };

@@ -4,11 +4,11 @@ import {
   TableHeader,
   TableRow,
 } from "@components/shadowCDN/table";
-import { FamilyType, useFamiliesStore } from "entities/families";
+import { useFamiliesStore } from "entities/families";
 import React from "react";
 import { tableDataConverter } from "../lib";
 import { Ceil } from "./Ceil";
-import { Header } from "./Header";
+import { HeaderCeil } from "./HeaderCeil";
 
 interface FamiliesTableProps {
 }
@@ -25,7 +25,7 @@ const FamiliesTable: React.FC<FamiliesTableProps> = () => {
         <TableHeader>
           <TableRow>
             {tableData.headers.map((header) => (
-              <Header key={header.id} header={header} />
+              <HeaderCeil key={header.id} header={header} />
             ))}
           </TableRow>
         </TableHeader>
