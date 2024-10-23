@@ -1,45 +1,44 @@
 import React from "react";
 import styles from "./card.module.scss";
 import RangeView from "@components/RangeView";
-
+import { Card, CardContent, CardHeader, CardTitle } from "@components/Card";
 
 interface DashboardCardProps {
-    title: string;
-    firstTitle: string;
-    secondTitle: string;
-    firstValue: number;
-    secondValue: number;
-    firstColor: string;
-    secondColor: string;
+  title: string;
+  firstTitle: string;
+  secondTitle: string;
+  firstValue: number;
+  secondValue: number;
+  firstColor: string;
+  secondColor: string;
 }
 
 const DashboardCard: React.FC<DashboardCardProps> = ({
-    title,
-    firstValue,
-    secondValue,
-    firstColor,
-    secondColor,
-    firstTitle,
-    secondTitle,
+  title,
+  firstValue,
+  secondValue,
+  firstColor,
+  secondColor,
+  firstTitle,
+  secondTitle,
 }) => {
-
-  const total = firstValue + secondValue
+  const total = firstValue + secondValue;
 
   return (
-    <div className={styles.card}>
-      <div className={styles.cardHeader}>
-        <h3 className={styles.headerTitle}>{title}</h3>
+    <Card>
+      <CardHeader>
+        <CardTitle>{title}</CardTitle>
         <h3 className={styles.headerCount}>
           Total: <span>{total}</span>
         </h3>
-      </div>
-      <div className={styles.mainContent}>
-        <div className={styles.indicatorContent}>
+      </CardHeader>
+      <CardContent>
+        <div className={`${styles.indicatorContent} text-[20px]`}>
           <div className={styles.infoWrapper}>
             <div className={styles.indicatorWrapper}>
               <div
                 className={styles.indicator}
-                style={{ backgroundColor: firstColor}}
+                style={{ backgroundColor: firstColor }}
               ></div>
               <span>{firstTitle}</span>
             </div>
@@ -58,14 +57,15 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
         </div>
         <div className={styles.rangeWrapper}>
           <RangeView
-                firstColor={firstColor}
-                firstValue={firstValue}
-                secondValue={secondValue}
-                secondColor={secondColor}/>
+            firstColor={firstColor}
+            firstValue={firstValue}
+            secondValue={secondValue}
+            secondColor={secondColor}
+          />
         </div>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
-}
+};
 
-export default DashboardCard
+export default DashboardCard;

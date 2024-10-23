@@ -1,0 +1,30 @@
+@import "../../styles/utils/colors.scss";
+
+.card {
+  border: 2px solid $mainBackgroundColor;
+  border-radius: 12px;
+  background-color: $mainBackgroundColor;
+  flex: 1;
+  color: $primaryColor;
+
+  &Header {
+    display: flex;
+    padding: 16px;
+    border-radius: 12px 12px 0px 0px;
+    justify-content: space-between;
+    background-color: $white;
+  }
+
+  .headerTitle {
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 30.62px;
+  }
+
+  .mainContent {
+    display: flex;
+    padding: 24px 16px;
+    gap: 16px;
+    flex-direction: column;
+  }
+}

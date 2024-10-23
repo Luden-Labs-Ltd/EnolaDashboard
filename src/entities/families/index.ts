@@ -1,5 +1,6 @@
 export {getFamiliesFromApi} from "./api"
 export type {FamilyType} from "./model"
 export type {FamilyApi} from "./api/types"
-export {FamiliesStoreProvider, useFamiliesStore} from "./model/provider"
-export {convertDataForTable} from "./lib/converter"
+export {FamiliesStoreProvider, useFamiliesStore} from "./model/providerFamilies"
+export {FamilyStoreProvider, useFamilyStore} from "./model/providerFamily"
+export {convertDataForTable, convertSingleFamilyData} from "./lib/converter"
