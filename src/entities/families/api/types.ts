@@ -26,6 +26,7 @@ export interface FamilyApi {
   membership_request_count: number;
   patient: string | null;
   primary_caregiver: Coordinator;
+  coordinator: Coordinator;
   quote: Record<string, unknown>;
   reason: any[];
   supporter_count: number;
