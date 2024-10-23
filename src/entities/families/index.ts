@@ -1,5 +1,6 @@
 export {getFamiliesFromApi} from "./api"
-export type {FamilyType} from "./model"
+export {getFamilyById} from "./api"
+export type {FamilyType, FullFamilyType} from "./model"
 export type {FamilyApi} from "./api/types"
 export {FamiliesStoreProvider, useFamiliesStore} from "./model/providerFamilies"
 export {FamilyStoreProvider, useFamilyStore} from "./model/providerFamily"

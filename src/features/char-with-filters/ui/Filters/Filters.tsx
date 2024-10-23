@@ -2,13 +2,13 @@
 
 import React from "react";
 import FilterButton, { FilterColors } from "../FilterButton/FilterButton";
-import { FilterStateType } from "../CharWithFilters";
 import "react-date-range/dist/styles.css"; // main css file
 import dynamic from "next/dynamic";
 import {
   DatepickerSkeletton,
   DateRangeItem,
 } from "@components/DateRange/DateRangePicker";
+import { FilterStateType } from "../CharWithFilter";
 
 const DateRangePicker = dynamic(
   () => import("@components/DateRange/DateRangePicker"),
