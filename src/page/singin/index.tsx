@@ -44,8 +44,6 @@ function SingInPage() {
     });
   };
 
-  console.log(formState);
-  
   const apiError = formState?.apiError ? formState?.apiError : error ? error : null;
 
   return (
