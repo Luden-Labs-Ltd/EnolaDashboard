@@ -6,7 +6,6 @@ import { redirect } from "next/navigation";
 const config = {
   maxAge: 60 * 60 * 24 * 7, // 1 week
   path: "/",
-  domain: process.env.HOST ?? "localhost",
   httpOnly: true,
   secure: process.env.NODE_ENV === "production",
 };
@@ -46,7 +45,6 @@ export async function testAction(prevState: any, formData: FormData) {
       data: "false",
     };
   }
-  console.log("testAction");
   cookies().set("jwt", result.token, config);
   return redirect("/dashboard");
 }
