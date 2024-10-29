@@ -2,34 +2,55 @@
 
 import PhoneField from "@components/PhoneField";
 import { Button } from "@components/shadowCDN/button";
-import { authenticate, sendOtpCode } from "entities/auth/action";
+import { sendOtpCode, testAction } from "entities/auth/action";
 import { useTranslations } from "next-intl";
 import React, { useState } from "react";
-import { OtpInput } from "./ui/OtpInput/OtpInput";
+import { useFormState } from "react-dom";
+import { ZodErrors } from "@components/ZodErrors/ZodErrors";
+import { OtpForm } from "./ui/OtpForm/OtpForm";
+
+const INITIAL_STATE = {
+  data: null,
+};
 
 function SingInPage() {
   const t = useTranslations("Auth");
 
+  const [formState, formAction] = useFormState(testAction, INITIAL_STATE);
+
   const [phone, setPhone] = useState("");
   const [otp, setOtp] = useState("");
+  const [error, setError] = useState("");
+  const [otpSend, setOtpSend] = useState(false);
   const [showSubmit, setShowSubmit] = useState(false);
 
   const onPhoneHandler = (phoneNumber: string) => {
     setPhone(phoneNumber);
+    setError("")
   };
 
   const sendOtpCodeHandler = async () => {
-    if (!phone) return;
+    if (!phone) {
+      setError("enter correct phone")
+      return
+    };
+    setOtpSend(true);
 
     const otpForm = new FormData();
     otpForm.append("phone_number", phone);
-    await sendOtpCode(otpForm);
-    setShowSubmit(true);
+    sendOtpCode(otpForm).then(() => {
+      setShowSubmit(true);
+      setOtpSend(false);
+    });
   };
+
+  console.log(formState);
+  
+  const apiError = formState?.apiError ? formState?.apiError : error ? error : null;
 
   return (
     <form
-      action={authenticate}
+      action={formAction}
       className="gap-5 flex flex-col items-center w-full max-w-500px"
     >
       <PhoneField
@@ -37,39 +58,30 @@ function SingInPage() {
         onPhoneHandler={onPhoneHandler}
         name="phone_number"
       />
+      <ZodErrors error={formState?.zodErrors?.phoneNumber} />
 
       {showSubmit ? (
-        <>
-          <OtpInput
-            value={otp}
-            name="code"
-            onChange={(value) => setOtp(value)}
-          />
-          <Button
-            type="button"
-            variant={"link"}
-            color="secondary"
-            onClick={sendOtpCodeHandler}
-          >
-            {t("resend_otp")}
-          </Button>
-          <Button
-            type="submit"
-            size="xl"
-            color="primary"
-            data-testid="logInBtn"
-          >
-            {t("log_in").toUpperCase()}
-          </Button>
-        </>
+        <OtpForm
+          otpValue={otp}
+          apiError={apiError}
+          formErrors={formState?.zodErrors}
+          onChangeOtp={(code) => setOtp(code)}
+          sendOtpCodeHandler={sendOtpCodeHandler}
+          disabled={otpSend}
+        />
       ) : (
-        <Button
-          size={"full"}
-          onClick={sendOtpCodeHandler}
-          data-testid="sendOtp"
-        >
-          {t("send_code").toUpperCase()}
-        </Button>
+        <>
+          <Button
+            size={"full"}
+            onClick={sendOtpCodeHandler}
+            type="button"
+            disabled={otpSend}
+            data-testid="sendOtp"
+          >
+            {t("send_code").toUpperCase()}
+          </Button>
+          {apiError ? <ZodErrors error={[apiError]} /> : null }
+        </>
       )}
     </form>
   );
