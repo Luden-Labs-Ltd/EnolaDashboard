@@ -7,12 +7,12 @@ import { REGEXP_ONLY_DIGITS } from "input-otp";
 import React from "react";
 
 interface OtpInputProps {
-    onChange: (value: string) => void;
-    name: string;
-    value: string;
+  onChange?: (value: string) => void;
+  name: string;
+  value?: string;
 }
 
-export const OtpInput: React.FC<OtpInputProps> = ({onChange, ...rest}) => {
+export const OtpInput: React.FC<OtpInputProps> = ({ onChange, ...rest }) => {
   return (
     <InputOTP
       maxLength={6}
