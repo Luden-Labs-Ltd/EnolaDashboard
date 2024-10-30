@@ -12,9 +12,9 @@ import {
 import React, { useState } from "react";
 import AddIcon from "shared/assets/AddIcon";
 
-interface AddFamilyModalActionProps {}
+interface AddNoteModalActionProps {}
 
-const AddFamilyModal: React.FC<AddFamilyModalActionProps> = ({}) => {
+const AddNoteModal: React.FC<AddNoteModalActionProps> = ({}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const onClose = () => {
@@ -28,17 +28,16 @@ const AddFamilyModal: React.FC<AddFamilyModalActionProps> = ({}) => {
   return (
     <Dialog onOpenChange={setIsOpen} open={isOpen}>
       <DialogTrigger asChild>
-        <Button withIcon>
+        <Button size={"icon"} variant={"link"}>
           <AddIcon />
-          <span>Add Family</span>
         </Button>
       </DialogTrigger>
       <DialogContent className="flex items-center flex-col w-full max-w-sm">
         <DialogHeader>
-          <DialogTitle>Add Family</DialogTitle>
+          <DialogTitle>Add Note</DialogTitle>
         </DialogHeader>
         <DialogDescription className="text-center">
-          You could add family
+          You could add note
         </DialogDescription>
         <div className="flex gap-6">
           <Button
@@ -58,4 +57,4 @@ const AddFamilyModal: React.FC<AddFamilyModalActionProps> = ({}) => {
   );
 };
 
-export default AddFamilyModal;
+export default AddNoteModal;

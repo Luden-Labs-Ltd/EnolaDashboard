@@ -29,7 +29,7 @@ const ChartCard: React.FC<ChartCardProps> = ({ title, dataSet }) => {
       <CardHeader>
         <CardTitle>{title}</CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent padding="20px 0px 0px 0px">
         <div className="flex px-5 mx-50 flex-col gap-2">
           {dataSet.map((item) => {
             return (
@@ -48,7 +48,7 @@ const ChartCard: React.FC<ChartCardProps> = ({ title, dataSet }) => {
         </div>
         <Echarts
           style={{
-            height: 200,
+            height: 150,
           }}
           loading={false}
           options={{
