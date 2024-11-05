@@ -1,13 +1,13 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@components/Card";
 import React from "react";
-import { Note } from "./ui/Note/Note";
-import { ScrollArea } from "@components/shadowCDN/scroll-area";
-import { AddNote } from "features/add-note";
+import { NotesStoreProvider } from "./model/provider";
+import { NotesList } from "./ui/NotesList";
+import { NoteAction } from "./ui/NoteAction";
 
 export const Notes = () => {
   const notesItems = [
     {
-      id: 1,
+      id: "1",
       date: Date.UTC(2000, 8, 12, 14, 0, 0, 0),
       message: `
         Design a user-friendly interface for adding new resources.
@@ -16,25 +16,23 @@ export const Notes = () => {
       `,
     },
     {
-      id: 2,
+      id: "2",
       date: Date.UTC(2001, 9, 30, 13, 0, 0, 0),
       message: `Design a user-friendly interface for adding new resources. Required fields for new resources include.`,
     },
   ];
 
   return (
-    <Card backgroundColor="#FFF7DF">
-      <CardHeader>
-        <CardTitle>Notes</CardTitle>
-        <AddNote/>
-      </CardHeader>
-      <CardContent>
-        <ScrollArea className="h-[130px] w-full">
-          {notesItems.map((action) => (
-            <Note key={action.id} date={action.date} message={action.message} />
-          ))}
-        </ScrollArea>
-      </CardContent>
-    </Card>
+    <NotesStoreProvider notes={notesItems}>
+      <Card backgroundColor="#FFF7DF">
+        <CardHeader>
+          <CardTitle>Notes</CardTitle>
+          <NoteAction/>
+        </CardHeader>
+        <CardContent padding="15px 16px">
+          <NotesList />
+        </CardContent>
+      </Card>
+    </NotesStoreProvider>
   );
 };
