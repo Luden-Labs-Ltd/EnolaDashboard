@@ -16,12 +16,9 @@ import {
 } from "@components/table-layout";
 import React from "react";
 import AddIcon from "shared/assets/AddIcon";
-import DeleteIcon from "shared/assets/DeleteIcon";
-import EditIcon from "shared/assets/EditIcon";
 import { Task, useTasksStore } from "entities/task";
 import { ScrollArea } from "@components/shadowCDN/scroll-area";
 import { SetTaskAsDefaultModal } from "features/set-task-as-default";
-import TooltipWrapper from "@components/TooltipWrapper";
 import { DeleteTasks } from "features/delete-tasks";
 import { EditTasks } from "features/edit-tasks";
 

@@ -43,6 +43,8 @@ export interface CategoriesProps {
   id: string;
   customIcon?: React.ReactNode;
   active?: boolean;
+  variant?: "default" | "chip";
+  count?: number;
   isPresseble?: boolean;
   pressCallback?: (argue: CategoryPressCallbackArguments) => void;
 }
@@ -54,9 +56,12 @@ const Category: React.FC<PropsWithChildren<CategoriesProps>> = ({
   id,
   active,
   radius,
+  variant = "default",
+  count,
   isPresseble = false,
   pressCallback,
 }) => {
+  const isChip = variant === "chip";
   const handlePress = () => {
     if (!isPresseble) {
       return;
@@ -78,16 +83,19 @@ const Category: React.FC<PropsWithChildren<CategoriesProps>> = ({
   };
 
   const defaultIcon = iconMap[id];
-
+  const icon = customIcon ? customIcon : defaultIcon;
   return (
     <div
       onClick={handlePress}
       className={cn(categoryVariants({ size, radius }), {
         [styles.active]: active,
+        [styles.chip]: isChip,
       })}
     >
-      <div>{customIcon ? customIcon : defaultIcon}</div>
+      {icon ? <div>{icon}</div> : null}
       <div>{title}</div>
+      {count ? <div>{count}</div> : null}
+      {isChip ? <div>x</div> : null}
     </div>
   );
 };
