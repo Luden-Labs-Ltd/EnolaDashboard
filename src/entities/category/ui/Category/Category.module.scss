@@ -10,3 +10,8 @@
 .wrapper:hover, .active {
   background-color: $mainBackgroundColor;
 }
+
+.chip {
+  border: 1px solid $primaryColor;
+  border-radius: 8px;
+}

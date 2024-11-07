@@ -29,7 +29,7 @@ export const NAVIGATION_ITEMS: Array<NavigationItemType> = [
   {
     icon: "resources",
     translateKey: "resources",
-    disabled: true,
+    disabled: false,
     navigateTo: "/resources",
   },
   {
