@@ -28,5 +28,77 @@
         "resources": "Resources",
         "supporters": "Supporters",
         "family": "Family"
+    },
+    "NeedsPageOnboarding": {
+        "FirstStep": {
+            "description1": "This page allows you to manage the categories and tasks for your program. Here, you can discover, edit, and customize the needs for your users.",
+            "description2": "To get started, create the initial template of categories for the program.",
+            "createTemplate": "Create Template"
+        },
+        "SecondStep": {
+            "infoCard1": {
+                "paragraph1": "Get started by selecting categories. Once created, categories cannot be deleted or renamed to ensure consistency. We provide an initial set of categories and tasks for you to choose from.",
+                "paragraph2": "When adding categories, you will need to specify the name, icon, and color.",
+                "buttonPrompt": "Use the button"
+            },
+            "infoCard2": {
+                "paragraph1": "Then select from the list or create tasks. Decide which tasks will be visible in the app for families to discover.",
+                "paragraph2": "Additionally, based on your experience, you can pick the most frequent or important tasks for each new family to help them start using the app. Families will be able to edit or delete these tasks later if they are not relevant.",
+                "buttonPrompt": "Use the button"
+            }
+        }
+    },
+    "Tasks": {
+        "EditTasks": {
+            "title": "Edit Tasks ({count})",
+            "description": "After clicking the Edit button, it will be impossible to restore tasks."
+        },
+        "DeleteTasks": {
+            "title": "Delete Tasks ({count})",
+            "description": "After clicking the Delete button, it will be impossible to restore tasks."
+        },
+        "SetDefaultTasks": {
+            "title": "Are you sure?",
+            "description": "After clicking the Activate button, it will be impossible to make changes to categories and tasks."
+        }
+    },
+    "Categories": {
+        "CreateCategories": {
+            "title": "Create categories"
+        }
+    },
+    "Resources": {
+        "newResources": "New resources",
+        "addResources": "Add resources"
+    },
+    "Families": {
+        "addFamilies": "Add families",
+        "archive": "Archive"
+    },
+    "Common": {
+        "programName": "Program Name",
+        "families": "Families",
+        "tasks": "Tasks",
+        "supporters": "Supporters",
+        "total": "Total",
+        "active": "Active",
+        "inactive": "Inactive",
+        "opened": "Opened",
+        "closed": "Closed",
+        "setDate": "Set Date",
+        "sort": "sort",
+        "search": "Search",
+        "addCategory": "Add category",
+        "editCategory": "Edit Category",
+        "addTask": "Add Task",
+        "add": "Add",
+        "categories": "categories",
+        "cancel": "Cancel",
+        "share": "Share",
+        "edit": "Edit",
+        "delete": "Delete",
+        "activate": "Activate",
+        "ok": "Ok",
+        "signOut": "Sign Out"
     }
 }

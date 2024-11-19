@@ -2,21 +2,46 @@ import Row from "@components/Row";
 import { ResourcesType } from "entities/resources";
 import React from "react";
 import styles from "./resource.module.scss";
-import { Button } from "@components/shadowCDN/button";
-import DotsIcon from "shared/assets/DotsIcon";
+import DropDownMenu, { DropDownMenuItemsType } from "@components/DropDownMenu";
+import EditIcon from "shared/assets/EditIcon";
+import ShareIcon from "shared/assets/ShareIcon";
+import DeleteIcon from "shared/assets/DeleteIcon";
+import { useTranslations } from "next-intl";
 
 interface ResourceProps {
   resource: ResourcesType;
 }
 
 export const Resource: React.FC<ResourceProps> = ({ resource }) => {
+  const t = useTranslations();
+
+  const resourceDropDownItems: DropDownMenuItemsType[] = [
+    {
+      id: `${resource.id}-view`,
+      label: t('Common.edit'),
+      icon: <EditIcon />,
+      href: ``,
+    },
+    {
+      id: `${resource.id}-share`,
+      label: t('Common.share'),
+      icon: <ShareIcon />,
+      href: ``,
+    },
+    {
+      id: `${resource.id}-delete`,
+      label: t('Common.delete'),
+      icon: <DeleteIcon />,
+      href: ``,
+    },
+  ];
+
   return (
     <div className={styles.wrapper}>
       <Row className="justify-between" alignItems="center">
         <span className={styles.title}>{resource.serviceName}</span>
-        <Button variant={"ghost"} size={"icon"}>
-          <DotsIcon />
-        </Button>
+        
+        <DropDownMenu items={resourceDropDownItems}/>
       </Row>
       <p className={styles.light}>{resource.organization}</p>
       <Row>
@@ -37,7 +62,7 @@ export const Resource: React.FC<ResourceProps> = ({ resource }) => {
       </Row>
       <Row>
         <span className={styles.label}>URL:</span>
-        <span className={styles.light}>{resource.site}</span>
+        <a href={resource.site} className={styles.light}>{resource.site}</a>
       </Row>
     </div>
   );

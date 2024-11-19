@@ -11,33 +11,35 @@ import {
 import { ScrollArea } from "@components/shadowCDN/scroll-area";
 import { CategoryType } from "entities/category";
 import { Task, useTasksStore } from "entities/task";
+import { useTranslations } from "next-intl";
 
 interface AddTaskActionProps {
   category: CategoryType;
 }
 
 const AddTaskModal: React.FC<AddTaskActionProps> = ({ category }) => {
+  const t = useTranslations();
   const [isOpen, setIsOpen] = useState(false);
   const { tasksState, toggleActiveTask, revalidateActiveTasks } =
     useTasksStore();
   const { tasks } = tasksState;
 
   const applyChangesHandle = () => {
-    revalidateActiveTasks()
-    setIsOpen(false)
-  }
+    revalidateActiveTasks();
+    setIsOpen(false);
+  };
 
   return (
     <Dialog onOpenChange={setIsOpen} open={isOpen}>
       <DialogTrigger asChild>
         <Button withIcon variant={"secondary"}>
           <AddIcon />
-          <span>Add Tasks</span>
+          <span>{t('Common.addTask')}</span>
         </Button>
       </DialogTrigger>
       <DialogContent className="flex items-center flex-col w-full max-w-[800px]">
         <DialogHeader>
-          <DialogTitle>{category.title} Tasks</DialogTitle>
+          <DialogTitle>{category.title} {t('Common.tasks')}</DialogTitle>
         </DialogHeader>
 
         <ScrollArea className="h-[500px] w-full border p-4">
@@ -57,12 +59,8 @@ const AddTaskModal: React.FC<AddTaskActionProps> = ({ category }) => {
         </ScrollArea>
 
         <div className="flex flex-col gap-6">
-          <Button
-            rounded={"circle"}
-            onClick={applyChangesHandle}
-            size={"lg"}
-          >
-            Ok
+          <Button rounded={"circle"} onClick={applyChangesHandle} size={"lg"}>
+            {t('Common.ok')}
           </Button>
         </div>
       </DialogContent>

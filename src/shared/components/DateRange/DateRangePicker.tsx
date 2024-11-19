@@ -5,6 +5,7 @@ import "./daterange.css";
 import styles from "./daterange.module.scss";
 import { addDays } from "date-fns";
 import { Button } from "@components/shadowCDN/button";
+import { useTranslations } from "next-intl";
 
 export type DateRangeItem = {
   startDate: Date | null;
@@ -39,9 +40,11 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
   const isDatesNull = !datepickerState.dates[0].startDate && !datepickerState.dates[0].endDate
   const [isDropDownOpen, setIsDropDownOpen] = useState(false);
 
+  const t = useTranslations()
+
   const firstDate = datepickerState.dates[0]?.startDate?.toLocaleDateString();
   const secondeDate = datepickerState.dates[0]?.endDate?.toLocaleDateString();
-  const dateTemplate = isDatesNull ? "Set Date" : `${firstDate} - ${secondeDate}`;
+  const dateTemplate = isDatesNull ? t('Common.setDate') : `${firstDate} - ${secondeDate}`;
 
   const onDateChange = (item: any) => {
     const newDates = item.selection;
