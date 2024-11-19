@@ -46,6 +46,7 @@ const NavigationItem: React.FC<NavigationItemProps> = ({ item }) => {
         href={item.navigateTo}
       >
         <div className={styles.itemIcon}>{iconsObject[item.icon]}</div>
+        {/* @ts-ignore */}
         <div className={styles.itemLabel}>{t(item.translateKey)}</div>
       </Link>
     </li>
