@@ -9,6 +9,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@components/shadowCDN/dialog";
+import { useTranslations } from "next-intl";
 import React, { PropsWithChildren, useState } from "react";
 
 interface AddFamilyActionProps {
@@ -17,31 +18,34 @@ interface AddFamilyActionProps {
 
 const AddFamily: React.FC<PropsWithChildren<AddFamilyActionProps>> = ({
   callback,
-  children
+  children,
 }) => {
+  const t = useTranslations();
+
   const [isOpen, setIsOpen] = useState(false);
 
   const onClose = () => {
     setIsOpen(false);
-    callback?.()
+    callback?.();
   };
 
   const applyChangesHandle = () => {
     setIsOpen(false);
-    callback?.()
+    callback?.();
   };
 
   return (
     <Dialog onOpenChange={setIsOpen} open={isOpen}>
-      <DialogTrigger asChild>
-        {children}
-      </DialogTrigger>
-      <DialogContent onInteractOutside={onClose} className="flex items-center flex-col w-full max-w-sm">
+      <DialogTrigger asChild>{children}</DialogTrigger>
+      <DialogContent
+        onInteractOutside={onClose}
+        className="flex items-center flex-col w-full max-w-sm"
+      >
         <DialogHeader>
-          <DialogTitle>Archive Family</DialogTitle>
+          <DialogTitle>{t("Families.ArchiveFamilies.title")}</DialogTitle>
         </DialogHeader>
         <DialogDescription className="text-center">
-          You could archive Family
+          {t("Families.ArchiveFamilies.description")}
         </DialogDescription>
         <div className="flex gap-6">
           <Button
@@ -50,10 +54,10 @@ const AddFamily: React.FC<PropsWithChildren<AddFamilyActionProps>> = ({
             variant={"secondary"}
             size={"lg"}
           >
-            Cancel
+            {t("Common.cancel")}
           </Button>
           <Button rounded={"circle"} onClick={applyChangesHandle} size={"lg"}>
-            Archive
+            {t("Families.archive")}
           </Button>
         </div>
       </DialogContent>

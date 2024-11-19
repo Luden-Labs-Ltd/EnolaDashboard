@@ -73,7 +73,14 @@
     },
     "Families": {
         "addFamilies": "משפחות חדשות",
-        "archive": "ארכיון"
+        "archive": "ארכיון",
+        "AddFamilies": {
+            "description": "אתה יכול להוסיף משפחה"
+        },
+        "ArchiveFamilies": {
+            "title": "משפחות ארכיון",
+            "description": "אתה יכול ארכיון המשפחה"
+        }
     },
     "Common": {
         "programName": "שם התוכנית",
@@ -95,6 +102,7 @@
         "categories": "קטגוריות",
         "cancel": "ביטול",
         "share": "שיתוף",
+        "view": "תצוגה",
         "edit": "עריכה",
         "delete": "מחק",
         "activate": "הפעל",

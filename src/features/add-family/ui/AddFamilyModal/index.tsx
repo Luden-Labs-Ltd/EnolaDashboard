@@ -41,7 +41,7 @@ const AddFamilyModal: React.FC<AddFamilyModalActionProps> = ({}) => {
           <DialogTitle>{t("Families.addFamilies")}</DialogTitle>
         </DialogHeader>
         <DialogDescription className="text-center">
-          You could add family
+          {t("Families.AddFamilies.description")}
         </DialogDescription>
         <div className="flex gap-6">
           <Button
