@@ -10,11 +10,10 @@ import { tableDataConverter } from "../lib";
 import { Ceil } from "./Ceil";
 import { HeaderCeil } from "./HeaderCeil";
 
-interface FamiliesTableProps {
-}
+interface FamiliesTableProps {}
 
 const FamiliesTable: React.FC<FamiliesTableProps> = () => {
-  const {familiesState} = useFamiliesStore()
+  const { familiesState } = useFamiliesStore();
   const tableData = tableDataConverter({
     families: familiesState.families,
     selectedFamilies: familiesState.selectedFamilies,

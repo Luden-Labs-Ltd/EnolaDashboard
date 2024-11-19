@@ -48,7 +48,7 @@ export default function Resources({ categories, resources }: ResourcesProps) {
           );
         })}
       </div>
-      <ScrollArea className="h-[690px]">
+      <ScrollArea className="h-[70vh]">
         <div className="flex flex-wrap gap-[32px]">
           {resources.map((resource) => {
             return <Resource key={resource.id} resource={resource} />;
