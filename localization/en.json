@@ -107,6 +107,8 @@
         "delete": "Delete",
         "activate": "Activate",
         "ok": "Ok",
-        "signOut": "Sign Out"
+        "signOut": "Sign Out",
+        "name": "Name",
+        "phone": "Phone"
     }
 }

@@ -12,6 +12,7 @@ import {
 import { useTranslations } from "next-intl";
 import React, { useState } from "react";
 import AddIcon from "shared/assets/AddIcon";
+import { AddFamilyForm } from "../AddFamilyForm";
 
 interface AddFamilyModalActionProps {}
 
@@ -21,10 +22,6 @@ const AddFamilyModal: React.FC<AddFamilyModalActionProps> = ({}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const onClose = () => {
-    setIsOpen(false);
-  };
-
-  const applyChangesHandle = () => {
     setIsOpen(false);
   };
 
@@ -43,19 +40,8 @@ const AddFamilyModal: React.FC<AddFamilyModalActionProps> = ({}) => {
         <DialogDescription className="text-center">
           {t("Families.AddFamilies.description")}
         </DialogDescription>
-        <div className="flex gap-6">
-          <Button
-            rounded={"circle"}
-            onClick={onClose}
-            variant={"secondary"}
-            size={"lg"}
-          >
-            {t("Common.cancel")}
-          </Button>
-          <Button rounded={"circle"} onClick={applyChangesHandle} size={"lg"}>
-            {t("Common.add")}
-          </Button>
-        </div>
+
+        <AddFamilyForm onClose={onClose} />
       </DialogContent>
     </Dialog>
   );
