@@ -1,6 +1,7 @@
 "use client";
 import Row from "@components/Row";
 import { Button } from "@components/shadowCDN/button";
+import { ScrollArea } from "@components/shadowCDN/scroll-area";
 import { FamiliesTable } from "@widgets/FamiliesTable";
 import { FamiliesStoreProvider, FamilyType } from "entities/families";
 import { AddFamily } from "features/add-family";
@@ -25,14 +26,16 @@ const Families: React.FC<FamiliesProps> = ({ families }) => {
               <ArchiveFamily>
                 <Button withIcon variant={"ghost"}>
                   <ArchiveIcon />
-                  <span>{t('Families.archive')}</span>
+                  <span>{t("Families.archive")}</span>
                 </Button>
               </ArchiveFamily>
               <AddFamily />
             </Row>
           }
         />
-        <FamiliesTable />
+        <ScrollArea className="h-[78vh] w-full border p-4">
+          <FamiliesTable />
+        </ScrollArea>
       </FamiliesStoreProvider>
     </main>
   );
