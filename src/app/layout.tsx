@@ -27,6 +27,7 @@ export default async function RootLayout({
   return (
     <html
       lang={locale}
+      dir={locale === "he" ? "rtl" : "ltr"}
       className={`${SpaceGrotesk.variable} ${RubikFont.variable} font-grotesk`}
     >
           <body>

@@ -9,12 +9,15 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@components/shadowCDN/dialog";
+import { useTranslations } from "next-intl";
 import React, { useState } from "react";
 import AddIcon from "shared/assets/AddIcon";
 
 interface AddFamilyModalActionProps {}
 
 const AddFamilyModal: React.FC<AddFamilyModalActionProps> = ({}) => {
+  const t = useTranslations();
+
   const [isOpen, setIsOpen] = useState(false);
 
   const onClose = () => {
@@ -30,12 +33,12 @@ const AddFamilyModal: React.FC<AddFamilyModalActionProps> = ({}) => {
       <DialogTrigger asChild>
         <Button withIcon>
           <AddIcon />
-          <span>Add Family</span>
+          <span>{t("Families.addFamilies")}</span>
         </Button>
       </DialogTrigger>
       <DialogContent className="flex items-center flex-col w-full max-w-sm">
         <DialogHeader>
-          <DialogTitle>Add Family</DialogTitle>
+          <DialogTitle>{t("Families.addFamilies")}</DialogTitle>
         </DialogHeader>
         <DialogDescription className="text-center">
           You could add family
@@ -47,10 +50,10 @@ const AddFamilyModal: React.FC<AddFamilyModalActionProps> = ({}) => {
             variant={"secondary"}
             size={"lg"}
           >
-            Cancel
+            {t("Common.cancel")}
           </Button>
           <Button rounded={"circle"} onClick={applyChangesHandle} size={"lg"}>
-            Add
+            {t("Common.add")}
           </Button>
         </div>
       </DialogContent>

@@ -11,6 +11,7 @@ import {
   CategoryPressCallbackArguments,
   useCategoryStore,
 } from "entities/category";
+import { useTranslations } from "next-intl";
 import React, { useState } from "react";
 import AddIcon from "shared/assets/AddIcon";
 
@@ -20,6 +21,8 @@ interface CreateCategoryModalProps {
 const CreateCategoryModal: React.FC<CreateCategoryModalProps> = ({
   trigger,
 }) => {
+  const t = useTranslations();
+
   const [isOpen, setIsOpen] = useState(false);
   const { categoryState, toggleActiveCategory, revalidateActiveCategories } =
     useCategoryStore();
@@ -31,7 +34,7 @@ const CreateCategoryModal: React.FC<CreateCategoryModalProps> = ({
 
   const applyChanges = () => {
     revalidateActiveCategories();
-    setIsOpen(false)
+    setIsOpen(false);
   };
 
   return (
@@ -41,7 +44,7 @@ const CreateCategoryModal: React.FC<CreateCategoryModalProps> = ({
       </DialogTrigger>
       <DialogContent className="flex items-center flex-col max-w-sm w-full">
         <DialogHeader>
-          <DialogTitle>Edit categories</DialogTitle>
+          <DialogTitle>{t("Categories.CreateCategories.title")}</DialogTitle>
         </DialogHeader>
         <div className="flex flex-1 flex-col min-w-72 gap-2 mb-3">
           {categories?.map((category) => {
@@ -60,10 +63,10 @@ const CreateCategoryModal: React.FC<CreateCategoryModalProps> = ({
         <div className="flex flex-col gap-6">
           <Button withIcon variant={"secondary"}>
             <AddIcon />
-            Add Categorie
+            {t("Common.addCategory")}
           </Button>
           <Button rounded={"circle"} onClick={applyChanges}>
-            Ok
+            {t("Common.ok")}
           </Button>
         </div>
       </DialogContent>

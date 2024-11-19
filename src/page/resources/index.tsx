@@ -10,6 +10,7 @@ import DeleteIcon from "shared/assets/DeleteIcon";
 import EditIcon from "shared/assets/EditIcon";
 import { Resource } from "./ui/Resource/Resource";
 import { ScrollArea } from "@components/shadowCDN/scroll-area";
+import { AddResources } from "features/add-resources";
 
 interface ResourcesProps {
   categories: CategoryType[];
@@ -29,10 +30,7 @@ export default function Resources({ categories, resources }: ResourcesProps) {
             <Button size={"icon"} variant={"ghost"}>
               <DeleteIcon />
             </Button>
-            <Button withIcon size={"full"} rounded={"circle"}>
-              <AddIcon />
-              <span>New resource</span>
-            </Button>
+            <AddResources/>
           </Row>
         }
       />

@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./card.module.scss";
 import RangeView from "@components/RangeView";
 import { Card, CardContent, CardHeader, CardTitle } from "@components/Card";
+import { useTranslations } from "next-intl";
 
 interface DashboardCardProps {
   title: string;
@@ -22,6 +23,7 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
   firstTitle,
   secondTitle,
 }) => {
+  const t = useTranslations()
   const total = firstValue + secondValue;
 
   return (
@@ -29,7 +31,7 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
       <CardHeader>
         <CardTitle>{title}</CardTitle>
         <h3 className={styles.headerCount}>
-          Total: <span>{total}</span>
+          {t('Common.total')}: <span>{total}</span>
         </h3>
       </CardHeader>
       <CardContent>

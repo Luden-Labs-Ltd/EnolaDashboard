@@ -12,6 +12,14 @@
     min-height: 100vh;
 }
 
+[dir=rtl] .layout {
+    grid-template-areas:
+        "header header navbar"
+        "main main navbar"
+        "main main navbar"
+    ;
+}
+
 .header {
     grid-area: header;
     background-color: $mainBackgroundColor;

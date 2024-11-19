@@ -7,6 +7,7 @@ import Burger from "../../../public/images/icons/burger.svg";
 import NavigationItem from "./NavigationItem";
 import { Button } from "@components/shadowCDN/button";
 import { logoutAction } from "entities/auth/action";
+import { useTranslations } from "next-intl";
 
 interface NavBarProps {
   navigationItems: Array<NavigationItemType>;
@@ -21,6 +22,8 @@ const NavBar: React.FC<NavBarProps> = ({
   navigationItems,
   // logOutComponent,
 }) => {
+  const t = useTranslations();
+
   return (
     <div className={styles.navbar}>
       <div className={styles.top}>
@@ -28,7 +31,7 @@ const NavBar: React.FC<NavBarProps> = ({
           <Image alt="logo navbar" src={Logo} />
           <Image alt="burgerIcon" src={Burger} />
         </div>
-        <div className={styles.programName}>Program_name</div>
+        <div className={styles.programName}>{t("Common.programName")}</div>
       </div>
       <div className={styles.content}>
         <ul className={styles.itemList}>
@@ -46,7 +49,7 @@ const NavBar: React.FC<NavBarProps> = ({
           }}
         >
           <Button variant="ghost">
-            <div className="hidden md:block">Sign Out</div>
+            <div className="hidden md:block">{t("Common.signOut")}</div>
           </Button>
         </form>
       </div>

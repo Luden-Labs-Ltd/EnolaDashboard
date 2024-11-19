@@ -37,11 +37,9 @@ type lineObject = {
   stack: string;
   symbolSize: number;
   lineStyle: {
-    normal: {
-      color: string;
-      width: number;
-      type: string;
-    };
+    color: string;
+    width: number;
+    type: string;
   };
 };
 
@@ -74,11 +72,9 @@ const createBaseLineObject = ({
     stack: "x",
     symbolSize: 10,
     lineStyle: {
-      normal: {
-        color: color,
-        width: 4,
-        type: "solid",
-      },
+      color: color,
+      width: 4,
+      type: "solid",
     },
   };
   return lineObject;

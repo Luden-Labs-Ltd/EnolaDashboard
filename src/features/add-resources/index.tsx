@@ -1,0 +1,1 @@
+export {default as AddResources} from './ui/AddResourcesModal';

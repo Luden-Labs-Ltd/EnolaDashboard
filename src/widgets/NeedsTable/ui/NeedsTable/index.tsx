@@ -21,10 +21,13 @@ import { ScrollArea } from "@components/shadowCDN/scroll-area";
 import { SetTaskAsDefaultModal } from "features/set-task-as-default";
 import { DeleteTasks } from "features/delete-tasks";
 import { EditTasks } from "features/edit-tasks";
+import { useTranslations } from "next-intl";
 
 interface NeedsTableProps {}
 
 const NeedsTable: React.FC<NeedsTableProps> = () => {
+  const t = useTranslations();
+
   const { categoryState, setCurrentCategory } = useCategoryStore();
   const { tasksState, toggleSelectedTask } = useTasksStore();
 
@@ -66,7 +69,7 @@ const NeedsTable: React.FC<NeedsTableProps> = () => {
             trigger={
               <Button withIcon variant="secondary">
                 <AddIcon />
-                <span className="font-grotesk">Edit category</span>
+                <span className="font-grotesk">{t('Common.editCategory')}</span>
               </Button>
             }
           />
