@@ -73,7 +73,14 @@
     },
     "Families": {
         "addFamilies": "Add families",
-        "archive": "Archive"
+        "archive": "Archive",
+        "AddFamilies": {
+            "description": "You could add family"
+        },
+        "ArchiveFamilies": {
+            "title": "Archive Families",
+            "description": "You could archive Family"
+        }
     },
     "Common": {
         "programName": "Program Name",
@@ -95,6 +102,7 @@
         "categories": "categories",
         "cancel": "Cancel",
         "share": "Share",
+        "view": "View",
         "edit": "Edit",
         "delete": "Delete",
         "activate": "Activate",

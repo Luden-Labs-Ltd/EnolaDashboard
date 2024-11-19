@@ -8,35 +8,38 @@ import ShareIcon from "shared/assets/ShareIcon";
 import ViewIcon from "shared/assets/ViewIcon";
 import styles from "./CeilDropDown.module.scss";
 import { DropdownMenuItem } from "@components/shadowCDN/dropdown-menu";
+import { useTranslations } from "next-intl";
 
 interface CeilDropDownProps {
   ceil: RowItem;
 }
 
 const CeilDropDown: React.FC<CeilDropDownProps> = ({ ceil }) => {
+  const t = useTranslations();
+
   const ceilDropDownItems: DropDownMenuItemsType[] = [
     {
       id: `${ceil.familyId}-view`,
-      label: "View",
+      label: t("Common.view"),
       icon: <ViewIcon />,
       href: `/family/${ceil.familyId}`,
     },
     {
       id: `${ceil.familyId}-share`,
-      label: "Share",
+      label: t("Common.share"),
       icon: <ShareIcon />,
       href: ``,
     },
     {
       id: `${ceil.familyId}-delete`,
-      label: "Delete",
+      label: t("Common.delete"),
       icon: <DeleteIcon />,
       href: ``,
     },
     {
       id: `${ceil.familyId}-archive`,
-      label: '',
-      icon: '',
+      label: "",
+      icon: "",
       href: ``,
       renderCustomComponent: (onOpen, onClose) => {
         return (
@@ -46,7 +49,7 @@ const CeilDropDown: React.FC<CeilDropDownProps> = ({ ceil }) => {
               className={styles.DropdownMenuItem}
             >
               <ArchiveIcon />
-              <span>Archive</span>
+              <span>{t("Families.archive")}</span>
             </DropdownMenuItem>
           </ArchiveFamily>
         );
