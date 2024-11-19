@@ -1,6 +1,7 @@
 import React from "react";
 import PhoneInput, { PhoneInputProps } from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
+import "./phoneInput.css"
 // import InputLabel from "@mui/material/InputLabel";
 
 interface PhoneFieldProps extends PhoneInputProps {
@@ -31,7 +32,7 @@ const PhoneField: React.FC<PhoneFieldProps> = ({
   ...rest
 }) => {
   return (
-    <div className="w-full">
+    <div className="w-full phoneInput">
       {/* {label && (
         <InputLabel
           classes={{ root: "label" }}

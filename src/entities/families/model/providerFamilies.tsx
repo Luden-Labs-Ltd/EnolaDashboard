@@ -5,6 +5,7 @@ import {
   PropsWithChildren,
   SetStateAction,
   useContext,
+  useEffect,
   useState,
 } from "react";
 import { FamilyType } from ".";
@@ -30,6 +31,10 @@ export const FamiliesStoreProvider: React.FC<
     families: families,
     selectedFamilies: [],
   });
+
+  useEffect(() => {
+    setFamiliesState((prev) => ({...prev, families: families}))
+  }, [families])
 
   return (
     <FamiliesContext.Provider
