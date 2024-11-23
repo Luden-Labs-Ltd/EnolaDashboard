@@ -1,0 +1,1 @@
+export {default as DeleteFamily} from './ui/DeleteFamilyModal';

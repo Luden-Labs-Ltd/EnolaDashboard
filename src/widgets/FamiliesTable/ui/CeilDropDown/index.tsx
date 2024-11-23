@@ -9,6 +9,7 @@ import ViewIcon from "shared/assets/ViewIcon";
 import styles from "./CeilDropDown.module.scss";
 import { DropdownMenuItem } from "@components/shadowCDN/dropdown-menu";
 import { useTranslations } from "next-intl";
+import { DeleteFamily } from "features/delete-family";
 
 interface CeilDropDownProps {
   ceil: RowItem;
@@ -33,8 +34,21 @@ const CeilDropDown: React.FC<CeilDropDownProps> = ({ ceil }) => {
     {
       id: `${ceil.familyId}-delete`,
       label: t("Common.delete"),
-      icon: <DeleteIcon />,
+      icon: "",
       href: ``,
+      renderCustomComponent: (onOpen, onClose) => {
+        return (
+          <DeleteFamily key={`${ceil.familyId}-delete`} familyId={ceil.familyId} callback={onClose}>
+            <DropdownMenuItem
+              onClick={onOpen}
+              className={styles.DropdownMenuItem}
+            >
+              <DeleteIcon />
+              <span>{t("Common.delete")}</span>
+            </DropdownMenuItem>
+          </DeleteFamily>
+        );
+      },
     },
     {
       id: `${ceil.familyId}-archive`,

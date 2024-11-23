@@ -1,6 +1,6 @@
 "use server";
 import { z } from "zod";
-import { createFamilyApi } from "../api";
+import { createFamilyApi, deleteFamilyById } from "../api";
 import { revalidateTag } from "next/cache";
 import { GET_FAMILIES_REVALIDATE_TAG } from "../api/const";
 
@@ -26,6 +26,45 @@ export const createFamily = async (prevState: any, formData: FormData) => {
     }
 
     await createFamilyApi(formData);
+    revalidateTag(GET_FAMILIES_REVALIDATE_TAG);
+
+    return {
+      ...prevState,
+      zodErrors: null,
+      apiError: null,
+      data: "completed",
+    };
+  } catch (error: any) {
+    return {
+      ...prevState,
+      zodErrors: null,
+      apiError: error.message,
+      data: "uncompleted",
+    };
+  }
+};
+
+
+const schemaDeleteFamily = z.object({
+  familyId: z.string(),
+});
+
+export const deleteFamily = async (prevState: any, formData: FormData) => {
+  try {
+    const validatedFields = schemaDeleteFamily.safeParse({
+      familyId: formData.get("family_id"),
+    });
+
+    if (!validatedFields.success) {
+      return {
+        ...prevState,
+        zodErrors: validatedFields.error.flatten().fieldErrors,
+        apiError: null,
+        data: "uncompleted",
+      };
+    }
+
+    await deleteFamilyById(validatedFields.data.familyId);
     revalidateTag(GET_FAMILIES_REVALIDATE_TAG);
 
     return {

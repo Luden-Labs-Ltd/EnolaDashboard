@@ -41,6 +41,23 @@ export const getFamilyById = async (
 };
 
 
+export const deleteFamilyById = async (
+  familyId: string
+): Promise<Boolean | null> => {
+  const response = await fetchInstance(
+    `${process.env.BASE_URL_BACKEND}/api/v2/families/${familyId}`,
+    {
+      method: "DELETE",
+    }
+  );
+
+  if (!response) {
+    throw new Error("Some Error deleteFamilyApi");
+  }
+
+  return true;
+};
+
 export const createFamilyApi = async (formData: FormData) => {
   const response = await fetchInstance(
     process.env.BASE_URL_BACKEND + `/api/v2/families`,
