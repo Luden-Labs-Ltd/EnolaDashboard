@@ -80,6 +80,10 @@
         "ArchiveFamilies": {
             "title": "משפחות ארכיון",
             "description": "אתה יכול ארכיון המשפחה"
+        },
+        "DeleteFamilies": {
+            "title": "מחק משפחות",
+            "description": "אתה יכול למחוק משפחה"
         }
     },
     "Common": {
@@ -109,6 +113,7 @@
         "ok": "בסדר",
         "signOut": "יציאה",
         "name": "שם",
-        "phone": "טלפון"
+        "phone": "טלפון",
+        "start": "בואו נתחיל"
     }
 }

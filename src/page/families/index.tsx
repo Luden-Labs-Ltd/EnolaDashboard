@@ -16,7 +16,6 @@ interface FamiliesProps {
 }
 const Families: React.FC<FamiliesProps> = ({ families }) => {
   const t = useTranslations();
-
   return (
     <main>
       <FamiliesStoreProvider families={families}>

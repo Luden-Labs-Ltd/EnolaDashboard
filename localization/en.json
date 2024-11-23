@@ -80,6 +80,10 @@
         "ArchiveFamilies": {
             "title": "Archive Families",
             "description": "You could archive Family"
+        },
+        "DeleteFamilies": {
+            "title": "Delete Families",
+            "description": "You could delete Family"
         }
     },
     "Common": {
@@ -109,6 +113,7 @@
         "ok": "Ok",
         "signOut": "Sign Out",
         "name": "Name",
-        "phone": "Phone"
+        "phone": "Phone",
+        "start": "Let's Start"
     }
 }
