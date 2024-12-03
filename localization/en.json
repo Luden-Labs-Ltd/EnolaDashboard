@@ -73,9 +73,17 @@
     },
     "Families": {
         "addFamilies": "Add families",
+        "addMembers": "Add Members",
         "archive": "Archive",
         "AddFamilies": {
             "description": "You could add family"
+        },
+        "AddMembers": {
+            "description": "You could add member"
+        },
+        "DeleteMembership": {
+            "title": "Delete Membership",
+            "description": "You could delete member"
         },
         "ArchiveFamilies": {
             "title": "Archive Families",
@@ -90,6 +98,7 @@
         "programName": "Program Name",
         "families": "Families",
         "tasks": "Tasks",
+        "memberships": "Memberships",
         "supporters": "Supporters",
         "total": "Total",
         "active": "Active",

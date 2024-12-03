@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@components/shadowCDN/button";
 import {
   DropdownMenu,
@@ -42,7 +44,7 @@ const DropDownMenu: React.FC<DropDownMenuProps> = ({ items }) => {
       </DropdownMenuTrigger>
       <DropdownMenuContent
         onInteractOutside={onClose}
-        className={styles.DropDownWrapper}
+        className={`${styles.DropDownWrapper} DropDownWrapper`}
       >
         {items.map((item) => {
           if (item.renderCustomComponent) {

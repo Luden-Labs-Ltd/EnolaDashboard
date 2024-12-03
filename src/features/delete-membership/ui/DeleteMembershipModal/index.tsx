@@ -10,35 +10,41 @@ import {
   DialogTrigger,
 } from "@components/shadowCDN/dialog";
 import { ZodErrors } from "@components/ZodErrors/ZodErrors";
-import { deleteFamily } from "entities/families";
+import { useMembershipsStore } from "entities/memberships";
+import { deleteMembership } from "entities/memberships/actions";
 import { useTranslations } from "next-intl";
 import React, { PropsWithChildren, useEffect, useState } from "react";
 import { useFormState } from "react-dom";
 
-interface DeleteFamilyActionProps {
+interface DeleteMembershipActionProps {
   callback?: () => void;
-  familyId?: number;
+  familyId: string;
+  membershipId: number;
 }
 
 const INITIAL_STATE = {
   data: null,
 };
 
-const DeleteFamily: React.FC<PropsWithChildren<DeleteFamilyActionProps>> = ({
+const DeleteMembership: React.FC<PropsWithChildren<DeleteMembershipActionProps>> = ({
   callback,
   children,
   familyId,
+  membershipId,
 }) => {
   const t = useTranslations();
 
   const [isOpen, setIsOpen] = useState(false);
-
-
-  const [formState, formAction] = useFormState(deleteFamily, INITIAL_STATE);
+  const {refetchMembers} = useMembershipsStore()
+  const [formState, formAction] = useFormState(deleteMembership, INITIAL_STATE);
 
   useEffect(() => {
+    console.log(formState);
     if (formState.data === "completed") {
       onClose();
+      if (familyId) {
+        refetchMembers(familyId);
+      }
     }
   }, [formState]);
 
@@ -61,13 +67,14 @@ const DeleteFamily: React.FC<PropsWithChildren<DeleteFamilyActionProps>> = ({
         className="flex items-center flex-col w-full max-w-sm"
       >
         <DialogHeader>
-          <DialogTitle>{t("Families.DeleteFamilies.title")}</DialogTitle>
+          <DialogTitle>{t("Families.DeleteMembership.title")}</DialogTitle>
         </DialogHeader>
         <DialogDescription className="text-center">
-          {t("Families.DeleteFamilies.description")} - {familyId}
+          {t("Families.DeleteMembership.description")} - {membershipId}
         </DialogDescription>
         <form action={formAction}>
           <input name="family_id" onChange={() => {}} value={familyId} style={{display: 'none'}} />
+          <input name="membership_id" onChange={() => {}} value={membershipId} style={{display: 'none'}} />
           <div className="flex gap-6">
             <Button
               rounded={"circle"}
@@ -88,4 +95,4 @@ const DeleteFamily: React.FC<PropsWithChildren<DeleteFamilyActionProps>> = ({
   );
 };
 
-export default DeleteFamily;
+export default DeleteMembership;

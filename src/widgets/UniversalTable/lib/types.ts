@@ -18,7 +18,7 @@ export type HeaderItem = {
 
 export type RowItem = {
   id: string;
-  familyId: number;
+  itemId: number;
   value: string | number;
   type: RowItemType;
   isActive?: boolean;
