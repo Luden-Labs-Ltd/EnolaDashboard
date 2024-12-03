@@ -1,4 +1,3 @@
-import { FamilyType } from "entities/families";
 import { HeaderItem, HeaderItemType, RowItem, RowItemType } from "./types";
 
 type TableData = {
@@ -7,8 +6,8 @@ type TableData = {
 };
 
 type TableDataConverterDto = {
-  families: FamilyType[];
-  selectedFamilies: number[];
+  tableRawData: any[];
+  selectedColumnIds: number[];
 };
 
 const createHeader = (
@@ -25,20 +24,20 @@ const createHeader = (
 
 const createRow = ({
   rowId,
-  familyId,
+  itemId,
   rowValue,
   type,
   isActive,
 }: {
   rowId: string;
-  familyId: number;
+  itemId: number;
   rowValue: string | number;
   type: RowItemType;
   isActive?: boolean;
 }): RowItem => {
   return {
     id: rowId,
-    familyId: familyId,
+    itemId: itemId,
     value: rowValue,
     type,
     isActive,
@@ -46,19 +45,20 @@ const createRow = ({
 };
 
 export const tableDataConverter = ({
-  families,
-  selectedFamilies,
+  tableRawData,
+  selectedColumnIds,
 }: TableDataConverterDto) => {
   const resultData: TableData = {
     headers: [],
     rows: [],
   };
 
-  families.forEach((family, index) => {
-    const headersAndRows = Object.entries(family);
+  tableRawData.forEach((item, index) => {
+    const headersAndRows = Object.entries(item);
+
     headersAndRows.forEach(([headerValue, rowValue], headersAndRowsIndex) => {
-      const currentHeaderId = `header-${family.id}-${headersAndRowsIndex}`;
-      const currentRowId = `row-${family.id}-${headersAndRowsIndex}`;
+      const currentHeaderId = `header-${item.id}-${headersAndRowsIndex}`;
+      const currentRowId = `row-${item.id}-${headersAndRowsIndex}`;
 
       const headerAlreadyExist = resultData.headers.find(
         (addedHeader) => addedHeader.value === headerValue
@@ -73,27 +73,27 @@ export const tableDataConverter = ({
         resultData.rows[index] = [
           createRow({
             rowId: "select-" + currentRowId,
-            familyId: family.id,
+            itemId: item.id,
             rowValue: "",
             type: RowItemType.SELECT,
-            isActive: selectedFamilies.includes(family.id),
+            isActive: selectedColumnIds.includes(item.id),
           }),
           createRow({
             rowId: currentRowId,
-            familyId: family.id,
-            rowValue: rowValue,
+            itemId: item.id,
+            rowValue: rowValue as number | string,
             type: RowItemType.VALUE,
-            isActive: selectedFamilies.includes(family.id),
+            isActive: selectedColumnIds.includes(item.id),
           }),
         ];
       } else {
         resultData.rows[index].push(
           createRow({
             rowId: currentRowId,
-            familyId: family.id,
-            rowValue: rowValue,
+            itemId: item.id,
+            rowValue: rowValue as number | string,
             type: RowItemType.VALUE,
-            isActive: selectedFamilies.includes(family.id),
+            isActive: selectedColumnIds.includes(item.id),
           })
         );
       }
@@ -104,10 +104,10 @@ export const tableDataConverter = ({
         resultData.rows[index].push(
           createRow({
             rowId: "actions-" + currentRowId,
-            familyId: family.id,
+            itemId: item.id,
             rowValue: "",
             type: RowItemType.ACTIONS,
-            isActive: selectedFamilies.includes(family.id),
+            isActive: selectedColumnIds.includes(item.id),
           })
         );
       }

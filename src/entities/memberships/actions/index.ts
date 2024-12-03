@@ -1,0 +1,105 @@
+"use server";
+import { z } from "zod";
+import { revalidatePath, revalidateTag } from "next/cache";
+import { createMembershipApi, deleteMembershipApi } from "../api";
+import { GET_MEMBERSHIPS_REVALIDATE_TAG } from "../api/const";
+
+const CircleTypeSchema = z.union([
+  z.literal('intimate'),
+  z.literal('public'),
+  z.literal('private'),
+]);
+
+const schemaCreateFamily = z.object({
+  phone_number: z.string(),
+  first_name: z.string(),
+  last_name: z.string(),
+  age: z.string(),
+  gender: z.string(),
+  circle: CircleTypeSchema,
+  primary: z.any(),
+});
+
+export const createMembers = async (prevState: any, formData: FormData) => {
+  try {
+
+    const familyId = prevState.familyId
+    const validatedFields = schemaCreateFamily.safeParse({
+      phone_number: formData.get("phone_number"),
+      first_name:  formData.get("first_name"),
+      last_name: formData.get("last_name"),
+      age: formData.get("age"),
+      gender: formData.get("gender"),
+      circle: formData.get("circle"),
+      primary: formData.get("primary"),
+    });
+
+    if (!validatedFields.success) {
+      return {
+        ...prevState,
+        zodErrors: validatedFields.error.flatten().fieldErrors,
+        apiError: null,
+        data: "uncompleted",
+      };
+    }
+    const isPrimaryCheckboxTrue = validatedFields.data.primary === "on"
+
+    formData.set("primary", String(isPrimaryCheckboxTrue))
+
+    await createMembershipApi(familyId, formData);
+    revalidateTag(GET_MEMBERSHIPS_REVALIDATE_TAG);
+
+    return {
+      ...prevState,
+      zodErrors: null,
+      apiError: null,
+      data: "completed",
+    };
+  } catch (error: any) {
+    return {
+      ...prevState,
+      zodErrors: null,
+      apiError: error.message,
+      data: "uncompleted",
+    };
+  }
+};
+
+
+const schemaDeleteMembership = z.object({
+  familyId: z.string(),
+  membershipId: z.string(),
+});
+
+export const deleteMembership = async (prevState: any, formData: FormData) => {
+  try {
+    const validatedFields = schemaDeleteMembership.safeParse({
+      familyId: formData.get("family_id"),
+      membershipId: formData.get("membership_id"),
+    });
+
+    if (!validatedFields.success) {
+      return {
+        ...prevState,
+        zodErrors: validatedFields.error.flatten().fieldErrors,
+        apiError: null,
+        data: "uncompleted",
+      };
+    }
+    await deleteMembershipApi(validatedFields.data.familyId, validatedFields.data.membershipId);
+    
+    return {
+      ...prevState,
+      zodErrors: null,
+      apiError: null,
+      data: "completed",
+    };
+  } catch (error: any) {
+    return {
+      ...prevState,
+      zodErrors: null,
+      apiError: error.message,
+      data: "uncompleted",
+    };
+  }
+};

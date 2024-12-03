@@ -1,8 +1,6 @@
-"use client";
 import Row from "@components/Row";
 import { Button } from "@components/shadowCDN/button";
 import { ScrollArea } from "@components/shadowCDN/scroll-area";
-import { FamiliesTable } from "@widgets/FamiliesTable";
 import { FamiliesStoreProvider, FamilyType } from "entities/families";
 import { AddFamily } from "features/add-family";
 import { ArchiveFamily } from "features/archive-family";
@@ -10,12 +8,13 @@ import SearchPanel from "features/search-panel";
 import { useTranslations } from "next-intl";
 import React from "react";
 import ArchiveIcon from "shared/assets/ArchiveIcon";
-
+import FamiliesTable from "./ui/FamiliesTable";
 interface FamiliesProps {
   families: FamilyType[];
 }
 const Families: React.FC<FamiliesProps> = ({ families }) => {
   const t = useTranslations();
+
   return (
     <main>
       <FamiliesStoreProvider families={families}>

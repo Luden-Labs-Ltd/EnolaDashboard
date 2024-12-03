@@ -1,19 +1,16 @@
 import { Checkbox } from "@components/shadowCDN/checkbox";
 import { TableHead } from "@components/shadowCDN/table";
-import { HeaderItem, HeaderItemType } from "@widgets/FamiliesTable/lib/types";
-import { useFamiliesStore } from "entities/families";
-
+import { HeaderItem, HeaderItemType } from "@widgets/UniversalTable/lib/types";
 import React from "react";
 
 interface HeaderProps {
   header: HeaderItem;
+  isIndeterminate: boolean;
+  isChecked: boolean;
+  toggleMainSelect: () => void;
 }
 
-export const HeaderCeil: React.FC<HeaderProps> = ({ header }) => {
-  const {familiesState, toggleMainSelect} = useFamiliesStore()
-
-  const isIndeterminate = familiesState.selectedFamilies.length > 0 && familiesState.selectedFamilies.length !== familiesState.families.length
-  const isChecked = familiesState.selectedFamilies.length === familiesState.families.length
+export const HeaderCeil: React.FC<HeaderProps> = ({ header, isChecked, isIndeterminate, toggleMainSelect }) => {
   if (header.type === HeaderItemType.EMPTY) {
     return <TableHead></TableHead>;
   }

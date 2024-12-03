@@ -1,12 +1,17 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@components/Card";
 import Row from "@components/Row";
+import { Button } from "@components/shadowCDN/button";
+import TooltipWrapper from "@components/TooltipWrapper";
 import ChartCard from "@widgets/ChartCard";
 import { LastActions } from "@widgets/LastActions";
 import { Notes } from "@widgets/Notes";
 import { Separator } from "components/ui/separator";
 import { useFamilyStore } from "entities/families";
+import { useTranslations } from "next-intl";
+import Link from "next/link";
 import React from "react";
 import EditIcon from "shared/assets/EditIcon";
+import ViewIcon from "shared/assets/ViewIcon";
 
 interface FamilyProps {
   familyId: string;
@@ -15,6 +20,8 @@ interface FamilyProps {
 export const Family: React.FC<FamilyProps> = () => {
   const { familyState } = useFamilyStore();
   const { family } = familyState;
+
+  const t = useTranslations()
 
   const infoBlocks = {
     1: {
@@ -107,7 +114,22 @@ export const Family: React.FC<FamilyProps> = () => {
         <Card>
           <CardHeader>
             <CardTitle>{familyState.family.name}</CardTitle>
-            <EditIcon />
+
+            <Row alignItems="center">
+              <TooltipWrapper text={`${t('Common.view')} ${t('Common.memberships')}`}>
+                <Button size={"icon"} variant={"ghost"}>
+                  <Link href={`/family/${family.id}/memberships`}>
+                    <ViewIcon height={24} width={24} />
+                  </Link>
+                </Button>
+              </TooltipWrapper>
+
+              <TooltipWrapper text={t('Common.edit')}>
+                <Button size={"icon"} variant={"ghost"}>
+                  <EditIcon />
+                </Button>
+              </TooltipWrapper>
+            </Row>
           </CardHeader>
           <CardContent>
             {Object.values(infoBlocks).map((block, blockIndex, blockArray) => {

@@ -73,9 +73,17 @@
     },
     "Families": {
         "addFamilies": "משפחות חדשות",
+        "addMembers": "הוסף חברים",
         "archive": "ארכיון",
         "AddFamilies": {
             "description": "אתה יכול להוסיף משפחה"
+        },
+        "AddMembers": {
+            "description": "אתה יכול להוסיף חבר"
+        },
+        "DeleteMembership": {
+            "title": "מחק חברות",
+            "description": "אתה יכול למחוק חבר"
         },
         "ArchiveFamilies": {
             "title": "משפחות ארכיון",
@@ -90,6 +98,7 @@
         "programName": "שם התוכנית",
         "families": "משפחות",
         "tasks": "משימות",
+        "memberships": "חברות",
         "supporters": "תומכים",
         "total": "סך הכל",
         "active": "פעיל",
