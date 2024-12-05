@@ -1,5 +1,5 @@
 "use client";
-import { convertSingleFamilyData, FamilyStoreProvider, FullFamilyType, getFamilyById } from "entities/families";
+import { convertSingleFamilyData, FamilyContextState, FamilyStoreProvider, getFamilyById } from "entities/families";
 import { useParams } from "next/navigation";
 import { Family } from "page/family";
 import { useEffect, useState } from "react";
@@ -8,26 +8,26 @@ export default function Page() {
   const params = useParams();
   const familyId = params.familyId as string;
 
-  const [family, setFamily] = useState<FullFamilyType | null>(null);
+  const [data, setData] = useState<FamilyContextState | null>(null);
 
   useEffect(() => {
     const getData = async () => {
-      const data = await getFamilyById(familyId);
-      if (!data) {
+      const apiFamily = await getFamilyById(familyId);
+      if (!apiFamily) {
         return
       }
-      const family = convertSingleFamilyData(data)
-      setFamily(family);
+      const data = convertSingleFamilyData(apiFamily)
+      setData(data);
     };
     getData();
   }, [familyId]);
 
-  if (!family) {
+  if (!data) {
     return <div>login....</div>
   }
 
   return (
-    <FamilyStoreProvider family={family}>
+    <FamilyStoreProvider data={data}>
       <Family familyId={familyId} />
     </FamilyStoreProvider>
   );

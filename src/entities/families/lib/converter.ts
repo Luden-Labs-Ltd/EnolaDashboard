@@ -1,14 +1,15 @@
 import { FamilyApi } from "../api/types";
-import { FamilyType, FullFamilyType } from "../model";
+import { FamilyType } from "../model";
+import { FamilyContextState } from "../model/providerFamily";
 
 export const convertDataForTable = (
   familiesData: FamilyApi[]
 ): FamilyType[] => {
   return familiesData.map((family) => {
-    const currentTasksCount =
-      family.task_counter.completed +
-      family.task_counter.in_progress +
-      family.task_counter.initial;
+    const completed = family.task_counter?.completed ?? 0;
+    const inProgress = family.task_counter?.in_progress ?? 0;
+    const initial = family.task_counter?.initial ?? 0;
+    const currentTasksCount = completed + inProgress + initial;
     return {
       id: family.id,
       name: family.title,
@@ -24,23 +25,36 @@ export const convertDataForTable = (
 
 export const convertSingleFamilyData = (
   familyData: FamilyApi
-): FullFamilyType => {
-  const currentTasksCount =
-    familyData.task_counter.completed +
-    familyData.task_counter.in_progress +
-    familyData.task_counter.initial;
-  return {
+): FamilyContextState => {
+  const completed = familyData.task_counter?.completed ?? 0;
+  const inProgress = familyData.task_counter?.in_progress ?? 0;
+  const initial = familyData.task_counter?.initial ?? 0;
+  const currentTasksCount = completed + inProgress + initial;
+
+  const patientFullName =
+    !familyData.patient.first_name && !familyData.patient.last_name
+      ? null
+      : `${familyData.patient.first_name ?? "-"} ${
+          familyData.patient.last_name ?? "-"
+        }`;
+
+  const convertedFamily = {
     id: familyData.id,
     name: familyData.title,
     primaryCaregiver: {
       phoneNumber: familyData.primary_caregiver.phone_number,
-      fullName: familyData.primary_caregiver.full_name,
+      fullName: familyData.primary_caregiver.full_name ?? "",
       id: familyData.primary_caregiver.id,
     },
     coordinator: {
       phoneNumber: familyData.coordinator.phone_number,
-      fullName: familyData.coordinator.full_name,
+      fullName: familyData.coordinator.full_name ?? "",
       id: familyData.coordinator.id,
+    },
+    patient: {
+      phoneNumber: familyData.patient.phone_number ?? "",
+      fullName: patientFullName,
+      id: Math.random(),
     },
     inviteLink: familyData.supporters_invite_link,
     lastSeen: new Date().toLocaleDateString(),
@@ -48,5 +62,10 @@ export const convertSingleFamilyData = (
     enrolmentSource: "enrolmentSource",
     tasks: currentTasksCount,
     supporters: familyData.supporter_count,
+  };
+
+  return {
+    familyApi: familyData,
+    family: convertedFamily,
   };
 };

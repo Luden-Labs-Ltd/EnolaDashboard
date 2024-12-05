@@ -1,6 +1,6 @@
 "use server";
 import { GET_FAMILIES_REVALIDATE_TAG } from "./const";
-import { FamilyApi } from "./types";
+import { EditFamilyDto, FamilyApi } from "./types";
 import { fetchInstance } from "shared/api";
 
 export const getFamiliesFromApi = async (): Promise<FamilyApi[]> => {
@@ -23,7 +23,7 @@ export const getFamiliesFromApi = async (): Promise<FamilyApi[]> => {
 };
 
 export const getFamilyById = async (
-  familyId: string
+  familyId: number | string
 ): Promise<FamilyApi | null> => {
   const response = await fetchInstance(
     `${process.env.BASE_URL_BACKEND}/api/v2/families/${familyId}`,
@@ -72,5 +72,36 @@ export const createFamilyApi = async (formData: FormData) => {
   }
 
   const resJSON = await response.json();
+  if (resJSON.error) {
+    throw new Error(resJSON.error)
+  }
+  return resJSON;
+};
+
+
+
+export const editFamilyApi = async (familyId: number, data: EditFamilyDto) => {
+
+  const response = await fetchInstance(
+    process.env.BASE_URL_BACKEND + `/api/v2/families/${familyId}`,
+    {
+      method: "PUT",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }
+  );
+
+  if (!response) {
+    throw new Error("Some Error editFamilyApi");
+  }
+
+  console.log(response);
+  
+  const resJSON = await response.json();
+  if (resJSON.error) {
+    throw new Error(resJSON.error)
+  }
   return resJSON;
 };

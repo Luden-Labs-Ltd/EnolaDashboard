@@ -7,6 +7,16 @@ interface Coordinator {
   token: string;
 }
 
+
+interface Patient {
+  first_name: string | null;
+  last_name: string | null;
+  phone_number: string | null;
+  formatted_phone_number: string | null;
+  location: string | null;
+}
+
+
 interface MembershipCount {
   public: number;
   private: number;
@@ -24,7 +34,7 @@ export interface FamilyApi {
   id: number;
   membership_count: MembershipCount;
   membership_request_count: number;
-  patient: string | null;
+  patient: Patient;
   primary_caregiver: Coordinator;
   coordinator: Coordinator;
   quote: Record<string, unknown>;
@@ -34,4 +44,12 @@ export interface FamilyApi {
   task_counter: TaskCounter;
   title: string;
   token: string;
+}
+
+
+
+export type EditFamilyDto = {
+  title: string,
+  phone_number: string,
+  archived: boolean,
 }
