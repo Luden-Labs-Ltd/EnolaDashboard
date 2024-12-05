@@ -5,8 +5,6 @@ export const convertDataForTable = (
   membershipsData: MembershipApi[]
 ): Membership[] => {
   return membershipsData.map((membership) => {
-    console.log(membership);
-    
     return {
       id: membership.id,
       phoneNumber: membership.user.formatted_phone_number,

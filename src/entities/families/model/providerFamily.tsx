@@ -8,13 +8,17 @@ import {
   useState,
 } from "react";
 import { FullFamilyType } from ".";
+import { FamilyApi } from "../api/types";
+import { getFamilyById } from "../api";
+import { convertSingleFamilyData } from "../lib/converter";
 
-type FamilyContextState = {
+export type FamilyContextState = {
   family: FullFamilyType;
+  familyApi: FamilyApi;
 };
 
 type FamilyProviderValue = {
-  family: FullFamilyType;
+  data: FamilyContextState;
 };
 
 const FamilyContext = createContext<{
@@ -24,9 +28,10 @@ const FamilyContext = createContext<{
 
 export const FamilyStoreProvider: React.FC<
   PropsWithChildren<FamilyProviderValue>
-> = ({ family, children }) => {
+> = ({ data, children }) => {
   const [familyState, setFamilyState] = useState<FamilyContextState>({
-    family: family,
+    family: data.family,
+    familyApi: data.familyApi,
   });
 
   return (
@@ -51,8 +56,22 @@ export const useFamilyStore = () => {
   }
   const { familyState, setData } = familyContext;
 
+  const refetchFamily = async (familyId: number | string) => {
+    const getData = async () => {
+      const apiFamily = await getFamilyById(familyId);
+      if (!apiFamily) {
+        return;
+      }
+      const data = convertSingleFamilyData(apiFamily);
+      setData(data);
+      return data
+    };
+
+    return await getData();
+  };
 
   return {
     familyState,
+    refetchFamily,
   };
 };

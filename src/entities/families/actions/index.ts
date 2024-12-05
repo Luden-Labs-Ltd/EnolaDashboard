@@ -1,8 +1,9 @@
 "use server";
 import { z } from "zod";
-import { createFamilyApi, deleteFamilyById } from "../api";
+import { createFamilyApi, deleteFamilyById, editFamilyApi } from "../api";
 import { revalidateTag } from "next/cache";
 import { GET_FAMILIES_REVALIDATE_TAG } from "../api/const";
+import { EditFamilyDto } from "../api/types";
 
 const schemaCreateFamily = z.object({
   phoneNumber: z.string().min(6).max(20),
@@ -44,7 +45,6 @@ export const createFamily = async (prevState: any, formData: FormData) => {
   }
 };
 
-
 const schemaDeleteFamily = z.object({
   familyId: z.string(),
 });
@@ -81,4 +81,9 @@ export const deleteFamily = async (prevState: any, formData: FormData) => {
       data: "uncompleted",
     };
   }
+};
+
+export const editFamily = async (familyId: number, familyDto: EditFamilyDto) => {
+  const res = await editFamilyApi(familyId, familyDto);
+  return res
 };

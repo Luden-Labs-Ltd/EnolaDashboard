@@ -123,6 +123,7 @@
         "signOut": "Sign Out",
         "name": "Name",
         "phone": "Phone",
-        "start": "Let's Start"
+        "start": "Let's Start",
+        "goBack": "go Back"
     }
 }

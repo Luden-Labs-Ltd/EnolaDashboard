@@ -11,7 +11,7 @@ export type FamilyType = {
 
 type Person = {
     phoneNumber: string;
-    fullName: string;
+    fullName: string | null;
     id: number;
 }
 
@@ -20,6 +20,7 @@ export type FullFamilyType = {
     name: string;
     coordinator: Person;
     primaryCaregiver: Person;
+    patient: Person;
     inviteLink: string;
     lastSeen: string;
     lastActive: string;

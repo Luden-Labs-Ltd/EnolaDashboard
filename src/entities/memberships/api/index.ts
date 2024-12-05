@@ -34,13 +34,16 @@ export const createMembershipApi = async (
       body: formData,
     }
   );
-  console.log(response);
 
   if (!response) {
     throw new Error("Some Error createMembershipApi");
   }
 
   const resJSON = await response.json();
+
+  if (resJSON.error) {
+    throw new Error(resJSON.error);
+  }
   return resJSON;
 };
 

@@ -6,14 +6,14 @@ export const fetchInstance = async (
   init?: RequestInit
 ): Promise<Response | null> => {
   try {
-    const token = await getAuthToken();
-
+    const token = await getAuthToken() ?? 'token not found';
+    const {headers, ...rest} = init ?? {}
     const response = await fetch(input, {
-      // @ts-ignore
       headers: {
         Authorization: token,
+        ...headers,
       },
-      ...init,
+      ...rest,
     });
 
     return response
