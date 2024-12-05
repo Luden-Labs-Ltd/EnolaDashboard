@@ -51,10 +51,6 @@ export const deleteMembershipApi = async (
   familyId: string,
   membershipId: string
 ) => {
-  console.log(
-    `${process.env.BASE_URL_BACKEND}/api/v2/families/${familyId}/memberships/${membershipId}`
-  );
-
   const response = await fetchInstance(
     process.env.BASE_URL_BACKEND +
       `/api/v2/families/${familyId}/memberships/${membershipId}`,

@@ -97,8 +97,6 @@ export const editFamilyApi = async (familyId: number, data: EditFamilyDto) => {
     throw new Error("Some Error editFamilyApi");
   }
 
-  console.log(response);
-  
   const resJSON = await response.json();
   if (resJSON.error) {
     throw new Error(resJSON.error)

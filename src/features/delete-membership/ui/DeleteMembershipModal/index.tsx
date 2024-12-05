@@ -39,7 +39,6 @@ const DeleteMembership: React.FC<PropsWithChildren<DeleteMembershipActionProps>>
   const [formState, formAction] = useFormState(deleteMembership, INITIAL_STATE);
 
   useEffect(() => {
-    console.log(formState);
     if (formState.data === "completed") {
       onClose();
       if (familyId) {

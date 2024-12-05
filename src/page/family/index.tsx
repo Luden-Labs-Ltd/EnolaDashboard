@@ -20,22 +20,22 @@ interface FamilyProps {
 
 export const Family: React.FC<FamilyProps> = () => {
   const { familyState } = useFamilyStore();
-  const { family } = familyState;
+  const { family, familyApi } = familyState;
 
   const t = useTranslations();
   const supportersDataSet = [
     {
-      value: 2,
+      value: family.supportersChart.family,
       label: "family",
       color: "#F7DACB",
     },
     {
-      value: 3,
+      value: family.supportersChart.friends,
       label: "friends",
       color: "#87BCCC",
     },
     {
-      value: 8,
+      value: family.supportersChart.coworkers,
       label: "coworkers",
       color: "#CCCCCC",
     },
@@ -43,18 +43,18 @@ export const Family: React.FC<FamilyProps> = () => {
 
   const tasksDataSet = [
     {
-      value: 2,
-      label: "family",
+      value: family.tasksChart.completed,
+      label: "completed",
       color: "#EFB825",
     },
     {
-      value: 3,
-      label: "friends",
+      value: family.tasksChart.inProgress,
+      label: "inProgress",
       color: "#269ACF",
     },
     {
-      value: 8,
-      label: "coworkers",
+      value: family.tasksChart.initial,
+      label: "initial",
       color: "#B4407F",
     },
   ];
