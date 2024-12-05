@@ -50,6 +50,6 @@ export interface FamilyApi {
 
 export type EditFamilyDto = {
   title: string,
-  phone_number: string,
+  phone_number?: string,
   archived: boolean,
 }
