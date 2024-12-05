@@ -15,6 +15,18 @@ type Person = {
     id: number;
 }
 
+type ChartTaskInfoData = {
+    inProgress: number;
+    initial: number;
+    completed: number;
+}
+
+type ChartSupportersInfoData = {
+    family: number;
+    friends: number;
+    coworkers: number;
+}
+
 export type FullFamilyType = {
     id: number;
     name: string;
@@ -25,6 +37,6 @@ export type FullFamilyType = {
     lastSeen: string;
     lastActive: string;
     enrolmentSource: string;
-    tasks: number;
-    supporters: number;
+    tasksChart: ChartTaskInfoData;
+    supportersChart: ChartSupportersInfoData;
 }

@@ -26,7 +26,6 @@ const SetTaskAsDefaultModal: React.FC<SetDefaultModalProps> = ({}) => {
 
   const handleSetDefault = () => {
     setIsOpen(false);
-    console.log("activate logic");
   };
 
   const onSwitchChange = () => {

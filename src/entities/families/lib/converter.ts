@@ -29,7 +29,10 @@ export const convertSingleFamilyData = (
   const completed = familyData.task_counter?.completed ?? 0;
   const inProgress = familyData.task_counter?.in_progress ?? 0;
   const initial = familyData.task_counter?.initial ?? 0;
-  const currentTasksCount = completed + inProgress + initial;
+
+  const family = familyData.membership_count?.intimate ?? 0;
+  const friends = familyData.membership_count?.private ?? 0;
+  const coworkers = familyData.membership_count?.intimate ?? 0;
 
   const patientFullName =
     !familyData.patient.first_name && !familyData.patient.last_name
@@ -60,8 +63,16 @@ export const convertSingleFamilyData = (
     lastSeen: new Date().toLocaleDateString(),
     lastActive: new Date().toLocaleDateString(),
     enrolmentSource: "enrolmentSource",
-    tasks: currentTasksCount,
-    supporters: familyData.supporter_count,
+    tasksChart: {
+      completed,
+      inProgress,
+      initial,
+    },
+    supportersChart: {
+      family,
+      friends,
+      coworkers
+    },
   };
 
   return {

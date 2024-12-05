@@ -23,8 +23,6 @@ export const FamilyInfo: React.FC<FamilyInfoProps> = () => {
   const { familyState } = useFamilyStore();
   const { family, familyApi } = familyState;
 
-  console.log(familyApi);
-  
   const t = useTranslations();
 
   const personBlocks: PersonInformation[] = [
