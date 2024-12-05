@@ -26,7 +26,7 @@ interface DeleteFamilyActionProps {
 
 const editFormScheme = z.object({
   title: z.string().min(3).max(50),
-  phone_number: z.string().min(6).max(50).optional(),
+  phone_number: z.string().max(50).optional(),
   archived: z.boolean(),
 });
 
