@@ -80,6 +80,12 @@ const FamiliesTable: React.FC<FamiliesTableProps> = () => {
     ];
   }, [t]);
 
+  if (!familiesState.families) {
+    return <div className="flex min-h-[50vh] flex-1 justify-center items-center">
+      {t('Common.pleaseCreate', {name: t('Common.families')})}
+    </div>
+  }
+
   return (
     <>
       <UniversalTable tableRawData={familiesState.families} selectedColumnIds={familiesState.selectedFamilies} toggleMainSelect={toggleMainSelect} toggleSelectedItems={toggleSelectedFamilies} renderCeilDropDownItems={renderCeilDropDownItems} />
