@@ -27,6 +27,38 @@ export const FamilyInfo: React.FC<FamilyInfoProps> = () => {
 
   const personBlocks: PersonInformation[] = [
     {
+      title: "Family info",
+      id: family.id,
+      titleValue: "",
+      isEditable: false,
+      infoBlock: [
+        {
+          label: "Task Count",
+          value: String(family.taskCount),
+        },
+        {
+          label: "Event Count",
+          value: String(family.eventCount),
+        },
+        {
+          label: "Membership Count",
+          value: String(family.membershipCount),
+        },
+        {
+          label: "is Archived Family",
+          value: String(family.isArchived),
+        },
+        {
+          label: "First Name",
+          value: family.firstName ?? "-",
+        },
+        {
+          label: "Last Name",
+          value: family.lastName ?? "-",
+        },
+      ],
+    },
+    {
       title: "Primary caregiver",
       id: family.primaryCaregiver.id,
       titleValue: family.primaryCaregiver.fullName ?? "-",
@@ -54,30 +86,6 @@ export const FamilyInfo: React.FC<FamilyInfoProps> = () => {
       title: "Main coordinator",
       id: family.coordinator.id,
       titleValue: family.coordinator.fullName  ?? "-",
-      isEditable: false,
-      infoBlock: [
-        {
-          label: "Birthdate",
-          value: "-",
-        },
-        {
-          label: "City",
-          value: "-",
-        },
-        {
-          label: "Phone number",
-          value: family.coordinator.phoneNumber,
-        },
-        {
-          label: "Problem",
-          value: "-",
-        },
-      ],
-    },
-    {
-      title: "Patient",
-      id: family.patient.id,
-      titleValue: family.patient.fullName ?? family.name,
       isEditable: false,
       infoBlock: [
         {

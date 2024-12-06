@@ -26,6 +26,8 @@ interface DeleteFamilyActionProps {
 
 const editFormScheme = z.object({
   title: z.string().min(3).max(50),
+  first_name: z.string().max(50).optional(),
+  last_name: z.string().max(50).optional(),
   phone_number: z.string().max(50).optional(),
   archived: z.boolean(),
 });
@@ -67,6 +69,20 @@ const EditFamilyModal: React.FC<PropsWithChildren<DeleteFamilyActionProps>> = ({
       type: "input",
       id: "title",
       label: "Title",
+      placeholder: "",
+    },
+    {
+      name: "first_name",
+      type: "input",
+      id: "first_name",
+      label: "First name",
+      placeholder: "",
+    },
+    {
+      name: "last_name",
+      type: "input",
+      id: "last_name",
+      label: "Last name",
       placeholder: "",
     },
     {
@@ -139,7 +155,7 @@ const EditFamilyModal: React.FC<PropsWithChildren<DeleteFamilyActionProps>> = ({
                 onClick={applyChangesHandle}
                 size={"lg"}
               >
-                {t("Common.delete")}
+                {t("Common.edit")}
               </Button>
             </div>
           </div>
