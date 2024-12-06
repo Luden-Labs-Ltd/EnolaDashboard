@@ -3,8 +3,11 @@ import React from "react";
 import { NotesStoreProvider } from "./model/provider";
 import { NotesList } from "./ui/NotesList";
 import { NoteAction } from "./ui/NoteAction";
+import { useTranslations } from "next-intl";
 
 export const Notes = () => {
+  const t = useTranslations();
+
   const notesItems = [
     {
       id: "1",
@@ -26,8 +29,8 @@ export const Notes = () => {
     <NotesStoreProvider notes={notesItems}>
       <Card backgroundColor="#FFF7DF">
         <CardHeader>
-          <CardTitle>Notes</CardTitle>
-          <NoteAction/>
+          <CardTitle>{t("Common.notes")}</CardTitle>
+          <NoteAction />
         </CardHeader>
         <CardContent padding="15px 16px">
           <NotesList />

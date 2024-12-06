@@ -88,8 +88,11 @@ export const Family: React.FC<FamilyProps> = () => {
       </div>
       <div className="flex flex-col gap-[24px]">
         <div className="flex gap-[24px]">
-          <ChartCard dataSet={supportersDataSet} title="Supporters" />
-          <ChartCard dataSet={tasksDataSet} title="Tasks" />
+          <ChartCard
+            dataSet={supportersDataSet}
+            title={t("Common.supporters")}
+          />
+          <ChartCard dataSet={tasksDataSet} title={t("Common.tasks")} />
         </div>
 
         <div>
