@@ -5,7 +5,7 @@ import { fetchInstance } from "shared/api";
 
 export const getFamiliesFromApi = async (): Promise<FamilyApi[]> => {
   const response = await fetchInstance(
-    process.env.BASE_URL_BACKEND + "/api/v2/families",
+    process.env.BASE_URL_BACKEND + "/api/v2/dashboard/families",
     {
       method: "GET",
       next: {
@@ -26,7 +26,7 @@ export const getFamilyById = async (
   familyId: number | string
 ): Promise<FamilyApi | null> => {
   const response = await fetchInstance(
-    `${process.env.BASE_URL_BACKEND}/api/v2/families/${familyId}`,
+    `${process.env.BASE_URL_BACKEND}/api/v2/dashboard/families/${familyId}`,
     {
       method: "GET",
     }
@@ -45,7 +45,7 @@ export const deleteFamilyById = async (
   familyId: string
 ): Promise<Boolean | null> => {
   const response = await fetchInstance(
-    `${process.env.BASE_URL_BACKEND}/api/v2/families/${familyId}`,
+    `${process.env.BASE_URL_BACKEND}/api/v2/dashboard/families/${familyId}`,
     {
       method: "DELETE",
     }
@@ -60,7 +60,7 @@ export const deleteFamilyById = async (
 
 export const createFamilyApi = async (formData: FormData) => {
   const response = await fetchInstance(
-    process.env.BASE_URL_BACKEND + `/api/v2/families`,
+    process.env.BASE_URL_BACKEND + `/api/v2/dashboard/families`,
     {
       method: "POST",
       body: formData,
@@ -83,7 +83,7 @@ export const createFamilyApi = async (formData: FormData) => {
 export const editFamilyApi = async (familyId: number, data: EditFamilyDto) => {
 
   const response = await fetchInstance(
-    process.env.BASE_URL_BACKEND + `/api/v2/families/${familyId}`,
+    process.env.BASE_URL_BACKEND + `/api/v2/dashboard/families/${familyId}`,
     {
       method: "PUT",
       body: JSON.stringify(data),

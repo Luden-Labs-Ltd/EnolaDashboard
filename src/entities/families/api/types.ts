@@ -7,7 +7,6 @@ interface Coordinator {
   token: string;
 }
 
-
 interface Patient {
   first_name: string | null;
   last_name: string | null;
@@ -16,23 +15,18 @@ interface Patient {
   location: string | null;
 }
 
-
-interface MembershipCount {
-  public: number;
-  private: number;
-  intimate: number;
-}
-
-interface TaskCounter {
-  completed: number;
-  in_progress: number;
-  initial: number;
-}
-
 export interface FamilyApi {
-  current_membership: null;
   id: number;
-  membership_count: MembershipCount;
+  title: string;
+  phone_number: string;
+  formatted_phone_number: string;
+  task_count: number;
+  event_count: number;
+  membership_count: number;
+  current_membership: null;
+  first_name: string | null;
+  last_name: string | null;
+  location: string | null;
   membership_request_count: number;
   patient: Patient;
   primary_caregiver: Coordinator;
@@ -41,15 +35,26 @@ export interface FamilyApi {
   reason: any[];
   supporter_count: number;
   supporters_invite_link: string;
-  task_counter: TaskCounter;
-  title: string;
-  token: string;
+  occurrences_by_status: OccurrencesByStatus;
+  membership_by_role_count: MembershipByRoleCount;
+  company_id: string;
+  program_id: any;
+  archived: boolean;
 }
 
-
+export interface OccurrencesByStatus {
+  initial: number;
+  in_progress: number;
+  completed: number;
+}
+export interface MembershipByRoleCount {
+  public: number;
+  private: number;
+  intimate: number;
+}
 
 export type EditFamilyDto = {
-  title: string,
-  phone_number?: string,
-  archived: boolean,
-}
+  title: string;
+  phone_number?: string;
+  archived: boolean;
+};

@@ -114,7 +114,7 @@ const EditMembershipModal: React.FC<
                 onClick={applyChangesHandle}
                 size={"lg"}
               >
-                {t("Common.delete")}
+                {t("Common.edit")}
               </Button>
             </div>
           </div>

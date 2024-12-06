@@ -8,7 +8,7 @@ export const getMembershipsFromApi = async (
   familyId: string | number
 ): Promise<MembershipApi[]> => {
   const response = await fetchInstance(
-    process.env.BASE_URL_BACKEND + `/api/v2/families/${familyId}/memberships`,
+    process.env.BASE_URL_BACKEND + `/api/v2/dashboard/families/${familyId}/memberships`,
     {
       method: "GET",
       next: {
@@ -28,7 +28,7 @@ export const createMembershipApi = async (
   formData: FormData
 ) => {
   const response = await fetchInstance(
-    process.env.BASE_URL_BACKEND + `/api/v2/families/${familyId}/memberships`,
+    process.env.BASE_URL_BACKEND + `/api/v2/dashboard/families/${familyId}/memberships`,
     {
       method: "POST",
       body: formData,
@@ -53,7 +53,7 @@ export const deleteMembershipApi = async (
 ) => {
   const response = await fetchInstance(
     process.env.BASE_URL_BACKEND +
-      `/api/v2/families/${familyId}/memberships/${membershipId}`,
+      `/api/v2/dashboard/families/${familyId}/memberships/${membershipId}`,
     {
       method: "DELETE",
     }
@@ -82,7 +82,7 @@ export const editMembershipApi = async (
 
   const response = await fetchInstance(
     process.env.BASE_URL_BACKEND +
-      `/api/v2/families/${familyId}/memberships/${membershipId}`,
+      `/api/v2/dashboard/families/${familyId}/memberships/${membershipId}`,
       {
         method: "PUT",
         body: body,

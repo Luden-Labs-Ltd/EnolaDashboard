@@ -30,9 +30,14 @@ type ChartSupportersInfoData = {
 export type FullFamilyType = {
     id: number;
     name: string;
+    firstName: string | null;
+    lastName: string | null;
+    isArchived: boolean;
+    taskCount: number;
+    eventCount: number;
+    membershipCount: number;
     coordinator: Person;
     primaryCaregiver: Person;
-    patient: Person;
     inviteLink: string;
     lastSeen: string;
     lastActive: string;
