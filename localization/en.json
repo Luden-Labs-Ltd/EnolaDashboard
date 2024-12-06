@@ -95,6 +95,7 @@
         }
     },
     "Common": {
+        "pleaseCreate": "Please create {name}",
         "programName": "Program Name",
         "families": "Families",
         "tasks": "Tasks",

@@ -95,6 +95,7 @@
         }
     },
     "Common": {
+        "pleaseCreate": "אנא צור{name}",
         "programName": "שם התוכנית",
         "families": "משפחות",
         "tasks": "משימות",

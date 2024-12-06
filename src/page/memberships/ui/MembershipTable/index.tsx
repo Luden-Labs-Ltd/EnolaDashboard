@@ -70,6 +70,12 @@ export const MembershipTable = () => {
     },
     [t]
   );
+
+  if (!memberships.length) {
+    return <div className="flex min-h-[50vh] flex-1 justify-center items-center">
+      {t('Common.pleaseCreate', {name: t('Common.memberships')})}
+    </div>
+  }
   return (
     <UniversalTable
       tableRawData={memberships}
