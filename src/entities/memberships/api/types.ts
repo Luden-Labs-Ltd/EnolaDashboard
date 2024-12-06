@@ -5,7 +5,7 @@ export interface MembershipApi {
   first_name?: string
   last_name?: string
   age?: number
-  gender: string
+  gender: GenderType
   primary: boolean
   circle: CircleType,
   reason: any[]
@@ -15,7 +15,8 @@ export interface MembershipApi {
   user: MembershipUser
 }
 
-export type CircleType = "Intimate" | "Public" | "Private";
+export type CircleType = "intimate" | "public" | "private";
+export type GenderType = "female" | "male" | "other";
 
 export interface MembershipUser {
   id: number
@@ -23,4 +24,14 @@ export interface MembershipUser {
   full_name: string
   phone_number: string
   formatted_phone_number: string
+}
+
+
+export type EditMembershipDto = {
+  first_name: string,
+  last_name: string,
+  age:number,
+  gender: GenderType,
+  circle: CircleType,
+  primary: boolean,
 }

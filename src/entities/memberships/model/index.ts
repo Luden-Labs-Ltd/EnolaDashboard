@@ -1,11 +1,13 @@
-import { CircleType } from "../api/types"
+import { CircleType, GenderType } from "../api/types"
 
 export interface Membership {
     id: number
     phoneNumber: string
     fullName: string
+    firstName: string
+    lastName: string
     age?: number | string
-    gender: string
+    gender: GenderType,
     primary: string,
     circle: CircleType
     location: any

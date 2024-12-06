@@ -1,7 +1,7 @@
 "use client";
 
-import React, { PropsWithChildren } from "react";
-import { FieldValues, Path, UseFormReturn } from "react-hook-form";
+import PhoneField from "@components/PhoneField";
+import { Checkbox } from "@components/shadowCDN/checkbox";
 import {
   Form,
   FormControl,
@@ -12,10 +12,18 @@ import {
   FormMessage,
 } from "@components/shadowCDN/form";
 import { Input } from "@components/shadowCDN/input";
-import { Checkbox } from "@components/shadowCDN/checkbox";
-import PhoneField from "@components/PhoneField";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@components/shadowCDN/select";
+import { InputHTMLAttributes, PropsWithChildren } from "react";
+import { FieldValues, Path, PathValue, UseFormReturn } from "react-hook-form";
 
-type fieldsType = "input" | "checkbox" | "phone";
+type fieldsType = "input" | "checkbox" | "phone" | "select";
+type inputType = InputHTMLAttributes<HTMLInputElement>["type"];
 
 export type FormRenderField<FieldsGeneric> = {
   name: Path<FieldsGeneric>;
@@ -23,6 +31,11 @@ export type FormRenderField<FieldsGeneric> = {
   id: string;
   label: string;
   description?: string;
+  inputType?: inputType;
+  options?: Array<{
+    value: PathValue<FieldsGeneric, Path<FieldsGeneric>>;
+    name: string;
+  }>;
   placeholder?: string;
 };
 
@@ -67,6 +80,48 @@ export default function FormRender<B extends FieldValues>(
             )}
           />
         );
+      case "select":
+        return (
+          <FormField
+            key={renderField.id}
+            control={formObject.control}
+            name={renderField.name}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{renderField.label}</FormLabel>
+                <FormControl>
+                  <Select {...field} onValueChange={field.onChange}>
+                    <SelectTrigger>
+                      <SelectValue
+                        placeholder={
+                          renderField.placeholder ??
+                          renderField.label.toUpperCase()
+                        }
+                      />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {renderField.options?.map((item) => {
+                        return (
+                          <SelectItem
+                            key={`${renderField.id}-${item.value}`}
+                            value={item.value}
+                          >
+                            {item.name}
+                          </SelectItem>
+                        );
+                      })}
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+                {renderField.description ? (
+                  <FormDescription>{renderField.description}</FormDescription>
+                ) : null}
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        );
       case "checkbox":
         return (
           <FormField
@@ -78,6 +133,7 @@ export default function FormRender<B extends FieldValues>(
                 <FormLabel className="mt-2">{renderField.label}</FormLabel>
                 <FormControl>
                   <Checkbox
+                    defaultChecked={field.value}
                     className="m-0 mt-0"
                     onCheckedChange={field.onChange}
                     {...field}
@@ -105,10 +161,14 @@ export default function FormRender<B extends FieldValues>(
                 <FormLabel>{renderField.label}</FormLabel>
                 <FormControl>
                   <Input
+                    type={renderField.inputType}
                     placeholder={
                       renderField.placeholder ?? renderField.label.toUpperCase()
                     }
-                    {...field}
+                    {...formObject.register(field.name, {
+                      valueAsNumber:
+                        renderField.inputType === "number" ? true : false,
+                    })}
                   />
                 </FormControl>
                 {renderField.description ? (

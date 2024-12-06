@@ -1,13 +1,18 @@
 "use server";
 import { z } from "zod";
-import { revalidatePath, revalidateTag } from "next/cache";
-import { createMembershipApi, deleteMembershipApi } from "../api";
+import { revalidateTag } from "next/cache";
+import {
+  createMembershipApi,
+  deleteMembershipApi,
+  editMembershipApi,
+} from "../api";
 import { GET_MEMBERSHIPS_REVALIDATE_TAG } from "../api/const";
+import { EditMembershipDto } from "../api/types";
 
 const CircleTypeSchema = z.union([
-  z.literal('intimate'),
-  z.literal('public'),
-  z.literal('private'),
+  z.literal("intimate"),
+  z.literal("public"),
+  z.literal("private"),
 ]);
 
 const schemaCreateFamily = z.object({
@@ -22,11 +27,10 @@ const schemaCreateFamily = z.object({
 
 export const createMembers = async (prevState: any, formData: FormData) => {
   try {
-
-    const familyId = prevState.familyId
+    const familyId = prevState.familyId;
     const validatedFields = schemaCreateFamily.safeParse({
       phone_number: formData.get("phone_number"),
-      first_name:  formData.get("first_name"),
+      first_name: formData.get("first_name"),
       last_name: formData.get("last_name"),
       age: formData.get("age"),
       gender: formData.get("gender"),
@@ -42,9 +46,9 @@ export const createMembers = async (prevState: any, formData: FormData) => {
         data: "uncompleted",
       };
     }
-    const isPrimaryCheckboxTrue = validatedFields.data.primary === "on"
+    const isPrimaryCheckboxTrue = validatedFields.data.primary === "on";
 
-    formData.set("primary", String(isPrimaryCheckboxTrue))
+    formData.set("primary", String(isPrimaryCheckboxTrue));
 
     await createMembershipApi(familyId, formData);
     revalidateTag(GET_MEMBERSHIPS_REVALIDATE_TAG);
@@ -64,7 +68,6 @@ export const createMembers = async (prevState: any, formData: FormData) => {
     };
   }
 };
-
 
 const schemaDeleteMembership = z.object({
   familyId: z.string(),
@@ -86,8 +89,11 @@ export const deleteMembership = async (prevState: any, formData: FormData) => {
         data: "uncompleted",
       };
     }
-    await deleteMembershipApi(validatedFields.data.familyId, validatedFields.data.membershipId);
-    
+    await deleteMembershipApi(
+      validatedFields.data.familyId,
+      validatedFields.data.membershipId
+    );
+
     return {
       ...prevState,
       zodErrors: null,
@@ -102,4 +108,13 @@ export const deleteMembership = async (prevState: any, formData: FormData) => {
       data: "uncompleted",
     };
   }
+};
+
+export const editMembership = async (
+  familyId: number | string,
+  membershipId: number | string,
+  membershipDto: EditMembershipDto
+) => {
+  const res = await editMembershipApi(familyId, membershipId, membershipDto);
+  return res;
 };
