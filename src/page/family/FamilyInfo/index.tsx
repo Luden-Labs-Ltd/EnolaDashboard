@@ -21,87 +21,87 @@ interface InfoBlock {
 
 export const FamilyInfo: React.FC<FamilyInfoProps> = () => {
   const { familyState } = useFamilyStore();
-  const { family, familyApi } = familyState;
+  const { family } = familyState;
 
   const t = useTranslations();
 
   const personBlocks: PersonInformation[] = [
     {
-      title: "Family info",
+      title: t('Common.familyInfo'),
       id: family.id,
       titleValue: "",
       isEditable: false,
       infoBlock: [
         {
-          label: "Task Count",
+          label: t('Common.taskCount'),
           value: String(family.taskCount),
         },
         {
-          label: "Event Count",
+          label: t('Common.eventCount'),
           value: String(family.eventCount),
         },
         {
-          label: "Membership Count",
+          label: t('Common.membershipCount'),
           value: String(family.membershipCount),
         },
         {
-          label: "is Archived Family",
+          label: t('Common.isArchived'),
           value: String(family.isArchived),
         },
         {
-          label: "First Name",
+          label: t('Common.firstName'),
           value: family.firstName ?? "-",
         },
         {
-          label: "Last Name",
+          label: t('Common.lastName'),
           value: family.lastName ?? "-",
         },
       ],
     },
     {
-      title: "Primary caregiver",
+      title: t('Common.primaryCaregiver'),
       id: family.primaryCaregiver.id,
       titleValue: family.primaryCaregiver.fullName ?? "-",
       isEditable: true,
       infoBlock: [
         {
-          label: "Birthdate",
+          label: t('Common.birthdate'),
           value: "-",
         },
         {
-          label: "City",
+          label: t('Common.city'),
           value: "-",
         },
         {
-          label: "Phone number",
+          label: t('Common.phoneNumber'),
           value: family.primaryCaregiver.phoneNumber,
         },
         {
-          label: "Problem",
+          label: t('Common.problem'),
           value: "-",
         },
       ],
     },
     {
-      title: "Main coordinator",
+      title: t('Common.mainCoordinator'),
       id: family.coordinator.id,
       titleValue: family.coordinator.fullName  ?? "-",
       isEditable: false,
       infoBlock: [
         {
-          label: "Birthdate",
+          label: t('Common.birthdate'),
           value: "-",
         },
         {
-          label: "City",
+          label: t('Common.city'),
           value: "-",
         },
         {
-          label: "Phone number",
+          label: t('Common.phoneNumber'),
           value: family.coordinator.phoneNumber,
         },
         {
-          label: "Problem",
+          label: t('Common.problem'),
           value: "-",
         },
       ],

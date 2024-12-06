@@ -26,7 +26,11 @@ const INITIAL_STATE = {
   data: null,
 };
 
-export const AddMemberForm: React.FC<AddMemberFormProps> = ({ familyId, onClose, refresh }) => {
+export const AddMemberForm: React.FC<AddMemberFormProps> = ({
+  familyId,
+  onClose,
+  refresh,
+}) => {
   const t = useTranslations();
 
   const [formState, formAction] = useFormState(createMembers, {
@@ -48,7 +52,7 @@ export const AddMemberForm: React.FC<AddMemberFormProps> = ({ familyId, onClose,
       <div className="flex w-full flex-col gap-[12px] px-5 mb-8">
         <div className="flex flex-col gap-2">
           <label className="whitespace-nowrap" htmlFor="first_name">
-            firstName
+            {t("Common.firstName")}
           </label>
           <Input name="first_name" id="first_name" />
           <ZodErrors error={formState?.zodErrors?.firstName} />
@@ -56,7 +60,7 @@ export const AddMemberForm: React.FC<AddMemberFormProps> = ({ familyId, onClose,
 
         <div className="flex flex-col gap-2">
           <label className="whitespace-nowrap" htmlFor="last_name">
-            last Name
+            {t("Common.lastName")}
           </label>
           <Input name="last_name" id="last_name" />
           <ZodErrors error={formState?.zodErrors?.lastName} />
@@ -72,7 +76,7 @@ export const AddMemberForm: React.FC<AddMemberFormProps> = ({ familyId, onClose,
 
         <div className="flex flex-col gap-2">
           <label className="whitespace-nowrap" htmlFor="age">
-            Age
+            {t("Common.age")}
           </label>
           <Input name="age" id="age" />
           <ZodErrors error={formState?.zodErrors?.age} />
@@ -80,16 +84,16 @@ export const AddMemberForm: React.FC<AddMemberFormProps> = ({ familyId, onClose,
 
         <div className="flex flex-col gap-2">
           <label className="whitespace-nowrap" htmlFor="gender">
-            Gender
+            {t("Common.gender")}
           </label>
           <Select name="gender">
             <SelectTrigger>
-              <SelectValue placeholder="Select" />
+              <SelectValue placeholder={t("Common.select")} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="male">Male</SelectItem>
-              <SelectItem value="female">Female</SelectItem>
-              <SelectItem value="other">Other</SelectItem>
+              <SelectItem value="male">{t("Common.male")}</SelectItem>
+              <SelectItem value="female">{t("Common.female")}</SelectItem>
+              <SelectItem value="other">{t("Common.other")}</SelectItem>
             </SelectContent>
           </Select>
           <ZodErrors error={formState?.zodErrors?.gender} />
@@ -97,16 +101,16 @@ export const AddMemberForm: React.FC<AddMemberFormProps> = ({ familyId, onClose,
 
         <div className="flex flex-col gap-2">
           <label className="whitespace-nowrap" htmlFor="circle">
-            Circle
+            {t("Common.circle")}
           </label>
           <Select name="circle">
             <SelectTrigger>
-              <SelectValue placeholder="Select" />
+              <SelectValue placeholder={t("Common.select")} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="intimate">Intimate</SelectItem>
-              <SelectItem value="public">Public</SelectItem>
-              <SelectItem value="private">Private</SelectItem>
+              <SelectItem value="intimate">{t("Common.intimate")}</SelectItem>
+              <SelectItem value="public">{t("Common.public")}</SelectItem>
+              <SelectItem value="private">{t("Common.private")}</SelectItem>
             </SelectContent>
           </Select>
           <ZodErrors error={formState?.zodErrors?.circle} />
@@ -115,7 +119,7 @@ export const AddMemberForm: React.FC<AddMemberFormProps> = ({ familyId, onClose,
         <div className="flex flex-col gap-2">
           <Row alignItems="center">
             <label className="whitespace-nowrap" htmlFor="primary">
-              Primary
+              {t("Common.primary")}
             </label>
             <Checkbox name="primary" id="primary" />
           </Row>

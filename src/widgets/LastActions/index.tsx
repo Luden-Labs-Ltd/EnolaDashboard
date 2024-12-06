@@ -1,10 +1,11 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@components/Card";
 import React from "react";
 import { ActionItem } from "./ui/ActionItem/Action";
-import { Button } from "@components/shadowCDN/button";
-import AddIcon from "shared/assets/AddIcon";
+import { useTranslations } from "next-intl";
 
 export const LastActions = () => {
+  const t = useTranslations();
+
   const actionItems = [
     {
       id: 1,
@@ -26,7 +27,7 @@ export const LastActions = () => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Last 3 actions</CardTitle>
+        <CardTitle>{t("Common.lastActions")}</CardTitle>
       </CardHeader>
       <CardContent>
         {actionItems.map((action) => (
