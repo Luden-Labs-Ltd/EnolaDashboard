@@ -9,6 +9,8 @@ export const convertDataForTable = (
       id: membership.id,
       phoneNumber: membership.user.formatted_phone_number,
       fullName: membership.full_name,
+      firstName: membership.first_name ?? '',
+      lastName: membership.last_name ?? '',
       age: membership.age ?? "unknown",
       gender: membership.gender,
       primary: String(membership.primary),

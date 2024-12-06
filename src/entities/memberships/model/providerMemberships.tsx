@@ -106,7 +106,7 @@ export const useMembershipsStore = () => {
     }));
   };
 
-  const refetchMembers = async (familyId: string) => {
+  const refetchMembers = async (familyId: string | number) => {
     const memberships = await getMembershipsFromApi(familyId);
     if (memberships) {
       const membershipsData = convertDataForTable(memberships);

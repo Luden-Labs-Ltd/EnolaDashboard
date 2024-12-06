@@ -4,8 +4,8 @@ import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
 import { UniversalTable } from "@widgets/UniversalTable";
 import { renderCeilDropDownItemsType } from "@widgets/UniversalTable/ui/Ceil";
 import { useMembershipsStore } from "entities/memberships";
-import { DeleteFamily } from "features/delete-family";
 import { DeleteMembership } from "features/delete-membership";
+import EditMembershipModal from "features/edit-membership/ui/EditMembershipModal";
 import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import React, { useCallback } from "react";
@@ -18,7 +18,8 @@ export const MembershipTable = () => {
   const params = useParams();
   const familyId = params.familyId as string;
 
-  const { membershipsState, toggleMainSelect, toggleSelectedMemberships } = useMembershipsStore();
+  const { membershipsState, toggleMainSelect, toggleSelectedMemberships } =
+    useMembershipsStore();
   const { memberships, selectedMemberships } = membershipsState;
   const renderCeilDropDownItems = useCallback<renderCeilDropDownItemsType>(
     (ceil) => {
@@ -26,8 +27,21 @@ export const MembershipTable = () => {
         {
           id: `${ceil.itemId}-edit`,
           label: t("Common.edit"),
-          icon: <EditIcon />,
+          icon: "",
           href: ``,
+          renderCustomComponent(onOpen, onClose) {
+            return (
+              <EditMembershipModal key={`${ceil.itemId}-edit`} familyId={familyId} membershipId={ceil.itemId}>
+                <DropdownMenuItem
+                  onClick={onOpen}
+                  className={"DropdownMenuItem"}
+                >
+                  <EditIcon />
+                  <span>{t("Common.edit")}</span>
+                </DropdownMenuItem>
+              </EditMembershipModal>
+            );
+          },
         },
         {
           id: `${ceil.itemId}-delete`,
