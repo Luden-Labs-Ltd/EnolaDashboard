@@ -98,6 +98,7 @@
         "pleaseCreate": "אנא צור{name}",
         "programName": "שם התוכנית",
         "families": "משפחות",
+        "familyId": "תעודת זהות משפחתית",
         "tasks": "משימות",
         "memberships": "חברות",
         "supporters": "תומכים",
@@ -152,6 +153,8 @@
         "intimate": "פרטי",
         "public": "ציבורי",
         "private": "פרטי",
-        "select": "בחר"
+        "select": "בחר",
+        "filter": "מסנן",
+        "clear": "נקה"
     }
 }

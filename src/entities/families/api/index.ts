@@ -3,14 +3,25 @@ import { GET_FAMILIES_REVALIDATE_TAG } from "./const";
 import { EditFamilyDto, FamilyApi } from "./types";
 import { fetchInstance } from "shared/api";
 
-export const getFamiliesFromApi = async (): Promise<FamilyApi[]> => {
+export const getFamiliesFromApi = async (
+  familyName: string,
+  familyId: string,
+  isArchived: boolean,
+): Promise<FamilyApi[]> => {
+
+  const params = JSON.stringify({
+    title_cont: familyName,
+    id_eq: familyId,
+    archived_eq: isArchived,
+    sorts: "created_at desc",
+  })
   const response = await fetchInstance(
-    process.env.BASE_URL_BACKEND + "/api/v2/dashboard/families",
+    process.env.BASE_URL_BACKEND + `/api/v2/dashboard/families?q=${params}`,
     {
       method: "GET",
       next: {
-        tags: [GET_FAMILIES_REVALIDATE_TAG]
-      }
+        tags: [GET_FAMILIES_REVALIDATE_TAG],
+      },
     }
   );
 
@@ -39,7 +50,6 @@ export const getFamilyById = async (
   const resJSON = await response.json();
   return resJSON;
 };
-
 
 export const deleteFamilyById = async (
   familyId: string
@@ -73,23 +83,20 @@ export const createFamilyApi = async (formData: FormData) => {
 
   const resJSON = await response.json();
   if (resJSON.error) {
-    throw new Error(resJSON.error)
+    throw new Error(resJSON.error);
   }
   return resJSON;
 };
 
-
-
 export const editFamilyApi = async (familyId: number, data: EditFamilyDto) => {
-
   const response = await fetchInstance(
     process.env.BASE_URL_BACKEND + `/api/v2/dashboard/families/${familyId}`,
     {
       method: "PUT",
       body: JSON.stringify(data),
       headers: {
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     }
   );
 
@@ -99,7 +106,7 @@ export const editFamilyApi = async (familyId: number, data: EditFamilyDto) => {
 
   const resJSON = await response.json();
   if (resJSON.error) {
-    throw new Error(resJSON.error)
+    throw new Error(resJSON.error);
   }
   return resJSON;
 };

@@ -98,6 +98,7 @@
         "pleaseCreate": "Please create {name}",
         "programName": "Program Name",
         "families": "Families",
+        "familyId": "family Id",
         "tasks": "Tasks",
         "memberships": "Memberships",
         "supporters": "Supporters",
@@ -152,6 +153,8 @@
         "intimate": "Intimate",
         "public": "Public",
         "private": "Private",
-        "select": "Select"
+        "select": "Select",
+        "filter": "Filter",
+        "clear": "Clear"
     }
 }

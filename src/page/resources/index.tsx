@@ -5,7 +5,6 @@ import { Category, CategoryType } from "entities/category";
 import { ResourcesType } from "entities/resources";
 import SearchPanel from "features/search-panel";
 import React from "react";
-import AddIcon from "shared/assets/AddIcon";
 import DeleteIcon from "shared/assets/DeleteIcon";
 import EditIcon from "shared/assets/EditIcon";
 import { Resource } from "./ui/Resource/Resource";
@@ -18,22 +17,19 @@ interface ResourcesProps {
 }
 
 export default function Resources({ categories, resources }: ResourcesProps) {
-
   return (
     <main>
-      <SearchPanel
-        actions={
-          <Row>
-            <Button size={"icon"} variant={"ghost"}>
-              <EditIcon />
-            </Button>
-            <Button size={"icon"} variant={"ghost"}>
-              <DeleteIcon />
-            </Button>
-            <AddResources/>
-          </Row>
-        }
-      />
+      <SearchPanel searchParamName="resource_name">
+        <Row>
+          <Button size={"icon"} variant={"ghost"}>
+            <EditIcon />
+          </Button>
+          <Button size={"icon"} variant={"ghost"}>
+            <DeleteIcon />
+          </Button>
+          <AddResources />
+        </Row>
+      </SearchPanel>
       <div className="flex flex-wrap gap-[4px] mb-9">
         <Category id={"all"} variant="chip" title={"all"} />
         {categories.map((category) => {
