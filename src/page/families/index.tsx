@@ -9,6 +9,7 @@ import { useTranslations } from "next-intl";
 import React from "react";
 import ArchiveIcon from "shared/assets/ArchiveIcon";
 import FamiliesTable from "./ui/FamiliesTable";
+import { SearchFilter } from "./ui/SearchFilter/SearchFilter";
 interface FamiliesProps {
   families: FamilyType[];
 }
@@ -18,19 +19,17 @@ const Families: React.FC<FamiliesProps> = ({ families }) => {
   return (
     <main>
       <FamiliesStoreProvider families={families}>
-        <SearchPanel
-          actions={
-            <Row>
-              <ArchiveFamily>
-                <Button withIcon variant={"ghost"}>
-                  <ArchiveIcon />
-                  <span>{t("Families.archive")}</span>
-                </Button>
-              </ArchiveFamily>
-              <AddFamily />
-            </Row>
-          }
-        />
+        <SearchPanel filterForm={<SearchFilter/>} searchParamName="family_name">
+          <Row>
+            <ArchiveFamily>
+              <Button withIcon variant={"ghost"}>
+                <ArchiveIcon />
+                <span>{t("Families.archive")}</span>
+              </Button>
+            </ArchiveFamily>
+            <AddFamily />
+          </Row>
+        </SearchPanel>
         <ScrollArea className="h-[78vh] w-full border p-4">
           <FamiliesTable />
         </ScrollArea>

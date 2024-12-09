@@ -44,13 +44,22 @@ type FormRenderProps<T extends FieldValues> = {
   onSubmitHandler: (values: T) => void;
   fields: FormRenderField<T>[];
   customErrorMessage?: string;
+  fieldsClassName?: string;
+  className?: string;
 };
 
 export default function FormRender<B extends FieldValues>(
   props: PropsWithChildren<FormRenderProps<B>>
 ) {
-  const { formObject, onSubmitHandler, fields, customErrorMessage, children } =
-    props;
+  const {
+    formObject,
+    onSubmitHandler,
+    fields,
+    customErrorMessage,
+    children,
+    className,
+    fieldsClassName,
+  } = props;
 
   const renderFields = (renderField: FormRenderField<B>) => {
     switch (renderField.type) {
@@ -128,24 +137,27 @@ export default function FormRender<B extends FieldValues>(
             key={renderField.id}
             control={formObject.control}
             name={renderField.name}
-            render={({ field }) => (
-              <FormItem className="flex gap-[10px] items-center">
-                <FormLabel className="mt-2">{renderField.label}</FormLabel>
-                <FormControl>
-                  <Checkbox
-                    defaultChecked={field.value}
-                    className="m-0 mt-0"
-                    onCheckedChange={field.onChange}
-                    {...field}
-                  />
-                </FormControl>
-                {renderField.description ? (
-                  <FormDescription>{renderField.description}</FormDescription>
-                ) : null}
+            render={({ field }) => {
+              return (
+                <FormItem className="flex gap-[10px] items-center">
+                  <FormLabel className="mt-2">{renderField.label}</FormLabel>
+                  <FormControl>
+                    <Checkbox
+                      defaultChecked={field.value}
+                      checked={field.value}
+                      className="m-0 mt-0"
+                      onCheckedChange={field.onChange}
+                      {...field}
+                    />
+                  </FormControl>
+                  {renderField.description ? (
+                    <FormDescription>{renderField.description}</FormDescription>
+                  ) : null}
 
-                <FormMessage />
-              </FormItem>
-            )}
+                  <FormMessage />
+                </FormItem>
+              );
+            }}
           />
         );
 
@@ -187,12 +199,22 @@ export default function FormRender<B extends FieldValues>(
     <Form {...formObject}>
       <form
         onSubmit={formObject.handleSubmit(onSubmitHandler)}
-        className="flex flex-col gap-[15px] w-full"
+        className={`${
+          className ? className : "flex flex-col gap-[15px] w-full"
+        }`}
       >
-        {fields.map(renderFields)}
-        {customErrorMessage ? (
-          <FormMessage>{customErrorMessage}</FormMessage>
-        ) : null}
+        <div
+          className={`${
+            fieldsClassName
+              ? fieldsClassName
+              : "flex flex-col gap-[15px] w-full"
+          }`}
+        >
+          {fields.map(renderFields)}
+          {customErrorMessage ? (
+            <FormMessage>{customErrorMessage}</FormMessage>
+          ) : null}
+        </div>
 
         {children}
       </form>
