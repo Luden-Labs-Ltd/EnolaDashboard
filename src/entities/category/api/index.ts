@@ -3,6 +3,8 @@
 import { fetchInstance } from "shared/api";
 import { CategoryTypeApi } from "../model";
 import { createCategoriesApiDto } from "./types";
+import { REVALIDATE_GET_CATEGORY_TAG } from "./constant";
+import { revalidateTag } from "next/cache";
 
 export const getCategoriesApi = async (
   programId: string | null
@@ -15,6 +17,9 @@ export const getCategoriesApi = async (
     `${process.env.BASE_URL_BACKEND}/api/v2/dashboard/programs/${programId}/categories`,
     {
       method: "GET",
+      next: {
+        tags: [REVALIDATE_GET_CATEGORY_TAG],
+      },
     }
   );
 
@@ -53,6 +58,6 @@ export const createCategoriesApi = async (
   if (resJSON.error) {
     throw new Error(resJSON.error);
   }
-
+  revalidateTag(REVALIDATE_GET_CATEGORY_TAG);
   return resJSON;
 };

@@ -1,4 +1,3 @@
-import Row from "@components/Row";
 import { Button } from "@components/shadowCDN/button";
 import {
   Dialog,
@@ -7,24 +6,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@components/shadowCDN/dialog";
-import { Input } from "@components/shadowCDN/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@components/shadowCDN/select";
 import {
   Category,
-  CategoryIconType,
   CategoryPressCallbackArguments,
-  ICON_MAP,
-  useCategoryStore,
+  useCategoryStore
 } from "entities/category";
 import { useTranslations } from "next-intl";
 import React, { useState } from "react";
-import AddIcon from "shared/assets/AddIcon";
 import { CreateCategoryForm } from "./CreateCategoryForm";
 
 interface CreateCategoryModalProps {

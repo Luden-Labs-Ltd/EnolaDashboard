@@ -8,14 +8,19 @@ import {
   DialogTrigger,
 } from "@components/shadowCDN/dialog";
 import TooltipWrapper from "@components/TooltipWrapper";
+import { CategoryType } from "entities/category";
 import { useTasksStore } from "entities/task";
 import { useTranslations } from "next-intl";
 import React, { useState } from "react";
 import DeleteIcon from "shared/assets/DeleteIcon";
 
-interface DeleteTaskActionProps {}
+interface DeleteTaskActionProps {
+  category: CategoryType;
+}
 
-const DeleteTasks: React.FC<DeleteTaskActionProps> = ({}) => {
+const DeleteTasks: React.FC<DeleteTaskActionProps> = ({
+  category
+}) => {
   const t = useTranslations();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -27,11 +32,12 @@ const DeleteTasks: React.FC<DeleteTaskActionProps> = ({}) => {
   };
 
   const applyChangesHandle = () => {
-    deleteSelectedTasks();
+    deleteSelectedTasks(category.id);
     setIsOpen(false);
   };
 
   const isActive = !!selectedTasks.length;
+  const selectedCount = selectedTasks[category.id]?.length ?? 0
 
   return (
     <Dialog onOpenChange={setIsOpen} open={isOpen}>
@@ -51,7 +57,7 @@ const DeleteTasks: React.FC<DeleteTaskActionProps> = ({}) => {
       <DialogContent className="flex items-center flex-col w-full max-w-sm">
         <DialogHeader>
           <DialogTitle>
-            {t("Tasks.DeleteTasks.title", { count: selectedTasks.length })}
+            {t("Tasks.DeleteTasks.title", { count: selectedCount })}
           </DialogTitle>
         </DialogHeader>
         <DialogDescription className="text-center">

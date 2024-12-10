@@ -6,7 +6,7 @@ import {
   CategoryPressCallbackArguments,
   useCategoryStore,
 } from "entities/category";
-import { AddTaskModal, TaskControlLayout } from "features/add-task";
+import { AddTaskModal } from "features/add-task";
 import CreateCategoryModal from "features/create-category";
 import {
   Categories,
@@ -14,14 +14,14 @@ import {
   NeedsContent,
   TableLayout,
 } from "@components/table-layout";
-import React from "react";
+import React, { useMemo } from "react";
 import AddIcon from "shared/assets/AddIcon";
 import { Task, useTasksStore } from "entities/task";
 import { ScrollArea } from "@components/shadowCDN/scroll-area";
 import { SetTaskAsDefaultModal } from "features/set-task-as-default";
 import { DeleteTasks } from "features/delete-tasks";
-import { EditTasks } from "features/edit-tasks";
 import { useTranslations } from "next-intl";
+import { TaskControlLayout, ManageTaskModal } from "features/manage-task";
 
 interface NeedsTableProps {}
 
@@ -32,8 +32,9 @@ const NeedsTable: React.FC<NeedsTableProps> = () => {
   const { tasksState, toggleSelectedTask } = useTasksStore();
 
   const { activeCategories, currentCategory } = categoryState;
-  const { activeTasks, selectedTasks } = tasksState;
+  const { originData, selectedTasks } = tasksState;
 
+  const currentCategoryId = currentCategory.id;
   const onCategoryClick = (payload: CategoryPressCallbackArguments) => {
     const newCategory = activeCategories.find(
       (category) => category.id === payload.id
@@ -43,9 +44,17 @@ const NeedsTable: React.FC<NeedsTableProps> = () => {
     }
   };
 
-  const onTaskClick = (taskId: number, active: boolean) => {
-    toggleSelectedTask(taskId);
+  const onTaskClick = (taskId: number) => {
+    toggleSelectedTask(currentCategoryId, taskId);
   };
+
+  const activeTasks = useMemo(() => {
+    return (
+      originData.tasksByCategory[currentCategoryId]?.filter(
+        (task) => task.active
+      ) ?? []
+    );
+  }, [currentCategoryId, originData.tasksByCategory]);
 
   return (
     <TableLayout>
@@ -70,7 +79,7 @@ const NeedsTable: React.FC<NeedsTableProps> = () => {
             trigger={
               <Button withIcon variant="secondary">
                 <AddIcon />
-                <span className="font-grotesk">{t('Common.editCategory')}</span>
+                <span className="font-grotesk">{t("Common.editCategory")}</span>
               </Button>
             }
           />
@@ -80,26 +89,32 @@ const NeedsTable: React.FC<NeedsTableProps> = () => {
         <HeaderPanel>
           <TaskControlLayout>
             <div className="flex gap-[16px] items-center">
-              <EditTasks />
-              <DeleteTasks />
+              {/* <EditTasks /> */}
+              <DeleteTasks category={currentCategory} />
+              <ManageTaskModal category={currentCategory} />
             </div>
             <AddTaskModal category={currentCategory} />
           </TaskControlLayout>
         </HeaderPanel>
         <ScrollArea className="p-[16px] max-h-[68vh]">
           <div className="flex flex-1 flex-col gap-[12px]">
-            {currentCategory ? activeTasks.map((task) => {
-              return (
-                <Task
-                  onPress={onTaskClick}
-                  key={task.id}
-                  id={task.id}
-                  active={selectedTasks.includes(task.id)}
-                  title={task.title}
-                  taskActions={<SetTaskAsDefaultModal />}
-                />
-              );
-            }) : null}
+            {currentCategory
+              ? activeTasks.map((task) => {
+                  const isTaskSelected = selectedTasks[
+                    currentCategoryId
+                  ]?.includes(task.id);
+                  return (
+                    <Task
+                      onPress={onTaskClick}
+                      key={task.id}
+                      id={task.id}
+                      active={isTaskSelected}
+                      title={task.title}
+                      taskActions={<SetTaskAsDefaultModal />}
+                    />
+                  );
+                })
+              : null}
           </div>
         </ScrollArea>
       </NeedsContent>

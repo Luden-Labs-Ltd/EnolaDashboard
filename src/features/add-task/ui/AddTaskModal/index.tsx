@@ -8,10 +8,10 @@ import {
   DialogContent,
   DialogTitle,
 } from "@components/shadowCDN/dialog";
-import { ScrollArea } from "@components/shadowCDN/scroll-area";
 import { CategoryType } from "entities/category";
-import { Task, useTasksStore } from "entities/task";
+import { useTasksStore } from "entities/task";
 import { useTranslations } from "next-intl";
+import { AddTaskForm } from "../AddTaskForm";
 
 interface AddTaskActionProps {
   category: CategoryType;
@@ -20,10 +20,7 @@ interface AddTaskActionProps {
 const AddTaskModal: React.FC<AddTaskActionProps> = ({ category }) => {
   const t = useTranslations();
   const [isOpen, setIsOpen] = useState(false);
-  const { tasksState, toggleActiveTask, revalidateActiveTasks } =
-    useTasksStore();
-  const { tasks } = tasksState;
-
+  const { revalidateActiveTasks } = useTasksStore();
   const applyChangesHandle = () => {
     revalidateActiveTasks();
     setIsOpen(false);
@@ -38,11 +35,9 @@ const AddTaskModal: React.FC<AddTaskActionProps> = ({ category }) => {
             <span>{t("Common.addTask")}</span>
           </Button>
         </DialogTrigger>
-        <DialogContent className="flex items-center flex-col w-full max-w-[800px]">
+        <DialogContent className="flex items-center flex-col w-full max-w-sm">
           <DialogHeader>
-            <DialogTitle>
-              Tasks Not Set
-            </DialogTitle>
+            <DialogTitle>Category Not Set</DialogTitle>
           </DialogHeader>
           <div className="flex flex-col gap-6">
             <Button rounded={"circle"} onClick={applyChangesHandle} size={"lg"}>
@@ -62,34 +57,17 @@ const AddTaskModal: React.FC<AddTaskActionProps> = ({ category }) => {
           <span>{t("Common.addTask")}</span>
         </Button>
       </DialogTrigger>
-      <DialogContent className="flex items-center flex-col w-full max-w-[800px]">
+      <DialogContent className="flex items-center flex-col w-full max-w-[600px]">
         <DialogHeader>
           <DialogTitle>
-            {category.title} {t("Common.tasks")}
+            {t("Common.add")} {category.title} {t("Common.tasks")}
           </DialogTitle>
         </DialogHeader>
 
-        <ScrollArea className="h-[500px] w-full border p-4">
-          <div className="flex flex-col gap-[16px]">
-            {tasks.map((task) => {
-              return (
-                <Task
-                  key={task.id}
-                  id={task.id}
-                  onPress={toggleActiveTask}
-                  title={task.title}
-                  active={task.active}
-                />
-              );
-            })}
-          </div>
-        </ScrollArea>
-
-        <div className="flex flex-col gap-6">
-          <Button rounded={"circle"} onClick={applyChangesHandle} size={"lg"}>
-            {t("Common.ok")}
-          </Button>
-        </div>
+        <AddTaskForm
+          callback={() => setIsOpen(false)}
+          currentCategory={category}
+        />
       </DialogContent>
     </Dialog>
   );
