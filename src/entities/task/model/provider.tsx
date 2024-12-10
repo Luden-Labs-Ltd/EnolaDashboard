@@ -12,7 +12,7 @@ import { TaskType } from ".";
 type TasksContextState = {
   tasks: TaskType[];
   activeTasks: TaskType[];
-  selectedTasks: string[];
+  selectedTasks: number[];
 };
 
 type TasksProviderValue = {
@@ -56,7 +56,7 @@ export const useTasksStore = () => {
   }
   const { tasksState, setData } = tasksContext;
 
-  const toggleActiveTask = (id: string, active: boolean) => {
+  const toggleActiveTask = (id: number, active: boolean) => {
     const currentTaskId = id;
     const isActive = active;
 
@@ -76,7 +76,7 @@ export const useTasksStore = () => {
     setData((prev) => ({ ...prev, activeTasks: activeTasks }));
   };
 
-  const toggleSelectedTask = (taskId: string) => {
+  const toggleSelectedTask = (taskId: number) => {
     const isTaskAlreadySelect = tasksState.selectedTasks.includes(taskId);
 
     if (isTaskAlreadySelect) {

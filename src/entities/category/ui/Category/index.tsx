@@ -13,6 +13,7 @@ import {
   RightIcon,
   HomeIcon,
 } from "shared/assets/categoryIcon";
+import { CategoryIconType } from "entities/category/model";
 
 export type CategoryPressCallbackArguments = {
   isActive: boolean;
@@ -41,6 +42,7 @@ export interface CategoriesProps
 export interface CategoriesProps {
   title: string;
   id: string;
+  iconType: CategoryIconType;
   customIcon?: React.ReactNode;
   active?: boolean;
   variant?: "default" | "chip";
@@ -49,6 +51,16 @@ export interface CategoriesProps {
   pressCallback?: (argue: CategoryPressCallbackArguments) => void;
 }
 
+
+export const ICON_MAP: { [key: string]: React.ReactNode } = {
+  general: <MessageIcon />,
+  medical: <MedicalIcon />,
+  home: <HomeIcon />,
+  emotional: <EmotionalIcon />,
+  childcare: <ParentingIcon />,
+  legal_rights: <RightIcon />,
+};
+
 const Category: React.FC<PropsWithChildren<CategoriesProps>> = ({
   size,
   customIcon,
@@ -56,6 +68,7 @@ const Category: React.FC<PropsWithChildren<CategoriesProps>> = ({
   id,
   active,
   radius,
+  iconType,
   variant = "default",
   count,
   isPresseble = false,
@@ -73,16 +86,7 @@ const Category: React.FC<PropsWithChildren<CategoriesProps>> = ({
     });
   };
 
-  const iconMap: { [key: string]: React.ReactNode } = {
-    general: <MessageIcon />,
-    medical: <MedicalIcon />,
-    home: <HomeIcon />,
-    emotional: <EmotionalIcon />,
-    childcare: <ParentingIcon />,
-    legal_rights: <RightIcon />,
-  };
-
-  const defaultIcon = iconMap[id];
+  const defaultIcon = ICON_MAP[iconType];
   const icon = customIcon ? customIcon : defaultIcon;
   return (
     <div

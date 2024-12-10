@@ -34,7 +34,7 @@ export type FormRenderField<FieldsGeneric> = {
   inputType?: inputType;
   options?: Array<{
     value: PathValue<FieldsGeneric, Path<FieldsGeneric>>;
-    name: string;
+    name: string | React.ReactNode;
   }>;
   placeholder?: string;
 };

@@ -1,3 +1,4 @@
+import Row from "@components/Row";
 import { Button } from "@components/shadowCDN/button";
 import {
   Dialog,
@@ -6,14 +7,25 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@components/shadowCDN/dialog";
+import { Input } from "@components/shadowCDN/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@components/shadowCDN/select";
 import {
   Category,
+  CategoryIconType,
   CategoryPressCallbackArguments,
+  ICON_MAP,
   useCategoryStore,
 } from "entities/category";
 import { useTranslations } from "next-intl";
 import React, { useState } from "react";
 import AddIcon from "shared/assets/AddIcon";
+import { CreateCategoryForm } from "./CreateCategoryForm";
 
 interface CreateCategoryModalProps {
   trigger: React.ReactNode;
@@ -47,10 +59,11 @@ const CreateCategoryModal: React.FC<CreateCategoryModalProps> = ({
           <DialogTitle>{t("Categories.CreateCategories.title")}</DialogTitle>
         </DialogHeader>
         <div className="flex flex-1 flex-col min-w-72 gap-2 mb-3">
-          {categories?.map((category) => {
+          {categories.map((category) => {
             return (
               <Category
                 isPresseble
+                iconType={category.icon}
                 pressCallback={pressCallbackHandler}
                 key={category.id}
                 title={category.title}
@@ -60,11 +73,8 @@ const CreateCategoryModal: React.FC<CreateCategoryModalProps> = ({
             );
           })}
         </div>
+        <CreateCategoryForm callback={() => setIsOpen(false)} />
         <div className="flex flex-col gap-6">
-          <Button withIcon variant={"secondary"}>
-            <AddIcon />
-            {t("Common.addCategory")}
-          </Button>
           <Button rounded={"circle"} onClick={applyChanges}>
             {t("Common.ok")}
           </Button>

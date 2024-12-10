@@ -21,9 +21,12 @@ import {
 } from "@components/shadowCDN/select";
 import { changeLanguage } from "entities/languaage/action";
 
-export default function Header() {
+interface HeaderProps {
+  userName: string;
+}
+export default function Header(props: HeaderProps) {
   const t = useTranslations("Header");
-  const locale = useLocale()
+  const locale = useLocale();
   const pathname = usePathname();
 
   const pathItems = pathname.split("/").filter((part) => part !== "");
@@ -47,9 +50,13 @@ export default function Header() {
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
 
-        <div className={stylesHeader.avatarName}>userName</div>
+        <div className={stylesHeader.avatarName}>{props.userName}</div>
 
-        <Select name="language" defaultValue={locale} onValueChange={onSelectChange}>
+        <Select
+          name="language"
+          defaultValue={locale}
+          onValueChange={onSelectChange}
+        >
           <SelectTrigger className="w-[60px]">
             <SelectValue placeholder="Language" />
           </SelectTrigger>
