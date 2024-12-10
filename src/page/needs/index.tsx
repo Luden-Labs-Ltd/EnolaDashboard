@@ -8,10 +8,11 @@ import { TasksStoreProvider } from "entities/task";
 
 interface NeedsContentProps {
   categories: CategoryType[];
+  programId: string | null;
   tasks: TaskType[];
 }
 
-const Needs: React.FC<NeedsContentProps> = ({ categories, tasks }) => {
+const Needs: React.FC<NeedsContentProps> = ({ categories, programId, tasks }) => {
   const [showFirstEnter, setShowFirstEnter] = useState(false);
 
   if (showFirstEnter) {
@@ -22,6 +23,7 @@ const Needs: React.FC<NeedsContentProps> = ({ categories, tasks }) => {
     <div>
       <CategoryStoreProvider
         categories={categories}
+        programId={programId}
         currentCategory={categories[0]}
       >
         <TasksStoreProvider tasks={tasks}>

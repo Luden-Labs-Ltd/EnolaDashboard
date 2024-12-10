@@ -12,11 +12,13 @@ import { CategoryType } from ".";
 type CategoryContextState = {
   categories: CategoryType[];
   activeCategories: CategoryType[];
+  programId: string | null;
   currentCategory: CategoryType;
 };
 
 type CategoryProviderValue = {
   categories: CategoryType[];
+  programId: string | null;
   currentCategory: CategoryType;
 };
 
@@ -27,11 +29,12 @@ const CategoryContext = createContext<{
 
 export const CategoryStoreProvider: React.FC<
   PropsWithChildren<CategoryProviderValue>
-> = ({ categories, currentCategory, children }) => {
+> = ({ categories, currentCategory, programId, children }) => {
 
   const activeCategories = categories.filter((category) => category.active);
   const [categoryState, setCategoryState] = useState<CategoryContextState>({
     categories: categories,
+    programId: programId,
     activeCategories: activeCategories,
     currentCategory,
   });

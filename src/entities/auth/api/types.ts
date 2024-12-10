@@ -1,0 +1,34 @@
+export interface ProfileApi {
+  id: string;
+  first_name: string;
+  last_name: string;
+  gender: string;
+  age: any;
+  phone_number: string;
+  formatted_phone_number: string;
+  boarded: boolean;
+  country_code: string;
+  country_name: string;
+  city: string;
+  about: string;
+  company: Company;
+}
+
+export interface Company {
+  id: string;
+  name: string;
+  phone_number: string;
+  formatted_phone_number: string;
+  country_code: string;
+  state: string;
+  city: string;
+  street_address_1: string;
+  street_address_2: string;
+  postal_code: string;
+  programs: Program[];
+}
+
+export interface Program {
+  id: string;
+  name: string;
+}

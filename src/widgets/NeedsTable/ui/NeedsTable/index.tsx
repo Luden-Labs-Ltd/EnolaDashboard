@@ -43,7 +43,7 @@ const NeedsTable: React.FC<NeedsTableProps> = () => {
     }
   };
 
-  const onTaskClick = (taskId: string, active: boolean) => {
+  const onTaskClick = (taskId: number, active: boolean) => {
     toggleSelectedTask(taskId);
   };
 
@@ -55,6 +55,7 @@ const NeedsTable: React.FC<NeedsTableProps> = () => {
             return (
               <Category
                 isPresseble
+                iconType={category.icon}
                 pressCallback={onCategoryClick}
                 key={category.id}
                 title={category.title}
@@ -87,7 +88,7 @@ const NeedsTable: React.FC<NeedsTableProps> = () => {
         </HeaderPanel>
         <ScrollArea className="p-[16px] max-h-[68vh]">
           <div className="flex flex-1 flex-col gap-[12px]">
-            {activeTasks.map((task) => {
+            {currentCategory ? activeTasks.map((task) => {
               return (
                 <Task
                   onPress={onTaskClick}
@@ -98,7 +99,7 @@ const NeedsTable: React.FC<NeedsTableProps> = () => {
                   taskActions={<SetTaskAsDefaultModal />}
                 />
               );
-            })}
+            }) : null}
           </div>
         </ScrollArea>
       </NeedsContent>

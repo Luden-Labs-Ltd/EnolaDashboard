@@ -4,9 +4,9 @@ import classNames from "classnames";
 
 interface TaskProps {
   title: string;
-  id: string;
+  id: number;
   active?: boolean;
-  onPress?: (taskId: string, active: boolean) => void;
+  onPress?: (taskId: number, active: boolean) => void;
   taskActions?: React.ReactNode;
 }
 

@@ -1,51 +1,58 @@
-import { CategoryType } from "../model";
+"use server";
 
-export const getCategories = async (): Promise<CategoryType[]> => {
-  const categories: CategoryType[] = [
-    {
-      id: "general",
-      icon: "MessageIcon",
-      active: true,
-      count: 2,
-      title: "General",
-    },
-    {
-      id: "medical",
-      icon: "MedicalIcon",
-      active: true,
-      count: 2,
-      title: "Medical",
-    },
-    {
-      id: "home",
-      icon: "HomeIcon",
-      count: 2,
-      active: true,
-      title: "Home",
-    },
-    {
-      id: "emotional",
-      icon: "EmotionalIcon",
-      count: 2,
-      active: true,
-      title: "Emotional",
-    },
-    {
-      id: "childcare",
-      icon: "ParentingIcon",
-      count: 2,
-      title: "Childcare",
-    },
-    {
-      id: "legal_rights",
-      icon: "RightIcon",
-      count: 2,
-      title: "Legal rights",
-    },
-  ];
+import { fetchInstance } from "shared/api";
+import { CategoryTypeApi } from "../model";
+import { createCategoriesApiDto } from "./types";
 
-  return categories;
+export const getCategoriesApi = async (
+  programId: string | null
+): Promise<CategoryTypeApi[]> => {
+  if (!programId) {
+    return [];
+  }
+
+  const response = await fetchInstance(
+    `${process.env.BASE_URL_BACKEND}/api/v2/dashboard/programs/${programId}/categories`,
+    {
+      method: "GET",
+    }
+  );
+
+  if (!response) {
+    throw new Error("Something wrong getCategoriesApi");
+  }
+
+  const resJSON = await response.json();
+  if (resJSON.error) {
+    throw new Error(resJSON.error);
+  }
+
+  return resJSON;
 };
 
+export const createCategoriesApi = async (
+  dto: createCategoriesApiDto,
+  programId: string
+): Promise<CategoryTypeApi[]> => {
+  const response = await fetchInstance(
+    `${process.env.BASE_URL_BACKEND}/api/v2/dashboard/programs/${programId}/categories`,
+    {
+      method: "POST",
+      body: JSON.stringify(dto),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
 
+  if (!response) {
+    throw new Error("Some Error createCategoriesApi");
+  }
 
+  const resJSON = await response.json();
+  if (resJSON.error) {
+    throw new Error(resJSON.error);
+  }
+
+  return resJSON;
+};
