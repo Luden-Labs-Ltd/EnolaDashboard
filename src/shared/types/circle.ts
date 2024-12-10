@@ -1,0 +1,1 @@
+export type CircleType = "public" | "private" | "intimate"

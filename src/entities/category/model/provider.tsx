@@ -5,6 +5,7 @@ import {
   PropsWithChildren,
   SetStateAction,
   useContext,
+  useEffect,
   useState,
 } from "react";
 import { CategoryType } from ".";
@@ -38,6 +39,17 @@ export const CategoryStoreProvider: React.FC<
     activeCategories: activeCategories,
     currentCategory,
   });
+
+  useEffect(() => {
+    setCategoryState((prev)=> {
+      const activeCategories = categories.filter((category) => category.active);
+      return {
+        ...prev,
+        categories: categories,
+        activeCategories: activeCategories
+      }
+    })
+  }, [categories])
 
   return (
     <CategoryContext.Provider

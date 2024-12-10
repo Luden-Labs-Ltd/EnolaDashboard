@@ -5,18 +5,21 @@ import {
   PropsWithChildren,
   SetStateAction,
   useContext,
+  useEffect,
   useState,
 } from "react";
 import { TaskType } from ".";
+import { ConvertedTasksState } from "../lib/converter";
 
 type TasksContextState = {
-  tasks: TaskType[];
-  activeTasks: TaskType[];
-  selectedTasks: number[];
+  originData: ConvertedTasksState;
+  selectedTasks: Record<string, number[]>;
+  programId: string | null;
 };
 
 type TasksProviderValue = {
-  tasks: TaskType[];
+  data: ConvertedTasksState;
+  programId: string | null;
 };
 
 const TasksContext = createContext<{
@@ -26,13 +29,21 @@ const TasksContext = createContext<{
 
 export const TasksStoreProvider: React.FC<
   PropsWithChildren<TasksProviderValue>
-> = ({ tasks, children }) => {
-  const activeTasks = tasks.filter((task) => task.active);
+> = ({ data, programId, children }) => {
   const [tasksState, setTasksState] = useState<TasksContextState>({
-    tasks: tasks,
-    activeTasks: activeTasks,
-    selectedTasks: [],
+    originData: data,
+    programId: programId,
+    selectedTasks: {},
   });
+
+  useEffect(() => {
+    setTasksState((prev) => {
+      return {
+        ...prev,
+        originData: data,
+      };
+    });
+  }, [data]);
 
   return (
     <TasksContext.Provider
@@ -56,11 +67,19 @@ export const useTasksStore = () => {
   }
   const { tasksState, setData } = tasksContext;
 
-  const toggleActiveTask = (id: number, active: boolean) => {
-    const currentTaskId = id;
+  const toggleActiveTask = ({
+    categoryId,
+    taskId,
+    active,
+  }: {
+    categoryId: string;
+    taskId: number;
+    active: boolean;
+  }) => {
+    const currentTaskId = taskId;
     const isActive = active;
 
-    const newTask = tasksState.tasks.map((task) => {
+    const newTask = tasksState.originData.tasksByCategory[categoryId].map((task) => {
       const isUpdatedTask = task.id === currentTaskId;
       if (isUpdatedTask) {
         return { ...task, active: isActive };
@@ -68,45 +87,79 @@ export const useTasksStore = () => {
       return task;
     });
 
-    setData((prev) => ({ ...prev, tasks: newTask }));
+    const newState = {
+      ...tasksState.originData.tasksByCategory,
+      [categoryId]: newTask
+    }
+    setData((prev) => ({ ...prev, originData: {...prev.originData, tasksByCategory: newState} }));
   };
 
-  const revalidateActiveTasks = () => {
-    const activeTasks = tasksState.tasks.filter((task) => task.active);
-    setData((prev) => ({ ...prev, activeTasks: activeTasks }));
-  };
+  // const revalidateActiveTasks = () => {
+  //   const activeTasks = tasksState.tasks.filter((task) => task.active);
+  //   setData((prev) => ({ ...prev, activeTasks: activeTasks }));
+  // };
 
-  const toggleSelectedTask = (taskId: number) => {
-    const isTaskAlreadySelect = tasksState.selectedTasks.includes(taskId);
+  const toggleSelectedTask = (categoryId: string, taskId: number) => {
+    const isTaskAlreadySelect = tasksState.selectedTasks[categoryId]?.includes(taskId);
 
     if (isTaskAlreadySelect) {
-      const filteredSelectedTask = tasksState.selectedTasks.filter((currentId) => currentId !== taskId)
-      return setData((prev) => ({ ...prev, selectedTasks: filteredSelectedTask }));
+      const filteredSelectedTask = tasksState.selectedTasks[categoryId].filter(
+        (currentId) => currentId !== taskId
+      );
+      return setData((prev) => ({
+        ...prev,
+        selectedTasks: {
+          ...prev.selectedTasks,
+          [categoryId]: filteredSelectedTask
+        },
+      }));
     }
-    const newSelectedTasks = [...tasksState.selectedTasks, taskId]
+
+    const currentSelectedTasks = tasksState.selectedTasks[categoryId] ? tasksState.selectedTasks[categoryId] : []
+    const newSelectedTasks = {
+      ...tasksState.selectedTasks,
+      [categoryId]: [...currentSelectedTasks, taskId]
+    };
     setData((prev) => ({ ...prev, selectedTasks: newSelectedTasks }));
   };
 
-  const deleteSelectedTasks = () => {
-    const currentSelectedTasks = tasksState.selectedTasks
+  const deleteSelectedTasks = (categoryId: string ) => {
+    const currentSelectedTasks = tasksState.selectedTasks[categoryId];
 
     if (!currentSelectedTasks.length) {
-      return
+      return;
     }
 
-    const newTasks = tasksState.tasks.filter((task) => {
-      return !currentSelectedTasks.includes(task.id)
-    })
-    const activeTasks = newTasks.filter((task) => task.active);
+    const newCategoryIdTasks = tasksState.originData.tasksByCategory[categoryId].filter((task) => {
+      return !currentSelectedTasks.includes(task.id);
+    });
 
-    setData((prev) => ({ ...prev, tasks: newTasks,  selectedTasks: [], activeTasks }));
+    const newAllTasks = tasksState.originData.allTasks.filter((task) => {
+      return !currentSelectedTasks.includes(task.id);
+    });
+
+    const originData = {
+      ...tasksState.originData,
+      allTasks: newAllTasks,
+      tasksByCategory: {
+        ...tasksState.originData.tasksByCategory,
+        [categoryId]: newCategoryIdTasks
+      }
+    }
+
+    setData((prev) => ({
+      ...prev,
+      originData,
+      selectedTasks: {
+        ...prev.selectedTasks,
+        [categoryId]: []
+      }
+    }));
   };
-
 
   return {
     tasksState,
     toggleActiveTask,
-    revalidateActiveTasks,
     toggleSelectedTask,
     deleteSelectedTasks,
   };
