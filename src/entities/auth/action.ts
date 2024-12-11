@@ -34,7 +34,7 @@ export async function testAction(prevState: any, formData: FormData) {
     };
   }
 
-  const result = await authenticate(formData)
+  const result = await authenticate(formData);
 
   if (result.error || !result.token) {
     return {
@@ -50,41 +50,41 @@ export async function testAction(prevState: any, formData: FormData) {
 }
 
 export async function sendOtpCode(formData: FormData) {
-  try {
-    const validatedFields = schemaOtpSend.safeParse({
-      phoneNumber: formData.get("phone_number"),
-    });
-  
-    if (!validatedFields.success) {
-      console.log("INVALID REQUEST CODE");
-      return false;
-    }
-  
-    const response = await fetch(
-      process.env.BASE_URL_BACKEND + "/api/v2/dashboard/auth/code",
-      {
-        //@ts-ignore
-        headers: process.env.NODE_ENV === 'development' ?
-          { 'X-Debug-Token': process.env.REACT_APP_X_DEBUG_TOKEN }
+  const validatedFields = schemaOtpSend.safeParse({
+    phoneNumber: formData.get("phone_number"),
+  });
+
+  if (!validatedFields.success) {
+    throw new Error("invalid phone");
+  }
+
+  const response = await fetch(
+    process.env.BASE_URL_BACKEND + "/api/v2/dashboard/auth/code",
+    {
+      //@ts-ignore
+      headers:
+        process.env.NODE_ENV === "development"
+          ? { "X-Debug-Token": process.env.REACT_APP_X_DEBUG_TOKEN }
           : {},
-        method: "POST",
-        body: formData,
-      }
-    );
-  
-    if (process.env.NODE_ENV === "development") {
-      const code = response.headers.get("x-requested-user");
-      console.info("OTP", code);
-      if (code) {
-        cookies().set("OTP", code, config);
-      }
+      method: "POST",
+      body: formData,
     }
-  } catch (error) {
-    console.log(error);
+  );
+
+  const jsonResponse = await response.json();
+
+  if (jsonResponse.error) {
+    throw new Error(jsonResponse.error + " " + "phone:" + validatedFields.data.phoneNumber);
+  }
+
+  if (process.env.NODE_ENV === "development") {
+    const code = response.headers.get("x-requested-user");
+    console.info("OTP", code);
+    if (code) {
+      cookies().set("OTP", code, config);
+    }
   }
 }
-
-
 
 export async function authenticate(formData: FormData): Promise<{
   error: string | null;
@@ -98,23 +98,23 @@ export async function authenticate(formData: FormData): Promise<{
         body: formData,
       }
     );
-    const token = response.headers.get('authorization');
+    const token = response.headers.get("authorization");
     if (token) {
       return {
         token,
         error: null,
-      }
+      };
     }
     return {
       token: null,
-      error: 'Login unsuccessful',
-    }
+      error: "Login unsuccessful",
+    };
   } catch (error) {
     console.log(error, "login error");
     return {
       token: null,
-      error: 'Login unsuccessful',
-    }
+      error: "Login unsuccessful",
+    };
   }
 }
 
