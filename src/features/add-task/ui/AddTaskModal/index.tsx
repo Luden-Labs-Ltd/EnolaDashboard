@@ -20,9 +20,7 @@ interface AddTaskActionProps {
 const AddTaskModal: React.FC<AddTaskActionProps> = ({ category }) => {
   const t = useTranslations();
   const [isOpen, setIsOpen] = useState(false);
-  const { revalidateActiveTasks } = useTasksStore();
   const applyChangesHandle = () => {
-    revalidateActiveTasks();
     setIsOpen(false);
   };
 

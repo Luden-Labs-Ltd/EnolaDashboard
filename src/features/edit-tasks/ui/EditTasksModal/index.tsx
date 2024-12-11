@@ -50,7 +50,7 @@ const EditTasks: React.FC<EditTaskActionProps> = ({}) => {
       <DialogContent className="flex items-center flex-col w-full max-w-sm">
         <DialogHeader>
           <DialogTitle>
-            {t("Tasks.EditTasks.title", { count: selectedTasks.length })}
+            {t("Tasks.EditTasks.title", { count: 0 })}
           </DialogTitle>
         </DialogHeader>
         <DialogDescription className="text-center">

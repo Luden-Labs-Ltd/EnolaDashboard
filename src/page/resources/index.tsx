@@ -31,12 +31,13 @@ export default function Resources({ categories, resources }: ResourcesProps) {
         </Row>
       </SearchPanel>
       <div className="flex flex-wrap gap-[4px] mb-9">
-        <Category id={"all"} variant="chip" title={"all"} />
+        <Category id={"all"} variant="chip" title={"all"} iconType={"general"} />
         {categories.map((category) => {
           return (
             <Category
               key={category.id}
               id={category.id}
+              iconType={category.icon}
               variant="chip"
               count={category.count}
               title={category.title}
