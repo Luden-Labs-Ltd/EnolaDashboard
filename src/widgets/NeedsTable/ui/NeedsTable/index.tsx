@@ -22,6 +22,9 @@ import { SetTaskAsDefaultModal } from "features/set-task-as-default";
 import { DeleteTasks } from "features/delete-tasks";
 import { useTranslations } from "next-intl";
 import { TaskControlLayout, ManageTaskModal } from "features/manage-task";
+import Row from "@components/Row";
+import ViewIcon from "shared/assets/ViewIcon";
+import { ViewTaskModal } from "features/view-task";
 
 interface NeedsTableProps {}
 
@@ -110,7 +113,13 @@ const NeedsTable: React.FC<NeedsTableProps> = () => {
                       id={task.id}
                       active={isTaskSelected}
                       title={task.title}
-                      taskActions={<SetTaskAsDefaultModal />}
+                      taskActions={
+                        <Row alignItems="center">
+                          <SetTaskAsDefaultModal />
+
+                          <ViewTaskModal task={task}/>
+                        </Row>
+                      }
                     />
                   );
                 })
