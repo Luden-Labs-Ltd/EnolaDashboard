@@ -16,6 +16,7 @@ export const convertDataForTable = (
       caregiver: family.primary_caregiver.full_name,
       lastSeen: new Date().toLocaleDateString(),
       lastActive: new Date().toLocaleDateString(),
+      archived: String(family.archived),
       enrolmentSource: "enrolmentSource",
       tasks: currentTasksCount,
       supporters: family.supporter_count,

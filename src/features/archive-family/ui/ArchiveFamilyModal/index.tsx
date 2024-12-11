@@ -9,30 +9,54 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@components/shadowCDN/dialog";
+import { FamilyType, useFamiliesStore } from "entities/families";
+import { editFamily } from "entities/families/actions";
 import { useTranslations } from "next-intl";
 import React, { PropsWithChildren, useState } from "react";
 
-interface AddFamilyActionProps {
+interface ArchiveFamilyActionProps {
   callback?: () => void;
+  familyId: FamilyType["id"] | string;
 }
 
-const AddFamily: React.FC<PropsWithChildren<AddFamilyActionProps>> = ({
+const ArchiveFamily: React.FC<PropsWithChildren<ArchiveFamilyActionProps>> = ({
   callback,
   children,
+  familyId,
 }) => {
   const t = useTranslations();
 
   const [isOpen, setIsOpen] = useState(false);
+  const { familiesState } = useFamiliesStore();
+
+  const currentFamily = familiesState.families.find(
+    (family) => family.id === familyId
+  );
 
   const onClose = () => {
     setIsOpen(false);
     callback?.();
   };
 
+  const isArchived = currentFamily?.archived === "true";
+
   const applyChangesHandle = () => {
-    setIsOpen(false);
-    callback?.();
+    if (currentFamily) {
+      editFamily(currentFamily.id, {
+        title: currentFamily.name,
+        archived: !isArchived,
+      })
+        .then(() => {
+          setIsOpen(false);
+          callback?.();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
+
+  const submitBtnText = isArchived ? t("Families.unarchive") : t("Families.archive")
 
   return (
     <Dialog onOpenChange={setIsOpen} open={isOpen}>
@@ -45,8 +69,13 @@ const AddFamily: React.FC<PropsWithChildren<AddFamilyActionProps>> = ({
           <DialogTitle>{t("Families.ArchiveFamilies.title")}</DialogTitle>
         </DialogHeader>
         <DialogDescription className="text-center">
-          {t("Families.ArchiveFamilies.description")}
+          {t("Families.ArchiveFamilies.description", {
+            familyName: currentFamily?.name,
+          })}
         </DialogDescription>
+        {/* <DialogDescription className="text-center  text-red-500">
+          {`" ${t("Families.ArchiveFamilies.note")} "`}
+        </DialogDescription> */}
         <div className="flex gap-6">
           <Button
             rounded={"circle"}
@@ -57,7 +86,7 @@ const AddFamily: React.FC<PropsWithChildren<AddFamilyActionProps>> = ({
             {t("Common.cancel")}
           </Button>
           <Button rounded={"circle"} onClick={applyChangesHandle} size={"lg"}>
-            {t("Families.archive")}
+            {submitBtnText}
           </Button>
         </div>
       </DialogContent>
@@ -65,4 +94,4 @@ const AddFamily: React.FC<PropsWithChildren<AddFamilyActionProps>> = ({
   );
 };
 
-export default AddFamily;
+export default ArchiveFamily;

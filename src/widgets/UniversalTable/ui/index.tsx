@@ -2,6 +2,7 @@
 import {
   Table,
   TableBody,
+  TableCell,
   TableHeader,
   TableRow,
 } from "@components/shadowCDN/table";
@@ -11,11 +12,11 @@ import { Ceil, renderCeilDropDownItemsType } from "./Ceil";
 import { HeaderCeil } from "./HeaderCeil";
 
 interface UniversalTableProps {
-  tableRawData: any[],
-  selectedColumnIds: number[],
-  toggleMainSelect: () => void,
+  tableRawData: any[];
+  selectedColumnIds: number[];
+  toggleMainSelect: () => void;
   toggleSelectedItems: (id: number) => void;
-  renderCeilDropDownItems: renderCeilDropDownItemsType
+  renderCeilDropDownItems: renderCeilDropDownItemsType;
 }
 
 const UniversalTable: React.FC<UniversalTableProps> = ({
@@ -30,16 +31,38 @@ const UniversalTable: React.FC<UniversalTableProps> = ({
     selectedColumnIds: selectedColumnIds,
   });
 
-  const isIndeterminate = selectedColumnIds.length > 0 && selectedColumnIds.length !== tableRawData.length
-  const isChecked = selectedColumnIds.length === tableRawData.length
+  const isIndeterminate =
+    selectedColumnIds.length > 0 &&
+    selectedColumnIds.length !== tableRawData.length;
+  const isChecked = selectedColumnIds.length === tableRawData.length;
 
+  if (!tableRawData.length) {
+    return (
+      <Table>
+        <TableHeader>
+          <TableRow></TableRow>
+        </TableHeader>
+        <TableBody>
+          <TableRow>
+            <TableCell>List Empty</TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    );
+  }
   return (
     <>
       <Table>
         <TableHeader>
           <TableRow>
             {tableData.headers.map((header) => (
-              <HeaderCeil isChecked={isChecked} isIndeterminate={isIndeterminate} toggleMainSelect={toggleMainSelect} key={header.id} header={header} />
+              <HeaderCeil
+                isChecked={isChecked}
+                isIndeterminate={isIndeterminate}
+                toggleMainSelect={toggleMainSelect}
+                key={header.id}
+                header={header}
+              />
             ))}
           </TableRow>
         </TableHeader>
@@ -48,7 +71,12 @@ const UniversalTable: React.FC<UniversalTableProps> = ({
             return (
               <TableRow key={index}>
                 {row.map((ceil) => (
-                  <Ceil toggleSelectedItems={toggleSelectedItems} renderCeilDropDownItems={renderCeilDropDownItems} key={ceil.id} ceil={ceil} />
+                  <Ceil
+                    toggleSelectedItems={toggleSelectedItems}
+                    renderCeilDropDownItems={renderCeilDropDownItems}
+                    key={ceil.id}
+                    ceil={ceil}
+                  />
                 ))}
               </TableRow>
             );

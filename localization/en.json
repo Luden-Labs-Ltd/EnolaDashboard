@@ -75,6 +75,7 @@
         "addFamilies": "Add families",
         "addMembers": "Add Members",
         "archive": "Archive",
+        "unarchive": "Unarchive",
         "AddFamilies": {
             "description": "You could add family"
         },
@@ -87,7 +88,8 @@
         },
         "ArchiveFamilies": {
             "title": "Archive Families",
-            "description": "You could archive Family"
+            "description": "You could archive {familyName}",
+            "note": "You could not restore archive family"
         },
         "DeleteFamilies": {
             "title": "Delete Families",

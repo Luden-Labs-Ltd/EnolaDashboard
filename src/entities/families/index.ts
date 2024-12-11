@@ -1,4 +1,4 @@
-export {getFamiliesFromApi} from "./api"
+export {getFamiliesFromApi, editFamilyApi} from "./api"
 export {getFamilyById} from "./api"
 export type {FamilyType, FullFamilyType} from "./model"
 export type {FamilyApi} from "./api/types"
