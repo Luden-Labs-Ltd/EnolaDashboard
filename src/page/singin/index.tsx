@@ -26,25 +26,35 @@ function SingInPage() {
 
   const onPhoneHandler = (phoneNumber: string) => {
     setPhone(phoneNumber);
-    setError("")
+    setError("");
   };
 
   const sendOtpCodeHandler = async () => {
     if (!phone) {
-      setError("enter correct phone")
-      return
-    };
+      setError("enter correct phone");
+      return;
+    }
     setOtpSend(true);
 
     const otpForm = new FormData();
     otpForm.append("phone_number", phone);
-    sendOtpCode(otpForm).then(() => {
-      setShowSubmit(true);
-      setOtpSend(false);
-    });
+    sendOtpCode(otpForm)
+      .then(() => {
+        setShowSubmit(true);
+        setOtpSend(false);
+      })
+      .catch((error) => {
+        setShowSubmit(false);
+        setOtpSend(false);
+        setError(error.message)
+      });
   };
 
-  const apiError = formState?.apiError ? formState?.apiError : error ? error : null;
+  const apiError = formState?.apiError
+    ? formState?.apiError
+    : error
+    ? error
+    : null;
 
   return (
     <form
@@ -78,7 +88,7 @@ function SingInPage() {
           >
             {t("send_code").toUpperCase()}
           </Button>
-          {apiError ? <ZodErrors error={[apiError]} /> : null }
+          {apiError ? <ZodErrors error={[apiError]} /> : null}
         </>
       )}
     </form>
