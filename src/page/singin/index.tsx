@@ -39,15 +39,16 @@ function SingInPage() {
     const otpForm = new FormData();
     otpForm.append("phone_number", phone);
     sendOtpCode(otpForm)
-      .then(() => {
+      .then((res) => {
+        if (res?.error) {
+          setShowSubmit(false);
+          setOtpSend(false);
+          setError(res?.error)
+          return
+        }
         setShowSubmit(true);
         setOtpSend(false);
       })
-      .catch((error) => {
-        setShowSubmit(false);
-        setOtpSend(false);
-        setError(error.message)
-      });
   };
 
   const apiError = formState?.apiError

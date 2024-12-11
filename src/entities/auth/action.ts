@@ -74,7 +74,9 @@ export async function sendOtpCode(formData: FormData) {
   const jsonResponse = await response.json();
 
   if (jsonResponse.error) {
-    throw new Error(jsonResponse.error + " " + "phone:" + validatedFields.data.phoneNumber);
+    return {
+      error: jsonResponse.error + " " + "phone:" + validatedFields.data.phoneNumber
+    }
   }
 
   if (process.env.NODE_ENV === "development") {
