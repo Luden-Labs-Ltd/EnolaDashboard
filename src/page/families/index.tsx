@@ -19,14 +19,18 @@ const Families: React.FC<FamiliesProps> = ({ families }) => {
   return (
     <main>
       <FamiliesStoreProvider families={families}>
-        <SearchPanel filterForm={<SearchFilter/>} searchParamName="family_name">
+        <SearchPanel
+          filterForm={<SearchFilter />}
+          searchParamName="family_name"
+        >
           <Row>
-            <ArchiveFamily>
-              <Button withIcon variant={"ghost"}>
-                <ArchiveIcon />
-                <span>{t("Families.archive")}</span>
-              </Button>
-            </ArchiveFamily>
+            {/* <ArchiveFamily>
+                  <Button withIcon variant={"ghost"}>
+                    <ArchiveIcon />
+                    <span>{t("Families.archive")}</span>
+                  </Button>
+            </ArchiveFamily> */}
+
             <AddFamily />
           </Row>
         </SearchPanel>

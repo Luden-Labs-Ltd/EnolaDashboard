@@ -4,6 +4,7 @@ export type FamilyType = {
     caregiver: string;
     lastSeen: string;
     lastActive: string;
+    archived: string,
     enrolmentSource: string;
     tasks: number;
     supporters: number;

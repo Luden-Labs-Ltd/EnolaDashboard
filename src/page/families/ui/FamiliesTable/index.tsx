@@ -65,7 +65,7 @@ const FamiliesTable: React.FC<FamiliesTableProps> = () => {
         href: ``,
         renderCustomComponent: (onOpen, onClose) => {
           return (
-            <ArchiveFamily key={`${ceil.itemId}-archive`} callback={onClose}>
+            <ArchiveFamily key={`${ceil.itemId}-archive`} familyId={ceil.itemId} callback={onClose}>
               <DropdownMenuItem
                 onClick={onOpen}
                 className={"DropdownMenuItem"}

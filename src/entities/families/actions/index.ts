@@ -85,5 +85,6 @@ export const deleteFamily = async (prevState: any, formData: FormData) => {
 
 export const editFamily = async (familyId: number, familyDto: EditFamilyDto) => {
   const res = await editFamilyApi(familyId, familyDto);
+  revalidateTag(GET_FAMILIES_REVALIDATE_TAG);
   return res
 };
