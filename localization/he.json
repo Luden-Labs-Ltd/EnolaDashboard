@@ -60,6 +60,15 @@
         "SetDefaultTasks": {
             "title": "את בטוחה?",
             "description": "לאחר לחיצה על כפתור ההפעלה, לא ניתן יהיה לבצע שינויים בקטגוריות ובמשימות."
+        },
+        "ViewTasks": {
+            "title": "מידע על משימות",
+            "fields": {
+                "title": "כותרת",
+                "description": "תיאור",
+                "circle": "מעגל",
+                "iaActive": "פעיל"
+            }
         }
     },
     "Categories": {

@@ -60,6 +60,15 @@
         "SetDefaultTasks": {
             "title": "Are you sure?",
             "description": "After clicking the Activate button, it will be impossible to make changes to categories and tasks."
+        },
+        "ViewTasks": {
+            "title": "Task Information",
+            "fields": {
+                "title": "Title",
+                "description": "Description",
+                "circle": "Circle",
+                "iaActive": "is Active"
+            }
         }
     },
     "Categories": {

@@ -21,8 +21,6 @@ const SetTaskAsDefaultModal: React.FC<SetDefaultModalProps> = ({}) => {
 
   const [isOpen, setIsOpen] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
-  const { tasksState } = useTasksStore();
-  const { tasks } = tasksState;
 
   const handleSetDefault = () => {
     setIsOpen(false);
