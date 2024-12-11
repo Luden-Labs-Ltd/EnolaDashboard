@@ -16,7 +16,7 @@ import React, { PropsWithChildren, useState } from "react";
 
 interface ArchiveFamilyActionProps {
   callback?: () => void;
-  familyId: FamilyType["id"];
+  familyId?: FamilyType["id"];
 }
 
 const ArchiveFamily: React.FC<PropsWithChildren<ArchiveFamilyActionProps>> = ({
