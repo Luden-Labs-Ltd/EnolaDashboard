@@ -4,10 +4,11 @@ import PhoneField from "@components/PhoneField";
 import { Button } from "@components/shadowCDN/button";
 import { sendOtpCode, testAction } from "entities/auth/action";
 import { useTranslations } from "next-intl";
-import React, { useState } from "react";
+import React, { MouseEvent, RefObject, useEffect, useRef, useState } from "react";
 import { useFormState } from "react-dom";
 import { ZodErrors } from "@components/ZodErrors/ZodErrors";
 import { OtpForm } from "./ui/OtpForm/OtpForm";
+import Loading from "app/(main)/loading";
 
 const INITIAL_STATE = {
   data: null,
@@ -21,9 +22,16 @@ function SingInPage() {
   const [phone, setPhone] = useState("");
   const [otp, setOtp] = useState("");
   const [error, setError] = useState("");
-  const [otpSend, setOtpSend] = useState(false);
+  const [isRequestLoading, setIsRequestLoading] = useState(false);
   const [showSubmit, setShowSubmit] = useState(false);
 
+  useEffect(() => {
+    if (formState.data === "false") {
+      setIsRequestLoading(false)
+    }
+  }, [formState]);
+
+  const form = useRef<HTMLFormElement | null>(null);
   const onPhoneHandler = (phoneNumber: string) => {
     setPhone(phoneNumber);
     setError("");
@@ -34,21 +42,27 @@ function SingInPage() {
       setError("enter correct phone");
       return;
     }
-    setOtpSend(true);
+    setIsRequestLoading(true);
 
     const otpForm = new FormData();
     otpForm.append("phone_number", phone);
-    sendOtpCode(otpForm)
-      .then((res) => {
-        if (res?.error) {
-          setShowSubmit(false);
-          setOtpSend(false);
-          setError(res?.error)
-          return
-        }
-        setShowSubmit(true);
-        setOtpSend(false);
-      })
+    sendOtpCode(otpForm).then((res) => {
+      if (res?.error) {
+        setShowSubmit(false);
+        setIsRequestLoading(false);
+        setError(res?.error);
+        return;
+      }
+      setShowSubmit(true);
+      setIsRequestLoading(false);
+    });
+  };
+
+  const onSubmitHandler = (event: MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
+    event.preventDefault();
+    setIsRequestLoading(true);
+    form.current?.requestSubmit();
   };
 
   const apiError = formState?.apiError
@@ -60,6 +74,7 @@ function SingInPage() {
   return (
     <form
       action={formAction}
+      ref={form}
       className="gap-5 flex flex-col items-center w-full max-w-500px"
     >
       <PhoneField
@@ -73,10 +88,11 @@ function SingInPage() {
         <OtpForm
           otpValue={otp}
           apiError={apiError}
+          onSubmitHandler={onSubmitHandler}
           formErrors={formState?.zodErrors}
           onChangeOtp={(code) => setOtp(code)}
           sendOtpCodeHandler={sendOtpCodeHandler}
-          disabled={otpSend}
+          disabled={isRequestLoading}
         />
       ) : (
         <>
@@ -84,7 +100,7 @@ function SingInPage() {
             size={"full"}
             onClick={sendOtpCodeHandler}
             type="button"
-            disabled={otpSend}
+            disabled={isRequestLoading}
             data-testid="sendOtp"
           >
             {t("send_code").toUpperCase()}
@@ -92,6 +108,7 @@ function SingInPage() {
           {apiError ? <ZodErrors error={[apiError]} /> : null}
         </>
       )}
+      {isRequestLoading ? <Loading /> : null}
     </form>
   );
 }

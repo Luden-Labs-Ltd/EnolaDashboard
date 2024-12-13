@@ -1,8 +1,8 @@
 import { Button } from "@components/shadowCDN/button";
-import React from "react";
-import { OtpInput } from "../OtpInput/OtpInput";
-import { useTranslations } from "next-intl";
 import { ZodErrors } from "@components/ZodErrors/ZodErrors";
+import { useTranslations } from "next-intl";
+import React, { MouseEvent } from "react";
+import { OtpInput } from "../OtpInput/OtpInput";
 
 interface OtpFormProps {
   otpValue: string;
@@ -10,12 +10,14 @@ interface OtpFormProps {
   formErrors: Record<string, string[]>;
   apiError: string | null;
   sendOtpCodeHandler: () => void;
+  onSubmitHandler: (event: MouseEvent<HTMLButtonElement>) => void;
   disabled: boolean;
 }
 
 export const OtpForm: React.FC<OtpFormProps> = ({
   onChangeOtp,
   sendOtpCodeHandler,
+  onSubmitHandler,
   formErrors,
   apiError,
   otpValue,
@@ -36,15 +38,15 @@ export const OtpForm: React.FC<OtpFormProps> = ({
         {t("resend_otp")}
       </Button>
       <Button
-        type="submit"
         size="xl"
+        onClick={onSubmitHandler}
         disabled={disabled}
         color="primary"
         data-testid="logInBtn"
       >
         {t("log_in").toUpperCase()}
       </Button>
-      {apiError ? <ZodErrors error={[apiError]} /> : null }
+      {apiError ? <ZodErrors error={[apiError]} /> : null}
     </>
   );
 };

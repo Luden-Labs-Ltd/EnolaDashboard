@@ -3,11 +3,9 @@ import { Button } from "@components/shadowCDN/button";
 import { ScrollArea } from "@components/shadowCDN/scroll-area";
 import { FamiliesStoreProvider, FamilyType } from "entities/families";
 import { AddFamily } from "features/add-family";
-import { ArchiveFamily } from "features/archive-family";
 import SearchPanel from "features/search-panel";
 import { useTranslations } from "next-intl";
 import React from "react";
-import ArchiveIcon from "shared/assets/ArchiveIcon";
 import FamiliesTable from "./ui/FamiliesTable";
 import { SearchFilter } from "./ui/SearchFilter/SearchFilter";
 interface FamiliesProps {
