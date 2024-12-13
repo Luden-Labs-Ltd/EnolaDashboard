@@ -30,6 +30,7 @@ export async function testAction(prevState: any, formData: FormData) {
       ...prevState,
       zodErrors: validatedFields.error.flatten().fieldErrors,
       apiError: null,
+      data: "false",
       message: "Missing Fields. Failed to Register.",
     };
   }
