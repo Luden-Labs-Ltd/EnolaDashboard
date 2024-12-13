@@ -1,20 +1,19 @@
 "use server";
 import { GET_FAMILIES_REVALIDATE_TAG } from "./const";
-import { EditFamilyDto, FamilyApi } from "./types";
+import { CreateFamilyDto, EditFamilyDto, FamilyApi } from "./types";
 import { fetchInstance } from "shared/api";
 
 export const getFamiliesFromApi = async (
   familyName: string,
   familyId: string,
-  isArchived: boolean,
+  isArchived: boolean
 ): Promise<FamilyApi[]> => {
-
   const params = JSON.stringify({
     title_cont: familyName,
     id_eq: familyId,
     archived_eq: isArchived,
     sorts: "created_at desc",
-  })
+  });
   const response = await fetchInstance(
     process.env.BASE_URL_BACKEND + `/api/v2/dashboard/families?q=${params}`,
     {
@@ -68,12 +67,15 @@ export const deleteFamilyById = async (
   return true;
 };
 
-export const createFamilyApi = async (formData: FormData) => {
+export const createFamilyApi = async (data: CreateFamilyDto) => {
   const response = await fetchInstance(
     process.env.BASE_URL_BACKEND + `/api/v2/dashboard/families`,
     {
       method: "POST",
-      body: formData,
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
     }
   );
 

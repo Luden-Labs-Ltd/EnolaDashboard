@@ -10,10 +10,11 @@ export const convertDataForTable = (
     const inProgress = family.occurrences_by_status?.in_progress ?? 0;
     const initial = family.occurrences_by_status?.initial ?? 0;
     const currentTasksCount = completed + inProgress + initial;
+
     return {
       id: family.id,
       name: family.title,
-      caregiver: family.primary_caregiver.full_name,
+      caregiver: family.primary_caregiver?.full_name ?? "no",
       lastSeen: new Date().toLocaleDateString(),
       lastActive: new Date().toLocaleDateString(),
       archived: String(family.archived),

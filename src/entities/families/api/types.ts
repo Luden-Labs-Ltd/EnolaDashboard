@@ -58,3 +58,14 @@ export type EditFamilyDto = {
   phone_number?: string;
   archived: boolean;
 };
+
+
+export type CreateFamilyDto = {
+  title: string;
+  first_name: string;
+  last_name: string;
+  phone_number: string;
+  program_id: string;
+  address?: string;
+  location?: string;
+};

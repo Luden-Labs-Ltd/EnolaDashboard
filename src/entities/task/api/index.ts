@@ -49,8 +49,8 @@ export const getTasks = async (
     {
       method: "GET",
       next: {
-        tags: [REVALIDATE_GET_TASK_TAG]
-      }
+        tags: [REVALIDATE_GET_TASK_TAG],
+      },
     }
   );
 
@@ -58,7 +58,7 @@ export const getTasks = async (
     return [];
   }
   const jsonResponse = await response?.json();
-  return jsonResponse
+  return jsonResponse;
 };
 
 export const createTaskApi = async (
@@ -79,11 +79,29 @@ export const createTaskApi = async (
   if (!response) {
     throw new Error("Some Error createCategoriesApi");
   }
-  
+
   const resJSON = await response.json();
   if (resJSON.error) {
     throw new Error(resJSON.error);
   }
-  revalidateTag(REVALIDATE_GET_TASK_TAG)
+  revalidateTag(REVALIDATE_GET_TASK_TAG);
   return resJSON;
+};
+
+export const deleteTaskApi = async (
+  programId: string,
+  selectedTasks: number[]
+) => {
+  const promise = await Promise.all(
+    selectedTasks.map((taskId) => {
+      return fetchInstance(
+        `${process.env.BASE_URL_BACKEND}/api/v2/dashboard/programs/${programId}/task_templates/${taskId}`,
+        {
+          method: "DELETE",
+        }
+      );
+    })
+  );
+
+  revalidateTag(REVALIDATE_GET_TASK_TAG);
 };

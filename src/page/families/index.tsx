@@ -12,13 +12,14 @@ import FamiliesTable from "./ui/FamiliesTable";
 import { SearchFilter } from "./ui/SearchFilter/SearchFilter";
 interface FamiliesProps {
   families: FamilyType[];
+  programId: string;
 }
-const Families: React.FC<FamiliesProps> = ({ families }) => {
+const Families: React.FC<FamiliesProps> = ({ programId, families }) => {
   const t = useTranslations();
 
   return (
     <main>
-      <FamiliesStoreProvider families={families}>
+      <FamiliesStoreProvider families={families} programId={programId} >
         <SearchPanel
           filterForm={<SearchFilter />}
           searchParamName="family_name"

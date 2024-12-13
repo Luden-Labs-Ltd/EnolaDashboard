@@ -8,7 +8,6 @@ import {
   useEffect,
   useState,
 } from "react";
-import { TaskType } from ".";
 import { ConvertedTasksState } from "../lib/converter";
 
 type TasksContextState = {
