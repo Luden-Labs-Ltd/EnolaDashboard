@@ -9,7 +9,7 @@ import {
 } from "@components/shadowCDN/dialog";
 import TooltipWrapper from "@components/TooltipWrapper";
 import { CategoryType } from "entities/category";
-import { useTasksStore } from "entities/task";
+import { deleteTaskApi, useTasksStore } from "entities/task";
 import { useTranslations } from "next-intl";
 import React, { useState } from "react";
 import DeleteIcon from "shared/assets/DeleteIcon";
@@ -18,26 +18,28 @@ interface DeleteTaskActionProps {
   category: CategoryType;
 }
 
-const DeleteTasks: React.FC<DeleteTaskActionProps> = ({
-  category
-}) => {
+const DeleteTasks: React.FC<DeleteTaskActionProps> = ({ category }) => {
   const t = useTranslations();
 
   const [isOpen, setIsOpen] = useState(false);
   const { tasksState, deleteSelectedTasks } = useTasksStore();
-  const { selectedTasks } = tasksState;
+  const { selectedTasks, programId } = tasksState;
 
   const onClose = () => {
     setIsOpen(false);
   };
 
+  const isDeleteDisabled = !programId || !selectedTasks[category.id]?.length
   const applyChangesHandle = () => {
-    deleteSelectedTasks(category.id);
-    setIsOpen(false);
+    if (!isDeleteDisabled) {
+      deleteTaskApi(programId, selectedTasks[category.id]);
+      deleteSelectedTasks(category.id);
+      setIsOpen(false);
+    }
   };
 
   const isActive = !!selectedTasks.length;
-  const selectedCount = selectedTasks[category.id]?.length ?? 0
+  const selectedCount = selectedTasks[category.id]?.length ?? 0;
 
   return (
     <Dialog onOpenChange={setIsOpen} open={isOpen}>
@@ -72,7 +74,7 @@ const DeleteTasks: React.FC<DeleteTaskActionProps> = ({
           >
             {t("Common.cancel")}
           </Button>
-          <Button rounded={"circle"} onClick={applyChangesHandle} size={"lg"}>
+          <Button rounded={"circle"} disabled={isDeleteDisabled} onClick={applyChangesHandle} size={"lg"}>
             {t("Common.delete")}
           </Button>
         </div>

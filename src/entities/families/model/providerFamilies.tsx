@@ -12,11 +12,13 @@ import { FamilyType } from ".";
 
 type FamiliesContextState = {
   families: FamilyType[];
+  programId: string;
   selectedFamilies: number[];
 };
 
 type FamiliesProviderValue = {
   families: FamilyType[];
+  programId: string;
 };
 
 const FamiliesContext = createContext<{
@@ -26,10 +28,11 @@ const FamiliesContext = createContext<{
 
 export const FamiliesStoreProvider: React.FC<
   PropsWithChildren<FamiliesProviderValue>
-> = ({ families, children }) => {
+> = ({ families, programId, children }) => {
   const [familiesState, setFamiliesState] = useState<FamiliesContextState>({
     families: families,
     selectedFamilies: [],
+    programId: programId,
   });
 
   useEffect(() => {

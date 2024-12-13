@@ -3,46 +3,12 @@ import { z } from "zod";
 import { createFamilyApi, deleteFamilyById, editFamilyApi } from "../api";
 import { revalidateTag } from "next/cache";
 import { GET_FAMILIES_REVALIDATE_TAG } from "../api/const";
-import { EditFamilyDto } from "../api/types";
+import { CreateFamilyDto, EditFamilyDto } from "../api/types";
 
-const schemaCreateFamily = z.object({
-  phoneNumber: z.string().min(6).max(20),
-  title: z.string().min(1),
-});
 
-export const createFamily = async (prevState: any, formData: FormData) => {
-  try {
-    const validatedFields = schemaCreateFamily.safeParse({
-      phoneNumber: formData.get("phone_number"),
-      title: formData.get("title"),
-    });
-
-    if (!validatedFields.success) {
-      return {
-        ...prevState,
-        zodErrors: validatedFields.error.flatten().fieldErrors,
-        apiError: null,
-        data: "uncompleted",
-      };
-    }
-
-    await createFamilyApi(formData);
-    revalidateTag(GET_FAMILIES_REVALIDATE_TAG);
-
-    return {
-      ...prevState,
-      zodErrors: null,
-      apiError: null,
-      data: "completed",
-    };
-  } catch (error: any) {
-    return {
-      ...prevState,
-      zodErrors: null,
-      apiError: error.message,
-      data: "uncompleted",
-    };
-  }
+export const createFamily = async (data: CreateFamilyDto) => {
+  await createFamilyApi(data);
+  revalidateTag(GET_FAMILIES_REVALIDATE_TAG);
 };
 
 const schemaDeleteFamily = z.object({
@@ -83,8 +49,11 @@ export const deleteFamily = async (prevState: any, formData: FormData) => {
   }
 };
 
-export const editFamily = async (familyId: number, familyDto: EditFamilyDto) => {
+export const editFamily = async (
+  familyId: number,
+  familyDto: EditFamilyDto
+) => {
   const res = await editFamilyApi(familyId, familyDto);
   revalidateTag(GET_FAMILIES_REVALIDATE_TAG);
-  return res
+  return res;
 };

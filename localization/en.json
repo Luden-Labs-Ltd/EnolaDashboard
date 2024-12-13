@@ -166,6 +166,7 @@
         "private": "Private",
         "select": "Select",
         "filter": "Filter",
-        "clear": "Clear"
+        "clear": "Clear",
+        "address": "Address"
     }
 }

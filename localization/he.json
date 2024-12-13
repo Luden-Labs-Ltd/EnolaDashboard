@@ -166,6 +166,7 @@
         "private": "פרטי",
         "select": "בחר",
         "filter": "מסנן",
-        "clear": "נקה"
+        "clear": "נקה",
+        "address": "כתובת"
     }
 }
