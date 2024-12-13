@@ -4,6 +4,7 @@ import { convertTasksData, getTasks } from "entities/task";
 import SearchPanel from "features/search-panel";
 import Needs from "page/needs";
 
+export const dynamic = 'force-dynamic';
 export default async function NeedsPage() {
   const profile = await getCurrentProfileApi();
   const programId = profile?.company.programs[0].id ?? null;

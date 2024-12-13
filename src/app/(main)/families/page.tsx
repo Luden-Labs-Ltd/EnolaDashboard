@@ -3,6 +3,7 @@ import { convertDataForTable, getFamiliesFromApi } from "entities/families";
 import Families from "page/families";
 import { PageProps } from "../../../../.next/types/app/layout";
 
+export const dynamic = 'force-dynamic';
 export default async function FamiliesPage(props: PageProps) {
   const searchParams = await props.searchParams;
   const programId = searchParams?.family_name ?? '';
