@@ -2,19 +2,19 @@ import React from "react";
 
 import { Checkbox } from "@components/shadowCDN/checkbox";
 import { TableCell } from "@components/shadowCDN/table";
-import { RowItem, RowItemType } from "@widgets/UniversalTable/lib/types";
+import { CeilItem, CeilItemType } from "@widgets/UniversalTable/lib/types";
 import CeilDropDown from "../CeilDropDown";
 import { DropDownMenuItemsType } from "@components/DropDownMenu";
 
-export type renderCeilDropDownItemsType = (ceil: RowItem) => DropDownMenuItemsType[]
+export type renderCeilDropDownItemsType = (ceil: CeilItem) => DropDownMenuItemsType[]
 interface CeilProps {
-  ceil: RowItem;
+  ceil: CeilItem;
   toggleSelectedItems: (id: number) => void;
   renderCeilDropDownItems: renderCeilDropDownItemsType;
 }
 
 export const Ceil: React.FC<CeilProps> = ({ ceil, toggleSelectedItems, renderCeilDropDownItems }) => {
-  if (ceil.type === RowItemType.SELECT) {
+  if (ceil.type === CeilItemType.SELECT) {
     return (
       <TableCell>
         <Checkbox checked={ceil.isActive} onClick={() => toggleSelectedItems(ceil.itemId)} />
@@ -22,7 +22,7 @@ export const Ceil: React.FC<CeilProps> = ({ ceil, toggleSelectedItems, renderCei
     );
   }
 
-  if (ceil.type === RowItemType.ACTIONS) {
+  if (ceil.type === CeilItemType.ACTIONS) {
     return (
       <TableCell>
         <CeilDropDown ceilDropDownItems={renderCeilDropDownItems(ceil)} ceil={ceil} />

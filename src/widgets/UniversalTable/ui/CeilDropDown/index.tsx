@@ -1,10 +1,10 @@
 import DropDownMenu, { DropDownMenuItemsType } from "@components/DropDownMenu";
 import React from "react";
-import { RowItem } from "@widgets/UniversalTable/lib/types";
+import { CeilItem } from "@widgets/UniversalTable/lib/types";
 import "./CeilDropDow.css";
 
 interface CeilDropDownProps {
-  ceil: RowItem;
+  ceil: CeilItem;
   ceilDropDownItems: DropDownMenuItemsType[];
 }
 

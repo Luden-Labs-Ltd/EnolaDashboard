@@ -167,6 +167,7 @@
         "select": "Select",
         "filter": "Filter",
         "clear": "Clear",
-        "address": "Address"
+        "address": "Address",
+        "copyLink": "Copy Link"
     }
 }

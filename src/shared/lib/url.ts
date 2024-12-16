@@ -25,3 +25,11 @@ export const createQueryStringFromObject = (
 
   return currentSearchParams.toString();
 };
+
+
+export const createUrlFromOrigin = (route: string) => {
+  if (typeof window === "undefined") {
+    return ""
+  }
+  return `${window.document.location.origin}${route}`
+};
