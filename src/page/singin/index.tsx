@@ -4,7 +4,7 @@ import PhoneField from "@components/PhoneField";
 import { Button } from "@components/shadowCDN/button";
 import { sendOtpCode, testAction } from "entities/auth/action";
 import { useTranslations } from "next-intl";
-import React, { MouseEvent, RefObject, useEffect, useRef, useState } from "react";
+import React, { MouseEvent, useEffect, useRef, useState } from "react";
 import { useFormState } from "react-dom";
 import { ZodErrors } from "@components/ZodErrors/ZodErrors";
 import { OtpForm } from "./ui/OtpForm/OtpForm";
