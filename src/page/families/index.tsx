@@ -1,5 +1,4 @@
 import Row from "@components/Row";
-import { Button } from "@components/shadowCDN/button";
 import { ScrollArea } from "@components/shadowCDN/scroll-area";
 import { FamiliesStoreProvider, FamilyType } from "entities/families";
 import { AddFamily } from "features/add-family";
