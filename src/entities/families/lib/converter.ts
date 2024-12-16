@@ -10,7 +10,7 @@ export const convertDataForTable = (
     const inProgress = family.occurrences_by_status?.in_progress ?? 0;
     const initial = family.occurrences_by_status?.initial ?? 0;
     const currentTasksCount = completed + inProgress + initial;
-
+    
     return {
       id: family.id,
       name: family.title,
@@ -20,6 +20,7 @@ export const convertDataForTable = (
       archived: String(family.archived),
       enrolmentSource: "enrolmentSource",
       tasks: currentTasksCount,
+      memberships: family.membership_count ?? 0,
       supporters: family.supporter_count,
     };
   });

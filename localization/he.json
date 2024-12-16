@@ -167,6 +167,7 @@
         "select": "בחר",
         "filter": "מסנן",
         "clear": "נקה",
-        "address": "כתובת"
+        "address": "כתובת",
+        "copyLink": "העתק קישור"
     }
 }

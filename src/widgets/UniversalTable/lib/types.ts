@@ -4,7 +4,7 @@ export enum HeaderItemType {
   SELECT = "SELECT",
 }
 
-export enum RowItemType {
+export enum CeilItemType {
   VALUE = "VALUE",
   ACTIONS = "ACTIONS",
   SELECT = "SELECT",
@@ -16,10 +16,11 @@ export type HeaderItem = {
   type: HeaderItemType;
 };
 
-export type RowItem = {
+export type CeilItem = {
   id: string;
   itemId: number;
   value: string | number;
-  type: RowItemType;
+  type: CeilItemType;
+  itemData: Record<string, any>,
   isActive?: boolean;
 };

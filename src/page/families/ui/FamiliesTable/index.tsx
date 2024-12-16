@@ -13,6 +13,7 @@ import ShareIcon from "shared/assets/ShareIcon";
 import ViewIcon from "shared/assets/ViewIcon";
 import { useTranslations } from "next-intl";
 import CopyText from "features/copy-text";
+import { createUrlFromOrigin } from "@lib/url";
 
 interface FamiliesTableProps {}
 
@@ -36,15 +37,16 @@ const FamiliesTable: React.FC<FamiliesTableProps> = () => {
           label: t("Common.share"),
           icon: <ShareIcon />,
           renderCustomComponent: (onOpen, onClose) => {
-            let currentLinkToFamily = ''
-            if (typeof window !== "undefined") {
-              currentLinkToFamily = `${window.document.location.origin}/family/${ceil.itemId}`
-            }
+            const currentLinkToFamily = createUrlFromOrigin(
+              `/family/${ceil.itemId}`
+            );
             return (
-              <CopyText textToCopy={currentLinkToFamily}>
-                <DropdownMenuItem
-                  className={"DropdownMenuItem"}
-                >
+              <CopyText
+                key={`${ceil.itemId}-copy`}
+                callback={onClose}
+                textToCopy={currentLinkToFamily}
+              >
+                <DropdownMenuItem className={"DropdownMenuItem"}>
                   <ShareIcon />
                   <span>{t("Common.share")}</span>
                 </DropdownMenuItem>

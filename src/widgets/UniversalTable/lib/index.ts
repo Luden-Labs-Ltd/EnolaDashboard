@@ -1,8 +1,8 @@
-import { HeaderItem, HeaderItemType, RowItem, RowItemType } from "./types";
+import { HeaderItem, HeaderItemType, CeilItem, CeilItemType } from "./types";
 
 type TableData = {
   headers: HeaderItem[];
-  rows: Array<Array<RowItem>>;
+  rows: Array<Array<CeilItem>>;
 };
 
 type TableDataConverterDto = {
@@ -28,16 +28,19 @@ const createRow = ({
   rowValue,
   type,
   isActive,
+  itemData,
 }: {
   rowId: string;
   itemId: number;
   rowValue: string | number;
-  type: RowItemType;
+  type: CeilItemType;
+  itemData: Record<string, any>,
   isActive?: boolean;
-}): RowItem => {
+}): CeilItem => {
   return {
     id: rowId,
     itemId: itemId,
+    itemData: itemData,
     value: rowValue,
     type,
     isActive,
@@ -55,7 +58,6 @@ export const tableDataConverter = ({
 
   tableRawData.forEach((item, index) => {
     const headersAndRows = Object.entries(item);
-
     headersAndRows.forEach(([headerValue, rowValue], headersAndRowsIndex) => {
       const currentHeaderId = `header-${item.id}-${headersAndRowsIndex}`;
       const currentRowId = `row-${item.id}-${headersAndRowsIndex}`;
@@ -75,14 +77,16 @@ export const tableDataConverter = ({
             rowId: "select-" + currentRowId,
             itemId: item.id,
             rowValue: "",
-            type: RowItemType.SELECT,
+            type: CeilItemType.SELECT,
+            itemData: item,
             isActive: selectedColumnIds.includes(item.id),
           }),
           createRow({
             rowId: currentRowId,
             itemId: item.id,
             rowValue: rowValue as number | string,
-            type: RowItemType.VALUE,
+            type: CeilItemType.VALUE,
+            itemData: item,
             isActive: selectedColumnIds.includes(item.id),
           }),
         ];
@@ -92,7 +96,8 @@ export const tableDataConverter = ({
             rowId: currentRowId,
             itemId: item.id,
             rowValue: rowValue as number | string,
-            type: RowItemType.VALUE,
+            type: CeilItemType.VALUE,
+            itemData: item,
             isActive: selectedColumnIds.includes(item.id),
           })
         );
@@ -106,7 +111,8 @@ export const tableDataConverter = ({
             rowId: "actions-" + currentRowId,
             itemId: item.id,
             rowValue: "",
-            type: RowItemType.ACTIONS,
+            type: CeilItemType.ACTIONS,
+            itemData: item,
             isActive: selectedColumnIds.includes(item.id),
           })
         );
