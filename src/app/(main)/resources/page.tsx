@@ -1,21 +1,34 @@
 import { getCurrentProfileApi } from "entities/auth";
 import { convertCategoryData, getCategoriesApi } from "entities/category";
-import { getResources } from "entities/resources";
+import { convertResourcesData, getResourcesFromApi } from "entities/resources";
 import Resources from "page/resources";
+import { PageProps } from "../../../../.next/types/app/layout";
 
-export const dynamic = 'force-dynamic';
-export default async function ResourcesPage() {
+export const dynamic = "force-dynamic";
+export default async function ResourcesPage(props: PageProps) {
+  const searchParams = await props.searchParams;
   const profile = await getCurrentProfileApi();
   const programId = profile?.company.programs[0].id ?? null;
 
-  const categoriesApiData = await getCategoriesApi(programId);
-  const categories = convertCategoryData(categoriesApiData);
+  const resourceName = searchParams?.resource_name ?? "";
+  const categoryId = searchParams?.category_id ?? "";
 
-  const resources = await getResources();
+  const categoriesApiData = await getCategoriesApi(programId);
+  const resourcesApiData = await getResourcesFromApi(programId, {
+    resourceName,
+    categoryId
+  });
+
+  const categories = convertCategoryData(categoriesApiData);
+  const resourcesData = convertResourcesData(resourcesApiData);
 
   return (
     <>
-      <Resources categories={categories} resources={resources}/>
+      <Resources
+        categories={categories}
+        programId={programId}
+        resources={resourcesData}
+      />
     </>
   );
 }

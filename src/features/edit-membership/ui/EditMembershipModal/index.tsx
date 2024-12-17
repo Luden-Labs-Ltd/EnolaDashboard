@@ -63,7 +63,6 @@ const EditMembershipModal: React.FC<
   function onSubmit(values: EditMembershipForm) {
     editMembership(familyId, membershipId, values)
       .then((res) => {
-        console.log(res);
         onClose();
       })
       .catch((err) => {

@@ -14,6 +14,7 @@ import {
   HomeIcon,
 } from "shared/assets/categoryIcon";
 import { CategoryIconType } from "entities/category/model";
+import { color } from "echarts";
 
 export type CategoryPressCallbackArguments = {
   isActive: boolean;
@@ -46,6 +47,7 @@ export interface CategoriesProps {
   customIcon?: React.ReactNode;
   active?: boolean;
   variant?: "default" | "chip";
+  color?: "primary" | "secondary";
   count?: number;
   isPresseble?: boolean;
   pressCallback?: (argue: CategoryPressCallbackArguments) => void;
@@ -69,6 +71,7 @@ const Category: React.FC<PropsWithChildren<CategoriesProps>> = ({
   active,
   radius,
   iconType,
+  color = "primary",
   variant = "default",
   count,
   isPresseble = false,
@@ -94,12 +97,13 @@ const Category: React.FC<PropsWithChildren<CategoriesProps>> = ({
       className={cn(categoryVariants({ size, radius }), {
         [styles.active]: active,
         [styles.chip]: isChip,
+        [styles.secondary]: color === "secondary",
       })}
     >
       {icon ? <div>{icon}</div> : null}
       <div>{title}</div>
       {count ? <div>{count}</div> : null}
-      {isChip ? <div>x</div> : null}
+      {/* {isChip ? <div>x</div> : null} */}
     </div>
   );
 };

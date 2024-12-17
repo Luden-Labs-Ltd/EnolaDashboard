@@ -9,14 +9,19 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@components/shadowCDN/dialog";
-import ResourceForm from "entities/resources";
+import { CategoryType } from "entities/category";
 import { useTranslations } from "next-intl";
 import React, { useState } from "react";
 import AddIcon from "shared/assets/AddIcon";
+import { ResourceForm } from "../ResourceForm/ResourceForm";
 
-interface AddResourcesModalActionProps {}
+interface AddResourcesModalActionProps {
+  categories: CategoryType[];
+}
 
-const AddResourcesModal: React.FC<AddResourcesModalActionProps> = ({}) => {
+const AddResourcesModal: React.FC<AddResourcesModalActionProps> = ({
+  categories,
+}) => {
   const t = useTranslations();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -25,24 +30,20 @@ const AddResourcesModal: React.FC<AddResourcesModalActionProps> = ({}) => {
     setIsOpen(false);
   };
 
-  const onSubmitHandler = () => {
-    setIsOpen(false);
-  };
-
   return (
     <Dialog onOpenChange={setIsOpen} open={isOpen}>
       <DialogTrigger asChild>
         <Button withIcon size={"full"} rounded={"circle"}>
           <AddIcon />
-          <span>{t('Resources.newResources')}</span>
+          <span>{t("Resources.newResources")}</span>
         </Button>
       </DialogTrigger>
       <DialogContent className="flex items-center flex-col w-full">
         <DialogHeader>
-          <DialogTitle>Add Resources</DialogTitle>
+          <DialogTitle>{t("Resources.addResources")}</DialogTitle>
         </DialogHeader>
-        <DialogDescription>
-          <ResourceForm onSubmit={onSubmitHandler} />
+        <DialogDescription className="w-full p-[40px]">
+          <ResourceForm categories={categories} callback={onClose} />
         </DialogDescription>
       </DialogContent>
     </Dialog>

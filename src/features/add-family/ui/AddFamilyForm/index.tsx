@@ -28,8 +28,6 @@ export const AddFamilyForm: React.FC<AddFamilyFormProps> = ({ onClose }) => {
   const { familiesState } = useFamiliesStore();
   const { programId } = familiesState;
 
-  console.log(programId);
-  
   const form = useForm<CreateFamilyForm>({
     resolver: zodResolver(createFormScheme),
     defaultValues: {

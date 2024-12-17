@@ -1,0 +1,51 @@
+import {
+  FormField,
+  FormItem,
+  FormLabel,
+  FormControl,
+  FormDescription,
+  FormMessage,
+} from "@components/shadowCDN/form";
+import React from "react";
+import { FieldValues } from "react-hook-form";
+import { FormFieldProps } from "..";
+import { Checkbox } from "@components/shadowCDN/checkbox";
+import { getDirectionClassForField } from "../helper";
+
+export function FormCheckbox<F extends FieldValues>(props: FormFieldProps<F>) {
+  const { renderField, formObject } = props;
+  const className = renderField.className ?? "";
+  const fieldDirectionClassName = getDirectionClassForField(
+    renderField.direction
+  );
+  return (
+    <FormField
+      key={renderField.id}
+      control={formObject.control}
+      name={renderField.name}
+      render={({ field }) => {
+        return (
+          <FormItem className="flex gap-[10px] items-center">
+            <div className={`${fieldDirectionClassName} ${className}`}>
+              <FormLabel className="mt-2">{renderField.label}</FormLabel>
+              <FormControl>
+                <Checkbox
+                  defaultChecked={field.value}
+                  checked={field.value}
+                  className="m-0 mt-0"
+                  onCheckedChange={field.onChange}
+                  {...field}
+                />
+              </FormControl>
+            </div>
+            {renderField.description ? (
+              <FormDescription>{renderField.description}</FormDescription>
+            ) : null}
+
+            <FormMessage />
+          </FormItem>
+        );
+      }}
+    />
+  );
+}

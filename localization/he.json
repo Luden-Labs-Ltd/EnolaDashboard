@@ -78,7 +78,10 @@
     },
     "Resources": {
         "newResources": "משאבים חדשים",
-        "addResources": "הוסף משאבים"
+        "addResources": "הוסף משאבים",
+        "serviceName": "שם שירות",
+        "contactPerson": "איש קשר",
+        "termOfService": "תנאי השירות"
     },
     "Families": {
         "addFamilies": "משפחות חדשות",
@@ -110,6 +113,7 @@
         "programName": "שם התוכנית",
         "families": "משפחות",
         "familyId": "תעודת זהות משפחתית",
+        "email": "דואר אלקטרוני",
         "tasks": "משימות",
         "memberships": "חברות",
         "supporters": "תומכים",
@@ -168,6 +172,9 @@
         "filter": "מסנן",
         "clear": "נקה",
         "address": "כתובת",
-        "copyLink": "העתק קישור"
+        "copyLink": "העתק קישור",
+        "url": "כתובת אתר",
+        "organization": "ארגון",
+        "category": "קטגוריה"
     }
 }
