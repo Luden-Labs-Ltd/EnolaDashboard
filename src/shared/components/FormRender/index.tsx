@@ -1,26 +1,13 @@
 "use client";
 
-import PhoneField from "@components/PhoneField";
-import { Checkbox } from "@components/shadowCDN/checkbox";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@components/shadowCDN/form";
-import { Input } from "@components/shadowCDN/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@components/shadowCDN/select";
+import { Form, FormMessage } from "@components/shadowCDN/form";
+
 import { InputHTMLAttributes, PropsWithChildren } from "react";
 import { FieldValues, Path, PathValue, UseFormReturn } from "react-hook-form";
+import { FormPhone } from "./Phone";
+import { FormInput } from "./Input";
+import { FormCheckbox } from "./Checkbox";
+import { FormSelect } from "./Select";
 
 type fieldsType = "input" | "checkbox" | "phone" | "select";
 type inputType = InputHTMLAttributes<HTMLInputElement>["type"];
@@ -30,6 +17,8 @@ export type FormRenderField<FieldsGeneric> = {
   type: fieldsType;
   id: string;
   label: string;
+  direction?: "column" | "row";
+  className?: string;
   description?: string;
   inputType?: inputType;
   options?: Array<{
@@ -37,6 +26,12 @@ export type FormRenderField<FieldsGeneric> = {
     name: string | React.ReactNode;
   }>;
   placeholder?: string;
+};
+
+export type FormFieldProps<T extends FieldValues> = {
+  formObject: UseFormReturn<T>;
+  renderField: FormRenderField<T>;
+  customErrorMessage?: string;
 };
 
 type FormRenderProps<T extends FieldValues> = {
@@ -65,131 +60,40 @@ export default function FormRender<B extends FieldValues>(
     switch (renderField.type) {
       case "phone":
         return (
-          <FormField
-            key={renderField.id}
-            control={formObject.control}
-            name={renderField.name}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{renderField.label}</FormLabel>
-                <FormControl>
-                  <PhoneField
-                    placeholder={
-                      renderField.placeholder ?? renderField.label.toUpperCase()
-                    }
-                    {...field}
-                  />
-                </FormControl>
-                {renderField.description ? (
-                  <FormDescription>{renderField.description}</FormDescription>
-                ) : null}
-
-                <FormMessage />
-              </FormItem>
-            )}
+          <FormPhone
+            key={`${renderField.name}-${renderField.id}-${renderField.type}`}
+            formObject={formObject}
+            renderField={renderField}
+            customErrorMessage={customErrorMessage}
           />
         );
       case "select":
         return (
-          <FormField
-            key={renderField.id}
-            control={formObject.control}
-            name={renderField.name}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{renderField.label}</FormLabel>
-                <FormControl>
-                  <Select {...field} onValueChange={field.onChange}>
-                    <SelectTrigger>
-                      <SelectValue
-                        placeholder={
-                          renderField.placeholder ??
-                          renderField.label.toUpperCase()
-                        }
-                      />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {renderField.options?.map((item) => {
-                        return (
-                          <SelectItem
-                            key={`${renderField.id}-${item.value}`}
-                            value={item.value}
-                          >
-                            {item.name}
-                          </SelectItem>
-                        );
-                      })}
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-                {renderField.description ? (
-                  <FormDescription>{renderField.description}</FormDescription>
-                ) : null}
-
-                <FormMessage />
-              </FormItem>
-            )}
+          <FormSelect
+            key={`${renderField.name}-${renderField.id}-${renderField.type}`}
+            formObject={formObject}
+            renderField={renderField}
+            customErrorMessage={customErrorMessage}
           />
         );
       case "checkbox":
         return (
-          <FormField
-            key={renderField.id}
-            control={formObject.control}
-            name={renderField.name}
-            render={({ field }) => {
-              return (
-                <FormItem className="flex gap-[10px] items-center">
-                  <FormLabel className="mt-2">{renderField.label}</FormLabel>
-                  <FormControl>
-                    <Checkbox
-                      defaultChecked={field.value}
-                      checked={field.value}
-                      className="m-0 mt-0"
-                      onCheckedChange={field.onChange}
-                      {...field}
-                    />
-                  </FormControl>
-                  {renderField.description ? (
-                    <FormDescription>{renderField.description}</FormDescription>
-                  ) : null}
-
-                  <FormMessage />
-                </FormItem>
-              );
-            }}
+          <FormCheckbox
+            key={`${renderField.name}-${renderField.id}-${renderField.type}`}
+            formObject={formObject}
+            renderField={renderField}
+            customErrorMessage={customErrorMessage}
           />
         );
 
       case "input":
       default:
         return (
-          <FormField
-            key={renderField.id}
-            control={formObject.control}
-            name={renderField.name}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{renderField.label}</FormLabel>
-                <FormControl>
-                  <Input
-                    type={renderField.inputType}
-                    placeholder={
-                      renderField.placeholder ?? renderField.label.toUpperCase()
-                    }
-                    {...formObject.register(field.name, {
-                      valueAsNumber:
-                        renderField.inputType === "number" ? true : false,
-                    })}
-                  />
-                </FormControl>
-                {renderField.description ? (
-                  <FormDescription>{renderField.description}</FormDescription>
-                ) : null}
-
-                <FormMessage />
-              </FormItem>
-            )}
+          <FormInput
+            key={`${renderField.name}-${renderField.id}-${renderField.type}`}
+            formObject={formObject}
+            renderField={renderField}
+            customErrorMessage={customErrorMessage}
           />
         );
     }

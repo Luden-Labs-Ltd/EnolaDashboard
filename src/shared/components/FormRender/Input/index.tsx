@@ -1,0 +1,52 @@
+import {
+  FormField,
+  FormItem,
+  FormLabel,
+  FormControl,
+  FormDescription,
+  FormMessage,
+} from "@components/shadowCDN/form";
+import React from "react";
+import { FieldValues } from "react-hook-form";
+import { FormFieldProps } from "..";
+import { Input } from "@components/shadowCDN/input";
+import { getDirectionClassForField } from "../helper";
+
+export function FormInput<F extends FieldValues>(props: FormFieldProps<F>) {
+  const { renderField, formObject } = props;
+  const className = renderField.className ?? "";
+  const fieldDirectionClassName = getDirectionClassForField(
+    renderField.direction
+  );
+  return (
+    <FormField
+      key={renderField.id}
+      control={formObject.control}
+      name={renderField.name}
+      render={({ field }) => (
+        <FormItem className="w-full">
+          <div className={`${fieldDirectionClassName} ${className}`}>
+            <FormLabel className="min-w-fit">{renderField.label}</FormLabel>
+            <FormControl>
+              <Input
+                type={renderField.inputType}
+                placeholder={
+                  renderField.placeholder ?? renderField.label.toUpperCase()
+                }
+                {...formObject.register(field.name, {
+                  valueAsNumber:
+                    renderField.inputType === "number" ? true : false,
+                })}
+              />
+            </FormControl>
+          </div>
+          {renderField.description ? (
+            <FormDescription>{renderField.description}</FormDescription>
+          ) : null}
+
+          <FormMessage />
+        </FormItem>
+      )}
+    />
+  );
+}

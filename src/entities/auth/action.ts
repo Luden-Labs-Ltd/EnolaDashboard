@@ -113,7 +113,6 @@ export async function authenticate(formData: FormData): Promise<{
       error: "Login unsuccessful",
     };
   } catch (error) {
-    console.log(error, "login error");
     return {
       token: null,
       error: "Login unsuccessful",

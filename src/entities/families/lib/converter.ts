@@ -29,8 +29,6 @@ export const convertDataForTable = (
 export const convertSingleFamilyData = (
   familyData: FamilyApi
 ): FamilyContextState => {
-  console.log(familyData);
-  
   const completed = familyData.occurrences_by_status?.completed ?? 0;
   const inProgress = familyData.occurrences_by_status?.in_progress ?? 0;
   const initial = familyData.occurrences_by_status?.initial ?? 0;

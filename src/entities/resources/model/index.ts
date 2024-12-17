@@ -1,5 +1,5 @@
 export type ResourcesType = {
-  id: string;
+  id: number;
   serviceName: string;
   organization: string;
   contactPerson: string;

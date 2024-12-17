@@ -11,6 +11,10 @@
   background-color: $mainBackgroundColor;
 }
 
+.wrapper.secondary:hover, .secondary.active {
+  background-color: $mainBackgroundColorLight;
+}
+
 .chip {
   border: 1px solid $primaryColor;
   border-radius: 8px;

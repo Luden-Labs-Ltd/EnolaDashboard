@@ -78,7 +78,10 @@
     },
     "Resources": {
         "newResources": "New resources",
-        "addResources": "Add resources"
+        "addResources": "Add resources",
+        "serviceName": "Service Name",
+        "contactPerson": "Contact person",
+        "termOfService": "Terms of service"
     },
     "Families": {
         "addFamilies": "Add families",
@@ -110,6 +113,7 @@
         "programName": "Program Name",
         "families": "Families",
         "familyId": "family Id",
+        "email": "Email",
         "tasks": "Tasks",
         "memberships": "Memberships",
         "supporters": "Supporters",
@@ -168,6 +172,9 @@
         "filter": "Filter",
         "clear": "Clear",
         "address": "Address",
-        "copyLink": "Copy Link"
+        "copyLink": "Copy Link",
+        "url": "URL",
+        "organization": "Organization",
+        "category": "Category"
     }
 }

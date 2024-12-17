@@ -11,7 +11,6 @@ export default async function FamiliesPage(props: PageProps) {
   const programId = profile?.company.programs[0].id ?? "";
 
   const familiesName = searchParams?.family_name ?? "";
-
   const familyId = searchParams?.family_id ?? "";
   const isArchived = searchParams?.is_archived ?? false;
 
