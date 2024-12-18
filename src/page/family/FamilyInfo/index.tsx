@@ -1,8 +1,8 @@
 import Row from "@components/Row";
+import { Separator } from "@components/shadowCDN/separator";
 import { useFamilyStore } from "entities/families";
 import { useTranslations } from "next-intl";
 import React from "react";
-import { Separator } from "components/ui/separator";
 
 interface FamilyInfoProps {}
 
