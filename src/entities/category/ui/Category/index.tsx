@@ -14,7 +14,7 @@ import {
   HomeIcon,
 } from "shared/assets/categoryIcon";
 import { CategoryIconType } from "entities/category/model";
-import { color } from "echarts";
+import Row from "@components/Row";
 
 export type CategoryPressCallbackArguments = {
   isActive: boolean;
@@ -45,14 +45,15 @@ export interface CategoriesProps {
   id: string;
   iconType: CategoryIconType;
   customIcon?: React.ReactNode;
+  actions?: React.ReactNode;
   active?: boolean;
   variant?: "default" | "chip";
   color?: "primary" | "secondary";
   count?: number;
   isPresseble?: boolean;
+  className?: string;
   pressCallback?: (argue: CategoryPressCallbackArguments) => void;
 }
-
 
 export const ICON_MAP: { [key: string]: React.ReactNode } = {
   general: <MessageIcon />,
@@ -71,10 +72,12 @@ const Category: React.FC<PropsWithChildren<CategoriesProps>> = ({
   active,
   radius,
   iconType,
+  actions,
   color = "primary",
   variant = "default",
   count,
   isPresseble = false,
+  className = '',
   pressCallback,
 }) => {
   const isChip = variant === "chip";
@@ -98,12 +101,17 @@ const Category: React.FC<PropsWithChildren<CategoriesProps>> = ({
         [styles.active]: active,
         [styles.chip]: isChip,
         [styles.secondary]: color === "secondary",
+        [className]: className,
       })}
     >
-      {icon ? <div>{icon}</div> : null}
-      <div>{title}</div>
+      <Row alignItems="center">
+        {icon ? <div>{icon}</div> : null}
+        <div>{title}</div>
+      </Row>
       {count ? <div>{count}</div> : null}
       {/* {isChip ? <div>x</div> : null} */}
+
+      {actions ? actions : null}
     </div>
   );
 };

@@ -69,45 +69,12 @@ export const createMembers = async (prevState: any, formData: FormData) => {
   }
 };
 
-const schemaDeleteMembership = z.object({
-  familyId: z.string(),
-  membershipId: z.string(),
-});
-
-export const deleteMembership = async (prevState: any, formData: FormData) => {
-  try {
-    const validatedFields = schemaDeleteMembership.safeParse({
-      familyId: formData.get("family_id"),
-      membershipId: formData.get("membership_id"),
-    });
-
-    if (!validatedFields.success) {
-      return {
-        ...prevState,
-        zodErrors: validatedFields.error.flatten().fieldErrors,
-        apiError: null,
-        data: "uncompleted",
-      };
-    }
-    await deleteMembershipApi(
-      validatedFields.data.familyId,
-      validatedFields.data.membershipId
-    );
-
-    return {
-      ...prevState,
-      zodErrors: null,
-      apiError: null,
-      data: "completed",
-    };
-  } catch (error: any) {
-    return {
-      ...prevState,
-      zodErrors: null,
-      apiError: error.message,
-      data: "uncompleted",
-    };
-  }
+export const deleteMembership = async (
+  familyId: string,
+  membershipId: string
+) => {
+  await deleteMembershipApi(familyId, membershipId);
+  revalidateTag(GET_MEMBERSHIPS_REVALIDATE_TAG);
 };
 
 export const editMembership = async (

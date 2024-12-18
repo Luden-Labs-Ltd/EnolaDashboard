@@ -49,6 +49,8 @@
         }
     },
     "Tasks": {
+        "manageTasks": "ניהול משימות",
+        "categoryNotSet": "קטגוריה לא מוגדרת",
         "EditTasks": {
             "title": "ערוך משימות ({count})",
             "description": "לאחר לחיצה על כפתור העריכה, לא ניתן יהיה לשחזר משימות."
@@ -74,6 +76,9 @@
     "Categories": {
         "CreateCategories": {
             "title": "צור קטגוריות"
+        },
+        "Delete": {
+            "description": "לאחר לחיצה על כפתור המחיקה, לא ניתן יהיה לשחזר קטגוריות."
         }
     },
     "Resources": {
@@ -178,6 +183,7 @@
         "copyLink": "העתק קישור",
         "url": "כתובת אתר",
         "organization": "ארגון",
-        "category": "קטגוריה"
+        "category": "קטגוריה",
+        "description": "תיאור"
     }
 }

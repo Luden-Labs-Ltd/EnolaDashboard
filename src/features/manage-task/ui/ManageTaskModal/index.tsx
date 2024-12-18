@@ -36,12 +36,12 @@ const ManageTaskModal: React.FC<ManageTaskActionProps> = ({ category }) => {
         <DialogTrigger asChild>
           <Button withIcon variant={"secondary"}>
             <AddIcon />
-            <span>Manage Task</span>
+            <span>{t("Tasks.manageTasks")}</span>
           </Button>
         </DialogTrigger>
         <DialogContent className="flex items-center flex-col w-full max-w-sm">
           <DialogHeader>
-            <DialogTitle>Category Not Set</DialogTitle>
+            <DialogTitle>{t("Tasks.categoryNotSet")}</DialogTitle>
           </DialogHeader>
           <div className="flex flex-col gap-6">
             <Button rounded={"circle"} onClick={applyChangesHandle} size={"lg"}>
@@ -66,7 +66,7 @@ const ManageTaskModal: React.FC<ManageTaskActionProps> = ({ category }) => {
       <DialogTrigger asChild>
         <Button withIcon variant={"secondary"}>
           <EditIcon />
-          <span>Manage Task</span>
+          <span>{t('Tasks.manageTasks')}</span>
         </Button>
       </DialogTrigger>
       <DialogContent className="flex items-center flex-col w-full max-w-[800px]">
