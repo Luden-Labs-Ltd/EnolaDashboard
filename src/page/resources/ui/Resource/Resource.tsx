@@ -9,6 +9,8 @@ import DeleteIcon from "shared/assets/DeleteIcon";
 import { useTranslations } from "next-intl";
 import CopyText from "features/copy-text";
 import { DropdownMenuItem } from "@components/shadowCDN/dropdown-menu";
+import { DeleteMembership } from "features/delete-membership";
+import DeleteResourceModal from "features/delete-resource/ui/DeleteResourceModal";
 
 interface ResourceProps {
   resource: ResourcesType;
@@ -50,8 +52,13 @@ export const Resource: React.FC<ResourceProps> = ({ resource }) => {
     {
       id: `${resource.id}-delete`,
       label: t("Common.delete"),
-      icon: <DeleteIcon />,
+      icon: "",
       href: ``,
+      renderCustomComponent: (onOpen, onClose) => {
+        return (
+          <DeleteResourceModal callback={onClose} key={`${resource.id}-delete`} resourceId={resource.id}/>
+        );
+      },
     },
   ];
 

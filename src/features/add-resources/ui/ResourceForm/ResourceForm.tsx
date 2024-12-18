@@ -1,5 +1,5 @@
 "use client";
-import FormRender from "@components/FormRender";
+import FormRender, { FormRenderField } from "@components/FormRender";
 import { Button } from "@components/shadowCDN/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CategoryType, ICON_MAP } from "entities/category";
@@ -31,7 +31,7 @@ export const ResourceForm: React.FC<ResourceFormProps> = ({
     defaultValues: {},
   });
 
-  const createTasksFields = [
+  const createTasksFields: FormRenderField<CreateResourceValues>[] = [
     {
       name: "name",
       type: "input",

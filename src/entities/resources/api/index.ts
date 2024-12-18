@@ -61,3 +61,20 @@ export const createResourceApi = async (programId: string, data: CreateResourceD
 };
 
 
+export const deleteTaskApi = async (
+  programId: string,
+  resourceId: number
+) => {
+  const response = await fetchInstance(
+    `${process.env.BASE_URL_BACKEND}/api/v2/dashboard/programs/${programId}/resources/${resourceId}`,
+    {
+      method: "DELETE",
+    }
+  );
+
+  if (!response) {
+    throw new Error("Some Error deleteFamilyApi");
+  }
+
+  return true;
+};
