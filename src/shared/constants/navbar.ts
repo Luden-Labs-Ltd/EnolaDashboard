@@ -39,12 +39,6 @@ export const NAVIGATION_ITEMS: Array<NavigationItemType> = [
     navigateTo: "/families",
   },
   {
-    icon: "tasks",
-    translateKey: "tasks",
-    disabled: true,
-    navigateTo: "/tasks",
-  },
-  {
     icon: "heart",
     translateKey: "supporters",
     disabled: true,
