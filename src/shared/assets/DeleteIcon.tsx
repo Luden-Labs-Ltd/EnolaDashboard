@@ -1,6 +1,6 @@
-import React from "react";
+import React, { SVGProps } from "react";
 
-export default function DeleteIcon() {
+export default function DeleteIcon(props: SVGProps<any>) {
   return (
     <svg
       width="24"
@@ -8,6 +8,7 @@ export default function DeleteIcon() {
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      {...props}
     >
       <path
         d="M5 8H20"

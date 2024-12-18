@@ -92,7 +92,7 @@ export const deleteTaskApi = async (
   programId: string,
   selectedTasks: number[]
 ) => {
-  const promise = await Promise.all(
+  await Promise.all(
     selectedTasks.map((taskId) => {
       return fetchInstance(
         `${process.env.BASE_URL_BACKEND}/api/v2/dashboard/programs/${programId}/task_templates/${taskId}`,

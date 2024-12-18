@@ -11,6 +11,7 @@ import React, { ReactNode, useState } from "react";
 import DotsIcon from "shared/assets/DotsIcon";
 import styles from "./DropDownMenu.module.scss";
 import Link from "next/link";
+import "./DropDownItem.css";
 
 export type DropDownMenuItemsType = {
   id: string;
