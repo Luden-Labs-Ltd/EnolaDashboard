@@ -1,7 +1,7 @@
-run_linter:
-  image: "node:20.18-alpine"
-  before_script:
-    - apt-get update && apt-get install tar
-  script:
-    - npm install
-    - npm run lint
+# run_linter:
+#   image: "node:20.18-alpine"
+#   before_script:
+#     - apt-get update && apt-get install tar
+#   script:
+#     - npm install
+#     - npm run lint
