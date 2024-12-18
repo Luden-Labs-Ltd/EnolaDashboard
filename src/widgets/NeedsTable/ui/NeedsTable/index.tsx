@@ -81,7 +81,7 @@ const NeedsTable: React.FC<NeedsTableProps> = () => {
           <ManageCategories>
             <Button withIcon variant="secondary">
               <AddIcon />
-              <span className="font-grotesk">{t("Common.editCategory")}</span>
+              <span className="font-grotesk">{t("Common.manageCategory")}</span>
             </Button>
           </ManageCategories>
         </div>
