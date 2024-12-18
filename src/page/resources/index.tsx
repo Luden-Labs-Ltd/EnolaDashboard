@@ -1,12 +1,9 @@
 "use client";
 import Row from "@components/Row";
-import { Button } from "@components/shadowCDN/button";
-import { CategoryType } from "entities/category";
+import { CategoryStoreProvider, CategoryType } from "entities/category";
 import { ResourcesStoreProvider, ResourcesType } from "entities/resources";
 import { AddResources } from "features/add-resources";
 import SearchPanel from "features/search-panel";
-import DeleteIcon from "shared/assets/DeleteIcon";
-import EditIcon from "shared/assets/EditIcon";
 import { FilterByCategories } from "./ui/FilterByCategories";
 import { ResourcesList } from "./ui/ResourcesList";
 
@@ -29,8 +26,14 @@ export default function Resources({
             <AddResources categories={categories} />
           </Row>
         </SearchPanel>
-        <FilterByCategories categories={categories} />
-        <ResourcesList />
+        <CategoryStoreProvider
+          programId={programId}
+          currentCategory={categories[0]}
+          categories={categories}
+        >
+          <FilterByCategories />
+          <ResourcesList />
+        </CategoryStoreProvider>
       </ResourcesStoreProvider>
     </main>
   );

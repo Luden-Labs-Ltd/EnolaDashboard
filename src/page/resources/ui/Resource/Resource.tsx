@@ -11,6 +11,7 @@ import CopyText from "features/copy-text";
 import { DropdownMenuItem } from "@components/shadowCDN/dropdown-menu";
 import { DeleteMembership } from "features/delete-membership";
 import DeleteResourceModal from "features/delete-resource/ui/DeleteResourceModal";
+import { EditResource } from "features/edit-resources";
 
 interface ResourceProps {
   resource: ResourcesType;
@@ -18,13 +19,18 @@ interface ResourceProps {
 
 export const Resource: React.FC<ResourceProps> = ({ resource }) => {
   const t = useTranslations();
-
+  EditResource
   const resourceDropDownItems: DropDownMenuItemsType[] = [
     {
       id: `${resource.id}-edit`,
       label: t("Common.edit"),
-      icon: <EditIcon />,
+      icon: "",
       href: ``,
+      renderCustomComponent: (_, onClose) => {
+        return (
+          <EditResource callback={onClose} key={`${resource.id}-edit`} resource={resource}/>
+        );
+      },
     },
     {
       id: `${resource.id}-share`,
@@ -54,7 +60,7 @@ export const Resource: React.FC<ResourceProps> = ({ resource }) => {
       label: t("Common.delete"),
       icon: "",
       href: ``,
-      renderCustomComponent: (onOpen, onClose) => {
+      renderCustomComponent: (_, onClose) => {
         return (
           <DeleteResourceModal callback={onClose} key={`${resource.id}-delete`} resourceId={resource.id}/>
         );
