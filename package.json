@@ -6,9 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "compress": "tar -czf project.tar.gz --exclude='node_modules' --exclude='._.DS_Store' --exclude='.DS_Store' --exclude='.next' --exclude='.git' --exclude='project.tar.gz' .",
-    "deploy:qa": "npm run compress && scp project.tar.gz app@qa.enolahelp.com:/home/nextProjects/dashboardNext && ssh app@qa.enolahelp.com 'tar -xzf /home/nextProjects/dashboardNext/project.tar.gz -C /home/nextProjects/dashboardNext && rm /home/nextProjects/dashboardNext/project.tar.gz' && rm project.tar.gz",
-    "deploy:qa:stage2": "ssh app@qa.enolahelp.com  'cd /home/nextProjects/dashboardNext && docker-compose down && docker-compose up -d --build production' ",
+    "deploy:qa": "./deployEnola.sh",
     "lint": "next lint"
   },
   "dependencies": {
