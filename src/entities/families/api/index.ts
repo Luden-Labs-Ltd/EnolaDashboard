@@ -51,7 +51,7 @@ export const getFamilyById = async (
 };
 
 export const deleteFamilyById = async (
-  familyId: string
+  familyId: string | number
 ): Promise<Boolean | null> => {
   const response = await fetchInstance(
     `${process.env.BASE_URL_BACKEND}/api/v2/dashboard/families/${familyId}`,

@@ -49,6 +49,8 @@
         }
     },
     "Tasks": {
+        "manageTasks": "Manage Tasks",
+        "categoryNotSet": "Category Not Set",
         "EditTasks": {
             "title": "Edit Tasks ({count})",
             "description": "After clicking the Edit button, it will be impossible to restore tasks."
@@ -74,6 +76,9 @@
     "Categories": {
         "CreateCategories": {
             "title": "Manage categories"
+        },
+        "Delete": {
+            "description": "After clicking the Delete button, it will be impossible to restore categories."
         }
     },
     "Resources": {
@@ -178,6 +183,7 @@
         "copyLink": "Copy Link",
         "url": "URL",
         "organization": "Organization",
-        "category": "Category"
+        "category": "Category",
+        "description": "Description"
     }
 }

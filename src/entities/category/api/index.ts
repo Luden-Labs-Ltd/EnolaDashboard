@@ -61,3 +61,21 @@ export const createCategoriesApi = async (
   revalidateTag(REVALIDATE_GET_CATEGORY_TAG);
   return resJSON;
 };
+
+export const deleteCategoryApi = async (
+  programId: string,
+  categoryId: number,
+): Promise<Boolean | null> => {
+  const response = await fetchInstance(
+    `${process.env.BASE_URL_BACKEND}/api/v2/dashboard/programs/${programId}/categories/${categoryId}`,
+    {
+      method: "DELETE",
+    }
+  );
+
+  if (!response) {
+    throw new Error("Some Error deleteFamilyApi");
+  }
+
+  return true;
+};

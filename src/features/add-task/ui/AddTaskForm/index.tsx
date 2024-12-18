@@ -11,6 +11,7 @@ import { z } from "zod";
 const createTasksScheme = z.object({
   title: z.string().min(3).max(50),
   description: z.string().min(3).max(50),
+  circle: z.enum(["public", "private", "intimate"]),
 });
 
 type CreateTasksValues = z.infer<typeof createTasksScheme>;
@@ -39,14 +40,35 @@ export const AddTaskForm: React.FC<AddTaskFormProps> = ({
       name: "title",
       type: "input",
       id: "name",
-      label: "Title",
+      label: t("Common.title"),
       placeholder: "",
     },
     {
       name: "description",
       type: "input",
       id: "description",
-      label: "Description",
+      label: t("Common.description"),
+      placeholder: "",
+    },
+    {
+      name: "circle",
+      type: "select",
+      id: "circle",
+      options: [
+        {
+          value: "public",
+          name: "Public",
+        },
+        {
+          value: "private",
+          name: "Private",
+        },
+        {
+          value: "intimate",
+          name: "Intimate",
+        },
+      ],
+      label: "Circle",
       placeholder: "",
     },
   ];
@@ -56,7 +78,7 @@ export const AddTaskForm: React.FC<AddTaskFormProps> = ({
       title: "",
       description: "",
     });
-    callback?.()
+    callback?.();
   };
 
   function onSubmit(values: CreateTasksValues) {
@@ -87,7 +109,7 @@ export const AddTaskForm: React.FC<AddTaskFormProps> = ({
       fields={createTasksFields}
       customErrorMessage={apiError}
     >
-      <Button  type="submit" size={"lg"}>
+      <Button type="submit" size={"lg"}>
         {t("Common.add")}
       </Button>
     </FormRender>

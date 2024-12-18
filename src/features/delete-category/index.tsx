@@ -1,0 +1,1 @@
+export {default as DeleteCategory} from './ui/DeleteCategoryModal';

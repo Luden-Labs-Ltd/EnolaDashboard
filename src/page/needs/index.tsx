@@ -1,9 +1,10 @@
 "use client";
 import { CategoryStoreProvider, CategoryType } from "entities/category";
-import { useState } from "react";
 import NeedsOnboarding from "./ui/onboarding";
 import { NeedsTable } from "@widgets/NeedsTable";
 import { ConvertedTasksState, TasksStoreProvider } from "entities/task";
+import useLocalStorage from "@hooks/useLocalStorage";
+import { Loader } from "@components/Loader";
 
 interface NeedsContentProps {
   categories: CategoryType[];
@@ -16,10 +17,22 @@ const Needs: React.FC<NeedsContentProps> = ({
   programId,
   tasks,
 }) => {
-  const [showFirstEnter, setShowFirstEnter] = useState(false);
+  const {
+    storedValue: isFirstTimeOnNeedsPage,
+    setValue: setIsFirstTimeOnNeedsPage,
+    isLocalValueLoading,
+  } = useLocalStorage("isFirstTimeOnNeedsPage", true);
 
-  if (showFirstEnter) {
-    return <NeedsOnboarding onComplete={() => setShowFirstEnter(false)} />;
+  const onCompleteHandler = () => {
+    setIsFirstTimeOnNeedsPage(false);
+  };
+
+  if (isLocalValueLoading) {
+    return <Loader/>
+  }
+
+  if (isFirstTimeOnNeedsPage) {
+    return <NeedsOnboarding onComplete={onCompleteHandler} />;
   }
 
   return (

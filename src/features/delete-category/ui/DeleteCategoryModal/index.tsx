@@ -2,40 +2,40 @@
 
 import { InfoModal } from "@components/InfoModal";
 import Row from "@components/Row";
-import { DropdownMenuItem } from "@components/shadowCDN/dropdown-menu";
-import { deleteResource, useResourcesStore } from "entities/resources";
+import { Button } from "@components/shadowCDN/button";
+import {
+  CategoryType,
+  deleteCategory,
+  useCategoryStore,
+} from "entities/category";
 import { useTranslations } from "next-intl";
 import React, { useState } from "react";
 import DeleteIcon from "shared/assets/DeleteIcon";
 
-interface DeleteResourceModalProps {
+interface DeleteCategoryModalProps {
   callback?: () => void;
-  resourceId: number;
+  category: CategoryType;
 }
 
-const DeleteResourceModal: React.FC<DeleteResourceModalProps> = ({
+const DeleteCategoryModal: React.FC<DeleteCategoryModalProps> = ({
   callback,
-  resourceId,
+  category,
 }) => {
   const t = useTranslations();
-  const { resourcesState } = useResourcesStore();
+  const { categoryState } = useCategoryStore();
   const [isOpen, setIsOpen] = useState(false);
   const [error, setError] = useState("");
-  const { programId } = resourcesState;
-  const isDeleteDisabled = !programId || !resourceId;
+  const { programId } = categoryState;
+  const isDeleteDisabled = !programId || !category.id;
 
   const onClose = () => {
     setIsOpen(false);
     callback?.();
   };
 
-  const onOpen = () => {
-    setIsOpen(true);
-  };
-
   const deleteHandler = () => {
     if (!isDeleteDisabled) {
-      deleteResource(programId, resourceId)
+      deleteCategory(programId, Number(category.id))
         .then(() => {
           setIsOpen(false);
           callback?.();
@@ -49,31 +49,28 @@ const DeleteResourceModal: React.FC<DeleteResourceModalProps> = ({
   return (
     <InfoModal
       setIsOpen={setIsOpen}
-      description={t("Resources.DeleteResources.description")}
+      description={t("Categories.Delete.description")}
       title={
         <>
           <Row className="gap-[4px]">
             <span>{t("Common.delete")}</span>
-            <span>{resourceId}</span>
+            <span>{category.title}</span>
           </Row>
         </>
       }
       isDisabled={isDeleteDisabled}
-      error={error}
       isOpen={isOpen}
       acceptHandler={deleteHandler}
       onClose={onClose}
+      error={error}
       cancelText={t("Common.cancel")}
       acceptText={t("Common.delete")}
     >
-      <DropdownMenuItem onClick={onOpen} className={"DropdownMenuItem"}>
-        <Row alignItems="center" className="gap-[8px]">
-          <DeleteIcon height={17} width={17} />
-          <span>{t("Common.delete")}</span>
-        </Row>
-      </DropdownMenuItem>
+      <Button size={"icon"} className="h-[28px] w-[28px]" variant={"secondary"}>
+        <DeleteIcon height={17} />
+      </Button>
     </InfoModal>
   );
 };
 
-export default DeleteResourceModal;
+export default DeleteCategoryModal;

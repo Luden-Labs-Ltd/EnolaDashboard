@@ -1,12 +1,5 @@
+import { InfoModal } from "@components/InfoModal";
 import { Button } from "@components/shadowCDN/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@components/shadowCDN/dialog";
 import TooltipWrapper from "@components/TooltipWrapper";
 import { CategoryType } from "entities/category";
 import { deleteTaskApi, useTasksStore } from "entities/task";
@@ -29,12 +22,13 @@ const DeleteTasks: React.FC<DeleteTaskActionProps> = ({ category }) => {
     setIsOpen(false);
   };
 
-  const isDeleteDisabled = !programId || !selectedTasks[category.id]?.length
+  const isDeleteDisabled = !programId || !selectedTasks[category.id]?.length;
   const applyChangesHandle = () => {
     if (!isDeleteDisabled) {
-      deleteTaskApi(programId, selectedTasks[category.id]);
-      deleteSelectedTasks(category.id);
-      setIsOpen(false);
+      deleteTaskApi(programId, selectedTasks[category.id]).then(() => {
+        deleteSelectedTasks(category.id);
+        setIsOpen(false);
+      });
     }
   };
 
@@ -42,44 +36,30 @@ const DeleteTasks: React.FC<DeleteTaskActionProps> = ({ category }) => {
   const selectedCount = selectedTasks[category.id]?.length ?? 0;
 
   return (
-    <Dialog onOpenChange={setIsOpen} open={isOpen}>
-      <DialogTrigger asChild>
-        <div>
-          <TooltipWrapper text="Delete">
-            <Button
-              size={"icon"}
-              color={isActive ? "#313A56" : "#A3ABC3"}
-              variant={"ghost"}
-            >
-              <DeleteIcon />
-            </Button>
-          </TooltipWrapper>
-        </div>
-      </DialogTrigger>
-      <DialogContent className="flex items-center flex-col w-full max-w-sm">
-        <DialogHeader>
-          <DialogTitle>
-            {t("Tasks.DeleteTasks.title", { count: selectedCount })}
-          </DialogTitle>
-        </DialogHeader>
-        <DialogDescription className="text-center">
-          {t("Tasks.DeleteTasks.description")}
-        </DialogDescription>
-        <div className="flex gap-6">
+    <InfoModal
+      setIsOpen={setIsOpen}
+      description={t("Tasks.DeleteTasks.description")}
+      title={t("Tasks.DeleteTasks.title", { count: selectedCount })}
+      isDisabled={isDeleteDisabled}
+      isOpen={isOpen}
+      acceptHandler={applyChangesHandle}
+      onClose={onClose}
+      error={""}
+      cancelText={t("Common.cancel")}
+      acceptText={t("Common.delete")}
+    >
+      <div>
+        <TooltipWrapper text="Delete">
           <Button
-            rounded={"circle"}
-            onClick={onClose}
-            variant={"secondary"}
-            size={"lg"}
+            size={"icon"}
+            color={isActive ? "#313A56" : "#A3ABC3"}
+            variant={"ghost"}
           >
-            {t("Common.cancel")}
+            <DeleteIcon />
           </Button>
-          <Button rounded={"circle"} disabled={isDeleteDisabled} onClick={applyChangesHandle} size={"lg"}>
-            {t("Common.delete")}
-          </Button>
-        </div>
-      </DialogContent>
-    </Dialog>
+        </TooltipWrapper>
+      </div>
+    </InfoModal>
   );
 };
 

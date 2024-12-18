@@ -7,7 +7,6 @@ import {
   useCategoryStore,
 } from "entities/category";
 import { AddTaskModal } from "features/add-task";
-import CreateCategoryModal from "features/create-category";
 import {
   Categories,
   HeaderPanel,
@@ -25,6 +24,7 @@ import { TaskControlLayout, ManageTaskModal } from "features/manage-task";
 import Row from "@components/Row";
 import ViewIcon from "shared/assets/ViewIcon";
 import { ViewTaskModal } from "features/view-task";
+import { ManageCategories } from "page/needs/ui/ManageCategories";
 
 interface NeedsTableProps {}
 
@@ -78,14 +78,12 @@ const NeedsTable: React.FC<NeedsTableProps> = () => {
           })}
         </div>
         <div className="px-4">
-          <CreateCategoryModal
-            trigger={
-              <Button withIcon variant="secondary">
-                <AddIcon />
-                <span className="font-grotesk">{t("Common.editCategory")}</span>
-              </Button>
-            }
-          />
+          <ManageCategories>
+            <Button withIcon variant="secondary">
+              <AddIcon />
+              <span className="font-grotesk">{t("Common.editCategory")}</span>
+            </Button>
+          </ManageCategories>
         </div>
       </Categories>
       <NeedsContent>
@@ -117,7 +115,7 @@ const NeedsTable: React.FC<NeedsTableProps> = () => {
                         <Row alignItems="center">
                           <SetTaskAsDefaultModal />
 
-                          <ViewTaskModal task={task}/>
+                          <ViewTaskModal task={task} />
                         </Row>
                       }
                     />
