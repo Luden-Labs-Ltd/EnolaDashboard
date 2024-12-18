@@ -1,5 +1,5 @@
 # Development Stage
-FROM node:18-alpine AS development
+FROM node:21-alpine AS development
 
 WORKDIR /app
 
@@ -15,12 +15,11 @@ EXPOSE 3000
 CMD ["npm", "run", "dev"]
 
 # Builder Stage
-FROM node:18-alpine AS builder
+FROM node:21-alpine AS builder
 
 WORKDIR /app
 
 COPY package*.json ./
-
 
 RUN npm i
 
@@ -30,7 +29,7 @@ RUN npm run build
 
 # Production Stage 
 
-FROM node:18-alpine AS production
+FROM node:21-alpine AS production
 
 WORKDIR /app
 
