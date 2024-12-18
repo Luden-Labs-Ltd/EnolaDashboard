@@ -14,7 +14,7 @@ import { DropdownMenuItem } from "@components/shadowCDN/dropdown-menu";
 import { ZodErrors } from "@components/ZodErrors/ZodErrors";
 import { deleteResource, useResourcesStore } from "entities/resources";
 import { useTranslations } from "next-intl";
-import React, { PropsWithChildren, useState } from "react";
+import React, { useState } from "react";
 import DeleteIcon from "shared/assets/DeleteIcon";
 
 interface DeleteResourceModalProps {
@@ -22,9 +22,10 @@ interface DeleteResourceModalProps {
   resourceId: number;
 }
 
-const DeleteResourceModal: React.FC<
-  PropsWithChildren<DeleteResourceModalProps>
-> = ({ callback, children, resourceId }) => {
+const DeleteResourceModal: React.FC<DeleteResourceModalProps> = ({
+  callback,
+  resourceId,
+}) => {
   const t = useTranslations();
   const { resourcesState } = useResourcesStore();
   const [isOpen, setIsOpen] = useState(false);
@@ -50,7 +51,7 @@ const DeleteResourceModal: React.FC<
         })
         .catch((err) => {
           setError(err.message);
-        })
+        });
     }
   };
 

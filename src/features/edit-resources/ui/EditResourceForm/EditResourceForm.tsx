@@ -1,24 +1,27 @@
 "use client";
 import FormRender, { FormRenderField } from "@components/FormRender";
+import Row from "@components/Row";
 import { Button } from "@components/shadowCDN/button";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CategoryType, ICON_MAP } from "entities/category";
-import { createResource } from "entities/resources/actions";
+import { ICON_MAP, useCategoryStore } from "entities/category";
+import { ResourcesType, editResource } from "entities/resources";
 import { useResourcesStore } from "entities/resources/model/provider";
+import {
+  editResourceScheme,
+  EditResourceValues,
+} from "features/edit-resources/model";
 import { useTranslations } from "next-intl";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import Row from "@components/Row";
-import { createResourceScheme, CreateResourceValues } from "features/add-resources/model";
 
-type ResourceFormProps = {
+type EditResourceFormProps = {
   callback: () => void;
-  categories: CategoryType[];
+  resource: ResourcesType;
 };
 
-export const ResourceForm: React.FC<ResourceFormProps> = ({
+export const EditResourceForm: React.FC<EditResourceFormProps> = ({
   callback,
-  categories,
+  resource,
 }) => {
   const t = useTranslations();
   const [apiError, setApiError] = useState("");
@@ -26,12 +29,24 @@ export const ResourceForm: React.FC<ResourceFormProps> = ({
 
   const { programId } = resourcesState;
 
-  const form = useForm<CreateResourceValues>({
-    resolver: zodResolver(createResourceScheme),
-    defaultValues: {},
+  const { categoryState } = useCategoryStore();
+  const { categories } = categoryState;
+
+  const form = useForm<EditResourceValues>({
+    resolver: zodResolver(editResourceScheme),
+    defaultValues: {
+      name: resource.serviceName,
+      provider: resource.organization,
+      contact_name: resource.contactPerson,
+      phone_number: resource.phone,
+      terms_of_service: resource.termsOfService,
+      email: resource.email,
+      link: resource.site,
+      category_id: String(resource.category),
+    },
   });
 
-  const createTasksFields: FormRenderField<CreateResourceValues>[] = [
+  const editResourceFields: FormRenderField<EditResourceValues>[] = [
     {
       name: "name",
       type: "input",
@@ -114,12 +129,12 @@ export const ResourceForm: React.FC<ResourceFormProps> = ({
     callback?.();
   };
 
-  function onSubmit(values: CreateResourceValues) {
+  function onSubmit(values: EditResourceValues) {
     if (!programId) {
       return;
     }
 
-    createResource(programId, values)
+    editResource(programId, resource.id, values)
       .then(() => {
         onClose();
       })
@@ -132,7 +147,7 @@ export const ResourceForm: React.FC<ResourceFormProps> = ({
     <FormRender
       formObject={form}
       onSubmitHandler={onSubmit}
-      fields={createTasksFields}
+      fields={editResourceFields}
       customErrorMessage={apiError}
     >
       <Button type="submit" size={"lg"}>

@@ -2,22 +2,20 @@ import { createQueryString } from "@lib/url";
 import {
   Category,
   CategoryPressCallbackArguments,
-  CategoryType,
+  useCategoryStore,
 } from "entities/category";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { useState } from "react";
 
-interface FilterByCategoriesProps {
-  categories: CategoryType[];
-}
+interface FilterByCategoriesProps {}
 
-export const FilterByCategories: React.FC<FilterByCategoriesProps> = ({
-  categories,
-}) => {
+export const FilterByCategories: React.FC<FilterByCategoriesProps> = ({}) => {
   const [currentFilteredCategory, setCurrentFilteredCategory] = useState("all");
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const { categoryState } = useCategoryStore();
+  const { categories } = categoryState;
 
   const onFilterClick = ({ id }: CategoryPressCallbackArguments) => {
     const newSearchParams = createQueryString("category_id", id, searchParams);

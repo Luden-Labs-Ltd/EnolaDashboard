@@ -20,3 +20,13 @@ export type CreateResourceDto = {
   email: string;
   link: string;
 };
+
+
+export type EditResourceDto = {
+  category_id: string;
+  name: string;
+  provider: string;
+  terms_of_service: string;
+  email: string;
+  link: string;
+};

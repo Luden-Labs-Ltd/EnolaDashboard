@@ -1,9 +1,6 @@
-import { FormRenderField } from "@components/FormRender";
-import Row from "@components/Row";
-import { CategoryType, ICON_MAP } from "entities/category";
 import { z } from "zod";
 
-export const createResourceScheme = z.object({
+export const editResourceScheme = z.object({
   name: z.string().min(3).max(50),
   provider: z.string().min(3).max(50),
   contact_name: z.string().min(3).max(50),
@@ -14,5 +11,5 @@ export const createResourceScheme = z.object({
   category_id: z.string(),
 });
 
-export type CreateResourceValues = z.infer<typeof createResourceScheme>;
+export type EditResourceValues = z.infer<typeof editResourceScheme>;
 

@@ -1,6 +1,6 @@
-import React from "react";
+import React, { SVGProps } from "react";
 
-export default function EditIcon() {
+export default function EditIcon(props: SVGProps<any>) {
   return (
     <svg
       width="24"
@@ -8,6 +8,7 @@ export default function EditIcon() {
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      {...props}
     >
       <g clipPath="url(#clip0_6726_3742)">
         <g clipPath="url(#clip1_6726_3742)">

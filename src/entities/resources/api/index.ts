@@ -1,5 +1,5 @@
 import { fetchInstance } from "shared/api";
-import { CreateResourceDto, ResourcesTypeApi } from "./types";
+import { CreateResourceDto, EditResourceDto, ResourcesTypeApi } from "./types";
 import { GET_RESOURCES_REVALIDATE_TAG } from "./const";
 
 type SearchParameters = {
@@ -50,7 +50,30 @@ export const createResourceApi = async (programId: string, data: CreateResourceD
   );
 
   if (!response) {
-    throw new Error("Some Error createFamilyApi");
+    throw new Error("Some Error createResourceApi");
+  }
+
+  const resJSON = await response.json();
+  if (resJSON.error) {
+    throw new Error(resJSON.error);
+  }
+  return resJSON;
+};
+
+export const editResourceApi = async (programId: string, resourceId: number, data: EditResourceDto) => {
+  const response = await fetchInstance(
+    process.env.BASE_URL_BACKEND + `/api/v2/dashboard/programs/${programId}/resources/${resourceId}`,
+    {
+      method: "PUT",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+
+  if (!response) {
+    throw new Error("Some Error editResourceApi");
   }
 
   const resJSON = await response.json();
@@ -61,7 +84,7 @@ export const createResourceApi = async (programId: string, data: CreateResourceD
 };
 
 
-export const deleteTaskApi = async (
+export const deleteResourceApi = async (
   programId: string,
   resourceId: number
 ) => {
@@ -73,7 +96,7 @@ export const deleteTaskApi = async (
   );
 
   if (!response) {
-    throw new Error("Some Error deleteFamilyApi");
+    throw new Error("Some Error deleteResourceApi");
   }
 
   return true;
