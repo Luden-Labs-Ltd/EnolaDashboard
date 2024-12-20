@@ -13,6 +13,25 @@ export type NavigationItemType = {
   navigateTo: string;
 };
 
+export type AVAILABLE_PATHS_ALIAS =
+  | "dashboard"
+  | "needs"
+  | "resources"
+  | "supporters"
+  | "families"
+  | "family"
+  | "memberships";
+
+export const AVAILABLE_PATHS: AVAILABLE_PATHS_ALIAS[] = [
+  "dashboard",
+  "needs",
+  "resources",
+  "supporters",
+  "families",
+  "family",
+  "memberships",
+];
+
 export const NAVIGATION_ITEMS: Array<NavigationItemType> = [
   {
     icon: "dashboard",

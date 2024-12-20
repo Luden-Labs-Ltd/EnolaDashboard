@@ -1,5 +1,4 @@
 import React from "react";
-import styles from "./card.module.scss";
 import { Card, CardContent, CardHeader, CardTitle } from "@components/Card";
 import dynamic from "next/dynamic";
 import Row from "@components/Row";

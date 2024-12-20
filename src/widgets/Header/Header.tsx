@@ -4,8 +4,7 @@ import React from "react";
 import styles from "@styles/main.layout.module.scss";
 import stylesHeader from "./header.module.scss";
 import classNames from "classnames";
-import { usePathname } from "next/navigation";
-import { useLocale, useTranslations } from "next-intl";
+import { useLocale } from "next-intl";
 import {
   Avatar,
   AvatarFallback,
@@ -20,19 +19,13 @@ import {
   SelectValue,
 } from "@components/shadowCDN/select";
 import { changeLanguage } from "entities/languaage/action";
+import { BreadcrumbBar } from "./Breadcrumb";
 
 interface HeaderProps {
   userName: string;
 }
 export default function Header(props: HeaderProps) {
-  const t = useTranslations("Header");
   const locale = useLocale();
-  const pathname = usePathname();
-
-  const pathItems = pathname.split("/").filter((part) => part !== "");
-  const mainRoute = pathItems[0];
-  //@ts-ignore
-  const currentRouteName = t(mainRoute);
 
   const onSelectChange = (value: string) => {
     const formData = new FormData();
@@ -42,8 +35,7 @@ export default function Header(props: HeaderProps) {
 
   return (
     <header className={classNames(styles.header, stylesHeader.headerInner)}>
-      <span className={stylesHeader.RouteName}>{currentRouteName}</span>
-
+      <BreadcrumbBar />
       <div className={stylesHeader.avatarWrapper}>
         <Avatar>
           <AvatarImage src="https://github.com/shadcn.png" />

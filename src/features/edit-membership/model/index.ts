@@ -12,20 +12,22 @@ export const editMembershipFormScheme = z.object({
 
 export type EditMembershipForm = z.infer<typeof editMembershipFormScheme>;
 
-export const Edit_MEMBERSHIP_FORM_FIELDS: FormRenderField<EditMembershipForm>[] =
-  [
+export const getEditMembershipFormFields = (
+  t: TFunction
+): FormRenderField<EditMembershipForm>[] => {
+  return [
     {
       name: "first_name",
       type: "input",
       id: "first_name",
-      label: "First name",
+      label: t("Common.firstName"),
       placeholder: "",
     },
     {
       name: "last_name",
       type: "input",
       id: "last_name",
-      label: "Last name",
+      label: t("Common.lastName"),
       placeholder: "",
     },
     {
@@ -33,7 +35,7 @@ export const Edit_MEMBERSHIP_FORM_FIELDS: FormRenderField<EditMembershipForm>[] 
       type: "input",
       inputType: "number",
       id: "age",
-      label: "Age",
+      label: t("Common.age"),
       placeholder: "",
     },
     {
@@ -43,18 +45,18 @@ export const Edit_MEMBERSHIP_FORM_FIELDS: FormRenderField<EditMembershipForm>[] 
       options: [
         {
           value: "public",
-          name: "Public",
+          name: t("Common.public"),
         },
         {
           value: "private",
-          name: "Private",
+          name: t("Common.private"),
         },
         {
           value: "intimate",
-          name: "Intimate",
+          name: t("Common.intimate"),
         },
       ],
-      label: "Circle",
+      label: t("Common.circle"),
       placeholder: "",
     },
     {
@@ -64,24 +66,26 @@ export const Edit_MEMBERSHIP_FORM_FIELDS: FormRenderField<EditMembershipForm>[] 
       options: [
         {
           value: "Female",
-          name: "Female",
+          name: t("Common.female"),
         },
         {
           value: "male",
-          name: "Male",
+          name: t("Common.male"),
         },
         {
           value: "other",
-          name: "Other",
+          name: t("Common.other"),
         },
       ],
-      label: "Gender",
+      label: t("Common.gender"),
       placeholder: "",
     },
     {
       name: "primary",
       type: "checkbox",
+      direction: "row",
       id: "primary",
-      label: "Primary",
+      label: t("Common.primary"),
     },
   ];
+};

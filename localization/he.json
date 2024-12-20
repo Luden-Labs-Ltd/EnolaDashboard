@@ -18,6 +18,15 @@
         "resources": "משאבים",
         "supporters": "תומכים"
     },
+    "Paths": {
+        "dashboard": "לוח מחוונים",
+        "needs": "צרכים",
+        "resources": "משאבים",
+        "supporters": "תומכים",
+        "families": "משפחות",
+        "family": "משפחה",
+        "memberships": "חברות"
+    },
     "Header": {
         "families": "משפחות",
         "log_out": "התנתק.י",
@@ -185,6 +194,14 @@
         "url": "כתובת אתר",
         "organization": "ארגון",
         "category": "קטגוריה",
-        "description": "תיאור"
+        "description": "תיאור",
+        "family": "משפחה",
+        "friends": "חברים",
+        "coworkers": "עמיתים לעבודה",
+        "completed": "הושלם",
+        "inProgress": "בתהליך",
+        "initial": "ראשוני",
+        "categoryName": "שם קטגוריה",
+        "icon": "אייקון"
     }
 }

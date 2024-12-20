@@ -13,9 +13,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMembershipsStore } from "entities/memberships";
 import { editMembership } from "entities/memberships/actions";
 import {
-  Edit_MEMBERSHIP_FORM_FIELDS,
   EditMembershipForm,
   editMembershipFormScheme,
+  getEditMembershipFormFields,
 } from "features/edit-membership/model";
 import { useTranslations } from "next-intl";
 import React, { PropsWithChildren, useMemo, useState } from "react";
@@ -80,6 +80,8 @@ const EditMembershipModal: React.FC<
     callback?.();
   };
 
+  const EDIT_MEMBERSHIP_FORM_FIELDS = useMemo(() => getEditMembershipFormFields(t), [t])
+
   return (
     <Dialog onOpenChange={setIsOpen} open={isOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
@@ -94,7 +96,7 @@ const EditMembershipModal: React.FC<
         <FormRender
           formObject={form}
           onSubmitHandler={onSubmit}
-          fields={Edit_MEMBERSHIP_FORM_FIELDS}
+          fields={EDIT_MEMBERSHIP_FORM_FIELDS}
           customErrorMessage={apiError}
         >
           <div className="w-full">
