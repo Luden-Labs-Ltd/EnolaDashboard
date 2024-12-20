@@ -21,7 +21,7 @@ export const BackButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
       >
         <Row alignItems="center" className="gap-[10px]">
           <ArrowLeftIcon />
-          {t("Common.goBack")}
+          {/* {t("Common.goBack")} */}
         </Row>
       </Button>
     );

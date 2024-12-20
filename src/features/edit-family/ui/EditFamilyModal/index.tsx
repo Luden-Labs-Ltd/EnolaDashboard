@@ -96,6 +96,7 @@ const EditFamilyModal: React.FC<PropsWithChildren<DeleteFamilyActionProps>> = ({
       name: "archived",
       type: "checkbox",
       id: "archived",
+      direction: "row",
       label: t("Families.archive"),
     },
   ];

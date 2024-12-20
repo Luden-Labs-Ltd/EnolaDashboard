@@ -29,10 +29,12 @@ const createCategoryScheme = z.object({
 type CreateCategoryValues = z.infer<typeof createCategoryScheme>;
 
 interface CreateCategoryFormProps {
-    callback?: () => void
+  callback?: () => void;
 }
 
-export const CreateCategoryForm: React.FC<CreateCategoryFormProps> = ({callback}) => {
+export const CreateCategoryForm: React.FC<CreateCategoryFormProps> = ({
+  callback,
+}) => {
   const t = useTranslations();
   const selectIconArray: CategoryIconType[] = [
     "childcare",
@@ -59,14 +61,14 @@ export const CreateCategoryForm: React.FC<CreateCategoryFormProps> = ({callback}
       name: "name",
       type: "input",
       id: "name",
-      label: "Category name",
+      label: t("Common.categoryName"),
       placeholder: "",
     },
     {
       name: "svg_icon",
       type: "select",
       id: "icon_id",
-      label: "Icon",
+      label: t("Common.icon"),
       options: selectIconArray.map((iconName) => {
         return {
           value: iconName,
@@ -87,7 +89,7 @@ export const CreateCategoryForm: React.FC<CreateCategoryFormProps> = ({callback}
       name: "",
       svg_icon: "childcare",
     });
-    callback?.()
+    callback?.();
   };
 
   function onSubmit(values: CreateCategoryValues) {

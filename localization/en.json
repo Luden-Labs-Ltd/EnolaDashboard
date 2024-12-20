@@ -18,6 +18,15 @@
         "resources": "Resources",
         "supporters": "Supporters"
     },
+    "Paths": {
+        "dashboard": "Dashboard",
+        "needs": "Needs",
+        "resources": "Resources",
+        "supporters": "Supporters",
+        "families": "Families",
+        "family": "Family",
+        "memberships": "Memberships"
+    },
     "Header": {
         "families": "Families",
         "log_out": "Log Out",
@@ -185,6 +194,14 @@
         "url": "URL",
         "organization": "Organization",
         "category": "Category",
-        "description": "Description"
+        "description": "Description",
+        "family": "family",
+        "friends": "friends",
+        "coworkers": "coworkers",
+        "completed": "completed",
+        "inProgress": "in Progress",
+        "initial": "initial",
+        "categoryName": "Category name",
+        "icon": "Icon"
     }
 }
