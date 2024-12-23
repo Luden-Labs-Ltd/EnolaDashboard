@@ -14,9 +14,9 @@
 
 [dir=rtl] .layout {
     grid-template-areas:
-        "header header navbar"
-        "main main navbar"
-        "main main navbar"
+        "navbar header header"
+        "navbar main main"
+        "navbar main main"
     ;
 }
 

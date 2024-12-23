@@ -19,6 +19,7 @@
         "supporters": "Supporters"
     },
     "Paths": {
+        "home": "Home",
         "dashboard": "Dashboard",
         "needs": "Needs",
         "resources": "Resources",

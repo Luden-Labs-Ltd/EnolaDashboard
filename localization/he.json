@@ -19,6 +19,7 @@
         "supporters": "תומכים"
     },
     "Paths": {
+        "home": "דף הבית",
         "dashboard": "לוח מחוונים",
         "needs": "צרכים",
         "resources": "משאבים",
