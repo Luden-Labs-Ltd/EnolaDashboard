@@ -13,11 +13,13 @@ export default async function FamiliesPage(props: PageProps) {
   const familiesName = searchParams?.family_name ?? "";
   const familyId = searchParams?.family_id ?? "";
   const isArchived = searchParams?.is_archived ?? false;
+  const sort = searchParams?.sort ? JSON.parse(searchParams?.sort) : null;
 
   const familiesApi = await getFamiliesFromApi(
     familiesName,
     familyId,
-    isArchived
+    isArchived,
+    sort,
   );
   const families = convertDataForTable(familiesApi);
 

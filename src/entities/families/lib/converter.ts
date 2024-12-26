@@ -3,7 +3,7 @@ import { FamilyType, FullFamilyType } from "../model";
 import { FamilyContextState } from "../model/providerFamily";
 
 export const convertDataForTable = (
-  familiesData: FamilyApi[]
+  familiesData: FamilyApi[],
 ): FamilyType[] => {
   return familiesData.map((family) => {
     const completed = family.occurrences_by_status?.completed ?? 0;

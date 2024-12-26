@@ -27,7 +27,7 @@ export const Note: React.FC<NoteProps> = ({ date, id, message }) => {
         isEdit ? borderStyles : ""
       }' `}
     >
-      <Row alignItems="center" className="justify-end text-[12px]">
+      <Row alignItems="center" className="justify-start text-[12px] rtl:justify-end">
         <span className="text-[#4A709A]">{stringDate}</span>
         <span className="text-[#4A709A]">{stringTime}</span>
       </Row>

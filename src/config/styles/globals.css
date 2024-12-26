@@ -13,6 +13,10 @@ body {
   }
 }
 
+[dir=rtl] .direction-rtl {
+  direction: rtl;
+}
+
 /* HTML: <div class="loader"></div> */
 .loader {
   width: 15px;
