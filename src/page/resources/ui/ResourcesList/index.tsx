@@ -9,7 +9,7 @@ export const ResourcesList = () => {
 
   return (
     <ScrollArea className="h-[70vh]">
-      <div className="flex flex-wrap gap-[32px]">
+      <div className="flex flex-wrap gap-[32px] justify-start rtl:justify-end">
         {resources.map((resource) => {
           return <Resource key={resource.id} resource={resource} />;
         })}

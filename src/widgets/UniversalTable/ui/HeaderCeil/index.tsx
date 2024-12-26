@@ -1,6 +1,7 @@
 import { Checkbox } from "@components/shadowCDN/checkbox";
 import { TableHead } from "@components/shadowCDN/table";
 import { HeaderItem, HeaderItemType } from "@widgets/UniversalTable/lib/types";
+import { SortArrows } from "features/sort-arrows";
 import React from "react";
 
 interface HeaderProps {
@@ -10,7 +11,12 @@ interface HeaderProps {
   toggleMainSelect: () => void;
 }
 
-export const HeaderCeil: React.FC<HeaderProps> = ({ header, isChecked, isIndeterminate, toggleMainSelect }) => {
+export const HeaderCeil: React.FC<HeaderProps> = ({
+  header,
+  isChecked,
+  isIndeterminate,
+  toggleMainSelect,
+}) => {
   if (header.type === HeaderItemType.EMPTY) {
     return <TableHead></TableHead>;
   }
@@ -18,10 +24,20 @@ export const HeaderCeil: React.FC<HeaderProps> = ({ header, isChecked, isIndeter
   if (header.type === HeaderItemType.SELECT) {
     return (
       <TableHead>
-        <Checkbox onClick={toggleMainSelect} checked={isIndeterminate ? "indeterminate" : isChecked ? true : false}/>
+        <Checkbox
+          onClick={toggleMainSelect}
+          checked={isIndeterminate ? "indeterminate" : isChecked ? true : false}
+        />
       </TableHead>
     );
   }
 
-  return <TableHead>{header.value}</TableHead>;
+  return (
+    <TableHead>
+      <div className="flex flex-row items-center gap-[16px]">
+        <span>{header.value}</span>
+        <SortArrows sortName={header.value} />
+      </div>
+    </TableHead>
+  );
 };

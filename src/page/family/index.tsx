@@ -8,7 +8,7 @@ import { Notes } from "@widgets/Notes";
 import { useFamilyStore } from "entities/families";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
-import React, { useState } from "react";
+import React from "react";
 import ViewIcon from "shared/assets/ViewIcon";
 import { FamilyInfo } from "./FamilyInfo";
 import { EditFamily } from "features/edit-family";
@@ -66,17 +66,17 @@ export const Family: React.FC<FamilyProps> = () => {
             <CardTitle>{familyState.family.name}</CardTitle>
 
             <Row alignItems="center">
+              <EditFamily />
+
               <TooltipWrapper
                 text={`${t("Common.view")} ${t("Common.memberships")}`}
               >
-                <Button size={"icon"} variant={"ghost"}>
+                <Button variant={"secondary"}>
                   <Link href={`/family/${family.id}/memberships`}>
-                    <ViewIcon height={24} width={24} />
+                    {t("Families.viewMembers")}
                   </Link>
                 </Button>
               </TooltipWrapper>
-
-              <EditFamily />
             </Row>
           </CardHeader>
           <CardContent>

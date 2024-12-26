@@ -25,7 +25,7 @@
         "resources": "Resources",
         "supporters": "Supporters",
         "families": "Families",
-        "family": "Family",
+        "family": "Family card",
         "memberships": "Memberships"
     },
     "Header": {
@@ -104,6 +104,7 @@
     "Families": {
         "addFamilies": "Add families",
         "addMembers": "Add Members",
+        "viewMembers": "View Members",
         "archive": "Archive",
         "unarchive": "Unarchive",
         "AddFamilies": {

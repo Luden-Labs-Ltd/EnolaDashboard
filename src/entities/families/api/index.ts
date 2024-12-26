@@ -3,16 +3,22 @@ import { GET_FAMILIES_REVALIDATE_TAG } from "./const";
 import { CreateFamilyDto, EditFamilyDto, FamilyApi } from "./types";
 import { fetchInstance } from "shared/api";
 
+type SortObject = {
+  name: string;
+  order: "desc" | "asc";
+};
+
 export const getFamiliesFromApi = async (
   familyName: string,
   familyId: string,
-  isArchived: boolean
+  isArchived: boolean,
+  sort: SortObject | null
 ): Promise<FamilyApi[]> => {
   const params = JSON.stringify({
     title_cont: familyName,
     id_eq: familyId,
     archived_eq: isArchived,
-    sorts: "created_at desc",
+    sorts: sort ? `${sort.name} ${sort.order}` : "created_at desc",
   });
   const response = await fetchInstance(
     process.env.BASE_URL_BACKEND + `/api/v2/dashboard/families?q=${params}`,
