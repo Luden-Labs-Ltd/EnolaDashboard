@@ -14,8 +14,8 @@ import ViewIcon from "shared/assets/ViewIcon";
 import { useTranslations } from "next-intl";
 import CopyText from "features/copy-text";
 import { createUrlFromOrigin } from "@lib/url";
-import { SorterObject } from "@widgets/UniversalTable/lib/types";
 import { CustomPagination } from "@components/CustomPagination";
+import { SorterObject } from "shared/types/sort";
 
 interface FamiliesTableProps {
   sorterTableObject: SorterObject;
