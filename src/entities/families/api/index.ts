@@ -8,20 +8,31 @@ type SortObject = {
   order: "desc" | "asc";
 };
 
+type GetFamiliesDto = {
+  familyName: string;
+  familyId: string;
+  isArchived: boolean;
+  sort: SortObject | null;
+  currentPage: number;
+  perPage: number;
+};
 export const getFamiliesFromApi = async (
-  familyName: string,
-  familyId: string,
-  isArchived: boolean,
-  sort: SortObject | null
-): Promise<FamilyApi[]> => {
+  props: GetFamiliesDto
+): Promise<{
+  familiesApiData: FamilyApi[];
+  totalCount: number;
+}> => {
+  const { familyName, familyId, isArchived, sort, currentPage, perPage } =
+    props;
   const params = JSON.stringify({
-    title_cont: familyName,
+    name_cont: familyName,
     id_eq: familyId,
     archived_eq: isArchived,
     sorts: sort ? `${sort.name} ${sort.order}` : "created_at desc",
   });
   const response = await fetchInstance(
-    process.env.BASE_URL_BACKEND + `/api/v2/dashboard/families?q=${params}`,
+    process.env.BASE_URL_BACKEND +
+      `/api/v2/dashboard/families?q=${params}&page=${currentPage}&per_page=${perPage}`,
     {
       method: "GET",
       next: {
@@ -31,11 +42,21 @@ export const getFamiliesFromApi = async (
   );
 
   if (!response) {
-    return [];
+    return {
+      familiesApiData: [],
+      totalCount: 0,
+    };
   }
 
   const resJSON = await response.json();
-  return resJSON;
+  const totalCount = response.headers.get("x-total")
+    ? Number(response.headers.get("x-total"))
+    : 0;
+
+  return {
+    familiesApiData: resJSON,
+    totalCount: totalCount,
+  };
 };
 
 export const getFamilyById = async (

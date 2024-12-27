@@ -1,3 +1,5 @@
+import { Sort, SortType } from "shared/types/sort";
+
 export enum HeaderItemType {
   VALUE = "VALUE",
   EMPTY = "EMPTY",
@@ -21,6 +23,6 @@ export type CeilItem = {
   itemId: number;
   value: string | number;
   type: CeilItemType;
-  itemData: Record<string, any>,
+  itemData: Record<string, any>;
   isActive?: boolean;
 };
