@@ -7,7 +7,7 @@ import {
 import React, { PropsWithChildren } from "react";
 
 interface TooltipWrapperProps {
-  text: string;
+  text: string | React.ReactNode;
 }
 const TooltipWrapper: React.FC<PropsWithChildren<TooltipWrapperProps>> = ({
   text,

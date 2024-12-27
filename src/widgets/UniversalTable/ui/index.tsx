@@ -10,10 +10,12 @@ import React from "react";
 import { tableDataConverter } from "../lib";
 import { Ceil, renderCeilDropDownItemsType } from "./Ceil";
 import { HeaderCeil } from "./HeaderCeil";
+import { SorterObject } from "shared/types/sort";
 
 interface UniversalTableProps {
   tableRawData: any[];
   selectedColumnIds: number[];
+  sorterObject?: SorterObject;
   toggleMainSelect: () => void;
   toggleSelectedItems: (id: number) => void;
   renderCeilDropDownItems: renderCeilDropDownItemsType;
@@ -22,6 +24,7 @@ interface UniversalTableProps {
 const UniversalTable: React.FC<UniversalTableProps> = ({
   tableRawData,
   selectedColumnIds,
+  sorterObject,
   toggleMainSelect,
   toggleSelectedItems,
   renderCeilDropDownItems,
@@ -59,6 +62,7 @@ const UniversalTable: React.FC<UniversalTableProps> = ({
               <HeaderCeil
                 isChecked={isChecked}
                 isIndeterminate={isIndeterminate}
+                sorterObject={sorterObject}
                 toggleMainSelect={toggleMainSelect}
                 key={header.id}
                 header={header}

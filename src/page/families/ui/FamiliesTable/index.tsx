@@ -14,10 +14,20 @@ import ViewIcon from "shared/assets/ViewIcon";
 import { useTranslations } from "next-intl";
 import CopyText from "features/copy-text";
 import { createUrlFromOrigin } from "@lib/url";
+import { SorterObject } from "@widgets/UniversalTable/lib/types";
+import { CustomPagination } from "@components/CustomPagination";
 
-interface FamiliesTableProps {}
+interface FamiliesTableProps {
+  sorterTableObject: SorterObject;
+  perPage: number;
+  totalCount: number;
+}
 
-const FamiliesTable: React.FC<FamiliesTableProps> = () => {
+const FamiliesTable: React.FC<FamiliesTableProps> = ({
+  sorterTableObject,
+  perPage,
+  totalCount,
+}) => {
   const t = useTranslations();
 
   const { familiesState, toggleMainSelect, toggleSelectedFamilies } =
@@ -119,11 +129,20 @@ const FamiliesTable: React.FC<FamiliesTableProps> = () => {
     <>
       <UniversalTable
         tableRawData={familiesState.families}
+        sorterObject={sorterTableObject}
         selectedColumnIds={familiesState.selectedFamilies}
         toggleMainSelect={toggleMainSelect}
         toggleSelectedItems={toggleSelectedFamilies}
         renderCeilDropDownItems={renderCeilDropDownItems}
       />
+
+      <div className="mt-4">
+        <CustomPagination
+          pageSize={perPage}
+          totalCount={totalCount}
+          pagesToShow={10}
+        />
+      </div>
     </>
   );
 };

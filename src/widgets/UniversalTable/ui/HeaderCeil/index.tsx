@@ -3,11 +3,13 @@ import { TableHead } from "@components/shadowCDN/table";
 import { HeaderItem, HeaderItemType } from "@widgets/UniversalTable/lib/types";
 import { SortArrows } from "features/sort-arrows";
 import React from "react";
+import { SorterObject } from "shared/types/sort";
 
 interface HeaderProps {
   header: HeaderItem;
   isIndeterminate: boolean;
   isChecked: boolean;
+  sorterObject?: SorterObject;
   toggleMainSelect: () => void;
 }
 
@@ -15,6 +17,7 @@ export const HeaderCeil: React.FC<HeaderProps> = ({
   header,
   isChecked,
   isIndeterminate,
+  sorterObject,
   toggleMainSelect,
 }) => {
   if (header.type === HeaderItemType.EMPTY) {
@@ -32,11 +35,15 @@ export const HeaderCeil: React.FC<HeaderProps> = ({
     );
   }
 
+  const sortNameParam = sorterObject?.[header.value];
+
   return (
     <TableHead>
       <div className="flex flex-row items-center gap-[16px]">
         <span>{header.value}</span>
-        <SortArrows sortName={header.value} />
+        {sortNameParam?.isSortAvailable && (
+          <SortArrows sortName={sortNameParam.apiName} type={sortNameParam.sortType}/>
+        )}
       </div>
     </TableHead>
   );
