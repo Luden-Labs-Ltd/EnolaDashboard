@@ -11,6 +11,7 @@ import {
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { createQueryString } from "@lib/url";
 import { getPageRange } from "./lib";
+import { useTranslations } from "next-intl";
 
 interface CustomPaginationProps {
   totalCount: number;
@@ -23,6 +24,7 @@ export const CustomPagination: React.FC<CustomPaginationProps> = ({
   pagesToShow,
   pageSize,
 }) => {
+  const t = useTranslations();
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -55,8 +57,14 @@ export const CustomPagination: React.FC<CustomPaginationProps> = ({
       isRenderFirstEclipse,
       isRenderLastEclipse,
     });
-  }, [currentPage, isRenderFirstEclipse, isRenderLastEclipse, pagesToShow, totalPages]);
-  
+  }, [
+    currentPage,
+    isRenderFirstEclipse,
+    isRenderLastEclipse,
+    pagesToShow,
+    totalPages,
+  ]);
+
   const previousHandler = (event: MouseEvent) => {
     event.stopPropagation();
     event.preventDefault();
@@ -88,6 +96,7 @@ export const CustomPagination: React.FC<CustomPaginationProps> = ({
       <PaginationContent>
         <PaginationItem>
           <PaginationPrevious
+            textLabel={t("Common.previous")}
             onClick={previousHandler}
             href="#"
             // disabled={currentPage === 1}
@@ -108,7 +117,8 @@ export const CustomPagination: React.FC<CustomPaginationProps> = ({
             <PaginationLink
               href="#"
               onClick={(e) => onPageClick(e, page)}
-              style={{ color: page === currentPage ? "#B4E5F4" : undefined }}
+              isActive={page === currentPage}
+              // style={{ color: page === currentPage ? "#B4E5F4" : undefined }}
               aria-current={page === currentPage ? "page" : undefined}
             >
               {page}
@@ -133,6 +143,7 @@ export const CustomPagination: React.FC<CustomPaginationProps> = ({
 
         <PaginationItem>
           <PaginationNext
+            textLabel={t("Common.next")}
             onClick={nextHandler}
             href="#"
             // disabled={currentPage === totalPages}

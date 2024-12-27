@@ -204,6 +204,8 @@
         "inProgress": "in Progress",
         "initial": "initial",
         "categoryName": "Category name",
-        "icon": "Icon"
+        "icon": "Icon",
+        "previous": "Previous",
+        "next": "Next"
     }
 }

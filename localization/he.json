@@ -204,6 +204,8 @@
         "inProgress": "בתהליך",
         "initial": "ראשוני",
         "categoryName": "שם קטגוריה",
-        "icon": "אייקון"
+        "icon": "אייקון",
+        "previous": "הקודם",
+        "next": "הבא"
     }
 }
