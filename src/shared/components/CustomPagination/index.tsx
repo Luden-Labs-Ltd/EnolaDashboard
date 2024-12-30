@@ -118,7 +118,14 @@ export const CustomPagination: React.FC<CustomPaginationProps> = ({
               href="#"
               onClick={(e) => onPageClick(e, page)}
               isActive={page === currentPage}
-              // style={{ color: page === currentPage ? "#B4E5F4" : undefined }}
+              style={{
+                background:
+                  page === currentPage ? "hsl(var(--primary))" : undefined,
+                color:
+                  page === currentPage
+                    ? "hsl(var(--primary-foreground))"
+                    : undefined,
+              }}
               aria-current={page === currentPage ? "page" : undefined}
             >
               {page}

@@ -1,20 +1,21 @@
 import { FormRenderField } from "@components/FormRender";
 import { z } from "zod";
 
-export const editMembershipFormScheme = z.object({
+export const AddMembershipFormScheme = z.object({
   first_name: z.string().max(50),
   last_name: z.string().max(50),
   age: z.number().max(150),
+  phone_number: z.string(),
   gender: z.enum(["female", "male", "other"]),
   circle: z.enum(["public", "private", "intimate"]),
   primary: z.boolean(),
 });
 
-export type EditMembershipForm = z.infer<typeof editMembershipFormScheme>;
+export type AddMembershipForm = z.infer<typeof AddMembershipFormScheme>;
 
-export const getEditMembershipFormFields = (
+export const getAddMembershipFormFields = (
   t: TFunction
-): FormRenderField<EditMembershipForm>[] => {
+): FormRenderField<AddMembershipForm>[] => {
   return [
     {
       name: "first_name",
@@ -28,6 +29,14 @@ export const getEditMembershipFormFields = (
       type: "input",
       id: "last_name",
       label: t("Common.lastName"),
+      placeholder: "",
+    },
+    {
+      name: "phone_number",
+      type: "phone",
+      inputType: "text",
+      id: "phone_number",
+      label: t("Common.phone"),
       placeholder: "",
     },
     {

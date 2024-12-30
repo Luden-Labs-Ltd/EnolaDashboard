@@ -32,6 +32,7 @@ export type FormFieldProps<T extends FieldValues> = {
   formObject: UseFormReturn<T>;
   renderField: FormRenderField<T>;
   customErrorMessage?: string;
+  disabled?: boolean;
 };
 
 type FormRenderProps<T extends FieldValues> = {
@@ -41,6 +42,7 @@ type FormRenderProps<T extends FieldValues> = {
   customErrorMessage?: string;
   fieldsClassName?: string;
   className?: string;
+  disabled?: boolean;
 };
 
 export default function FormRender<B extends FieldValues>(
@@ -54,6 +56,7 @@ export default function FormRender<B extends FieldValues>(
     children,
     className,
     fieldsClassName,
+    disabled,
   } = props;
 
   const renderFields = (renderField: FormRenderField<B>) => {
@@ -61,10 +64,11 @@ export default function FormRender<B extends FieldValues>(
       case "phone":
         return (
           <FormPhone
-            key={`${renderField.name}-${renderField.id}-${renderField.type}`}
-            formObject={formObject}
-            renderField={renderField}
-            customErrorMessage={customErrorMessage}
+          key={`${renderField.name}-${renderField.id}-${renderField.type}`}
+          formObject={formObject}
+          renderField={renderField}
+          customErrorMessage={customErrorMessage}
+          disabled={disabled}
           />
         );
       case "select":
@@ -74,6 +78,7 @@ export default function FormRender<B extends FieldValues>(
             formObject={formObject}
             renderField={renderField}
             customErrorMessage={customErrorMessage}
+            disabled={disabled}
           />
         );
       case "checkbox":
@@ -83,6 +88,7 @@ export default function FormRender<B extends FieldValues>(
             formObject={formObject}
             renderField={renderField}
             customErrorMessage={customErrorMessage}
+            disabled={disabled}
           />
         );
 
@@ -94,6 +100,7 @@ export default function FormRender<B extends FieldValues>(
             formObject={formObject}
             renderField={renderField}
             customErrorMessage={customErrorMessage}
+            disabled={disabled}
           />
         );
     }

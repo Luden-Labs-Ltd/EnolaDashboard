@@ -27,6 +27,7 @@ export const AddTaskForm: React.FC<AddTaskFormProps> = ({
   const t = useTranslations();
   const [apiError, setApiError] = useState("");
   const { tasksState } = useTasksStore();
+  const [disabled, setDisabled] = useState(false);
   const form = useForm<CreateTasksValues>({
     resolver: zodResolver(createTasksScheme),
     defaultValues: {
@@ -86,6 +87,7 @@ export const AddTaskForm: React.FC<AddTaskFormProps> = ({
     if (!programId) {
       return;
     }
+    setDisabled(true);
     createTaskApi(
       {
         ...values,
@@ -99,6 +101,9 @@ export const AddTaskForm: React.FC<AddTaskFormProps> = ({
       })
       .catch((err) => {
         setApiError(err.message);
+      })
+      .finally(() => {
+        setDisabled(false);
       });
   }
 
@@ -107,9 +112,10 @@ export const AddTaskForm: React.FC<AddTaskFormProps> = ({
       formObject={form}
       onSubmitHandler={onSubmit}
       fields={createTasksFields}
+      disabled={disabled}
       customErrorMessage={apiError}
     >
-      <Button type="submit" size={"lg"}>
+      <Button type="submit" disabled={disabled} size={"lg"}>
         {t("Common.add")}
       </Button>
     </FormRender>

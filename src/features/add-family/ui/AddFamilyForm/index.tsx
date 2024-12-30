@@ -25,6 +25,7 @@ type CreateFamilyForm = z.infer<typeof createFormScheme>;
 export const AddFamilyForm: React.FC<AddFamilyFormProps> = ({ onClose }) => {
   const t = useTranslations();
   const [apiError, setApiError] = useState("");
+  const [disabled, setDisabled] = useState(false);
   const { familiesState } = useFamiliesStore();
   const { programId } = familiesState;
 
@@ -36,12 +37,16 @@ export const AddFamilyForm: React.FC<AddFamilyFormProps> = ({ onClose }) => {
   });
 
   function onSubmit(values: CreateFamilyForm) {
+    setDisabled(true);
     createFamily(values)
       .then(() => {
-        onCloseHandler()
+        onCloseHandler();
       })
       .catch((err) => {
         setApiError(err.message);
+      })
+      .finally(() => {
+        setDisabled(false);
       });
   }
 
@@ -101,6 +106,7 @@ export const AddFamilyForm: React.FC<AddFamilyFormProps> = ({ onClose }) => {
     <FormRender
       formObject={form}
       onSubmitHandler={onSubmit}
+      disabled={disabled}
       fields={createFormFields}
       customErrorMessage={apiError}
     >
@@ -114,7 +120,7 @@ export const AddFamilyForm: React.FC<AddFamilyFormProps> = ({ onClose }) => {
           >
             {t("Common.cancel")}
           </Button>
-          <Button rounded={"circle"} type="submit" size={"lg"}>
+          <Button rounded={"circle"} disabled={disabled} type="submit" size={"lg"}>
             {t("Common.add")}
           </Button>
         </div>
