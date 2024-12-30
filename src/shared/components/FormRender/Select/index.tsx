@@ -19,7 +19,7 @@ import {
 import { getDirectionClassForField } from "../helper";
 
 export function FormSelect<F extends FieldValues>(props: FormFieldProps<F>) {
-  const { renderField, formObject } = props;
+  const { renderField, formObject, disabled } = props;
   const className = renderField.className ?? "";
   const fieldDirectionClassName = getDirectionClassForField(
     renderField.direction
@@ -35,7 +35,7 @@ export function FormSelect<F extends FieldValues>(props: FormFieldProps<F>) {
             <FormLabel>{renderField.label}</FormLabel>
             <FormControl>
               <Select {...field} onValueChange={field.onChange}>
-                <SelectTrigger>
+                <SelectTrigger disabled={disabled}>
                   <SelectValue
                     placeholder={
                       renderField.placeholder ?? renderField.label.toUpperCase()

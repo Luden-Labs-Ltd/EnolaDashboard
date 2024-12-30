@@ -49,6 +49,8 @@ const EditFamilyModal: React.FC<PropsWithChildren<DeleteFamilyActionProps>> = ({
     defaultValues: {
       title: family.name,
       phone_number: family.primaryCaregiver.phoneNumber,
+      first_name: family?.firstName ?? "",
+      last_name: family?.lastName ?? "",
       archived: false,
     },
   });

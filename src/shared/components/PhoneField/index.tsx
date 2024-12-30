@@ -49,6 +49,7 @@ const PhoneField: React.FC<PhoneFieldProps> = ({
           onChangeHandler?.(e);
           onPhoneHandler?.(phoneNumber);
         }}
+        preferredCountries={['il', 'by', 'ru', 'de', 'ua']}
         onBlur={(e) => {
           onBlur?.(e);
         }}

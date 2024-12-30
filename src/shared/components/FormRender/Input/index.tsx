@@ -13,7 +13,7 @@ import { Input } from "@components/shadowCDN/input";
 import { getDirectionClassForField } from "../helper";
 
 export function FormInput<F extends FieldValues>(props: FormFieldProps<F>) {
-  const { renderField, formObject } = props;
+  const { renderField, formObject, disabled } = props;
   const className = renderField.className ?? "";
   const fieldDirectionClassName = getDirectionClassForField(
     renderField.direction
@@ -23,6 +23,7 @@ export function FormInput<F extends FieldValues>(props: FormFieldProps<F>) {
       key={renderField.id}
       control={formObject.control}
       name={renderField.name}
+      disabled={disabled}
       render={({ field }) => (
         <FormItem className="w-full">
           <div className={`${fieldDirectionClassName} ${className}`}>

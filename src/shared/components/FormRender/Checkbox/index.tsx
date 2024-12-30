@@ -13,7 +13,7 @@ import { Checkbox } from "@components/shadowCDN/checkbox";
 import { getDirectionClassForField } from "../helper";
 
 export function FormCheckbox<F extends FieldValues>(props: FormFieldProps<F>) {
-  const { renderField, formObject } = props;
+  const { renderField, formObject, disabled } = props;
   const className = renderField.className ?? "";
   const fieldDirectionClassName = getDirectionClassForField(
     renderField.direction
@@ -23,6 +23,7 @@ export function FormCheckbox<F extends FieldValues>(props: FormFieldProps<F>) {
       key={renderField.id}
       control={formObject.control}
       name={renderField.name}
+      disabled={disabled}
       render={({ field }) => {
         return (
           <FormItem className="flex gap-[10px] items-center">

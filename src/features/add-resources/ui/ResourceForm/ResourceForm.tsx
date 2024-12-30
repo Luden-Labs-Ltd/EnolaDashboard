@@ -9,7 +9,10 @@ import { useTranslations } from "next-intl";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import Row from "@components/Row";
-import { createResourceScheme, CreateResourceValues } from "features/add-resources/model";
+import {
+  createResourceScheme,
+  CreateResourceValues,
+} from "features/add-resources/model";
 
 type ResourceFormProps = {
   callback: () => void;
@@ -22,6 +25,7 @@ export const ResourceForm: React.FC<ResourceFormProps> = ({
 }) => {
   const t = useTranslations();
   const [apiError, setApiError] = useState("");
+  const [disabled, setDisabled] = useState(false);
   const { resourcesState } = useResourcesStore();
 
   const { programId } = resourcesState;
@@ -119,12 +123,16 @@ export const ResourceForm: React.FC<ResourceFormProps> = ({
       return;
     }
 
+    setDisabled(true);
     createResource(programId, values)
       .then(() => {
         onClose();
       })
       .catch((err) => {
         setApiError(err.message);
+      })
+      .finally(() => {
+        setDisabled(false);
       });
   }
 
@@ -133,9 +141,10 @@ export const ResourceForm: React.FC<ResourceFormProps> = ({
       formObject={form}
       onSubmitHandler={onSubmit}
       fields={createTasksFields}
+      disabled={disabled}
       customErrorMessage={apiError}
     >
-      <Button type="submit" size={"lg"}>
+      <Button disabled={disabled} type="submit" size={"lg"}>
         {t("Common.add")}
       </Button>
     </FormRender>

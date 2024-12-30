@@ -27,6 +27,17 @@ export interface MembershipUser {
 }
 
 
+export type AddMembershipDto = {
+  first_name: string,
+  last_name: string,
+  phone_number: string,
+  age:number,
+  gender: GenderType,
+  circle: CircleType,
+  primary: boolean,
+}
+
+
 export type EditMembershipDto = {
   first_name: string,
   last_name: string,

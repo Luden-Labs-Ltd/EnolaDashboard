@@ -1,7 +1,7 @@
 "use server";
 
 import { fetchInstance } from "shared/api";
-import { EditMembershipDto, MembershipApi } from "./types";
+import { AddMembershipDto, EditMembershipDto, MembershipApi } from "./types";
 import { GET_MEMBERSHIPS_REVALIDATE_TAG } from "./const";
 
 export const getMembershipsFromApi = async (
@@ -25,13 +25,17 @@ export const getMembershipsFromApi = async (
 
 export const createMembershipApi = async (
   familyId: string,
-  formData: FormData
+  addFamilyDto: AddMembershipDto
 ) => {
+  const body = JSON.stringify(addFamilyDto)
   const response = await fetchInstance(
     process.env.BASE_URL_BACKEND + `/api/v2/dashboard/families/${familyId}/memberships`,
     {
       method: "POST",
-      body: formData,
+      body: body,
+      headers: {
+        "Content-Type": "application/json"
+      }
     }
   );
 

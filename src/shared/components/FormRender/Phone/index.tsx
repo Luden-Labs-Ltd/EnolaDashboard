@@ -13,7 +13,7 @@ import { FormFieldProps } from "..";
 import { getDirectionClassForField } from "../helper";
 
 export function FormPhone<F extends FieldValues>(props: FormFieldProps<F>) {
-  const { renderField, formObject } = props;
+  const { renderField, formObject, disabled } = props;
   const className = renderField.className ?? "";
   const fieldDirectionClassName = getDirectionClassForField(
     renderField.direction
@@ -29,6 +29,7 @@ export function FormPhone<F extends FieldValues>(props: FormFieldProps<F>) {
             <FormLabel>{renderField.label}</FormLabel>
             <FormControl>
               <PhoneField
+                disabled={disabled}
                 placeholder={
                   renderField.placeholder ?? renderField.label.toUpperCase()
                 }
