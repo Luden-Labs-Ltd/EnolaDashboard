@@ -1,17 +1,14 @@
-import Row from "@components/Row";
-import { ResourcesType } from "entities/resources";
-import React from "react";
-import styles from "./resource.module.scss";
 import DropDownMenu, { DropDownMenuItemsType } from "@components/DropDownMenu";
-import EditIcon from "shared/assets/EditIcon";
-import ShareIcon from "shared/assets/ShareIcon";
-import DeleteIcon from "shared/assets/DeleteIcon";
-import { useTranslations } from "next-intl";
-import CopyText from "features/copy-text";
+import Row from "@components/Row";
 import { DropdownMenuItem } from "@components/shadowCDN/dropdown-menu";
-import { DeleteMembership } from "features/delete-membership";
+import { ResourcesType } from "entities/resources";
+import CopyText from "features/copy-text";
 import DeleteResourceModal from "features/delete-resource/ui/DeleteResourceModal";
 import { EditResource } from "features/edit-resources";
+import { useTranslations } from "next-intl";
+import React from "react";
+import ShareIcon from "shared/assets/ShareIcon";
+import styles from "./resource.module.scss";
 
 interface ResourceProps {
   resource: ResourcesType;
@@ -19,7 +16,7 @@ interface ResourceProps {
 
 export const Resource: React.FC<ResourceProps> = ({ resource }) => {
   const t = useTranslations();
-  EditResource
+  EditResource;
   const resourceDropDownItems: DropDownMenuItemsType[] = [
     {
       id: `${resource.id}-edit`,
@@ -28,7 +25,11 @@ export const Resource: React.FC<ResourceProps> = ({ resource }) => {
       href: ``,
       renderCustomComponent: (_, onClose) => {
         return (
-          <EditResource callback={onClose} key={`${resource.id}-edit`} resource={resource}/>
+          <EditResource
+            callback={onClose}
+            key={`${resource.id}-edit`}
+            resource={resource}
+          />
         );
       },
     },
@@ -62,7 +63,11 @@ export const Resource: React.FC<ResourceProps> = ({ resource }) => {
       href: ``,
       renderCustomComponent: (_, onClose) => {
         return (
-          <DeleteResourceModal callback={onClose} key={`${resource.id}-delete`} resourceId={resource.id}/>
+          <DeleteResourceModal
+            callback={onClose}
+            key={`${resource.id}-delete`}
+            resourceId={resource.id}
+          />
         );
       },
     },
