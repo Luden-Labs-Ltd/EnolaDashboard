@@ -16,16 +16,19 @@ export default async function ResourcesPage(props: PageProps) {
   const categoriesApiData = await getCategoriesApi(programId);
   const resourcesApiData = await getResourcesFromApi(programId, {
     resourceName,
-    categoryId
+    categoryId,
   });
 
-  const categories = convertCategoryData(categoriesApiData);
+  const { categoriesData, maxResourceCount, maxTaskCount } =
+    convertCategoryData(categoriesApiData);
   const resourcesData = convertResourcesData(resourcesApiData);
 
   return (
     <>
       <Resources
-        categories={categories}
+        maxResourceCount={maxResourceCount}
+        maxTaskCount={maxTaskCount}
+        categories={categoriesData}
         programId={programId}
         resources={resourcesData}
       />

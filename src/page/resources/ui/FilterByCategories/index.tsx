@@ -15,7 +15,7 @@ export const FilterByCategories: React.FC<FilterByCategoriesProps> = ({}) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const { categoryState } = useCategoryStore();
-  const { categories } = categoryState;
+  const { categories, maxResourceCount } = categoryState;
 
   const onFilterClick = ({ id }: CategoryPressCallbackArguments) => {
     const newSearchParams = createQueryString("category_id", id, searchParams);
@@ -31,6 +31,7 @@ export const FilterByCategories: React.FC<FilterByCategoriesProps> = ({}) => {
         active={currentFilteredCategory === "all"}
         variant="chip"
         color="secondary"
+        count={maxResourceCount}
         pressCallback={onFilterClick}
         title={"all"}
         iconType={"general"}
@@ -46,7 +47,7 @@ export const FilterByCategories: React.FC<FilterByCategoriesProps> = ({}) => {
             pressCallback={onFilterClick}
             iconType={category.icon}
             variant="chip"
-            count={category.count}
+            count={category.resourceCount}
             title={category.title}
           />
         );

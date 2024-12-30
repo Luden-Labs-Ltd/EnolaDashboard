@@ -15,12 +15,16 @@ type CategoryContextState = {
   activeCategories: CategoryType[];
   programId: string | null;
   currentCategory: CategoryType;
+  maxResourceCount: number;
+  maxTaskCount: number;
 };
 
 type CategoryProviderValue = {
   categories: CategoryType[];
   programId: string | null;
   currentCategory: CategoryType;
+  maxResourceCount: number;
+  maxTaskCount: number;
 };
 
 const CategoryContext = createContext<{
@@ -30,26 +34,34 @@ const CategoryContext = createContext<{
 
 export const CategoryStoreProvider: React.FC<
   PropsWithChildren<CategoryProviderValue>
-> = ({ categories, currentCategory, programId, children }) => {
-
+> = ({
+  categories,
+  currentCategory,
+  programId,
+  maxResourceCount,
+  maxTaskCount,
+  children,
+}) => {
   const activeCategories = categories.filter((category) => category.active);
   const [categoryState, setCategoryState] = useState<CategoryContextState>({
     categories: categories,
     programId: programId,
     activeCategories: activeCategories,
     currentCategory,
+    maxResourceCount,
+    maxTaskCount,
   });
 
   useEffect(() => {
-    setCategoryState((prev)=> {
+    setCategoryState((prev) => {
       const activeCategories = categories.filter((category) => category.active);
       return {
         ...prev,
         categories: categories,
-        activeCategories: activeCategories
-      }
-    })
-  }, [categories])
+        activeCategories: activeCategories,
+      };
+    });
+  }, [categories]);
 
   return (
     <CategoryContext.Provider
@@ -82,26 +94,27 @@ export const useCategoryStore = () => {
     const isActive = active;
 
     const newCategory = categoryState.categories.map((category) => {
-        const isUpdatedCategory = category.id === currentCategoryId;
-        if (isUpdatedCategory) {
-            return {...category, active: isActive}
-        }
-        return category
-    })
+      const isUpdatedCategory = category.id === currentCategoryId;
+      if (isUpdatedCategory) {
+        return { ...category, active: isActive };
+      }
+      return category;
+    });
 
     setData((prev) => ({ ...prev, categories: newCategory }));
   };
 
   const revalidateActiveCategories = () => {
-    const activeCategories = categoryState.categories.filter((category) => category.active);
+    const activeCategories = categoryState.categories.filter(
+      (category) => category.active
+    );
     setData((prev) => ({ ...prev, activeCategories: activeCategories }));
   };
-
 
   return {
     categoryState,
     setCurrentCategory,
     toggleActiveCategory,
-    revalidateActiveCategories
+    revalidateActiveCategories,
   };
 };

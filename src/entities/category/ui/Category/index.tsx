@@ -108,7 +108,7 @@ const Category: React.FC<PropsWithChildren<CategoriesProps>> = ({
         {icon ? <div>{icon}</div> : null}
         <div>{title}</div>
       </Row>
-      {count ? <div>{count}</div> : null}
+      {count ? <div>{`( ${count} )`}</div> : null}
       {/* {isChip ? <div>x</div> : null} */}
 
       {actions ? actions : null}
