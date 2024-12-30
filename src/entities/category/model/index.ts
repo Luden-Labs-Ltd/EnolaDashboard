@@ -2,16 +2,23 @@ export type CategoryType = {
   id: string;
   icon: CategoryIconType;
   active?: boolean;
-  count?: number;
+  taskCount: number;
+  resourceCount: number;
   title: string;
 };
-
 
 export type CategoryTypeApi = {
   id: number;
   name: string;
+  resource_count: number;
+  task_template_count: number;
   svg_icon: CategoryIconType;
 };
 
-
-export type CategoryIconType = "general" | "medical" | "home" | "emotional" | "childcare" | "legal_rights"
+export type CategoryIconType =
+  | "general"
+  | "medical"
+  | "home"
+  | "emotional"
+  | "childcare"
+  | "legal_rights";

@@ -94,7 +94,7 @@ export const Resource: React.FC<ResourceProps> = ({ resource }) => {
       </Row>
       <Row>
         <span className={styles.label}>{t("Common.url")}:</span>
-        <a href={resource.site} className={styles.light}>
+        <a href={resource.site} target="_blank" className={styles.light}>
           {resource.site}
         </a>
       </Row>

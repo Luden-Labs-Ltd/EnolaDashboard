@@ -10,12 +10,16 @@ interface NeedsContentProps {
   categories: CategoryType[];
   programId: string | null;
   tasks: ConvertedTasksState;
+  maxResourceCount: number;
+  maxTaskCount: number;
 }
 
 const Needs: React.FC<NeedsContentProps> = ({
   categories,
   programId,
   tasks,
+  maxResourceCount,
+  maxTaskCount,
 }) => {
   const {
     storedValue: isFirstTimeOnNeedsPage,
@@ -28,7 +32,7 @@ const Needs: React.FC<NeedsContentProps> = ({
   };
 
   if (isLocalValueLoading) {
-    return <Loader/>
+    return <Loader />;
   }
 
   if (isFirstTimeOnNeedsPage) {
@@ -38,6 +42,8 @@ const Needs: React.FC<NeedsContentProps> = ({
   return (
     <div>
       <CategoryStoreProvider
+        maxResourceCount={maxResourceCount}
+        maxTaskCount={maxTaskCount}
         categories={categories}
         programId={programId}
         currentCategory={categories[0]}

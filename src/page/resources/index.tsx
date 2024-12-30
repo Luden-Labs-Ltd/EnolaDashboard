@@ -11,12 +11,16 @@ interface ResourcesProps {
   categories: CategoryType[];
   resources: ResourcesType[];
   programId: string | null;
+  maxResourceCount: number;
+  maxTaskCount: number;
 }
 
 export default function Resources({
   categories,
   resources,
   programId,
+  maxResourceCount,
+  maxTaskCount,
 }: ResourcesProps) {
   return (
     <main>
@@ -27,6 +31,8 @@ export default function Resources({
           </Row>
         </SearchPanel>
         <CategoryStoreProvider
+          maxResourceCount={maxResourceCount}
+          maxTaskCount={maxTaskCount}
           programId={programId}
           currentCategory={categories[0]}
           categories={categories}
