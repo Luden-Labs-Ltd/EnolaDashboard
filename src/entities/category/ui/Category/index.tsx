@@ -15,6 +15,7 @@ import {
 } from "shared/assets/categoryIcon";
 import { CategoryIconType } from "entities/category/model";
 import Row from "@components/Row";
+import { RenderCategoryIcon } from "entities/category/lib/RenderCategoryIcon";
 
 export type CategoryPressCallbackArguments = {
   isActive: boolean;
@@ -61,7 +62,7 @@ export const ICON_MAP: { [key: string]: React.ReactNode } = {
   home: <HomeIcon />,
   emotional: <EmotionalIcon />,
   childcare: <ParentingIcon />,
-  legal_rights: <RightIcon />,
+  legal: <RightIcon />,
 };
 
 const Category: React.FC<PropsWithChildren<CategoriesProps>> = ({
@@ -77,7 +78,7 @@ const Category: React.FC<PropsWithChildren<CategoriesProps>> = ({
   variant = "default",
   count,
   isPresseble = false,
-  className = '',
+  className = "",
   pressCallback,
 }) => {
   const isChip = variant === "chip";
@@ -92,8 +93,6 @@ const Category: React.FC<PropsWithChildren<CategoriesProps>> = ({
     });
   };
 
-  const defaultIcon = ICON_MAP[iconType];
-  const icon = customIcon ? customIcon : defaultIcon;
   return (
     <div
       onClick={handlePress}
@@ -105,7 +104,8 @@ const Category: React.FC<PropsWithChildren<CategoriesProps>> = ({
       })}
     >
       <Row alignItems="center">
-        {icon ? <div>{icon}</div> : null}
+        <RenderCategoryIcon icon={iconType} customIcon={customIcon}/>
+
         <div>{title}</div>
       </Row>
       {count ? <div>{`( ${count} )`}</div> : null}

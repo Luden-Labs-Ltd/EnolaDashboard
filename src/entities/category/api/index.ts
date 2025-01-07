@@ -64,7 +64,7 @@ export const createCategoriesApi = async (
 
 export const deleteCategoryApi = async (
   programId: string,
-  categoryId: number,
+  categoryId: string,
 ): Promise<Boolean | null> => {
   const response = await fetchInstance(
     `${process.env.BASE_URL_BACKEND}/api/v2/dashboard/programs/${programId}/categories/${categoryId}`,
