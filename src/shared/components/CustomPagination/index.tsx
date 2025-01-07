@@ -1,30 +1,24 @@
-import React, { MouseEvent, useMemo } from "react";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@components/shadowCDN/pagination";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { createQueryString } from "@lib/url";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import React, { MouseEvent, useMemo } from "react";
 import { getPageRange } from "./lib";
-import { useTranslations } from "next-intl";
+import { PaginationWithNumbers } from "./ui/PaginationWithNumbers";
+import { PaginationWithButtons } from "./ui/PaginationWithButtons";
 
+export type PaginationType = "numbers" | "buttons";
 interface CustomPaginationProps {
+  paginationType?: PaginationType;
   totalCount: number;
   pagesToShow: number;
   pageSize: number; // Number of items per page
 }
 
 export const CustomPagination: React.FC<CustomPaginationProps> = ({
+  paginationType = "numbers",
   totalCount,
   pagesToShow,
   pageSize,
 }) => {
-  const t = useTranslations();
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -91,72 +85,35 @@ export const CustomPagination: React.FC<CustomPaginationProps> = ({
     goToPage(page);
   };
 
-  return (
-    <Pagination>
-      <PaginationContent>
-        <PaginationItem>
-          <PaginationPrevious
-            textLabel={t("Common.previous")}
-            onClick={previousHandler}
-            href="#"
-            // disabled={currentPage === 1}
-          />
-        </PaginationItem>
-
-        {isRenderFirstEclipse && currentPage !== 1 && (
-          <PaginationItem>
-            <PaginationLink href="#" onClick={(e) => onPageClick(e, 1)}>
-              1
-            </PaginationLink>
-          </PaginationItem>
-        )}
-        {isRenderFirstEclipse && <PaginationEllipsis />}
-
-        {pageRanges.map((page) => (
-          <PaginationItem key={page}>
-            <PaginationLink
-              href="#"
-              onClick={(e) => onPageClick(e, page)}
-              isActive={page === currentPage}
-              style={{
-                background:
-                  page === currentPage ? "hsl(var(--primary))" : undefined,
-                color:
-                  page === currentPage
-                    ? "hsl(var(--primary-foreground))"
-                    : undefined,
-              }}
-              aria-current={page === currentPage ? "page" : undefined}
-            >
-              {page}
-            </PaginationLink>
-          </PaginationItem>
-        ))}
-
-        {isRenderLastEclipse && <PaginationEllipsis />}
-
-        {isRenderLastEclipse && currentPage !== totalPages && (
-          <>
-            <PaginationItem>
-              <PaginationLink
-                href="#"
-                onClick={(e) => onPageClick(e, totalPages)}
-              >
-                {totalPages}
-              </PaginationLink>
-            </PaginationItem>
-          </>
-        )}
-
-        <PaginationItem>
-          <PaginationNext
-            textLabel={t("Common.next")}
-            onClick={nextHandler}
-            href="#"
-            // disabled={currentPage === totalPages}
-          />
-        </PaginationItem>
-      </PaginationContent>
-    </Pagination>
-  );
+  switch (paginationType) {
+    case "buttons": {
+      return (
+        <PaginationWithButtons
+          currentPage={currentPage}
+          totalPages={totalPages}
+          pageRanges={pageRanges}
+          isRenderFirstEclipse={isRenderFirstEclipse}
+          isRenderLastEclipse={isRenderLastEclipse}
+          onPageClick={onPageClick}
+          previousHandler={previousHandler}
+          nextHandler={nextHandler}
+        />
+      );
+    }
+    case "numbers":
+    default: {
+      return (
+        <PaginationWithNumbers
+          currentPage={currentPage}
+          totalPages={totalPages}
+          pageRanges={pageRanges}
+          isRenderFirstEclipse={isRenderFirstEclipse}
+          isRenderLastEclipse={isRenderLastEclipse}
+          onPageClick={onPageClick}
+          previousHandler={previousHandler}
+          nextHandler={nextHandler}
+        />
+      );
+    }
+  }
 };
