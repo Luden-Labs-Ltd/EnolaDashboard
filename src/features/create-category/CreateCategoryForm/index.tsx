@@ -3,16 +3,18 @@ import Row from "@components/Row";
 import { Button } from "@components/shadowCDN/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  CategoryIconType,
+  DefaultCategoryIconTypesArray,
   createCategoriesApi,
-  ICON_MAP,
+  RenderCategoryIcon,
   useCategoryStore,
+  ICON_MAP,
 } from "entities/category";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import AddIcon from "shared/assets/AddIcon";
 import { z } from "zod";
+import ReactDOMServer from 'react-dom/server';
 
 const createCategoryScheme = z.object({
   name: z.string().min(3).max(50),
@@ -21,7 +23,7 @@ const createCategoryScheme = z.object({
     "emotional",
     "general",
     "home",
-    "legal_rights",
+    "legal",
     "medical",
   ]),
 });
@@ -36,15 +38,6 @@ export const CreateCategoryForm: React.FC<CreateCategoryFormProps> = ({
   callback,
 }) => {
   const t = useTranslations();
-  const selectIconArray: CategoryIconType[] = [
-    "childcare",
-    "emotional",
-    "general",
-    "home",
-    "legal_rights",
-    "medical",
-  ];
-
   const { categoryState } = useCategoryStore();
   const [apiError, setApiError] = useState("");
 
@@ -69,12 +62,12 @@ export const CreateCategoryForm: React.FC<CreateCategoryFormProps> = ({
       type: "select",
       id: "icon_id",
       label: t("Common.icon"),
-      options: selectIconArray.map((iconName) => {
+      options: DefaultCategoryIconTypesArray.map((iconName) => {
         return {
           value: iconName,
           name: (
             <Row alignItems="center" className="w-[120px]">
-              {ICON_MAP[iconName]}
+              <RenderCategoryIcon icon={iconName} />
               {iconName}
             </Row>
           ),
@@ -96,7 +89,14 @@ export const CreateCategoryForm: React.FC<CreateCategoryFormProps> = ({
     if (!categoryState.programId) {
       return;
     }
-    createCategoriesApi(values, categoryState.programId)
+
+    const svgCategoryIcon = ICON_MAP[values.svg_icon]
+    const currentStringSvgIcon =  ReactDOMServer.renderToString(svgCategoryIcon)
+
+    createCategoriesApi({
+      ...values,
+      svg_icon: currentStringSvgIcon
+    }, categoryState.programId)
       .then(() => {
         onClose();
       })

@@ -21,4 +21,13 @@ export type CategoryIconType =
   | "home"
   | "emotional"
   | "childcare"
-  | "legal_rights";
+  | "legal";
+
+export const DefaultCategoryIconTypesArray: CategoryIconType[] = [
+  "childcare",
+  "emotional",
+  "general",
+  "home",
+  "legal",
+  "medical",
+];

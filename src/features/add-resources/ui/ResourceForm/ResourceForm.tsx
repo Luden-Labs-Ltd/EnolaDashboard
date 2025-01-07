@@ -2,7 +2,7 @@
 import FormRender, { FormRenderField } from "@components/FormRender";
 import { Button } from "@components/shadowCDN/button";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CategoryType, ICON_MAP } from "entities/category";
+import { CategoryType, RenderCategoryIcon } from "entities/category";
 import { createResource } from "entities/resources/actions";
 import { useResourcesStore } from "entities/resources/model/provider";
 import { useTranslations } from "next-intl";
@@ -103,7 +103,7 @@ export const ResourceForm: React.FC<ResourceFormProps> = ({
           value: category.id,
           name: (
             <Row alignItems="center" className="w-[120px]">
-              {ICON_MAP[category.icon]}
+              <RenderCategoryIcon icon={category.icon}/>
               {category.title}
             </Row>
           ),
