@@ -16,7 +16,6 @@ const createFormScheme = z.object({
   first_name: z.string().max(50),
   last_name: z.string().max(50),
   phone_number: z.string().max(50),
-  program_id: z.string().max(50),
   address: z.string().max(50),
 });
 
@@ -26,14 +25,9 @@ export const AddFamilyForm: React.FC<AddFamilyFormProps> = ({ onClose }) => {
   const t = useTranslations();
   const [apiError, setApiError] = useState("");
   const [disabled, setDisabled] = useState(false);
-  const { familiesState } = useFamiliesStore();
-  const { programId } = familiesState;
 
   const form = useForm<CreateFamilyForm>({
     resolver: zodResolver(createFormScheme),
-    defaultValues: {
-      program_id: programId,
-    },
   });
 
   function onSubmit(values: CreateFamilyForm) {
@@ -91,13 +85,6 @@ export const AddFamilyForm: React.FC<AddFamilyFormProps> = ({ onClose }) => {
       type: "input",
       id: "address",
       label: t("Common.address"),
-      placeholder: "",
-    },
-    {
-      name: "program_id",
-      type: "input",
-      id: "program_id",
-      label: t("Common.programName"),
       placeholder: "",
     },
   ];

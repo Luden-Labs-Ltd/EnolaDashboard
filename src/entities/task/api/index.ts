@@ -5,6 +5,7 @@ import { TaskTypeApi } from "../model";
 import { CreateTasksApiDto } from "./types";
 import { REVALIDATE_GET_TASK_TAG } from "./constant";
 import { revalidateTag } from "next/cache";
+import { getCurrentProgramId } from "entities/program";
 
 type SearchParameters = {
   taskName: string,
@@ -12,13 +13,10 @@ type SearchParameters = {
 
 
 export const getTasks = async (
-  programId: string | null,
   searchParameters: SearchParameters
 ): Promise<TaskTypeApi[]> => {
-  if (!programId) {
-    return [];
-  }
-  
+
+  const programId = await getCurrentProgramId()
   const params = JSON.stringify({
     title_cont: searchParameters.taskName,
     sorts: "start_at asc",
@@ -42,9 +40,9 @@ export const getTasks = async (
 };
 
 export const createTaskApi = async (
-  dto: CreateTasksApiDto,
-  programId: string
+  dto: CreateTasksApiDto
 ): Promise<TaskTypeApi> => {
+  const programId = await getCurrentProgramId()
   const response = await fetchInstance(
     `${process.env.BASE_URL_BACKEND}/api/v2/dashboard/programs/${programId}/task_templates`,
     {
@@ -69,9 +67,9 @@ export const createTaskApi = async (
 };
 
 export const deleteTaskApi = async (
-  programId: string,
   selectedTasks: number[]
 ) => {
+  const programId = await getCurrentProgramId()
   await Promise.all(
     selectedTasks.map((taskId) => {
       return fetchInstance(

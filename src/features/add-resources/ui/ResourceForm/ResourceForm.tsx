@@ -4,7 +4,6 @@ import { Button } from "@components/shadowCDN/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CategoryType, RenderCategoryIcon } from "entities/category";
 import { createResource } from "entities/resources/actions";
-import { useResourcesStore } from "entities/resources/model/provider";
 import { useTranslations } from "next-intl";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -26,9 +25,6 @@ export const ResourceForm: React.FC<ResourceFormProps> = ({
   const t = useTranslations();
   const [apiError, setApiError] = useState("");
   const [disabled, setDisabled] = useState(false);
-  const { resourcesState } = useResourcesStore();
-
-  const { programId } = resourcesState;
 
   const form = useForm<CreateResourceValues>({
     resolver: zodResolver(createResourceScheme),
@@ -119,12 +115,8 @@ export const ResourceForm: React.FC<ResourceFormProps> = ({
   };
 
   function onSubmit(values: CreateResourceValues) {
-    if (!programId) {
-      return;
-    }
-
     setDisabled(true);
-    createResource(programId, values)
+    createResource(values)
       .then(() => {
         onClose();
       })

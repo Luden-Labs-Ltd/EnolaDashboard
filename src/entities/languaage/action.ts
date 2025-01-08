@@ -1,7 +1,6 @@
 "use server";
 import { z } from "zod";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 
 const config = {
   maxAge: 60 * 60 * 24 * 7, // 1 week

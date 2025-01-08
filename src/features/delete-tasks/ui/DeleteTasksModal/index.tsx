@@ -16,16 +16,16 @@ const DeleteTasks: React.FC<DeleteTaskActionProps> = ({ category }) => {
 
   const [isOpen, setIsOpen] = useState(false);
   const { tasksState, deleteSelectedTasks } = useTasksStore();
-  const { selectedTasks, programId } = tasksState;
+  const { selectedTasks } = tasksState;
 
   const onClose = () => {
     setIsOpen(false);
   };
 
-  const isDeleteDisabled = !programId || !selectedTasks[category.id]?.length;
+  const isDeleteDisabled = !selectedTasks[category.id]?.length;
   const applyChangesHandle = () => {
     if (!isDeleteDisabled) {
-      deleteTaskApi(programId, selectedTasks[category.id]).then(() => {
+      deleteTaskApi(selectedTasks[category.id]).then(() => {
         deleteSelectedTasks(category.id);
         setIsOpen(false);
       });

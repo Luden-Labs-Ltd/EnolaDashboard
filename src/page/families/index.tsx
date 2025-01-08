@@ -10,12 +10,10 @@ import { SorterObject } from "shared/types/sort";
 interface FamiliesProps {
   families: FamilyType[];
   sorterTableObject: SorterObject;
-  programId: string;
   perPage: number;
   totalCount: number;
 }
 const Families: React.FC<FamiliesProps> = ({
-  programId,
   families,
   sorterTableObject,
   perPage,
@@ -23,7 +21,7 @@ const Families: React.FC<FamiliesProps> = ({
 }) => {
   return (
     <main>
-      <FamiliesStoreProvider families={families} programId={programId}>
+      <FamiliesStoreProvider families={families}>
         <SearchPanel
           filterForm={<SearchFilter />}
           searchParamName="family_name"

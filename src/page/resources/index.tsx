@@ -10,7 +10,6 @@ import { ResourcesList } from "./ui/ResourcesList";
 interface ResourcesProps {
   categories: CategoryType[];
   resources: ResourcesType[];
-  programId: string | null;
   maxResourceCount: number;
   maxTaskCount: number;
 }
@@ -18,13 +17,12 @@ interface ResourcesProps {
 export default function Resources({
   categories,
   resources,
-  programId,
   maxResourceCount,
   maxTaskCount,
 }: ResourcesProps) {
   return (
     <main>
-      <ResourcesStoreProvider resources={resources} programId={programId}>
+      <ResourcesStoreProvider resources={resources}>
         <SearchPanel searchParamName="resource_name">
           <Row>
             <AddResources categories={categories} />
@@ -33,7 +31,6 @@ export default function Resources({
         <CategoryStoreProvider
           maxResourceCount={maxResourceCount}
           maxTaskCount={maxTaskCount}
-          programId={programId}
           currentCategory={categories[0]}
           categories={categories}
         >

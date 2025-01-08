@@ -13,7 +13,6 @@ import { CategoryType } from ".";
 type CategoryContextState = {
   categories: CategoryType[];
   activeCategories: CategoryType[];
-  programId: string | null;
   currentCategory: CategoryType;
   maxResourceCount: number;
   maxTaskCount: number;
@@ -21,7 +20,6 @@ type CategoryContextState = {
 
 type CategoryProviderValue = {
   categories: CategoryType[];
-  programId: string | null;
   currentCategory: CategoryType;
   maxResourceCount: number;
   maxTaskCount: number;
@@ -37,7 +35,6 @@ export const CategoryStoreProvider: React.FC<
 > = ({
   categories,
   currentCategory,
-  programId,
   maxResourceCount,
   maxTaskCount,
   children,
@@ -45,7 +42,6 @@ export const CategoryStoreProvider: React.FC<
   const activeCategories = categories.filter((category) => category.active);
   const [categoryState, setCategoryState] = useState<CategoryContextState>({
     categories: categories,
-    programId: programId,
     activeCategories: activeCategories,
     currentCategory,
     maxResourceCount,
