@@ -1,0 +1,53 @@
+@import "../../../shared/styles/utils/colors.scss";
+
+.top {
+  margin-bottom: 24px;
+}
+
+.topLogoWrapper {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+
+  img {
+    // width: 84px;
+    // height: 40px;
+  }
+
+  svg {
+    cursor: pointer;
+    border-radius: 4px;
+    width: 40px;
+    height: 40px;
+
+    // &:hover {
+    //   background-color: $mainBackgroundColorLight;
+    // }
+  }
+}
+
+.DropdownMenuContent{
+  padding: 16px;
+}
+
+.Divider {
+  border-bottom: 1px solid #CCCCCC;
+}
+
+.DropdownMenuItem {
+  cursor: pointer;
+  padding: 16px;
+}
+
+.activeItem {
+  background-color: $mainBackgroundColor;
+}
+
+
+.programName {
+  font-size: 18px;
+  padding-bottom: 16px;
+  color: $primaryColor;
+  border-bottom: 0.5px solid #A3ABC3;
+}

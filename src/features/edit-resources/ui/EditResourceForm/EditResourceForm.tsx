@@ -25,10 +25,6 @@ export const EditResourceForm: React.FC<EditResourceFormProps> = ({
 }) => {
   const t = useTranslations();
   const [apiError, setApiError] = useState("");
-  const { resourcesState } = useResourcesStore();
-
-  const { programId } = resourcesState;
-
   const { categoryState } = useCategoryStore();
   const { categories } = categoryState;
 
@@ -130,11 +126,7 @@ export const EditResourceForm: React.FC<EditResourceFormProps> = ({
   };
 
   function onSubmit(values: EditResourceValues) {
-    if (!programId) {
-      return;
-    }
-
-    editResource(programId, resource.id, values)
+    editResource(resource.id, values)
       .then(() => {
         onClose();
       })

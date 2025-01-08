@@ -83,18 +83,13 @@ export const AddTaskForm: React.FC<AddTaskFormProps> = ({
   };
 
   function onSubmit(values: CreateTasksValues) {
-    const programId = tasksState.programId;
-    if (!programId) {
-      return;
-    }
     setDisabled(true);
     createTaskApi(
       {
         ...values,
         category_id: currentCategory.id,
         schedule: "* * * * *",
-      },
-      programId
+      }
     )
       .then(() => {
         onClose();

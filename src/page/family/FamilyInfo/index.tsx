@@ -113,7 +113,7 @@ export const FamilyInfo: React.FC<FamilyInfoProps> = () => {
       {personBlocks.map((block, blockIndex, blockArray) => {
         const isLastBlock = blockIndex === blockArray.length - 1;
         return (
-          <div key={block.id} className="flex flex-col gap-4">
+          <div key={`${block.id}-${blockIndex}`} className="flex flex-col gap-4">
             <Row alignItems="center">
               <h3 className="text-[#313E44] font-[565] text-[20px]">
                 {block.title}
@@ -122,7 +122,7 @@ export const FamilyInfo: React.FC<FamilyInfoProps> = () => {
             </Row>
             {block.infoBlock.map((info, index) => {
               return (
-                <Row key={`${block.id}-${index}`} alignItems="center">
+                <Row key={`${block.id}-${index}-${info.value}`} alignItems="center">
                   <p>{info.label}</p>
                   <p>{info.value}</p>
                 </Row>

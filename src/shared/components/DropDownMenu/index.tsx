@@ -7,7 +7,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from "@components/shadowCDN/dropdown-menu";
-import React, { ReactNode, useState } from "react";
+import React, { PropsWithChildren, ReactNode, useState } from "react";
 import DotsIcon from "shared/assets/DotsIcon";
 import styles from "./DropDownMenu.module.scss";
 import Link from "next/link";
@@ -18,14 +18,20 @@ export type DropDownMenuItemsType = {
   label: string;
   icon: ReactNode;
   href: string;
-  renderCustomComponent?: (onOpen: () => void, onClose: () => void) => ReactNode;
+  renderCustomComponent?: (
+    onOpen: () => void,
+    onClose: () => void
+  ) => ReactNode;
 };
 
 interface DropDownMenuProps {
   items: DropDownMenuItemsType[];
 }
 
-const DropDownMenu: React.FC<DropDownMenuProps> = ({ items }) => {
+const DropDownMenu: React.FC<PropsWithChildren<DropDownMenuProps>> = ({
+  children,
+  items,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const onOpen = () => {
@@ -39,9 +45,13 @@ const DropDownMenu: React.FC<DropDownMenuProps> = ({ items }) => {
   return (
     <DropdownMenu open={isOpen}>
       <DropdownMenuTrigger onClick={onOpen} asChild>
-        <Button size={"icon"} variant={"ghost"}>
-          <DotsIcon />
-        </Button>
+        {children ? (
+          children
+        ) : (
+          <Button size={"icon"} variant={"ghost"}>
+            <DotsIcon />
+          </Button>
+        )}
       </DropdownMenuTrigger>
       <DropdownMenuContent
         onInteractOutside={onClose}
@@ -55,9 +65,7 @@ const DropDownMenu: React.FC<DropDownMenuProps> = ({ items }) => {
             <DropdownMenuItem key={item.id}>
               <Link href={item.href} className={styles.DropdownMenuItem}>
                 {item.icon}
-                <span>
-                    {item.label}
-                </span>
+                <span>{item.label}</span>
               </Link>
             </DropdownMenuItem>
           );

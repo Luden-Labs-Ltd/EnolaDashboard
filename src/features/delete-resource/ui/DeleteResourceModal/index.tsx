@@ -21,8 +21,7 @@ const DeleteResourceModal: React.FC<DeleteResourceModalProps> = ({
   const { resourcesState } = useResourcesStore();
   const [isOpen, setIsOpen] = useState(false);
   const [error, setError] = useState("");
-  const { programId } = resourcesState;
-  const isDeleteDisabled = !programId || !resourceId;
+  const isDeleteDisabled = !resourceId;
 
   const onClose = () => {
     setIsOpen(false);
@@ -35,7 +34,7 @@ const DeleteResourceModal: React.FC<DeleteResourceModalProps> = ({
 
   const deleteHandler = () => {
     if (!isDeleteDisabled) {
-      deleteResource(programId, resourceId)
+      deleteResource(resourceId)
         .then(() => {
           setIsOpen(false);
           callback?.();

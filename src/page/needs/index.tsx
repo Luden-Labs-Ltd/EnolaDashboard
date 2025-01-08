@@ -8,7 +8,6 @@ import { Loader } from "@components/Loader";
 
 interface NeedsContentProps {
   categories: CategoryType[];
-  programId: string | null;
   tasks: ConvertedTasksState;
   maxResourceCount: number;
   maxTaskCount: number;
@@ -16,7 +15,6 @@ interface NeedsContentProps {
 
 const Needs: React.FC<NeedsContentProps> = ({
   categories,
-  programId,
   tasks,
   maxResourceCount,
   maxTaskCount,
@@ -45,10 +43,9 @@ const Needs: React.FC<NeedsContentProps> = ({
         maxResourceCount={maxResourceCount}
         maxTaskCount={maxTaskCount}
         categories={categories}
-        programId={programId}
         currentCategory={categories[0]}
       >
-        <TasksStoreProvider programId={programId} data={tasks}>
+        <TasksStoreProvider data={tasks}>
           <NeedsTable />
         </TasksStoreProvider>
       </CategoryStoreProvider>

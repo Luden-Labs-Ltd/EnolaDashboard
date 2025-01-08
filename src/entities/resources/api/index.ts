@@ -1,6 +1,7 @@
 import { fetchInstance } from "shared/api";
 import { CreateResourceDto, EditResourceDto, ResourcesTypeApi } from "./types";
 import { GET_RESOURCES_REVALIDATE_TAG } from "./const";
+import { getCurrentProgramId } from "entities/program";
 
 type SearchParameters = {
   resourceName: string,
@@ -8,12 +9,9 @@ type SearchParameters = {
 }
 
 export const getResourcesFromApi = async (
-  programId: string | null,
   searchParameters: SearchParameters,
 ): Promise<ResourcesTypeApi[]> => {
-  if (!programId) {
-    return []
-  }
+  const programId = await getCurrentProgramId()
   const params = JSON.stringify({
     name_cont: searchParameters.resourceName,
     category_id_eq: searchParameters.categoryId === "all" ? "" : searchParameters.categoryId,
@@ -85,9 +83,9 @@ export const editResourceApi = async (programId: string, resourceId: number, dat
 
 
 export const deleteResourceApi = async (
-  programId: string,
   resourceId: number
 ) => {
+  const programId = await getCurrentProgramId()
   const response = await fetchInstance(
     `${process.env.BASE_URL_BACKEND}/api/v2/dashboard/programs/${programId}/resources/${resourceId}`,
     {

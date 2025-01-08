@@ -86,17 +86,13 @@ export const CreateCategoryForm: React.FC<CreateCategoryFormProps> = ({
   };
 
   function onSubmit(values: CreateCategoryValues) {
-    if (!categoryState.programId) {
-      return;
-    }
-
     const svgCategoryIcon = ICON_MAP[values.svg_icon]
     const currentStringSvgIcon =  ReactDOMServer.renderToString(svgCategoryIcon)
 
     createCategoriesApi({
       ...values,
       svg_icon: currentStringSvgIcon
-    }, categoryState.programId)
+    })
       .then(() => {
         onClose();
       })

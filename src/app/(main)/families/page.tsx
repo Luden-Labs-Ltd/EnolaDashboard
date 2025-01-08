@@ -1,15 +1,11 @@
 import { convertDataForTable, getFamiliesFromApi } from "entities/families";
 import Families from "page/families";
 import { PageProps } from "../../../../.next/types/app/layout";
-import { getCurrentProfileApi } from "entities/auth";
 import { PAGE_PAGINATION_SETTINGS } from "shared/constants/page";
 
 export const dynamic = "force-dynamic";
 export default async function FamiliesPage(props: PageProps) {
   const searchParams = await props.searchParams;
-
-  const profile = await getCurrentProfileApi();
-  const programId = profile?.company.programs[0].id ?? "";
 
   const familiesName = searchParams?.family_name ?? "";
   const familyId = searchParams?.family_id ?? "";
@@ -35,7 +31,6 @@ export default async function FamiliesPage(props: PageProps) {
   return (
     <>
       <Families
-        programId={programId}
         perPage={perPage}
         totalCount={totalCount}
         families={familiesTableData}

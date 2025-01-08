@@ -13,12 +13,10 @@ import { ConvertedTasksState } from "../lib/converter";
 type TasksContextState = {
   originData: ConvertedTasksState;
   selectedTasks: Record<string, number[]>;
-  programId: string | null;
 };
 
 type TasksProviderValue = {
   data: ConvertedTasksState;
-  programId: string | null;
 };
 
 const TasksContext = createContext<{
@@ -28,10 +26,9 @@ const TasksContext = createContext<{
 
 export const TasksStoreProvider: React.FC<
   PropsWithChildren<TasksProviderValue>
-> = ({ data, programId, children }) => {
+> = ({ data, children }) => {
   const [tasksState, setTasksState] = useState<TasksContextState>({
     originData: data,
-    programId: programId,
     selectedTasks: {},
   });
 

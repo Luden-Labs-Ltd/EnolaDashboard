@@ -5,14 +5,11 @@ import { CategoryTypeApi } from "../model";
 import { createCategoriesApiDto } from "./types";
 import { REVALIDATE_GET_CATEGORY_TAG } from "./constant";
 import { revalidateTag } from "next/cache";
+import { getCurrentProgramId } from "entities/program";
 
 export const getCategoriesApi = async (
-  programId: string | null
 ): Promise<CategoryTypeApi[]> => {
-  if (!programId) {
-    return [];
-  }
-
+  const programId = await getCurrentProgramId()
   const response = await fetchInstance(
     `${process.env.BASE_URL_BACKEND}/api/v2/dashboard/programs/${programId}/categories`,
     {
@@ -36,9 +33,9 @@ export const getCategoriesApi = async (
 };
 
 export const createCategoriesApi = async (
-  dto: createCategoriesApiDto,
-  programId: string
+  dto: createCategoriesApiDto
 ): Promise<CategoryTypeApi[]> => {
+  const programId = await getCurrentProgramId()
   const response = await fetchInstance(
     `${process.env.BASE_URL_BACKEND}/api/v2/dashboard/programs/${programId}/categories`,
     {
@@ -63,9 +60,9 @@ export const createCategoriesApi = async (
 };
 
 export const deleteCategoryApi = async (
-  programId: string,
   categoryId: string,
 ): Promise<Boolean | null> => {
+  const programId = await getCurrentProgramId()
   const response = await fetchInstance(
     `${process.env.BASE_URL_BACKEND}/api/v2/dashboard/programs/${programId}/categories/${categoryId}`,
     {
