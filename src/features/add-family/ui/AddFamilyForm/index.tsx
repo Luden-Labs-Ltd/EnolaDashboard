@@ -83,7 +83,7 @@ export const AddFamilyForm: React.FC<AddFamilyFormProps> = ({ onClose }) => {
       type: "input",
       id: "title",
       label: `${t("Common.familyName")}*`,
-      placeholder: "Enter family name",
+      placeholder: t("Common.familyName"),
       direction: "row",
       separator: true,
     },
@@ -93,7 +93,7 @@ export const AddFamilyForm: React.FC<AddFamilyFormProps> = ({ onClose }) => {
       id: "caregiver_full_name",
       label: `${t("Common.primaryCaregiver")}*`,
       direction: "row",
-      placeholder: "Enter caregiver name",
+      placeholder: t("Common.primaryCaregiver"),
     },
     {
       name: "caregiver_phone_number",
@@ -126,7 +126,7 @@ export const AddFamilyForm: React.FC<AddFamilyFormProps> = ({ onClose }) => {
       id: "first_name",
       label: `${t("Common.patient")}`,
       direction: "row",
-      placeholder: "Enter patient name",
+      placeholder: t("Common.patient"),
       optional: true,
     },
     {
@@ -174,7 +174,7 @@ export const AddFamilyForm: React.FC<AddFamilyFormProps> = ({ onClose }) => {
               size={"lg"}
             >
               {
-                showOptionalFields ? "Hidden Patient" : "Add Patient"
+                showOptionalFields ? t('Common.hiddenPatient') : t('Common.addPatient')
               }
             </Button>
             <Button
