@@ -97,7 +97,6 @@ export const convertSingleFamilyData = (
   const family = familyData.membership_by_role_count?.intimate ?? 0;
   const friends = familyData.membership_by_role_count?.private ?? 0;
   const coworkers = familyData.membership_by_role_count?.intimate ?? 0;
-  console.log(familyData, "familyData");
 
   const convertedFamily: FullFamilyType = {
     id: familyData.id,
@@ -108,17 +107,17 @@ export const convertSingleFamilyData = (
     lastName: familyData.last_name,
     membershipCount: familyData.membership_count,
     taskCount: familyData.task_count,
-    reason: familyData.reason[0] ?? "",
+    reason: familyData.reason[0] || "-",
     primaryCaregiver: {
-      phoneNumber: familyData?.primary_caregiver?.phone_number ?? "-",
-      fullName: familyData.primary_caregiver?.full_name ?? "-",
+      phoneNumber: familyData?.primary_caregiver?.phone_number || "-",
+      fullName: familyData.primary_caregiver?.full_name || "-",
       circle: familyData?.primary_caregiver?.circle ?? "-",
       city: familyData?.primary_caregiver?.city ?? "-",
     },
     patient: {
-      phoneNumber: familyData.patient?.formatted_phone_number,
-      fullName: familyData.patient?.full_name ?? "",
-      city: familyData.patient.city,
+      phoneNumber: familyData.patient?.formatted_phone_number || "-",
+      fullName: familyData.patient?.full_name ?? "-",
+      city: familyData.patient.city ?? "-",
     },
     inviteLink: familyData.supporters_invite_link,
     lastSeen: new Date().toLocaleDateString(),

@@ -68,14 +68,16 @@ export type EditFamilyDto = {
   archived: boolean;
 };
 
+
+type PatientDto = {
+  first_name: string;
+  phone_number: string;
+  city: string;
+}
 export type EditFamilyInfoDto = {
   title: string;
-  patient: {
-    first_name: string;
-    phone_number: string;
-    city: string;
-    reason: string[];
-  };
+  reason: string[];
+  patient: PatientDto | undefined;
   primary_caregiver: {
     first_name: string;
     phone_number: string;
@@ -86,12 +88,8 @@ export type EditFamilyInfoDto = {
 
 export type CreateFamilyDto = {
   title: string;
-  patient: {
-    first_name: string;
-    phone_number: string;
-    city: string;
-    reason: string[];
-  };
+  reason: string[];
+  patient: PatientDto | undefined;
   primary_caregiver: {
     first_name: string;
     phone_number: string;

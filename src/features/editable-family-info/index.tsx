@@ -42,7 +42,7 @@ export const EditableFamilyInfo: React.FC<FamilyInfoProps> = ({
       type: "header",
       name: "patient_name",
       label: t("Common.patient"),
-      value: `${family.firstName} ${family.lastName ?? ""}`,
+      value: `${family.firstName ?? "-"} ${family.lastName ?? ""}`,
     },
     {
       type: "info",
@@ -60,7 +60,7 @@ export const EditableFamilyInfo: React.FC<FamilyInfoProps> = ({
       type: "info",
       name: "patient_phone_number",
       label: t("Common.phoneNumber"),
-      value: family.patient.phoneNumber ?? "-",
+      value: family.patient.phoneNumber,
       bottomSeparator: true,
     },
     {
