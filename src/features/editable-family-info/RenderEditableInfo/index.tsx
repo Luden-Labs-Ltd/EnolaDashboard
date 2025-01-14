@@ -103,7 +103,7 @@ export const RenderEditableInfo: React.FC<RenderEditableInfoProps> = ({
       id: "first_name",
       label: <Header type="header">{t("Common.patient")}</Header>,
       direction: "row",
-      placeholder: "Enter patient name",
+      placeholder: t("Common.patient"),
     },
     {
       name: "address",

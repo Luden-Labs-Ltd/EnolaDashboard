@@ -209,6 +209,8 @@
         "next": "הבא",
         "familyName": "שם משפחה",
         "patient": "חולה",
-        "relationship": "מערכת יחסים"
+        "relationship": "מערכת יחסים",
+        "addPatient": "הוסף מטופל",
+        "hiddenPatient": "מוסתר החולה"
     }
 }

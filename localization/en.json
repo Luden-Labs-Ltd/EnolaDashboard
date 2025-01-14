@@ -209,6 +209,8 @@
         "next": "Next",
         "familyName": "Family name",
         "patient": "Patient",
-        "relationship": "Relationship"
+        "relationship": "Relationship",
+        "addPatient": "Add Patient",
+        "hiddenPatient": "Hidden Patient"
     }
 }
