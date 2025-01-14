@@ -206,6 +206,9 @@
         "categoryName": "שם קטגוריה",
         "icon": "אייקון",
         "previous": "הקודם",
-        "next": "הבא"
+        "next": "הבא",
+        "familyName": "שם משפחה",
+        "patient": "חולה",
+        "relationship": "מערכת יחסים"
     }
 }

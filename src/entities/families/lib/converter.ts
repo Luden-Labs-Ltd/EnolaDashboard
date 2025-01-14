@@ -97,6 +97,7 @@ export const convertSingleFamilyData = (
   const family = familyData.membership_by_role_count?.intimate ?? 0;
   const friends = familyData.membership_by_role_count?.private ?? 0;
   const coworkers = familyData.membership_by_role_count?.intimate ?? 0;
+  console.log(familyData, "familyData");
 
   const convertedFamily: FullFamilyType = {
     id: familyData.id,
@@ -107,15 +108,17 @@ export const convertSingleFamilyData = (
     lastName: familyData.last_name,
     membershipCount: familyData.membership_count,
     taskCount: familyData.task_count,
+    reason: familyData.reason[0] ?? "",
     primaryCaregiver: {
-      phoneNumber: familyData.primary_caregiver?.phone_number,
-      fullName: familyData.primary_caregiver?.full_name ?? "",
-      id: familyData.primary_caregiver?.id ?? "",
+      phoneNumber: familyData?.primary_caregiver?.phone_number ?? "-",
+      fullName: familyData.primary_caregiver?.full_name ?? "-",
+      circle: familyData?.primary_caregiver?.circle ?? "-",
+      city: familyData?.primary_caregiver?.city ?? "-",
     },
-    coordinator: {
-      phoneNumber: familyData.coordinator?.phone_number,
-      fullName: familyData.coordinator?.full_name ?? "",
-      id: familyData.coordinator?.id ?? "",
+    patient: {
+      phoneNumber: familyData.patient?.formatted_phone_number,
+      fullName: familyData.patient?.full_name ?? "",
+      city: familyData.patient.city,
     },
     inviteLink: familyData.supporters_invite_link,
     lastSeen: new Date().toLocaleDateString(),
@@ -131,6 +134,8 @@ export const convertSingleFamilyData = (
       friends,
       coworkers,
     },
+    location: familyData.location,
+    phoneNumber: familyData.formatted_phone_number,
   };
 
   return {

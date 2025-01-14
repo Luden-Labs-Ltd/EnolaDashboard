@@ -1,0 +1,16 @@
+.formWrapper {
+}
+
+.formWrapper label {
+    text-align: end;
+    width: 30%;
+}
+
+.formWrapper input, .select {
+    width: 70%;
+    background-color: #fff;
+}
+
+.formWrapper .phone-input-container {
+    width: 70%;
+}

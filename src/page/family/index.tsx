@@ -8,10 +8,9 @@ import { Notes } from "@widgets/Notes";
 import { useFamilyStore } from "entities/families";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
-import React from "react";
-import ViewIcon from "shared/assets/ViewIcon";
-import { FamilyInfo } from "./FamilyInfo";
-import { EditFamily } from "features/edit-family";
+import React, { useState } from "react";
+import EditIcon from "shared/assets/EditIcon";
+import { EditableFamilyInfo } from "features/editable-family-info";
 
 interface FamilyProps {
   familyId: string;
@@ -20,6 +19,7 @@ interface FamilyProps {
 export const Family: React.FC<FamilyProps> = () => {
   const { familyState } = useFamilyStore();
   const { family } = familyState;
+  const [isEditable, setIsEditable] = useState(false);
 
   const t = useTranslations();
   const supportersDataSet = [
@@ -63,10 +63,15 @@ export const Family: React.FC<FamilyProps> = () => {
       <div className="flex-1">
         <Card>
           <CardHeader>
-            <CardTitle>{familyState.family.name}</CardTitle>
+            {/* <CardTitle>{familyState.family.name}</CardTitle> */}
+            <CardTitle>Family</CardTitle>
 
             <Row alignItems="center">
-              <EditFamily />
+              <TooltipWrapper text={t("Common.edit")}>
+                <Button onClick={() => {setIsEditable((prev)=> !prev)}} size={"icon"} variant={"ghost"}>
+                  <EditIcon color={isEditable ? "#269ACF" : "#313E44"} />
+                </Button>
+              </TooltipWrapper>
 
               <TooltipWrapper
                 text={`${t("Common.view")} ${t("Common.memberships")}`}
@@ -80,7 +85,7 @@ export const Family: React.FC<FamilyProps> = () => {
             </Row>
           </CardHeader>
           <CardContent>
-            <FamilyInfo />
+            <EditableFamilyInfo isEditable={isEditable} setIsEditable={setIsEditable} />
           </CardContent>
         </Card>
       </div>

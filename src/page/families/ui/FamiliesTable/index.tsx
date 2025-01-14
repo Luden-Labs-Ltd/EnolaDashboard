@@ -42,29 +42,29 @@ const FamiliesTable: React.FC<FamiliesTableProps> = ({
           icon: <ViewIcon />,
           href: `/family/${ceil.itemId}`,
         },
-        {
-          id: `${ceil.itemId}-share`,
-          label: t("Common.share"),
-          icon: <ShareIcon />,
-          renderCustomComponent: (onOpen, onClose) => {
-            const currentLinkToFamily = createUrlFromOrigin(
-              `/family/${ceil.itemId}`
-            );
-            return (
-              <CopyText
-                key={`${ceil.itemId}-copy`}
-                callback={onClose}
-                textToCopy={currentLinkToFamily}
-              >
-                <DropdownMenuItem className={"DropdownMenuItem"}>
-                  <ShareIcon />
-                  <span>{t("Common.share")}</span>
-                </DropdownMenuItem>
-              </CopyText>
-            );
-          },
-          href: ``,
-        },
+        // {
+        //   id: `${ceil.itemId}-share`,
+        //   label: t("Common.share"),
+        //   icon: <ShareIcon />,
+        //   renderCustomComponent: (onOpen, onClose) => {
+        //     const currentLinkToFamily = createUrlFromOrigin(
+        //       `/family/${ceil.itemId}`
+        //     );
+        //     return (
+        //       <CopyText
+        //         key={`${ceil.itemId}-copy`}
+        //         callback={onClose}
+        //         textToCopy={currentLinkToFamily}
+        //       >
+        //         <DropdownMenuItem className={"DropdownMenuItem"}>
+        //           <ShareIcon />
+        //           <span>{t("Common.share")}</span>
+        //         </DropdownMenuItem>
+        //       </CopyText>
+        //     );
+        //   },
+        //   href: ``,
+        // },
         {
           id: `${ceil.itemId}-delete`,
           label: t("Common.delete"),

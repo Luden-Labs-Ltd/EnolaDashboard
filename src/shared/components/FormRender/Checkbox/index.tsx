@@ -22,12 +22,13 @@ export function FormCheckbox<F extends FieldValues>(props: FormFieldProps<F>) {
     <FormField
       key={renderField.id}
       control={formObject.control}
+      // @ts-ignore
       name={renderField.name}
       disabled={disabled}
       render={({ field }) => {
         return (
           <FormItem className="flex gap-[10px] items-center">
-            <div className={`${fieldDirectionClassName} ${className}`}>
+            <div className={`${fieldDirectionClassName} ${className} field-container`}>
               <FormLabel className="mt-2">{renderField.label}</FormLabel>
               <FormControl>
                 <Checkbox
@@ -43,7 +44,11 @@ export function FormCheckbox<F extends FieldValues>(props: FormFieldProps<F>) {
               <FormDescription>{renderField.description}</FormDescription>
             ) : null}
 
-            <FormMessage />
+            <FormMessage
+              className={
+                renderField.direction === "row" ? "text-end" : "text-start"
+              }
+            />
           </FormItem>
         );
       }}

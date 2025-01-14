@@ -2,7 +2,7 @@
 import { createFamilyApi, deleteFamilyById, editFamilyApi } from "../api";
 import { revalidateTag } from "next/cache";
 import { GET_FAMILIES_REVALIDATE_TAG } from "../api/const";
-import { CreateFamilyDto, EditFamilyDto } from "../api/types";
+import { CreateFamilyDto, EditFamilyDto, EditFamilyInfoDto } from "../api/types";
 import { getCurrentProgramId } from "entities/program";
 
 export const createFamily = async (
@@ -23,9 +23,13 @@ export const deleteFamily = async (familyId: string | number) => {
 
 export const editFamily = async (
   familyId: number,
-  familyDto: EditFamilyDto
+  familyDto: Omit<EditFamilyInfoDto, "program_id">
 ) => {
-  const res = await editFamilyApi(familyId, familyDto);
+  const programId = await getCurrentProgramId();
+  const res = await editFamilyApi(familyId, {
+    ...familyDto,
+    program_id: programId
+  });
   revalidateTag(GET_FAMILIES_REVALIDATE_TAG);
   return res;
 };

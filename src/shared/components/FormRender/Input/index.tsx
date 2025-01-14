@@ -22,18 +22,17 @@ export function FormInput<F extends FieldValues>(props: FormFieldProps<F>) {
     <FormField
       key={renderField.id}
       control={formObject.control}
+      // @ts-ignore
       name={renderField.name}
       disabled={disabled}
       render={({ field }) => (
         <FormItem className="w-full">
-          <div className={`${fieldDirectionClassName} ${className}`}>
+          <div className={`${fieldDirectionClassName} ${className} field-container`}>
             <FormLabel className="min-w-fit">{renderField.label}</FormLabel>
             <FormControl>
               <Input
                 type={renderField.inputType}
-                placeholder={
-                  renderField.placeholder ?? renderField.label.toUpperCase()
-                }
+                placeholder={renderField.placeholder}
                 {...formObject.register(field.name, {
                   valueAsNumber:
                     renderField.inputType === "number" ? true : false,
@@ -45,7 +44,11 @@ export function FormInput<F extends FieldValues>(props: FormFieldProps<F>) {
             <FormDescription>{renderField.description}</FormDescription>
           ) : null}
 
-          <FormMessage />
+          <FormMessage
+            className={
+              renderField.direction === "row" ? "text-end" : "text-start"
+            }
+          />
         </FormItem>
       )}
     />

@@ -168,7 +168,7 @@
         "isArchived": "Family archived",
         "firstName": "First name",
         "lastName": "Last name",
-        "primaryCaregiver": "Primary caregiver",
+        "primaryCaregiver": "Main caregiver",
         "birthdate": "Birthdate",
         "city": "City",
         "phoneNumber": "phone Number",
@@ -206,6 +206,9 @@
         "categoryName": "Category name",
         "icon": "Icon",
         "previous": "Previous",
-        "next": "Next"
+        "next": "Next",
+        "familyName": "Family name",
+        "patient": "Patient",
+        "relationship": "Relationship"
     }
 }

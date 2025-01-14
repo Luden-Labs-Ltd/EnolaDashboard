@@ -2,14 +2,13 @@ import React from "react";
 import PhoneInput, { PhoneInputProps } from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import "./phoneInput.css"
-// import InputLabel from "@mui/material/InputLabel";
 
 interface PhoneFieldProps extends PhoneInputProps {
   helperText?: string;
+  className?: string;
   error?: boolean;
   required?: boolean;
-  // label: string;
-  fullWidth?: boolean;
+  size?: 'sm' | 'md',
   onChangeHandler?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onPhoneHandler?: (phone: string) => void;
   onBlur?: (event: React.FocusEvent<HTMLInputElement, Element>) => void;
@@ -19,11 +18,11 @@ interface PhoneFieldProps extends PhoneInputProps {
 
 const PhoneField: React.FC<PhoneFieldProps> = ({
   helperText,
+  className,
   error,
   required,
-  // label,
+  size = 'md',
   country = "il",
-  fullWidth = true,
   onPhoneHandler,
   onChangeHandler,
   onBlur,
@@ -31,18 +30,10 @@ const PhoneField: React.FC<PhoneFieldProps> = ({
   name,
   ...rest
 }) => {
+
+  const inputHeight = size === 'sm' ? 36 : 44
   return (
-    <div className="w-full phoneInput">
-      {/* {label && (
-        <InputLabel
-          classes={{ root: "label" }}
-          // className={classes?.inputLabel}
-          required={required}
-          error={error}
-        >
-          {label}
-        </InputLabel>
-      )} */}
+    <div className={`w-full phoneInput phone-input-container ${className} `} >
       <PhoneInput
         inputProps={{ name }}
         onChange={(phoneNumber, country, e) => {
@@ -54,7 +45,7 @@ const PhoneField: React.FC<PhoneFieldProps> = ({
           onBlur?.(e);
         }}
         inputStyle={{
-          height: 44,
+          height: inputHeight,
           borderRadius: 8,
           minWidth: 0,
           width: "100%",
@@ -67,11 +58,6 @@ const PhoneField: React.FC<PhoneFieldProps> = ({
         country={country}
         {...rest}
       />
-      {/* {helperText && (
-        <FormHelperText error={error} {...FormHelperTextProps}>
-          {helperText}
-        </FormHelperText>
-      )} */}
     </div>
   );
 };

@@ -82,7 +82,7 @@ export const AddMemberForm: React.FC<AddMemberFormProps> = ({
             type="submit"
             size={"lg"}
           >
-            {t("Common.edit")}
+            {t("Common.add")}
           </Button>
         </div>
       </div>

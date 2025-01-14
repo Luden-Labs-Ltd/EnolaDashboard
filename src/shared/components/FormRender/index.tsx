@@ -1,6 +1,6 @@
 "use client";
 
-import { Form, FormMessage } from "@components/shadowCDN/form";
+import { Form, FormLabel, FormMessage } from "@components/shadowCDN/form";
 
 import { InputHTMLAttributes, PropsWithChildren } from "react";
 import { FieldValues, Path, PathValue, UseFormReturn } from "react-hook-form";
@@ -8,15 +8,17 @@ import { FormPhone } from "./Phone";
 import { FormInput } from "./Input";
 import { FormCheckbox } from "./Checkbox";
 import { FormSelect } from "./Select";
+import { Separator } from "@components/shadowCDN/separator";
 
-type fieldsType = "input" | "checkbox" | "phone" | "select";
+type fieldsType = "input" | "checkbox" | "phone" | "select" | "title";
 type inputType = InputHTMLAttributes<HTMLInputElement>["type"];
 
 export type FormRenderField<FieldsGeneric> = {
-  name: Path<FieldsGeneric>;
+  name: Path<FieldsGeneric> | "customComponent";
   type: fieldsType;
   id: string;
-  label: string;
+  label: string | React.ReactNode;
+  separator?: boolean;
   direction?: "column" | "row";
   className?: string;
   description?: string;
@@ -59,16 +61,16 @@ export default function FormRender<B extends FieldValues>(
     disabled,
   } = props;
 
-  const renderFields = (renderField: FormRenderField<B>) => {
+  const renderField = (renderField: FormRenderField<B>) => {
     switch (renderField.type) {
       case "phone":
         return (
           <FormPhone
-          key={`${renderField.name}-${renderField.id}-${renderField.type}`}
-          formObject={formObject}
-          renderField={renderField}
-          customErrorMessage={customErrorMessage}
-          disabled={disabled}
+            key={`${renderField.name}-${renderField.id}-${renderField.type}`}
+            formObject={formObject}
+            renderField={renderField}
+            customErrorMessage={customErrorMessage}
+            disabled={disabled}
           />
         );
       case "select":
@@ -91,7 +93,8 @@ export default function FormRender<B extends FieldValues>(
             disabled={disabled}
           />
         );
-
+      case "title":
+        return  <FormLabel className="min-w-fit">{renderField.label}</FormLabel>
       case "input":
       default:
         return (
@@ -121,7 +124,14 @@ export default function FormRender<B extends FieldValues>(
               : "flex flex-col gap-[15px] w-full"
           }`}
         >
-          {fields.map(renderFields)}
+          {fields.map((field) => {
+            return (
+              <>
+                {renderField(field)}
+                {field.separator ? <Separator /> : null}
+              </>
+            );
+          })}
           {customErrorMessage ? (
             <FormMessage>{customErrorMessage}</FormMessage>
           ) : null}
