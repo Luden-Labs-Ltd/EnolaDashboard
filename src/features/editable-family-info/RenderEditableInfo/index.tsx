@@ -61,11 +61,11 @@ export const RenderEditableInfo: React.FC<RenderEditableInfoProps> = ({
   function onSubmit(values: EditFamilyForm) {
     const editFamilyDto: Omit<EditFamilyInfoDto, "program_id"> = {
       title: values.title,
+      reason: [values.problem],
       patient: {
         city: values.address,
         first_name: values.full_name,
         phone_number: values.phone_number,
-        reason: [values.problem],
       },
       primary_caregiver: {
         first_name: values.caregiver_full_name,
