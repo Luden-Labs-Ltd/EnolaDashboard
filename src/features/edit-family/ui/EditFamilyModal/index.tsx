@@ -56,13 +56,13 @@ const EditFamilyModal: React.FC<PropsWithChildren<DeleteFamilyActionProps>> = ({
   });
 
   function onSubmit(values: EditFamilyForm) {
-    editFamily(family.id, values)
-      .then(() => {
-        onClose();
-      })
-      .catch((err) => {
-        setApiError(err.message);
-      });
+    // editFamily(family.id, values)
+    //   .then(() => {
+    //     onClose();
+    //   })
+    //   .catch((err) => {
+    //     setApiError(err.message);
+    //   });
   }
 
   const editFormFields: FormRenderField<EditFamilyForm>[] = [
