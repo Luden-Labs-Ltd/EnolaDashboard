@@ -6,6 +6,9 @@ tar -czf project.tar.gz --exclude='node_modules' --exclude='._.DS_Store' --exclu
 # copy to enola server
 scp project.tar.gz app@qa.enolahelp.com:/home/nextProjects/dashboardNext
 
+# delete src remotely
+ssh app@qa.enolahelp.com 'rm -rf /home/nextProjects/dashboardNext/src'
+
 # unarchive file remotely
 ssh app@qa.enolahelp.com 'tar -xzf /home/nextProjects/dashboardNext/project.tar.gz -C /home/nextProjects/dashboardNext'
 
