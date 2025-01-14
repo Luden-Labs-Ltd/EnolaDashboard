@@ -28,19 +28,16 @@ export function FormSelect<F extends FieldValues>(props: FormFieldProps<F>) {
     <FormField
       key={renderField.id}
       control={formObject.control}
+      // @ts-ignore
       name={renderField.name}
       render={({ field }) => (
         <FormItem>
-          <div className={`${fieldDirectionClassName} ${className}`}>
+          <div className={`${fieldDirectionClassName} ${className} field-container`}>
             <FormLabel>{renderField.label}</FormLabel>
             <FormControl>
               <Select {...field} onValueChange={field.onChange}>
-                <SelectTrigger disabled={disabled}>
-                  <SelectValue
-                    placeholder={
-                      renderField.placeholder ?? renderField.label.toUpperCase()
-                    }
-                  />
+                <SelectTrigger disabled={disabled} className="select">
+                  <SelectValue placeholder={renderField.placeholder} />
                 </SelectTrigger>
                 <SelectContent>
                   {renderField.options?.map((item) => {
@@ -61,7 +58,11 @@ export function FormSelect<F extends FieldValues>(props: FormFieldProps<F>) {
             <FormDescription>{renderField.description}</FormDescription>
           ) : null}
 
-          <FormMessage />
+          <FormMessage
+            className={
+              renderField.direction === "row" ? "text-end" : "text-start"
+            }
+          />
         </FormItem>
       )}
     />

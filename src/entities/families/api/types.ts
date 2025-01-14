@@ -1,18 +1,28 @@
-interface Coordinator {
-  boarded: boolean;
-  formatted_phone_number: string;
-  full_name: string;
+interface Caregiver {
+  age: number | null;
+  circle: string;
+  city: string | null;
+  first_name: string | null;
+  full_name: string | null;
+  gender: string | null;
   id: number;
+  individual_dashboard_link: string;
+  last_name: string | null;
+  location: string | null;
   phone_number: string;
-  token: string;
+  primary: boolean;
 }
 
 interface Patient {
+  boarded: boolean;
+  city: string | null;
+  country_code: string | null;
+  country_name: string | null;
   first_name: string | null;
+  formatted_phone_number: string;
+  full_name: string;
   last_name: string | null;
-  phone_number: string | null;
-  formatted_phone_number: string | null;
-  location: string | null;
+  phone_number: string;
 }
 
 export interface FamilyApi {
@@ -29,8 +39,7 @@ export interface FamilyApi {
   location: string | null;
   membership_request_count: number;
   patient: Patient;
-  primary_caregiver: Coordinator;
-  coordinator: Coordinator;
+  primary_caregiver: Caregiver;
   quote: Record<string, unknown>;
   reason: any[];
   supporter_count: number;
@@ -59,13 +68,34 @@ export type EditFamilyDto = {
   archived: boolean;
 };
 
+export type EditFamilyInfoDto = {
+  title: string;
+  patient: {
+    first_name: string;
+    phone_number: string;
+    city: string;
+    reason: string[];
+  };
+  primary_caregiver: {
+    first_name: string;
+    phone_number: string;
+    city: string;
+  };
+  program_id: string;
+};
 
 export type CreateFamilyDto = {
   title: string;
-  first_name: string;
-  last_name: string;
-  phone_number: string;
+  patient: {
+    first_name: string;
+    phone_number: string;
+    city: string;
+    reason: string[];
+  };
+  primary_caregiver: {
+    first_name: string;
+    phone_number: string;
+    city: string;
+  };
   program_id: string;
-  address?: string;
-  location?: string;
 };

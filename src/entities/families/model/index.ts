@@ -13,7 +13,8 @@ export type FamilyType = {
 type Person = {
     phoneNumber: string;
     fullName: string | null;
-    id: number;
+    city: string | null;
+    circle: string;
 }
 
 type ChartTaskInfoData = {
@@ -31,13 +32,14 @@ type ChartSupportersInfoData = {
 export type FullFamilyType = {
     id: number;
     name: string;
+    reason: string;
     firstName: string | null;
     lastName: string | null;
     isArchived: boolean;
     taskCount: number;
     eventCount: number;
     membershipCount: number;
-    coordinator: Person;
+    patient: Omit<Person, 'circle'>;
     primaryCaregiver: Person;
     inviteLink: string;
     lastSeen: string;
@@ -45,4 +47,6 @@ export type FullFamilyType = {
     enrolmentSource: string;
     tasksChart: ChartTaskInfoData;
     supportersChart: ChartSupportersInfoData;
+    location: string | null;
+    phoneNumber: string;
 }

@@ -2,8 +2,8 @@ import { FormRenderField } from "@components/FormRender";
 import { z } from "zod";
 
 export const AddMembershipFormScheme = z.object({
-  first_name: z.string().max(50),
-  last_name: z.string().max(50),
+  first_name: z.string().min(1).max(50),
+  last_name: z.string().min(1).max(50),
   age: z.number().max(150),
   phone_number: z.string(),
   gender: z.enum(["female", "male", "other"]),

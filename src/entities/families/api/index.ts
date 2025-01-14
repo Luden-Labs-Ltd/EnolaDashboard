@@ -1,6 +1,6 @@
 "use server";
 import { GET_FAMILIES_REVALIDATE_TAG } from "./const";
-import { CreateFamilyDto, EditFamilyDto, FamilyApi } from "./types";
+import { CreateFamilyDto, EditFamilyDto, EditFamilyInfoDto, FamilyApi } from "./types";
 import { fetchInstance } from "shared/api";
 
 type SortObject = {
@@ -117,7 +117,7 @@ export const createFamilyApi = async (data: CreateFamilyDto) => {
   return resJSON;
 };
 
-export const editFamilyApi = async (familyId: number, data: EditFamilyDto) => {
+export const editFamilyApi = async (familyId: number, data: EditFamilyInfoDto) => {
   const response = await fetchInstance(
     process.env.BASE_URL_BACKEND + `/api/v2/dashboard/families/${familyId}`,
     {

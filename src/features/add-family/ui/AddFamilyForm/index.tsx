@@ -1,22 +1,31 @@
 import FormRender, { FormRenderField } from "@components/FormRender";
 import { Button } from "@components/shadowCDN/button";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createFamily, useFamiliesStore } from "entities/families";
+import { createFamily } from "entities/families";
+import { CreateFamilyDto } from "entities/families/api/types";
 import { useTranslations } from "next-intl";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import styles from "./addFamilyForm.module.scss";
 
 interface AddFamilyFormProps {
   onClose: () => void;
 }
 
 const createFormScheme = z.object({
+  // family
   title: z.string().min(3).max(50),
-  first_name: z.string().max(50),
-  last_name: z.string().max(50),
+  // family - patient
+  full_name: z.string().min(3).max(50),
   phone_number: z.string().max(50),
   address: z.string().max(50),
+  problem: z.string().max(50),
+
+  // primary caregiver (primary membership)
+  caregiver_full_name: z.string().min(3).max(50),
+  caregiver_phone_number: z.string().max(50),
+  caregiver_city: z.string().max(50),
 });
 
 type CreateFamilyForm = z.infer<typeof createFormScheme>;
@@ -31,8 +40,22 @@ export const AddFamilyForm: React.FC<AddFamilyFormProps> = ({ onClose }) => {
   });
 
   function onSubmit(values: CreateFamilyForm) {
+    const createFamilyDto: Omit<CreateFamilyDto, "program_id"> = {
+      title: values.title,
+      patient: {
+        city: values.address,
+        first_name: values.full_name,
+        phone_number: values.phone_number,
+        reason: [values.problem],
+      },
+      primary_caregiver: {
+        first_name: values.caregiver_full_name,
+        city: values.caregiver_city,
+        phone_number: values.caregiver_phone_number,
+      },
+    };
     setDisabled(true);
-    createFamily(values)
+    createFamily(createFamilyDto)
       .then(() => {
         onCloseHandler();
       })
@@ -56,62 +79,101 @@ export const AddFamilyForm: React.FC<AddFamilyFormProps> = ({ onClose }) => {
       name: "title",
       type: "input",
       id: "title",
-      label: t("Common.title"),
-      placeholder: "",
+      label: `${t("Common.familyName")}*`,
+      placeholder: "Enter family name",
+      direction: "row",
+      separator: true,
     },
     {
-      name: "first_name",
+      name: "full_name",
       type: "input",
       id: "first_name",
-      label: t("Common.firstName"),
-      placeholder: "",
-    },
-    {
-      name: "last_name",
-      type: "input",
-      id: "last_name",
-      label: t("Common.lastName"),
-      placeholder: "",
+      label: `${t("Common.patient")}*`,
+      direction: "row",
+      placeholder: "Enter patient name",
     },
     {
       name: "phone_number",
       type: "phone",
       id: "phone",
-      label: t("Common.phone"),
+      label: `${t("Common.phone")}*`,
+      direction: "row",
       placeholder: "",
     },
     {
       name: "address",
       type: "input",
       id: "address",
-      label: t("Common.address"),
-      placeholder: "",
+      label: t("Common.city"),
+      direction: "row",
+      placeholder: t("Common.city"),
+    },
+    {
+      name: "problem",
+      type: "input",
+      id: "problem",
+      label: t("Common.problem"),
+      direction: "row",
+      placeholder: t("Common.problem"),
+      separator: true,
+    },
+    {
+      name: "caregiver_full_name",
+      type: "input",
+      id: "caregiver_full_name",
+      label: `${t("Common.primaryCaregiver")}*`,
+      direction: "row",
+      placeholder: "Enter caregiver name",
+    },
+    {
+      name: "caregiver_phone_number",
+      type: "phone",
+      id: "caregiver_phone_number",
+      label: `${t("Common.phone")}*`,
+      direction: "row",
+      placeholder: t("Common.phone"),
+    },
+    {
+      name: "caregiver_city",
+      type: "input",
+      id: "caregiver_city",
+      label: t("Common.city"),
+      direction: "row",
+      placeholder: t("Common.city"),
+      separator: true,
     },
   ];
 
   return (
-    <FormRender
-      formObject={form}
-      onSubmitHandler={onSubmit}
-      disabled={disabled}
-      fields={createFormFields}
-      customErrorMessage={apiError}
-    >
-      <div className="w-full">
-        <div className="flex justify-between gap-6">
-          <Button
-            rounded={"circle"}
-            onClick={onClose}
-            variant={"secondary"}
-            size={"lg"}
-          >
-            {t("Common.cancel")}
-          </Button>
-          <Button rounded={"circle"} disabled={disabled} type="submit" size={"lg"}>
-            {t("Common.add")}
-          </Button>
+    <div className={`${styles.wrapper} w-full p-[16px] pb-[24px] bg-[#F5F8FF]`}>
+      <FormRender
+        formObject={form}
+        onSubmitHandler={onSubmit}
+        disabled={disabled}
+        fields={createFormFields}
+        customErrorMessage={apiError}
+      >
+        <div className="w-full">
+          <div className="flex justify-between gap-6">
+            <Button
+              rounded={"circle"}
+              onClick={onClose}
+              variant={"ghost"}
+              size={"lg"}
+            >
+              {t("Common.cancel")}
+            </Button>
+            <Button
+              rounded={"circle"}
+              disabled={disabled}
+              type="submit"
+              size={"lg"}
+            >
+              {t("Common.add")}
+            </Button>
+          </div>
         </div>
-      </div>
-    </FormRender>
+      </FormRender>
+    </div>
   );
 };

@@ -22,17 +22,19 @@ export function FormPhone<F extends FieldValues>(props: FormFieldProps<F>) {
     <FormField
       key={renderField.id}
       control={formObject.control}
+      // @ts-ignore
       name={renderField.name}
       render={({ field }) => (
         <FormItem>
-          <div className={`${fieldDirectionClassName} ${className}`}>
+          <div
+            className={`${fieldDirectionClassName} ${className} field-container`}
+          >
             <FormLabel>{renderField.label}</FormLabel>
             <FormControl>
               <PhoneField
+                size="sm"
                 disabled={disabled}
-                placeholder={
-                  renderField.placeholder ?? renderField.label.toUpperCase()
-                }
+                placeholder={renderField.placeholder}
                 {...field}
               />
             </FormControl>
@@ -41,7 +43,11 @@ export function FormPhone<F extends FieldValues>(props: FormFieldProps<F>) {
             <FormDescription>{renderField.description}</FormDescription>
           ) : null}
 
-          <FormMessage />
+          <FormMessage
+            className={
+              renderField.direction === "row" ? "text-end" : "text-start"
+            }
+          />
         </FormItem>
       )}
     />
