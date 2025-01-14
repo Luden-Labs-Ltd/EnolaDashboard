@@ -41,19 +41,19 @@ const ArchiveFamily: React.FC<PropsWithChildren<ArchiveFamilyActionProps>> = ({
   const isArchived = currentFamily?.archived === "true";
 
   const applyChangesHandle = () => {
-    if (currentFamily) {
-      editFamily(currentFamily.id, {
-        title: currentFamily.name,
-        archived: !isArchived,
-      })
-        .then(() => {
-          setIsOpen(false);
-          callback?.();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
+    // if (currentFamily) {
+    //   editFamily(currentFamily.id, {
+    //     title: currentFamily.name,
+    //     archived: !isArchived,
+    //   })
+    //     .then(() => {
+    //       setIsOpen(false);
+    //       callback?.();
+    //     })
+    //     .catch((err) => {
+    //       console.log(err);
+    //     });
+    // }
   };
 
   const submitBtnText = isArchived ? t("Families.unarchive") : t("Families.archive")
