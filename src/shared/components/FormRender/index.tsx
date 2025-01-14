@@ -28,6 +28,7 @@ export type FormRenderField<FieldsGeneric> = {
     name: string | React.ReactNode;
   }>;
   placeholder?: string;
+  optional?: boolean;
 };
 
 export type FormFieldProps<T extends FieldValues> = {
@@ -35,6 +36,7 @@ export type FormFieldProps<T extends FieldValues> = {
   renderField: FormRenderField<T>;
   customErrorMessage?: string;
   disabled?: boolean;
+  showOptionalFields?: boolean;
 };
 
 type FormRenderProps<T extends FieldValues> = {
@@ -45,6 +47,7 @@ type FormRenderProps<T extends FieldValues> = {
   fieldsClassName?: string;
   className?: string;
   disabled?: boolean;
+  showOptionalFields?: boolean;
 };
 
 export default function FormRender<B extends FieldValues>(
@@ -59,9 +62,13 @@ export default function FormRender<B extends FieldValues>(
     className,
     fieldsClassName,
     disabled,
+    showOptionalFields = true,
   } = props;
 
   const renderField = (renderField: FormRenderField<B>) => {
+    if (renderField.optional && !showOptionalFields) {
+      return null
+    }
     switch (renderField.type) {
       case "phone":
         return (
