@@ -30,6 +30,7 @@ const createFormScheme = z.object({
 type CreateFamilyForm = z.infer<typeof createFormScheme>;
 
 export const AddFamilyForm: React.FC<AddFamilyFormProps> = ({ onClose }) => {
+
   const t = useTranslations();
   const [apiError, setApiError] = useState("");
   const [disabled, setDisabled] = useState(false);
