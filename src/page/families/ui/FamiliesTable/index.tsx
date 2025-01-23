@@ -16,6 +16,7 @@ import CopyText from "features/copy-text";
 import { createUrlFromOrigin } from "@lib/url";
 import { CustomPagination } from "@components/CustomPagination";
 import { SorterObject } from "shared/types/sort";
+import { useRouter } from "next/navigation";
 
 interface FamiliesTableProps {
   sorterTableObject: SorterObject;
@@ -32,6 +33,8 @@ const FamiliesTable: React.FC<FamiliesTableProps> = ({
 
   const { familiesState, toggleMainSelect, toggleSelectedFamilies } =
     useFamiliesStore();
+  const navigate = useRouter()
+
   // @ts-ignore
   const renderCeilDropDownItems = useCallback<renderCeilDropDownItemsType>(
     (ceil) => {
@@ -125,6 +128,10 @@ const FamiliesTable: React.FC<FamiliesTableProps> = ({
     );
   }
 
+  const onDoubleClickFamilyRow = (familyId: number | null) => {
+    navigate.push(`/family/${familyId}`)
+  }
+
   return (
     <>
       <UniversalTable
@@ -134,6 +141,7 @@ const FamiliesTable: React.FC<FamiliesTableProps> = ({
         toggleMainSelect={toggleMainSelect}
         toggleSelectedItems={toggleSelectedFamilies}
         renderCeilDropDownItems={renderCeilDropDownItems}
+        onRowDoubleClick={onDoubleClickFamilyRow}
       />
 
       <div className="mt-4">

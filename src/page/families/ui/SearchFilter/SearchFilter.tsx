@@ -13,6 +13,7 @@ import { z } from "zod";
 const searchFamilyFormScheme = z.object({
   family_id: z.string().optional(),
   is_archived: z.boolean(),
+  is_my_families: z.boolean(),
 });
 
 type SearchFamilyFormValues = z.infer<typeof searchFamilyFormScheme>;
@@ -26,8 +27,9 @@ export const SearchFilter = () => {
   const form = useForm<SearchFamilyFormValues>({
     resolver: zodResolver(searchFamilyFormScheme),
     defaultValues: {
-      family_id: searchParams.get('family_id') ?? "",
-      is_archived: searchParams.get('is_archived') === "true",
+      family_id: searchParams.get("family_id") ?? "",
+      is_archived: searchParams.get("is_archived") === "true",
+      is_my_families: searchParams.get("is_my_families") === "true",
     },
   });
 
@@ -51,6 +53,13 @@ export const SearchFilter = () => {
       label: t("Common.isArchived"),
       placeholder: "",
     },
+    {
+      name: "is_my_families",
+      type: "checkbox",
+      id: "is_my_families",
+      label: t("Common.family"),
+      placeholder: "",
+    },
   ];
 
   function onSubmit(values: SearchFamilyFormValues) {
@@ -61,6 +70,7 @@ export const SearchFilter = () => {
     const originData: SearchFamilyFormValues = {
       family_id: "",
       is_archived: false,
+      is_my_families: false,
     };
     form.reset(originData);
     updateUrl(originData);
