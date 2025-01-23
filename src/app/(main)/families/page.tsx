@@ -9,7 +9,8 @@ export default async function FamiliesPage(props: PageProps) {
 
   const familiesName = searchParams?.family_name ?? "";
   const familyId = searchParams?.family_id ?? "";
-  const isArchived = searchParams?.is_archived ?? false;
+  const isArchived = searchParams?.is_archived === "true" ? true : false ;
+  const isMyFamilies = searchParams?.is_my_families === "true" ? true : false ;
   const sort = searchParams?.sort ? JSON.parse(searchParams?.sort) : null;
 
   const currentPage = searchParams?.current_page
@@ -23,6 +24,7 @@ export default async function FamiliesPage(props: PageProps) {
     familyName: familiesName,
     familyId: familyId,
     isArchived,
+    isMyFamilies,
     sort: sort,
   });
   const { familiesTableData, sorterTableObject } =

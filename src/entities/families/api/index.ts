@@ -1,7 +1,14 @@
 "use server";
+import { getCurrentProgramId } from "entities/program";
 import { GET_FAMILIES_REVALIDATE_TAG } from "./const";
-import { CreateFamilyDto, EditFamilyDto, EditFamilyInfoDto, FamilyApi } from "./types";
+import {
+  CreateFamilyDto,
+  EditFamilyDto,
+  EditFamilyInfoDto,
+  FamilyApi,
+} from "./types";
 import { fetchInstance } from "shared/api";
+import { getCurrentProfileApi } from "entities/auth";
 
 type SortObject = {
   name: string;
@@ -12,6 +19,7 @@ type GetFamiliesDto = {
   familyName: string;
   familyId: string;
   isArchived: boolean;
+  isMyFamilies: boolean;
   sort: SortObject | null;
   currentPage: number;
   perPage: number;
@@ -22,10 +30,15 @@ export const getFamiliesFromApi = async (
   familiesApiData: FamilyApi[];
   totalCount: number;
 }> => {
-  const { familyName, familyId, isArchived, sort, currentPage, perPage } =
+  const { familyName, familyId, isArchived, isMyFamilies, sort, currentPage, perPage } =
     props;
+  const programId = await getCurrentProgramId();
+  const profile = await getCurrentProfileApi();
+
   const params = JSON.stringify({
     name_cont: familyName,
+    program_id_eq: programId,
+    coordinator_id_eq: isMyFamilies ? profile?.id ?? '' : '',
     id_eq: familyId,
     archived_eq: isArchived,
     sorts: sort ? `${sort.name} ${sort.order}` : "created_at desc",
@@ -117,7 +130,10 @@ export const createFamilyApi = async (data: CreateFamilyDto) => {
   return resJSON;
 };
 
-export const editFamilyApi = async (familyId: number, data: EditFamilyInfoDto) => {
+export const editFamilyApi = async (
+  familyId: number,
+  data: EditFamilyInfoDto
+) => {
   const response = await fetchInstance(
     process.env.BASE_URL_BACKEND + `/api/v2/dashboard/families/${familyId}`,
     {
