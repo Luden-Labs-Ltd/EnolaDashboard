@@ -27,7 +27,7 @@ COPY . .
 
 RUN npm run build
 
-# Production Stage 
+# Production Stage
 
 FROM node:21-alpine AS production
 
