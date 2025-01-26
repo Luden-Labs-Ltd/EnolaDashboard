@@ -20,6 +20,7 @@ import {
 import { useTranslations } from "next-intl";
 import React, { PropsWithChildren, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
+import { isActionError } from "shared/error/api";
 
 interface EditMembershipModalProps {
   callback?: () => void;
@@ -63,6 +64,9 @@ const EditMembershipModal: React.FC<
   function onSubmit(values: EditMembershipForm) {
     editMembership(familyId, membershipId, values)
       .then((res) => {
+        if (isActionError(res)) {
+          return setApiError(res.nextError);
+        }
         onClose();
       })
       .catch((err) => {
@@ -71,7 +75,7 @@ const EditMembershipModal: React.FC<
   }
 
   const onClose = () => {
-    refetchMembers(familyId)
+    refetchMembers(familyId);
     setIsOpen(false);
     form.reset({});
   };
@@ -80,7 +84,10 @@ const EditMembershipModal: React.FC<
     callback?.();
   };
 
-  const EDIT_MEMBERSHIP_FORM_FIELDS = useMemo(() => getEditMembershipFormFields(t), [t])
+  const EDIT_MEMBERSHIP_FORM_FIELDS = useMemo(
+    () => getEditMembershipFormFields(t),
+    [t]
+  );
 
   return (
     <Dialog onOpenChange={setIsOpen} open={isOpen}>

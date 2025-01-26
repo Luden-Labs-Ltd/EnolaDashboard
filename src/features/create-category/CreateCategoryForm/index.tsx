@@ -15,6 +15,8 @@ import { useForm } from "react-hook-form";
 import AddIcon from "shared/assets/AddIcon";
 import { z } from "zod";
 import ReactDOMServer from 'react-dom/server';
+import { isActionError } from "shared/error/api";
+import { ZodErrors } from "@components/ZodErrors/ZodErrors";
 
 const createCategoryScheme = z.object({
   name: z.string().min(3).max(50),
@@ -93,7 +95,10 @@ export const CreateCategoryForm: React.FC<CreateCategoryFormProps> = ({
       ...values,
       svg_icon: currentStringSvgIcon
     })
-      .then(() => {
+      .then((res) => {
+        if (isActionError(res)) {
+          return setApiError(res?.nextError);
+        }
         onClose();
       })
       .catch((err) => {
@@ -109,13 +114,13 @@ export const CreateCategoryForm: React.FC<CreateCategoryFormProps> = ({
         fields={createCategoryFields}
         className="flex flex-col gap-3"
         fieldsClassName="flex flex-row gap-[20px] justify-between"
-        customErrorMessage={apiError}
       >
         <div className="w-full">
           <Button withIcon type="submit" size={"full"} variant={"secondary"}>
             <AddIcon />
             {t("Common.addCategory")}
           </Button>
+          <ZodErrors error={[apiError]}/>
         </div>
       </FormRender>
     </div>

@@ -13,6 +13,7 @@ import {
 import { useTranslations } from "next-intl";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { isActionError } from "shared/error/api";
 
 type EditResourceFormProps = {
   callback: () => void;
@@ -127,7 +128,10 @@ export const EditResourceForm: React.FC<EditResourceFormProps> = ({
 
   function onSubmit(values: EditResourceValues) {
     editResource(resource.id, values)
-      .then(() => {
+      .then((res) => {
+        if (isActionError(res)) {
+          return setApiError(res.nextError);
+        }
         onClose();
       })
       .catch((err) => {

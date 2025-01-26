@@ -10,6 +10,7 @@ import {
 import { useTranslations } from "next-intl";
 import React, { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
+import { isActionError } from "shared/error/api";
 
 interface AddMemberFormProps {
   familyId: string;
@@ -31,7 +32,7 @@ export const AddMemberForm: React.FC<AddMemberFormProps> = ({
     resolver: zodResolver(AddMembershipFormScheme),
     defaultValues: {
       primary: false,
-    }
+    },
   });
 
   const onCloseHandler = () => {
@@ -41,9 +42,12 @@ export const AddMemberForm: React.FC<AddMemberFormProps> = ({
   function onSubmit(values: AddMembershipForm) {
     setDisabled(true);
     createMembers(familyId, values)
-      .then(() => {
+      .then((res) => {
+        if (isActionError(res)) {
+          return setApiError(res.nextError);
+        }
         onCloseHandler();
-        refresh()
+        refresh();
       })
       .catch((err) => {
         setApiError(err.message);

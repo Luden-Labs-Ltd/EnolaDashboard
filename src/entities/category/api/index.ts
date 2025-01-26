@@ -6,10 +6,10 @@ import { createCategoriesApiDto } from "./types";
 import { REVALIDATE_GET_CATEGORY_TAG } from "./constant";
 import { revalidateTag } from "next/cache";
 import { getCurrentProgramId } from "entities/program";
+import { handleServerError, ServerActionResponse } from "shared/error/api";
 
-export const getCategoriesApi = async (
-): Promise<CategoryTypeApi[]> => {
-  const programId = await getCurrentProgramId()
+export const getCategoriesApi = async (): Promise<CategoryTypeApi[]> => {
+  const programId = await getCurrentProgramId();
   const response = await fetchInstance(
     `${process.env.BASE_URL_BACKEND}/api/v2/dashboard/programs/${programId}/categories`,
     {
@@ -34,35 +34,39 @@ export const getCategoriesApi = async (
 
 export const createCategoriesApi = async (
   dto: createCategoriesApiDto
-): Promise<CategoryTypeApi[]> => {
-  const programId = await getCurrentProgramId()
-  const response = await fetchInstance(
-    `${process.env.BASE_URL_BACKEND}/api/v2/dashboard/programs/${programId}/categories`,
-    {
-      method: "POST",
-      body: JSON.stringify(dto),
-      headers: {
-        "Content-Type": "application/json",
-      },
+): Promise<ServerActionResponse<CategoryTypeApi[]>> => {
+  try {
+    const programId = await getCurrentProgramId();
+    const response = await fetchInstance(
+      `${process.env.BASE_URL_BACKEND}/api/v2/dashboard/programs/${programId}/categories`,
+      {
+        method: "POST",
+        body: JSON.stringify(dto),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (!response) {
+      throw new Error("Some Error createCategoriesApi");
     }
-  );
 
-  if (!response) {
-    throw new Error("Some Error createCategoriesApi");
+    const resJSON = await response.json();
+    if (resJSON.error) {
+      throw new Error(resJSON.error);
+    }
+    revalidateTag(REVALIDATE_GET_CATEGORY_TAG);
+    return resJSON;
+  } catch (error) {
+    return handleServerError(error)
   }
-
-  const resJSON = await response.json();
-  if (resJSON.error) {
-    throw new Error(resJSON.error);
-  }
-  revalidateTag(REVALIDATE_GET_CATEGORY_TAG);
-  return resJSON;
 };
 
 export const deleteCategoryApi = async (
-  categoryId: string,
+  categoryId: string
 ): Promise<Boolean | null> => {
-  const programId = await getCurrentProgramId()
+  const programId = await getCurrentProgramId();
   const response = await fetchInstance(
     `${process.env.BASE_URL_BACKEND}/api/v2/dashboard/programs/${programId}/categories/${categoryId}`,
     {

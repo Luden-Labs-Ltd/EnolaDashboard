@@ -1,5 +1,4 @@
 "use server";
-import { z } from "zod";
 import { revalidateTag } from "next/cache";
 import {
   createMembershipApi,
@@ -8,17 +7,26 @@ import {
 } from "../api";
 import { GET_MEMBERSHIPS_REVALIDATE_TAG } from "../api/const";
 import { AddMembershipDto, EditMembershipDto } from "../api/types";
+import { handleServerError } from "shared/error/api";
 
 export const createMembers = async (familyId: string, addFamilyDto: AddMembershipDto) => {
-  await createMembershipApi(familyId, addFamilyDto);
+  try {
+    await createMembershipApi(familyId, addFamilyDto);
+  } catch (error) {
+    return handleServerError(error)
+  }
 };
 
 export const deleteMembership = async (
   familyId: string,
   membershipId: string
 ) => {
-  await deleteMembershipApi(familyId, membershipId);
-  revalidateTag(GET_MEMBERSHIPS_REVALIDATE_TAG);
+  try {
+    await deleteMembershipApi(familyId, membershipId);
+    revalidateTag(GET_MEMBERSHIPS_REVALIDATE_TAG);
+  } catch (error) {
+    return handleServerError(error)
+  }
 };
 
 export const editMembership = async (
@@ -26,6 +34,11 @@ export const editMembership = async (
   membershipId: number | string,
   membershipDto: EditMembershipDto
 ) => {
-  const res = await editMembershipApi(familyId, membershipId, membershipDto);
-  return res;
+  try {
+    const res = await editMembershipApi(familyId, membershipId, membershipDto);
+    revalidateTag(GET_MEMBERSHIPS_REVALIDATE_TAG);
+    return res;
+  } catch (error) {
+    return handleServerError(error)
+  }
 };
