@@ -8,6 +8,7 @@ import React, { MouseEventHandler, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import styles from "./addFamilyForm.module.scss";
+import { isActionError } from "shared/error/api";
 
 interface AddFamilyFormProps {
   onClose: () => void;
@@ -61,7 +62,7 @@ export const AddFamilyForm: React.FC<AddFamilyFormProps> = ({ onClose }) => {
     setDisabled(true);
     createFamily(createFamilyDto)
       .then((res) => {
-        if (res?.nextError) {
+        if (isActionError(res)) {
           return setApiError(res.nextError);
         }
         onCloseHandler();

@@ -7,6 +7,7 @@ import { deleteResource, useResourcesStore } from "entities/resources";
 import { useTranslations } from "next-intl";
 import React, { useState } from "react";
 import DeleteIcon from "shared/assets/DeleteIcon";
+import { isActionError } from "shared/error/api";
 
 interface DeleteResourceModalProps {
   callback?: () => void;
@@ -35,7 +36,10 @@ const DeleteResourceModal: React.FC<DeleteResourceModalProps> = ({
   const deleteHandler = () => {
     if (!isDeleteDisabled) {
       deleteResource(resourceId)
-        .then(() => {
+        .then((res) => {
+          if (isActionError(res)) {
+            return setError(res.nextError);
+          }
           setIsOpen(false);
           callback?.();
         })

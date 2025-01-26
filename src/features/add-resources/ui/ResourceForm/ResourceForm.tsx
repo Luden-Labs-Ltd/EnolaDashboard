@@ -12,6 +12,7 @@ import {
   createResourceScheme,
   CreateResourceValues,
 } from "features/add-resources/model";
+import { isActionError } from "shared/error/api";
 
 type ResourceFormProps = {
   callback: () => void;
@@ -117,7 +118,10 @@ export const ResourceForm: React.FC<ResourceFormProps> = ({
   function onSubmit(values: CreateResourceValues) {
     setDisabled(true);
     createResource(values)
-      .then(() => {
+      .then((res) => {
+        if (isActionError(res)) {
+          return setApiError(res.nextError);
+        }
         onClose();
       })
       .catch((err) => {

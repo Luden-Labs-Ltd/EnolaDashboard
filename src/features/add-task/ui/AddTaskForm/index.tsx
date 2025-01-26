@@ -6,6 +6,7 @@ import { createTaskApi, useTasksStore } from "entities/task";
 import { useTranslations } from "next-intl";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { isActionError } from "shared/error/api";
 import { z } from "zod";
 
 const createTasksScheme = z.object({
@@ -84,14 +85,15 @@ export const AddTaskForm: React.FC<AddTaskFormProps> = ({
 
   function onSubmit(values: CreateTasksValues) {
     setDisabled(true);
-    createTaskApi(
-      {
-        ...values,
-        category_id: currentCategory.id,
-        schedule: "* * * * *",
-      }
-    )
-      .then(() => {
+    createTaskApi({
+      ...values,
+      category_id: currentCategory.id,
+      schedule: "* * * * *",
+    })
+      .then((res) => {
+        if (isActionError(res)) {
+          return setApiError(res.nextError);
+        }
         onClose();
       })
       .catch((err) => {

@@ -4,6 +4,7 @@ import { InfoModal } from "@components/InfoModal";
 import { deleteMembership } from "entities/memberships/actions";
 import { useTranslations } from "next-intl";
 import React, { PropsWithChildren, useState } from "react";
+import { isActionError } from "shared/error/api";
 
 interface DeleteMembershipActionProps {
   callback?: () => void;
@@ -27,7 +28,10 @@ const DeleteMembership: React.FC<
 
   const applyChangesHandle = () => {
     deleteMembership(familyId, String(membershipId))
-      .then(() => {
+      .then((res) => {
+        if (isActionError(res)) {
+          return setError(res.nextError);
+        }
         onClose();
       })
       .catch((error) => {
