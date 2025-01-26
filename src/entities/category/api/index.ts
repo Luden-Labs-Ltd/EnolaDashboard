@@ -9,27 +9,32 @@ import { getCurrentProgramId } from "entities/program";
 import { handleServerError, ServerActionResponse } from "shared/error/api";
 
 export const getCategoriesApi = async (): Promise<CategoryTypeApi[]> => {
-  const programId = await getCurrentProgramId();
-  const response = await fetchInstance(
-    `${process.env.BASE_URL_BACKEND}/api/v2/dashboard/programs/${programId}/categories`,
-    {
-      method: "GET",
-      next: {
-        tags: [REVALIDATE_GET_CATEGORY_TAG],
-      },
+  try {
+    const programId = await getCurrentProgramId();
+    const response = await fetchInstance(
+      `${process.env.BASE_URL_BACKEND}/api/v2/dashboard/programs/${programId}/categories`,
+      {
+        method: "GET",
+        next: {
+          tags: [REVALIDATE_GET_CATEGORY_TAG],
+        },
+      }
+    );
+
+    if (!response) {
+      throw new Error("Something wrong getCategoriesApi");
     }
-  );
 
-  if (!response) {
-    throw new Error("Something wrong getCategoriesApi");
+    const resJSON = await response.json();
+    if (resJSON.error) {
+      throw new Error(resJSON.error);
+    }
+
+    return resJSON;
+  } catch (error) {
+    handleServerError(error)
+    return []
   }
-
-  const resJSON = await response.json();
-  if (resJSON.error) {
-    throw new Error(resJSON.error);
-  }
-
-  return resJSON;
 };
 
 export const createCategoriesApi = async (
@@ -59,7 +64,7 @@ export const createCategoriesApi = async (
     revalidateTag(REVALIDATE_GET_CATEGORY_TAG);
     return resJSON;
   } catch (error) {
-    return handleServerError(error)
+    return handleServerError(error);
   }
 };
 

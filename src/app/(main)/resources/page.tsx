@@ -1,7 +1,7 @@
 import { convertCategoryData, getCategoriesApi } from "entities/category";
 import { convertResourcesData, getResourcesFromApi } from "entities/resources";
 import Resources from "page/resources";
-import { PageProps } from "../../../../.next/types/app/layout";
+import { PageProps } from "../../../../.next/types/app/page";
 
 export const dynamic = "force-dynamic";
 export default async function ResourcesPage(props: PageProps) {

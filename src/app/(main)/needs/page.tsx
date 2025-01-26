@@ -2,7 +2,7 @@ import { convertCategoryData, getCategoriesApi } from "entities/category";
 import { convertTasksData, getTasks } from "entities/task";
 import SearchPanel from "features/search-panel";
 import Needs from "page/needs";
-import { PageProps } from "../../../../.next/types/app/layout";
+import { PageProps } from "../../../../.next/types/app/page";
 
 export const dynamic = "force-dynamic";
 export default async function NeedsPage(props: PageProps) {
@@ -11,6 +11,7 @@ export default async function NeedsPage(props: PageProps) {
   const resourceName = searchParams?.task_name ?? "";
 
   const categoriesApiData = await getCategoriesApi();
+
   const { categoriesData, maxResourceCount, maxTaskCount } =
     convertCategoryData(categoriesApiData);
 
