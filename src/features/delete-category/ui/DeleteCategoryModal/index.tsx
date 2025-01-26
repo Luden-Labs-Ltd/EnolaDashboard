@@ -35,7 +35,10 @@ const DeleteCategoryModal: React.FC<DeleteCategoryModalProps> = ({
   const deleteHandler = () => {
     if (!isDeleteDisabled) {
       deleteCategory(category.id)
-        .then(() => {
+        .then((res) => {
+          if (res?.nextError) {
+            return setError(res?.nextError);
+          }
           setIsOpen(false);
           callback?.();
         })

@@ -30,15 +30,22 @@ export const getFamiliesFromApi = async (
   familiesApiData: FamilyApi[];
   totalCount: number;
 }> => {
-  const { familyName, familyId, isArchived, isMyFamilies, sort, currentPage, perPage } =
-    props;
+  const {
+    familyName,
+    familyId,
+    isArchived,
+    isMyFamilies,
+    sort,
+    currentPage,
+    perPage,
+  } = props;
   const programId = await getCurrentProgramId();
   const profile = await getCurrentProfileApi();
 
   const params = JSON.stringify({
     name_cont: familyName,
     program_id_eq: programId,
-    coordinator_id_eq: isMyFamilies ? profile?.id ?? '' : '',
+    coordinator_id_eq: isMyFamilies ? profile?.id ?? "" : "",
     id_eq: familyId,
     archived_eq: isArchived,
     sorts: sort ? `${sort.name} ${sort.order}` : "created_at desc",
@@ -125,7 +132,7 @@ export const createFamilyApi = async (data: CreateFamilyDto) => {
 
   const resJSON = await response.json();
   if (resJSON.error) {
-    throw new Error(resJSON.error);
+    throw new Error("Some Error Json createFamilyApi");
   }
   return resJSON;
 };
