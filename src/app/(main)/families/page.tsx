@@ -1,7 +1,7 @@
 import { convertDataForTable, getFamiliesFromApi } from "entities/families";
 import Families from "page/families";
-import { PageProps } from "../../../../.next/types/app/layout";
 import { PAGE_PAGINATION_SETTINGS } from "shared/constants/page";
+import { PageProps } from "../../../../.next/types/app/page";
 
 export const dynamic = "force-dynamic";
 export default async function FamiliesPage(props: PageProps) {
