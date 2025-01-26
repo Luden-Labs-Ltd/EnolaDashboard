@@ -60,11 +60,14 @@ export const AddFamilyForm: React.FC<AddFamilyFormProps> = ({ onClose }) => {
     }
     setDisabled(true);
     createFamily(createFamilyDto)
-      .then(() => {
+      .then((res) => {
+        if (res?.nextError) {
+          return setApiError(res.nextError);
+        }
         onCloseHandler();
       })
       .catch((err) => {
-        setApiError(err.message);
+        setApiError(err.nextError);
       })
       .finally(() => {
         setDisabled(false);

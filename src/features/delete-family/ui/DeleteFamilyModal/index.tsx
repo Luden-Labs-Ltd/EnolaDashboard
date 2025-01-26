@@ -30,7 +30,10 @@ const DeleteFamily: React.FC<PropsWithChildren<DeleteFamilyActionProps>> = ({
       return;
     }
     deleteFamily(familyId)
-      .then(() => {
+      .then((res) => {
+        if (res?.nextError) {
+          return setError(res?.nextError);
+        }
         onClose();
       })
       .catch((error) => {

@@ -75,7 +75,10 @@ export const RenderEditableInfo: React.FC<RenderEditableInfoProps> = ({
     };
     setDisabled(true);
     editFamily(family.id, editFamilyDto)
-      .then(() => {
+      .then((res) => {
+        if (res?.nextError) {
+          return setApiError(res?.nextError);
+        }
         onCloseHandler();
       })
       .catch((err) => {

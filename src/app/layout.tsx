@@ -31,12 +31,12 @@ export default async function RootLayout({
       dir={locale === "he" ? "rtl" : "ltr"}
       className={`${SpaceGrotesk.variable} ${RubikFont.variable} font-grotesk`}
     >
-          <body>
-            <NextIntlClientProvider messages={messages}>
-              <main>{children}</main>
-              <Toaster />
-            </NextIntlClientProvider>
-          </body>
+      <body>
+          <NextIntlClientProvider messages={messages}>
+            <main>{children}</main>
+            <Toaster />
+          </NextIntlClientProvider>
+      </body>
     </html>
   );
 }
