@@ -24,7 +24,7 @@ services:
       - NODE_OPTIONS=--max-old-space-size=16384
     env_file:
       - .env
-    # restart: unless-stopped
+    restart: unless-stopped
 
   production:
     build:
@@ -38,4 +38,4 @@ services:
       - NODE_OPTIONS=--max-old-space-size=16384
     env_file:
       - .env.production
-    # restart: unless-stopped
+    restart: unless-stopped
