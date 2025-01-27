@@ -22,4 +22,4 @@ services:
     environment:
       - NODE_ENV=production
       - NODE_OPTIONS=--max-old-space-size=16384
-    restart: unless-stopped
+    # restart: unless-stopped
