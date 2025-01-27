@@ -20,7 +20,7 @@ export async function getCurrentProgramId(): Promise<string> {
 
   if (!currentProgram) {
     const profile = await getCurrentProfileApi()
-    currentProgram = profile?.company.programs[0] ?? null
+    currentProgram = profile?.company?.programs[0] ?? null
   }
   const programId = currentProgram?.id ?? DEFAULT_PROGRAM_NAME
   return programId

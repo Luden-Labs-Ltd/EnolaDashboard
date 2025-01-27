@@ -12,6 +12,20 @@ services:
       - .:/app
     command: npm run dev
 
+  qa:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production # Use the 'production' stage from Dockerfile for production
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - NODE_OPTIONS=--max-old-space-size=16384
+    env_file:
+      - .env
+    # restart: unless-stopped
+
   production:
     build:
       context: .
@@ -22,4 +36,6 @@ services:
     environment:
       - NODE_ENV=production
       - NODE_OPTIONS=--max-old-space-size=16384
+    env_file:
+      - .env.production
     # restart: unless-stopped

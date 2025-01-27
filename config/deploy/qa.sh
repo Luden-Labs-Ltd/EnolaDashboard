@@ -23,7 +23,7 @@ rm project.tar.gz
 ssh app@qa.enolahelp.com  'cd /home/nextProjects/dashboardNext && docker-compose down'
 
 # up new version
-ssh app@qa.enolahelp.com  'cd /home/nextProjects/dashboardNext && docker-compose up -d --build production'
+ssh app@qa.enolahelp.com  'cd /home/nextProjects/dashboardNext && docker-compose up -d --build qa'
 
 # clear none images
 ssh app@qa.enolahelp.com  'docker image prune'
