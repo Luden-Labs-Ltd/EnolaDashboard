@@ -132,7 +132,7 @@ export const createFamilyApi = async (data: CreateFamilyDto) => {
 
   const resJSON = await response.json();
   if (resJSON.error) {
-    throw new Error("Some Error Json createFamilyApi");
+    throw new Error(resJSON.error);
   }
   return resJSON;
 };
