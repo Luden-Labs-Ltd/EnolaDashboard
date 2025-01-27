@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "NODE_OPTIONS='--max-old-space-size=16384' next build",
     "start": "next start",
     "deploy:qa": "./config/deploy/qa.sh",
     "deploy:prod": "./config/deploy/production.sh",
