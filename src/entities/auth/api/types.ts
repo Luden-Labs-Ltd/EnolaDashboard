@@ -29,6 +29,8 @@ export interface Company {
 }
 
 export interface Program {
+  active: boolean;
+  family_enrolment_url: string;
   id: string;
   name: string;
 }

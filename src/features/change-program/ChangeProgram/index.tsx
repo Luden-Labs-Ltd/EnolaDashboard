@@ -12,11 +12,12 @@ import {
 } from "@components/shadowCDN/dropdown-menu";
 import { Button } from "@components/shadowCDN/button";
 import { changeProgram } from "entities/program";
+import { ActivateProgram } from "../activate-program";
 
 interface ChangeProgramProps {
   logo: StaticImageData;
   programs: Program[];
-  originCurrentProgram:  Program | null;
+  originCurrentProgram: Program | null;
 }
 
 export const ChangeProgram: React.FC<PropsWithChildren<ChangeProgramProps>> = ({
@@ -24,7 +25,9 @@ export const ChangeProgram: React.FC<PropsWithChildren<ChangeProgramProps>> = ({
   programs,
   originCurrentProgram,
 }) => {
-  const [currentProgram, setCurrentProgram] = useState(originCurrentProgram ? originCurrentProgram : programs[0]);
+  const [currentProgram, setCurrentProgram] = useState(
+    originCurrentProgram ? originCurrentProgram : programs[0]
+  );
 
   const onCurrentProgramChange = (program: Program) => {
     changeProgram(program)
@@ -68,7 +71,16 @@ export const ChangeProgram: React.FC<PropsWithChildren<ChangeProgramProps>> = ({
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <div className={styles.programName}>{currentProgram.name}</div>
+      <div className={styles.programName}>
+        {currentProgram.name}
+        <ActivateProgram
+          onProgramActivateCallback={(program) =>
+            onCurrentProgramChange(program)
+          }
+          isDisabled={currentProgram.active}
+          programId={currentProgram.id}
+        />
+      </div>
     </form>
   );
 };
