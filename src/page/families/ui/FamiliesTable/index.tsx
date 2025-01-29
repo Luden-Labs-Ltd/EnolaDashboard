@@ -17,6 +17,7 @@ import { createUrlFromOrigin } from "@lib/url";
 import { CustomPagination } from "@components/CustomPagination";
 import { SorterObject } from "shared/types/sort";
 import { useRouter } from "next/navigation";
+import { EmptyScreen } from "@components/EmptyScreen";
 
 interface FamiliesTableProps {
   sorterTableObject: SorterObject;
@@ -33,7 +34,7 @@ const FamiliesTable: React.FC<FamiliesTableProps> = ({
 
   const { familiesState, toggleMainSelect, toggleSelectedFamilies } =
     useFamiliesStore();
-  const navigate = useRouter()
+  const navigate = useRouter();
 
   // @ts-ignore
   const renderCeilDropDownItems = useCallback<renderCeilDropDownItemsType>(
@@ -129,9 +130,10 @@ const FamiliesTable: React.FC<FamiliesTableProps> = ({
   }
 
   const onDoubleClickFamilyRow = (familyId: number | null) => {
-    navigate.push(`/family/${familyId}`)
-  }
+    navigate.push(`/family/${familyId}`);
+  };
 
+  const isScreenEmpty = !familiesState.families.length;
   return (
     <>
       <UniversalTable
@@ -143,6 +145,8 @@ const FamiliesTable: React.FC<FamiliesTableProps> = ({
         renderCeilDropDownItems={renderCeilDropDownItems}
         onRowDoubleClick={onDoubleClickFamilyRow}
       />
+
+      {isScreenEmpty ? <EmptyScreen screenFor="families" /> : null}
 
       <div className="mt-4">
         <CustomPagination

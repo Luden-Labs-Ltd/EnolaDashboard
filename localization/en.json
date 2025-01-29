@@ -49,6 +49,7 @@
             "infoCard1": {
                 "paragraph1": "Get started by selecting categories. Once created, categories cannot be deleted or renamed to ensure consistency. We provide an initial set of categories and tasks for you to choose from.",
                 "paragraph2": "When adding categories, you will need to specify the name, icon, and color.",
+                "paragraph3": "Families will be able to edit or delete these tasks later on if they are not relevant to them.",
                 "buttonPrompt": "Use the button"
             },
             "infoCard2": {
@@ -126,6 +127,12 @@
             "title": "Delete Families",
             "description": "You could delete Family"
         }
+    },
+    "Empty": {
+        "resources": "Click “New resource” to save useful resources here.",
+        "families": "Click “Add family” to start building your list.",
+        "supporters": "Click “Add supporter” to start building your list.",
+        "default": "Empty"
     },
     "Common": {
         "pleaseCreate": "Please create {name}",

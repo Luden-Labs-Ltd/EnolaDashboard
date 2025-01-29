@@ -1,24 +1,27 @@
-import React, { CSSProperties, PropsWithChildren } from 'react'
-import styles from "./infoCard.module.scss"
+import React, { CSSProperties, PropsWithChildren } from "react";
+import styles from "./infoCard.module.scss";
 interface InfoCardProps {
-    step: number;
-    maxWidth?: number;
+  step: number;
+  maxWidth?: number;
 }
 
-const InfoCard : React.FC<PropsWithChildren<InfoCardProps>> = ({
-    step,
-    maxWidth,
-    children
+const InfoCard: React.FC<PropsWithChildren<InfoCardProps>> = ({
+  step,
+  maxWidth,
+  children,
 }) => {
   const inlineStyles: CSSProperties = {
-    maxWidth: maxWidth ? maxWidth : 'unset'
-  }
+    maxWidth: maxWidth ? maxWidth : "unset",
+  };
   return (
-    <div className={styles.wrapper} >
-        <div className={styles.step}>{step}</div>
-        <div className={styles.outlet} style={inlineStyles}>{children}</div>
-    </div>
-  )
-}
+    <div className={styles.wrapper}>
+      {step ? <div className={styles.step}>{step}</div> : null}
 
-export default InfoCard
+      <div className={styles.outlet} style={inlineStyles}>
+        {children}
+      </div>
+    </div>
+  );
+};
+
+export default InfoCard;

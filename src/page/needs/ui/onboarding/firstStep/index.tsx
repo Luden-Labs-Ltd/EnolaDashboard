@@ -1,6 +1,5 @@
 import React from "react";
 import InfoCard from "@components/InfoCard";
-import AddIcon from "shared/assets/AddIcon";
 import { Button } from "@components/shadowCDN/button";
 import { useTranslations } from "next-intl";
 
@@ -12,7 +11,7 @@ const FirstStep: React.FC<FirstStepProps> = ({ onClick }) => {
   const t = useTranslations("NeedsPageOnboarding");
   return (
     <div className="h-full w-full flex justify-center items-center">
-      <InfoCard step={1} maxWidth={500}>
+      <InfoCard step={0} maxWidth={500}>
         <p>{t("FirstStep.description1")}</p>
         <p>{t("FirstStep.description2")}</p>
 
@@ -21,10 +20,10 @@ const FirstStep: React.FC<FirstStepProps> = ({ onClick }) => {
             withIcon
             variant="default"
             size="full"
-            rounded={"circle"}
+            // rounded={"circle"}
             onClick={onClick}
           >
-            <AddIcon />
+            {/* <AddIcon /> */}
             <span>{t("FirstStep.createTemplate")}</span>
           </Button>
         </div>
