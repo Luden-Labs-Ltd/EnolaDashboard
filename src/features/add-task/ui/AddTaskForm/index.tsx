@@ -11,8 +11,8 @@ import { z } from "zod";
 
 const createTasksScheme = z.object({
   title: z.string().min(3).max(50),
-  description: z.string().min(3).max(50),
-  circle: z.enum(["public", "private", "intimate"]),
+  description: z.string().max(50).optional(),
+  circle: z.enum(["public", "private", "intimate"]).optional(),
 });
 
 type CreateTasksValues = z.infer<typeof createTasksScheme>;
