@@ -75,30 +75,35 @@ export const Resource: React.FC<ResourceProps> = ({ resource }) => {
 
   return (
     <div className={styles.wrapper}>
-      <Row className="justify-between" alignItems="center">
+      <Row className="justify-between rtl:flex-row-reverse" alignItems="center">
         <span className={styles.title}>{resource.serviceName}</span>
 
         <DropDownMenu items={resourceDropDownItems} />
       </Row>
       <p className={styles.light}>{resource.organization}</p>
-      <Row>
-        <span className={styles.label}>{t("Resources.contactPerson")}:</span>
+      <Row className="rtl:flex-row-reverse gap-[4px]">
+        <span className={styles.label}>{t("Resources.contactPerson")}</span>
+        <span className={styles.colon}>:</span>
         <span className={styles.light}>{resource.contactPerson}</span>
       </Row>
-      <Row>
-        <span className={styles.label}>{t("Resources.termOfService")}:</span>
+      <Row className="rtl:flex-row-reverse gap-[4px] ">
+        <span className={styles.label}>{t("Resources.termOfService")}</span>
+        <span className={styles.colon}>:</span>
         <span className={styles.light}>{resource.termsOfService}</span>
       </Row>
-      <Row>
-        <span className={styles.label}>{t("Common.phone")}:</span>
+      <Row className="rtl:flex-row-reverse gap-[4px]">
+        <span className={styles.label}>{t("Common.phone")}</span>
+        <span className={styles.colon}>:</span>
         <span className={styles.light}>{resource.phone}</span>
       </Row>
-      <Row>
-        <span className={styles.label}>{t("Common.email")}:</span>
+      <Row className="rtl:flex-row-reverse gap-[4px]">
+        <span className={styles.label}>{t("Common.email")}</span>
+        <span className={styles.colon}>:</span>
         <span className={styles.light}>{resource.email}</span>
       </Row>
-      <Row>
-        <span className={styles.label}>{t("Common.url")}:</span>
+      <Row className="rtl:flex-row-reverse gap-[4px]">
+        <span className={styles.label}>{t("Common.url")}</span>
+        <span className={styles.colon}>:</span>
         <a href={resource.site} target="_blank" className={styles.light}>
           {resource.site}
         </a>
