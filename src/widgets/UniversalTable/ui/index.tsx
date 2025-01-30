@@ -17,6 +17,7 @@ interface UniversalTableProps {
   tableRawData: any[];
   selectedColumnIds: number[];
   sorterObject?: SorterObject;
+  tableName: string;
   toggleMainSelect: () => void;
   toggleSelectedItems: (id: number) => void;
   renderCeilDropDownItems: renderCeilDropDownItemsType;
@@ -24,6 +25,7 @@ interface UniversalTableProps {
 }
 
 const UniversalTable: React.FC<UniversalTableProps> = ({
+  tableName,
   tableRawData,
   selectedColumnIds,
   sorterObject,
@@ -35,6 +37,7 @@ const UniversalTable: React.FC<UniversalTableProps> = ({
   const tableData = tableDataConverter({
     tableRawData: tableRawData,
     selectedColumnIds: selectedColumnIds,
+    tableName: tableName,
   });
 
   const isIndeterminate =

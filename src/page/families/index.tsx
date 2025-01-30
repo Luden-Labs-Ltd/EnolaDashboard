@@ -37,7 +37,7 @@ const Families: React.FC<FamiliesProps> = ({
             <AddFamily />
           </Row>
         </SearchPanel>
-        <ScrollArea className="h-[78vh] w-full border p-4">
+        <ScrollArea className="h-[79vh] w-full border p-4">
           <FamiliesTable totalCount={totalCount} perPage={perPage} sorterTableObject={sorterTableObject} />
         </ScrollArea>
       </FamiliesStoreProvider>

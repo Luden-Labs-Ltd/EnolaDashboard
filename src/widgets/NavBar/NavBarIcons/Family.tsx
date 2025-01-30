@@ -1,8 +1,13 @@
-import React from "react";
+import React, { SVGProps } from "react";
 
-export default function Family() {
+export default function Family(props: SVGProps<any>) {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 21 20">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 21 20"
+      {...props}
+    >
       <path
         d="M4 6.5C4 6.5 1.4285 7.5 1 11M18 6.5C18 6.5 20.5715 7.5 21 11M8 6.5C8 6.5 10.4 7.0835 11 10C11.6 7.0835 14 6.5 14 6.5M9 14C9 14 6.9 14.375 6 17M13 14C13 14 15.1 14.375 16 17"
         stroke="currentColor"

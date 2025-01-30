@@ -1,10 +1,10 @@
 import { convertDataForTable, getFamiliesFromApi } from "entities/families";
 import Families from "page/families";
 import { PAGE_PAGINATION_SETTINGS } from "shared/constants/page";
-import { PageProps } from "../../../../.next/types/app/page";
+import { AppProps } from "next/app";
 
 export const dynamic = "force-dynamic";
-export default async function FamiliesPage(props: PageProps) {
+export default async function FamiliesPage(props: AppProps['pageProps']) {
   const searchParams = await props.searchParams;
 
   const familiesName = searchParams?.family_name ?? "";

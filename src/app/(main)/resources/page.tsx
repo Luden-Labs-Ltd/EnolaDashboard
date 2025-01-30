@@ -1,10 +1,10 @@
 import { convertCategoryData, getCategoriesApi } from "entities/category";
 import { convertResourcesData, getResourcesFromApi } from "entities/resources";
+import { AppProps } from "next/app";
 import Resources from "page/resources";
-import { PageProps } from "../../../../.next/types/app/page";
 
 export const dynamic = "force-dynamic";
-export default async function ResourcesPage(props: PageProps) {
+export default async function ResourcesPage(props: AppProps["pageProps"]) {
   const searchParams = await props.searchParams;
 
   const resourceName = searchParams?.resource_name ?? "";

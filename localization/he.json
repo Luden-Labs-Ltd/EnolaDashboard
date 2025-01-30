@@ -4,7 +4,7 @@
     },
     "Auth": {
         "send_code": "שליחת הודעה במסרון",
-        "resend_otp": "שלח שוב",
+        "resend_otp": "לשלוח שוב קוד",
         "code": "קוד שהתקבל בהודעה",
         "log_in": "היכנס"
     },
@@ -27,6 +27,43 @@
         "families": "משפחות",
         "family": "משפחה",
         "memberships": "חברות"
+    },
+    "Dashboard": {
+        "filters": {
+            "active": "משתמש פעיל",
+            "families": "משפחות",
+            "supporters": "תומכים",
+            "openTasks": "משימות פתוחות",
+            "completedTasks": "משימות שהושלמו"
+        }
+    },
+    "TablesTranslates": {
+        "FamiliesTable": {
+            "id": "מזהה",
+            "name": "שם",
+            "caregiver": "אחראי",
+            "lastSeen": "נראה לאחרונה",
+            "lastActive": "פעיל לאחרונה",
+            "archived": "בארכיון",
+            "enrolmentSource": "מקור הרישום",
+            "tasks": "משימות",
+            "memberships": "חברויות",
+            "supporters": "תומכים"
+        },
+        "MembershipsTable": {
+            "id": "מזהה",
+            "phoneNumber": "מספר טלפון",
+            "fullName": "שם מלא",
+            "firstName": "שם פרטי",
+            "lastName": "שם משפחה",
+            "age": "גיל",
+            "gender": "מגדר",
+            "primary": "ראשי",
+            "circle": "מעגל",
+            "location": "מיקום",
+            "city": "עיר",
+            "individualDashboardLink": "קישור לדשבורד אישי"
+        }
     },
     "Header": {
         "families": "משפחות",

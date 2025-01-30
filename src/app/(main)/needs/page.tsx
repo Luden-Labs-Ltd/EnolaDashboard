@@ -1,11 +1,11 @@
 import { convertCategoryData, getCategoriesApi } from "entities/category";
 import { convertTasksData, getTasks } from "entities/task";
 import SearchPanel from "features/search-panel";
+import { AppProps } from "next/app";
 import Needs from "page/needs";
-import { PageProps } from "../../../../.next/types/app/page";
 
 export const dynamic = "force-dynamic";
-export default async function NeedsPage(props: PageProps) {
+export default async function NeedsPage(props: AppProps['pageProps']) {
   const searchParams = await props.searchParams;
 
   const resourceName = searchParams?.task_name ?? "";

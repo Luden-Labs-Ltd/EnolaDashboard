@@ -43,7 +43,7 @@ export const ChangeProgram: React.FC<PropsWithChildren<ChangeProgramProps>> = ({
         <Image alt="logo navbar" src={logo} />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant={"outline"} size={"icon"}>
+            <Button variant={"ghost"} size={"icon"}>
               <BurgerIcon />
             </Button>
           </DropdownMenuTrigger>

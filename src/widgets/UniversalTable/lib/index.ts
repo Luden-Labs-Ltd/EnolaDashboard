@@ -8,18 +8,30 @@ type TableData = {
 type TableDataConverterDto = {
   tableRawData: any[];
   selectedColumnIds: number[];
+  tableName: string;
 };
 
-const createHeader = (
-  headerId: string,
-  headerValue: string,
-  type: HeaderItemType
-): HeaderItem => {
-  return {
+const createHeader = ({
+  headerId,
+  headerValue,
+  tableName,
+  type,
+}: {
+  headerId: string;
+  headerValue: string;
+  tableName?: string;
+  type: HeaderItemType;
+}): HeaderItem => {
+  const header: HeaderItem = {
     id: headerId,
     value: headerValue,
     type,
   };
+
+  if (tableName) {
+    header.translate = `TablesTranslates.${tableName}.${headerValue}`;
+  }
+  return header;
 };
 
 const createRow = ({
@@ -34,7 +46,7 @@ const createRow = ({
   itemId: number;
   rowValue: string | number;
   type: CeilItemType;
-  itemData: Record<string, any>,
+  itemData: Record<string, any>;
   isActive?: boolean;
 }): CeilItem => {
   return {
@@ -50,6 +62,7 @@ const createRow = ({
 export const tableDataConverter = ({
   tableRawData,
   selectedColumnIds,
+  tableName,
 }: TableDataConverterDto) => {
   const resultData: TableData = {
     headers: [],
@@ -67,7 +80,12 @@ export const tableDataConverter = ({
       );
       if (!headerAlreadyExist) {
         resultData.headers.push(
-          createHeader(currentHeaderId, headerValue, HeaderItemType.VALUE)
+          createHeader({
+            headerId: currentHeaderId,
+            headerValue: headerValue,
+            type: HeaderItemType.VALUE,
+            tableName: tableName,
+          })
         );
       }
 
@@ -121,10 +139,18 @@ export const tableDataConverter = ({
   });
 
   resultData.headers.unshift(
-    createHeader("main-select-header", "", HeaderItemType.SELECT)
+    createHeader({
+      headerId: "main-select-header",
+      headerValue: "",
+      type: HeaderItemType.SELECT,
+    })
   );
   resultData.headers.push(
-    createHeader("actions-header", "", HeaderItemType.EMPTY)
+    createHeader({
+      headerId: "actions-header",
+      headerValue: "",
+      type: HeaderItemType.EMPTY,
+    })
   );
 
   return resultData;

@@ -1,9 +1,10 @@
 "use client";
-import { addDays, isWithinInterval } from "date-fns";
+import { isWithinInterval } from "date-fns";
 import dynamic from "next/dynamic";
 import { useMemo, useState } from "react";
 import { DateRangeItem } from "@components/DateRange/DateRangePicker";
 import Filters, { FilterItem } from "../Filters/Filters";
+import { useTranslations } from "next-intl";
 
 export type FilterStateType = {
   activeItemsFilters: Array<string>;
@@ -111,6 +112,7 @@ const Echarts = dynamic(() => import("@components/Chart/Echarts"), {
 });
 
 const CharWithFilters = () => {
+  const t = useTranslations();
   const [filters, setFilters] = useState<FilterStateType>({
     activeItemsFilters: [],
     days: [
@@ -124,27 +126,27 @@ const CharWithFilters = () => {
 
   const filtersItems: Array<FilterItem> = [
     {
-      label: "Active Users",
+      label: t("Dashboard.filters.active"),
       id: "active_user",
       color: "primary",
     },
     {
-      label: "Families",
+      label: t("Dashboard.filters.families"),
       id: "families",
       color: "secondary",
     },
     {
-      label: "Supporters",
+      label: t("Dashboard.filters.supporters"),
       id: "supporters",
       color: "warning",
     },
     {
-      label: "Open Tasks",
+      label: t("Dashboard.filters.openTasks"),
       id: "open_tasks",
       color: "success",
     },
     {
-      label: "Completed Tasks",
+      label: t("Dashboard.filters.completedTasks"),
       id: "completed_tasks",
       color: "error",
     },

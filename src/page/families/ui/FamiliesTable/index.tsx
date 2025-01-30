@@ -137,6 +137,7 @@ const FamiliesTable: React.FC<FamiliesTableProps> = ({
   return (
     <>
       <UniversalTable
+        tableName="FamiliesTable"
         tableRawData={familiesState.families}
         sorterObject={sorterTableObject}
         selectedColumnIds={familiesState.selectedFamilies}

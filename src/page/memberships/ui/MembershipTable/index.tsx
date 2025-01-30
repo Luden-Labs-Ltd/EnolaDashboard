@@ -32,9 +32,14 @@ export const MembershipTable = () => {
           label: t("Common.copyLink"),
           icon: <ShareIcon />,
           renderCustomComponent: (onOpen, onClose) => {
-            const individualDashboardLink = ceil.itemData.individualDashboardLink;
+            const individualDashboardLink =
+              ceil.itemData.individualDashboardLink;
             return (
-              <CopyText key={`${ceil.itemId}-share`} callback={onClose} textToCopy={individualDashboardLink}>
+              <CopyText
+                key={`${ceil.itemId}-share`}
+                callback={onClose}
+                textToCopy={individualDashboardLink}
+              >
                 <DropdownMenuItem className={"DropdownMenuItem"}>
                   <ShareIcon />
                   <span>{t("Common.copyLink")}</span>
@@ -104,6 +109,7 @@ export const MembershipTable = () => {
   }
   return (
     <UniversalTable
+      tableName="MembershipsTable"
       tableRawData={memberships}
       selectedColumnIds={selectedMemberships}
       toggleMainSelect={toggleMainSelect}

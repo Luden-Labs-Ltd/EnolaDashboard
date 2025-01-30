@@ -4,7 +4,7 @@
     },
     "Auth": {
         "send_code": "Send Code",
-        "resend_otp": "Resend otp",
+        "resend_otp": "Resend code",
         "code": "enter code",
         "log_in": "log in"
     },
@@ -27,6 +27,43 @@
         "families": "Families",
         "family": "Family card",
         "memberships": "Memberships"
+    },
+    "Dashboard": {
+        "filters": {
+            "active": "Active User",
+            "families": "Families",
+            "supporters": "Supporters",
+            "openTasks": "Open Tasks",
+            "completedTasks": "Completed Tasks"
+        }
+    },
+    "TablesTranslates": {
+        "FamiliesTable": {
+            "id": "id",
+            "name": "name",
+            "caregiver": "caregiver",
+            "lastSeen": "last Seen",
+            "lastActive": "last Active",
+            "archived": "archived",
+            "enrolmentSource": "enrolment source",
+            "tasks": "tasks",
+            "memberships": "memberships",
+            "supporters": "supporters"
+        },
+        "MembershipsTable": {
+            "id": "id",
+            "phoneNumber": "phoneNumber",
+            "fullName": "fullName",
+            "firstName": "firstName",
+            "lastName": "lastName",
+            "age": "age",
+            "gender": "gender",
+            "primary": "primary",
+            "circle": "circle",
+            "location": "location",
+            "city": "city",
+            "individualDashboardLink": "individualDashboardLink"
+        }
     },
     "Header": {
         "families": "Families",

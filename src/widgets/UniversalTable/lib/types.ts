@@ -15,6 +15,7 @@ export enum CeilItemType {
 export type HeaderItem = {
   id: string;
   value: string;
+  translate?: string;
   type: HeaderItemType;
 };
 
