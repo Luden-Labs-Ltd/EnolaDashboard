@@ -3,9 +3,8 @@ import FormRender, { FormRenderField } from "@components/FormRender";
 import Row from "@components/Row";
 import { Button } from "@components/shadowCDN/button";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ICON_MAP, useCategoryStore } from "entities/category";
+import { RenderCategoryIcon, useCategoryStore } from "entities/category";
 import { ResourcesType, editResource } from "entities/resources";
-import { useResourcesStore } from "entities/resources/model/provider";
 import {
   editResourceScheme,
   EditResourceValues,
@@ -111,7 +110,7 @@ export const EditResourceForm: React.FC<EditResourceFormProps> = ({
           value: category.id,
           name: (
             <Row alignItems="center" className="w-[120px]">
-              {ICON_MAP[category.icon]}
+              <RenderCategoryIcon icon={category.icon} />
               {category.title}
             </Row>
           ),
