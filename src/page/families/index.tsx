@@ -7,6 +7,7 @@ import React from "react";
 import FamiliesTable from "./ui/FamiliesTable";
 import { SearchFilter } from "./ui/SearchFilter/SearchFilter";
 import { SorterObject } from "shared/types/sort";
+import { ShowMyFamily } from "features/show-my-family";
 interface FamiliesProps {
   families: FamilyType[];
   sorterTableObject: SorterObject;
@@ -24,21 +25,19 @@ const Families: React.FC<FamiliesProps> = ({
       <FamiliesStoreProvider families={families}>
         <SearchPanel
           filterForm={<SearchFilter />}
+          actions={<ShowMyFamily/>}
           searchParamName="family_name"
         >
-          <Row>
-            {/* <ArchiveFamily>
-                  <Button withIcon variant={"ghost"}>
-                    <ArchiveIcon />
-                    <span>{t("Families.archive")}</span>
-                  </Button>
-            </ArchiveFamily> */}
-
+          <Row alignItems="center">
             <AddFamily />
           </Row>
         </SearchPanel>
         <ScrollArea className="h-[79vh] w-full border p-4">
-          <FamiliesTable totalCount={totalCount} perPage={perPage} sorterTableObject={sorterTableObject} />
+          <FamiliesTable
+            totalCount={totalCount}
+            perPage={perPage}
+            sorterTableObject={sorterTableObject}
+          />
         </ScrollArea>
       </FamiliesStoreProvider>
     </main>

@@ -176,6 +176,8 @@
         "programName": "שם התוכנית",
         "families": "משפחות",
         "familyId": "תעודת זהות משפחתית",
+        "showMyFamily": "המשפחות שלי",
+        "showMyFamilyDescription": "הצג רק את המשפחות שלי",
         "email": "דואר אלקטרוני",
         "tasks": "משימות",
         "memberships": "חברות",

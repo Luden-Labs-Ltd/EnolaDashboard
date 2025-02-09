@@ -176,6 +176,8 @@
         "programName": "Program Name",
         "families": "Families",
         "familyId": "family Id",
+        "showMyFamily": "my families",
+        "showMyFamilyDescription": "Show only my families",
         "email": "Email",
         "tasks": "Tasks",
         "memberships": "Memberships",

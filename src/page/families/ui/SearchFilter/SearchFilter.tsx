@@ -3,7 +3,7 @@
 import FormRender, { FormRenderField } from "@components/FormRender";
 import { Button } from "@components/shadowCDN/button";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createQueryString, createQueryStringFromObject } from "@lib/url";
+import { createQueryStringFromObject } from "@lib/url";
 import { useTranslations } from "next-intl";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React from "react";
@@ -13,7 +13,6 @@ import { z } from "zod";
 const searchFamilyFormScheme = z.object({
   family_id: z.string().optional(),
   is_archived: z.boolean(),
-  is_my_families: z.boolean(),
 });
 
 type SearchFamilyFormValues = z.infer<typeof searchFamilyFormScheme>;
@@ -29,7 +28,6 @@ export const SearchFilter = () => {
     defaultValues: {
       family_id: searchParams.get("family_id") ?? "",
       is_archived: searchParams.get("is_archived") === "true",
-      is_my_families: searchParams.get("is_my_families") === "true",
     },
   });
 
@@ -50,14 +48,8 @@ export const SearchFilter = () => {
       name: "is_archived",
       type: "checkbox",
       id: "is_archived",
+      direction: "row",
       label: t("Common.isArchived"),
-      placeholder: "",
-    },
-    {
-      name: "is_my_families",
-      type: "checkbox",
-      id: "is_my_families",
-      label: t("Common.family"),
       placeholder: "",
     },
   ];
@@ -70,7 +62,6 @@ export const SearchFilter = () => {
     const originData: SearchFamilyFormValues = {
       family_id: "",
       is_archived: false,
-      is_my_families: false,
     };
     form.reset(originData);
     updateUrl(originData);
@@ -81,7 +72,7 @@ export const SearchFilter = () => {
       <FormRender
         formObject={form}
         onSubmitHandler={onSubmit}
-        className="flex flex-row items-center max-w-[60%] justify-between"
+        className="flex flex-row items-center max-w-[55%] justify-between"
         fieldsClassName="flex flex-row items-center gap-[20px]"
         fields={editFormFields}
       >

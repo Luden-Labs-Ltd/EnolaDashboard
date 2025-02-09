@@ -18,12 +18,14 @@ import { createQueryString } from "@lib/url";
 
 interface SearchPanelProps {
   searchParamName: string;
+  actions?: React.ReactNode;
   filterForm?: React.ReactNode;
 }
 
 const SearchPanel: React.FC<PropsWithChildren<SearchPanelProps>> = ({
   children,
   searchParamName,
+  actions,
   filterForm,
 }) => {
   const t = useTranslations();
@@ -70,6 +72,9 @@ const SearchPanel: React.FC<PropsWithChildren<SearchPanelProps>> = ({
             <SortIcon />
             <div>{t("Common.sort")}</div>
           </Button>
+          {
+            actions ? actions : null
+          }
         </div>
 
         {children}
