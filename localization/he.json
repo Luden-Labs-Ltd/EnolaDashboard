@@ -131,12 +131,19 @@
     },
     "Resources": {
         "newResources": "משאבים חדשים",
+        "importResources": "ייבוא משאבים",
         "addResources": "הוסף משאבים",
         "serviceName": "שם שירות",
         "contactPerson": "איש קשר",
         "termOfService": "תנאי השירות",
         "DeleteResources": {
             "description": "לאחר לחיצה על כפתור המחיקה, לא ניתן יהיה לשחזר משאבים."
+        },
+        "ImportResources": {
+            "title": "ייבוא משאבים",
+            "description": "ניתן להוריד את הקובץ בפורמטים XLS, XLSX או CSV, כך שיתאים למבנה של הקובץ המופיע למעלה, או להשתמש בקובץ המופיע למעלה כתבנית.",
+            "downloadExample": "הורד קובץ לדוגמה",
+            "import": "יבוא"
         }
     },
     "Families": {
@@ -257,6 +264,7 @@
         "patient": "חולה",
         "relationship": "מערכת יחסים",
         "addPatient": "הוסף מטופל",
-        "hiddenPatient": "מוסתר החולה"
+        "hiddenPatient": "מוסתר החולה",
+        "resourcesFile": "קובץ משאבים"
     }
 }

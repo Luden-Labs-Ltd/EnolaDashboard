@@ -131,12 +131,19 @@
     },
     "Resources": {
         "newResources": "New resources",
+        "importResources": "Import resources",
         "addResources": "Add resources",
         "serviceName": "Service Name",
         "contactPerson": "Contact person",
         "termOfService": "Terms of service",
         "DeleteResources": {
             "description": "After clicking the Delete button, it will be impossible to restore resources."
+        },
+        "ImportResources": {
+            "title": "Import resources",
+            "description": "You can download the file in XLS, XLSX, or CSV formats, ensuring it matches the structure of the file provided above, or you can use the file above as a template.",
+            "downloadExample": "Download Example File",
+            "import": "import"
         }
     },
     "Families": {
@@ -257,6 +264,7 @@
         "patient": "Patient",
         "relationship": "Relationship",
         "addPatient": "Add Patient",
-        "hiddenPatient": "Hidden Patient"
+        "hiddenPatient": "Hidden Patient",
+        "resourcesFile": "Resource File"
     }
 }

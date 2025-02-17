@@ -1,6 +1,6 @@
 "use server";
 import { revalidateTag } from "next/cache";
-import { createResourceApi, deleteResourceApi, editResourceApi } from "../api";
+import { createResourceApi, deleteResourceApi, editResourceApi, importResourcesApi } from "../api";
 import { CreateResourceDto, EditResourceDto } from "../api/types";
 import { GET_RESOURCES_REVALIDATE_TAG } from "../api/const";
 import { getCurrentProgramId } from "entities/program";
@@ -37,3 +37,14 @@ export const deleteResource = async (resourceId: number) => {
     return handleServerError(error);
   }
 };
+
+
+
+export const importResources = async (formData: FormData) => {
+  try {
+    await importResourcesApi(formData);
+    revalidateTag(GET_RESOURCES_REVALIDATE_TAG);
+  } catch (error) {
+    return handleServerError(error);
+  }
+}

@@ -99,3 +99,23 @@ export const deleteResourceApi = async (
 
   return true;
 };
+
+
+export const importResourcesApi = async (
+  formData: FormData
+) => {
+  const programId = await getCurrentProgramId()
+  const response = await fetchInstance(
+    `${process.env.BASE_URL_BACKEND}/api/v2/dashboard/programs/${programId}/resources/import`,
+    {
+      method: "POST",
+      body: formData
+    }
+  );
+
+  if (!response) {
+    throw new Error("Some Error importResources");
+  }
+
+  return true;
+};

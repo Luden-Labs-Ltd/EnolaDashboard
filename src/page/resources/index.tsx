@@ -6,6 +6,7 @@ import { AddResources } from "features/add-resources";
 import SearchPanel from "features/search-panel";
 import { FilterByCategories } from "./ui/FilterByCategories";
 import { ResourcesList } from "./ui/ResourcesList";
+import ImportResourcesModal from "features/import-resource";
 
 interface ResourcesProps {
   categories: CategoryType[];
@@ -26,6 +27,7 @@ export default function Resources({
         <SearchPanel searchParamName="resource_name">
           <Row>
             <AddResources categories={categories} />
+            <ImportResourcesModal />
           </Row>
         </SearchPanel>
         <CategoryStoreProvider
