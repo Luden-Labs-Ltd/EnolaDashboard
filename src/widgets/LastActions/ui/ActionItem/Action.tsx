@@ -12,7 +12,7 @@ export const ActionItem: React.FC<ActionItemProps> = ({
   message
 }) => {
   const currentDate = new Date(date)
-  const stringDate = format(date, 'd MMMM')
+  const stringDate = format(currentDate, 'd MMMM')
   const stringTime = currentDate.toLocaleTimeString()
   return (
     <Row alignItems='center' className='text-sm justify-end'>

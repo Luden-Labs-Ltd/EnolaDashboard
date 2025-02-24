@@ -1,0 +1,1 @@
+export const GET_NOTES_TAG = "GET_NOTES_TAG"

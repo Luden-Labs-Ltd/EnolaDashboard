@@ -5,6 +5,7 @@ import {
   PropsWithChildren,
   SetStateAction,
   useContext,
+  useEffect,
   useState,
 } from "react";
 import { NotesType } from "./types";
@@ -12,12 +13,12 @@ import { NotesType } from "./types";
 type NotesContextState = {
   notes: NotesType[];
   activeNotesId: NotesType["id"];
-  activeNoteMessage: NotesType["message"];
+  activeNoteMessage: NotesType["body"];
   newNote: NotesType | null;
 };
 
 type NotesProviderValue = {
-  notes: NotesType[];
+  notes: NotesType[] | null;
 };
 
 const NotesContext = createContext<{
@@ -29,12 +30,17 @@ export const NotesStoreProvider: React.FC<
   PropsWithChildren<NotesProviderValue>
 > = ({ notes, children }) => {
   const [noteState, setNoteState] = useState<NotesContextState>({
-    notes: notes,
+    notes: notes ?? [],
     activeNotesId: "",
     activeNoteMessage: "",
     newNote: null,
   });
 
+  useEffect(() => {
+    if (notes) {
+      setNoteState((prev) => ({...prev, notes}) )
+    }
+  }, [notes])
   return (
     <NotesContext.Provider
       value={{
@@ -61,7 +67,7 @@ export const useNoteStore = () => {
     setData((prev) => ({ ...prev, activeNotesId: id, newNote: null }));
   };
 
-  const setEditMessage = (message: NotesType["message"]) => {
+  const setEditMessage = (message: NotesType["body"]) => {
     setData((prev) => ({ ...prev, activeNoteMessage: message }));
   };
 
@@ -72,15 +78,16 @@ export const useNoteStore = () => {
 
   const addNote = () => {
     const id = `${Math.random()}-${Math.random()}-${Math.random()}`;
-    const todayDate = Date.now();
+    const todayDate = new Date().toISOString();
+
     setData((prev) => ({
       ...prev,
       activeNotesId: id,
       activeNoteMessage: "",
       newNote: {
         id,
-        date: todayDate,
-        message: "",
+        created_at: todayDate,
+        body: prev.activeNoteMessage,
       },
     }));
   };
@@ -88,25 +95,44 @@ export const useNoteStore = () => {
   const saveChanges = (id: NotesType["id"]) => {
     const updatedNote = notesState.notes.map((note) => {
       if (note.id === id) {
-        return { ...note, message: notesState.activeNoteMessage };
+        return { ...note, body: notesState.activeNoteMessage };
       }
       return { ...note };
     });
     setData((prev) => ({ ...prev, notes: updatedNote, activeNotesId: "" }));
   };
 
-  const saveNewNote = () => {
+  const getNote = (): NotesType => {
+    return {
+      id: notesState.activeNotesId,
+      created_at: notesState.newNote?.created_at ?? new Date().toISOString(),
+      body: notesState.activeNoteMessage,
+    };
+  };
+
+  const saveNewNote = (noteId: string) => {
     const newNote = {
-      id: notesState.newNote?.id ?? notesState.activeNotesId,
-      date: notesState.newNote?.date ?? Date.now(),
-      message: notesState.activeNoteMessage,
+      id: noteId,
+      created_at: notesState.newNote?.created_at ?? new Date().toISOString(),
+      body: notesState.activeNoteMessage,
     };
     const updatedNote = [newNote, ...notesState.notes];
-    setData((prev) => ({ ...prev, notes: updatedNote, activeNotesId: "", activeNoteMessage: "", newNote: null  }));
+    setData((prev) => ({
+      ...prev,
+      notes: updatedNote,
+      activeNotesId: "",
+      activeNoteMessage: "",
+      newNote: null,
+    }));
   };
 
   const close = () => {
-    setData((prev) => ({ ...prev, activeNoteMessage: "", activeNotesId: "", newNote: null }));
+    setData((prev) => ({
+      ...prev,
+      activeNoteMessage: "",
+      activeNotesId: "",
+      newNote: null,
+    }));
   };
 
   return {
@@ -116,6 +142,7 @@ export const useNoteStore = () => {
     deleteNote,
     setEditMessage,
     addNote,
+    getNote,
     saveNewNote,
     close,
   };

@@ -1,36 +1,36 @@
+"use client";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@components/Card";
-import React from "react";
-import { NotesStoreProvider } from "./model/provider";
+import React, { useEffect, useState } from "react";
 import { NotesList } from "./ui/NotesList";
 import { NoteAction } from "./ui/NoteAction";
 import { useTranslations } from "next-intl";
+import { getNotesById, NotesStoreProvider, NotesType } from "entities/notes";
 
-export const Notes = () => {
+interface INotes {
+  familyId: number;
+}
+export const Notes: React.FC<INotes> = ({ familyId }) => {
   const t = useTranslations();
+  const [data, setData] = useState<NotesType[] | null>(null);
 
-  const notesItems = [
-    {
-      id: "1",
-      date: Date.UTC(2000, 8, 12, 14, 0, 0, 0),
-      message: `
-        Design a user-friendly interface for adding new resources.
-        Required fields for new resources include: service name, organization, contact person, terms of service,
-        and contact information (phone/email). Design the display format for existing resource details.
-      `,
-    },
-    {
-      id: "2",
-      date: Date.UTC(2001, 9, 30, 13, 0, 0, 0),
-      message: `Design a user-friendly interface for adding new resources. Required fields for new resources include.`,
-    },
-  ];
+  useEffect(() => {
+    const getData = async () => {
+      const notesItems = await getNotesById(familyId);
+      if (!notesItems) {
+        return;
+      }
+      setData(notesItems);
+    };
+    getData();
+  }, [familyId]);
 
   return (
-    <NotesStoreProvider notes={notesItems}>
+    <NotesStoreProvider notes={data}>
       <Card backgroundColor="#FFF7DF">
         <CardHeader>
           <CardTitle>{t("Common.notes")}</CardTitle>
-          <NoteAction />
+          <NoteAction familyId={familyId}/>
         </CardHeader>
         <CardContent padding="15px 16px">
           <NotesList />

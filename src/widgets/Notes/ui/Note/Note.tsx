@@ -2,10 +2,10 @@ import Row from "@components/Row";
 import { format } from "date-fns";
 import React, { useState } from "react";
 import { EditArea } from "../EditArea/EditArea";
-import { useNoteStore } from "@widgets/Notes/model/provider";
+import { useNoteStore } from "entities/notes";
 
 interface NoteProps {
-  date: number;
+  date: string;
   id: string;
   message: string;
 }
@@ -15,7 +15,7 @@ export const Note: React.FC<NoteProps> = ({ date, id, message }) => {
   const {activeNotesId, activeNoteMessage} = notesState;
 
   const currentDate = new Date(date);
-  const stringDate = format(date, "d MMMM");
+  const stringDate = format(currentDate, "d MMMM");
   const stringTime = currentDate.toLocaleTimeString();
 
   const isEdit = activeNotesId === id

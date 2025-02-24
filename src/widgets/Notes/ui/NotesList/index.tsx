@@ -1,7 +1,7 @@
 import { ScrollArea } from "@components/shadowCDN/scroll-area";
 import React from "react";
 import { Note } from "../Note/Note";
-import { useNoteStore } from "@widgets/Notes/model/provider";
+import { useNoteStore } from "entities/notes";
 
 export const NotesList = () => {
   const { notesState } = useNoteStore();
@@ -14,8 +14,8 @@ export const NotesList = () => {
           <Note
             key={newNote.id}
             id={newNote.id}
-            date={newNote.date}
-            message={newNote.message}
+            date={newNote.created_at}
+            message={newNote.body}
           />
         ) : null}
         {notes.length
@@ -23,8 +23,8 @@ export const NotesList = () => {
               <Note
                 key={action.id}
                 id={action.id}
-                date={action.date}
-                message={action.message}
+                date={action.created_at}
+                message={action.body}
               />
             ))
           : null}

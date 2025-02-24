@@ -102,7 +102,7 @@ export const Family: React.FC<FamilyProps> = () => {
           <LastActions />
         </div>
         <div>
-          <Notes />
+          <Notes familyId={family.id} />
         </div>
       </div>
     </div>
