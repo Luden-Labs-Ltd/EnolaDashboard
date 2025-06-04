@@ -135,7 +135,7 @@
         "addResources": "Add resources",
         "serviceName": "Service Name",
         "contactPerson": "Contact person",
-        "termOfService": "Terms of service",
+        "serviceNature": "Terms of service",
         "DeleteResources": {
             "description": "After clicking the Delete button, it will be impossible to restore resources."
         },

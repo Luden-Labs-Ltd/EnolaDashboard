@@ -28,6 +28,7 @@ export type FormRenderField<FieldsGeneric> = {
     name: string | React.ReactNode;
   }>;
   placeholder?: string;
+  required?: boolean;
   optional?: boolean;
 };
 

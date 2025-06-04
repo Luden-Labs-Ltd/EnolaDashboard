@@ -18,6 +18,7 @@ export function FormInput<F extends FieldValues>(props: FormFieldProps<F>) {
   const fieldDirectionClassName = getDirectionClassForField(
     renderField.direction
   );
+
   return (
     <FormField
       key={renderField.id}
@@ -25,10 +26,10 @@ export function FormInput<F extends FieldValues>(props: FormFieldProps<F>) {
       // @ts-ignore
       name={renderField.name}
       disabled={disabled}
-      render={({ field }) => (
-        <FormItem className="w-full">
+      render={({ field }) => {
+        return <FormItem className="w-full">
           <div className={`${fieldDirectionClassName} ${className} field-container`}>
-            <FormLabel className="min-w-fit">{renderField.label}</FormLabel>
+            <FormLabel className="min-w-fit">{renderField.label} {renderField?.required ? '*' : null}</FormLabel>
             <FormControl>
               <Input
                 type={renderField.inputType}
@@ -50,7 +51,8 @@ export function FormInput<F extends FieldValues>(props: FormFieldProps<F>) {
             }
           />
         </FormItem>
-      )}
+      }
+    }
     />
   );
 }

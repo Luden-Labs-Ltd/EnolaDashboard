@@ -33,7 +33,7 @@ export function FormSelect<F extends FieldValues>(props: FormFieldProps<F>) {
       render={({ field }) => (
         <FormItem>
           <div className={`${fieldDirectionClassName} ${className} field-container`}>
-            <FormLabel>{renderField.label}</FormLabel>
+            <FormLabel className="min-w-fit">{renderField.label} {renderField?.required ? '*' : null}</FormLabel>
             <FormControl>
               <Select {...field} onValueChange={field.onChange}>
                 <SelectTrigger disabled={disabled} className="select">

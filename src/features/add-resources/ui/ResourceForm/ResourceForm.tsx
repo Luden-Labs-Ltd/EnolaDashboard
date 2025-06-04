@@ -37,7 +37,8 @@ export const ResourceForm: React.FC<ResourceFormProps> = ({
       name: "name",
       type: "input",
       id: "name",
-      label: t("Resources.serviceName"),
+      required: true,
+      label: `${t("Resources.serviceName")}`,
       direction: "row",
       placeholder: "",
     },
@@ -62,7 +63,7 @@ export const ResourceForm: React.FC<ResourceFormProps> = ({
       type: "input",
       id: "terms_of_service",
       direction: "row",
-      label: t("Resources.termOfService"),
+      label: t("Resources.serviceNature"),
       placeholder: "",
     },
     {
@@ -71,6 +72,7 @@ export const ResourceForm: React.FC<ResourceFormProps> = ({
       id: "phone",
       label: t("Common.phone"),
       direction: "row",
+      required: true,
       placeholder: "",
     },
     {
@@ -94,7 +96,8 @@ export const ResourceForm: React.FC<ResourceFormProps> = ({
       type: "select",
       id: "category_id",
       direction: "row",
-      label: t("Common.category"),
+      label: `${t("Common.category")}`,
+      required: true,
       options: categories.map((category) => {
         return {
           value: category.id,
