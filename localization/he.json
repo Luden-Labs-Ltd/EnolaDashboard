@@ -135,7 +135,7 @@
         "addResources": "הוסף משאבים",
         "serviceName": "שם שירות",
         "contactPerson": "איש קשר",
-        "termOfService": "תנאי השירות",
+        "serviceNature": "אופי השירות",
         "DeleteResources": {
             "description": "לאחר לחיצה על כפתור המחיקה, לא ניתן יהיה לשחזר משאבים."
         },

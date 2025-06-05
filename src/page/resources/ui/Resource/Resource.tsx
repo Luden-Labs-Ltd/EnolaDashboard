@@ -87,7 +87,7 @@ export const Resource: React.FC<ResourceProps> = ({ resource }) => {
         <span className={styles.light}>{resource.contactPerson}</span>
       </Row>
       <Row className="rtl:flex-row-reverse gap-[4px] ">
-        <span className={styles.label}>{t("Resources.termOfService")}</span>
+        <span className={styles.label}>{t("Resources.serviceNature")}</span>
         <span className={styles.colon}>:</span>
         <span className={styles.light}>{resource.termsOfService}</span>
       </Row>

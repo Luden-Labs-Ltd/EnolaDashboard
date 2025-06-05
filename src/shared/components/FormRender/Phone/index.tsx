@@ -29,7 +29,7 @@ export function FormPhone<F extends FieldValues>(props: FormFieldProps<F>) {
           <div
             className={`${fieldDirectionClassName} ${className} field-container`}
           >
-            <FormLabel>{renderField.label}</FormLabel>
+            <FormLabel className="min-w-fit">{renderField.label} {renderField?.required ? '*' : null}</FormLabel>
             <FormControl>
               <PhoneField
                 size="sm"

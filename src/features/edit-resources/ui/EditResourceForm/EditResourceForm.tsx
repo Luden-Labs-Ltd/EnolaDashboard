@@ -72,7 +72,7 @@ export const EditResourceForm: React.FC<EditResourceFormProps> = ({
       type: "input",
       id: "terms_of_service",
       direction: "row",
-      label: t("Resources.termOfService"),
+      label: t("Resources.serviceNature"),
       placeholder: "",
     },
     {
