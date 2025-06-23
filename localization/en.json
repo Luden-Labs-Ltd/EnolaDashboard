@@ -16,7 +16,8 @@
         "tasks": "Tasks",
         "needs": "Needs",
         "resources": "Resources",
-        "supporters": "Supporters"
+        "supporters": "Supporters",
+        "coordinators": "Coordinators"
     },
     "Paths": {
         "home": "Home",
@@ -26,7 +27,8 @@
         "supporters": "Supporters",
         "families": "Families",
         "family": "Family card",
-        "memberships": "Memberships"
+        "memberships": "Memberships",
+        "coordinators": "Coordinators"
     },
     "Dashboard": {
         "filters": {
@@ -63,6 +65,21 @@
             "location": "location",
             "city": "city",
             "individualDashboardLink": "individualDashboardLink"
+        },
+        "CoordinatorsTable": {
+            "id": "id",
+            "boarded": "boarded",
+            "role": "role",
+            "full_name": "full name",
+            "phone_number": "phone number",
+            "city": "city",
+            "about": "about",
+            "first_name": "first name",
+            "last_name": "last name",
+            "gender": "gender",
+            "age": "age",
+            "country_code": "country code",
+            "country_name": "country name"
         }
     },
     "Header": {
@@ -74,6 +91,7 @@
         "needs": "Needs",
         "resources": "Resources",
         "supporters": "Supporters",
+        "coordinators": "Coordinators",
         "family": "Family"
     },
     "NeedsPageOnboarding": {
@@ -172,10 +190,18 @@
             "description": "You could delete Family"
         }
     },
+    "Coordinators": {
+        "addCoordinators": "Add coordinators",
+        "DeleteCoordinators": {
+            "title": "Delete Coordinators",
+            "description": "You could delete Coordinator"
+        }
+    },
     "Empty": {
         "resources": "Click “New resource” to save useful resources here.",
         "families": "Click “Add family” to start building your list.",
         "supporters": "Click “Add supporter” to start building your list.",
+        "coordinators": "Click “Add coordinator” to start building your list.",
         "default": "Empty"
     },
     "Common": {
@@ -189,6 +215,7 @@
         "tasks": "Tasks",
         "memberships": "Memberships",
         "supporters": "Supporters",
+        "coordinators": "Coordinators",
         "total": "Total",
         "active": "Active",
         "inactive": "Inactive",
@@ -265,6 +292,9 @@
         "relationship": "Relationship",
         "addPatient": "Add Patient",
         "hiddenPatient": "Hidden Patient",
-        "resourcesFile": "Resource File"
+        "resourcesFile": "Resource File",
+        "manager": "Manager",
+        "member": "Member",
+        "role": "Role"
     }
 }

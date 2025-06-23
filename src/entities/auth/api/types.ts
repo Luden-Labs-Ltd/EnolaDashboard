@@ -1,7 +1,10 @@
+import { RoleType } from "shared/types/role";
+
 export interface ProfileApi {
   id: string;
   first_name: string;
   last_name: string;
+  role: RoleType;
   gender: string;
   age: any;
   phone_number: string;

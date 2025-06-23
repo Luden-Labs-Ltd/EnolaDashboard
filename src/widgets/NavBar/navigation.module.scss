@@ -5,7 +5,7 @@
   flex-direction: column;
   align-items: center;
   max-height: 100vh;
-  padding: 16px 30px;
+  padding: 16px 20px;
   background-color: $mainBackgroundColor;
 
   .top {
@@ -100,6 +100,7 @@
   }
 
   .itemIcon {
+    min-width: 24px;
     width: 24px;
     height: 24px;
   }

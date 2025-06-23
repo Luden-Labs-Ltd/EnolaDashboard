@@ -64,14 +64,17 @@ const SearchPanel: React.FC<PropsWithChildren<SearchPanelProps>> = ({
               placeholder={t("Common.search")}
             />
           </div>
-          <Button
-            variant={"ghost"}
-            className={"flex items-center gap-2 cursor-pointer"}
-            onClick={onSortClick}
-          >
-            <SortIcon />
-            <div>{t("Common.sort")}</div>
-          </Button>
+          {
+            filterForm ? <Button
+                    variant={"ghost"}
+                    className={"flex items-center gap-2 cursor-pointer"}
+                    onClick={onSortClick}
+                  >
+                  <SortIcon />
+                  <div>{t("Common.sort")}</div>
+                </Button>
+             : null
+          }
           {
             actions ? actions : null
           }
