@@ -16,7 +16,8 @@
         "tasks": "משימות",
         "needs": "צרכים",
         "resources": "משאבים",
-        "supporters": "תומכים"
+        "supporters": "תומכים",
+        "coordinators": "רכזים"
     },
     "Paths": {
         "home": "דף הבית",
@@ -24,6 +25,7 @@
         "needs": "צרכים",
         "resources": "משאבים",
         "supporters": "תומכים",
+        "coordinators": "רכזים",
         "families": "משפחות",
         "family": "משפחה",
         "memberships": "חברות"
@@ -63,6 +65,21 @@
             "location": "מיקום",
             "city": "עיר",
             "individualDashboardLink": "קישור לדשבורד אישי"
+        },
+        "CoordinatorsTable": {
+            "id": "מזהה",
+            "role": "תפקיד",
+            "full_name": "שם מלא",
+            "phone_number": "מספר טלפון",
+            "boarded": "מצב מטופל",
+            "city": "עיר",
+            "about": "עלי",
+            "first_name": "שם פרטי",
+            "last_name": "שם משפחה",
+            "gender": "מגדר",
+            "age": "גיל",
+            "country_code": "קוד מדינה",
+            "country_name": "שם מדינה"
         }
     },
     "Header": {
@@ -74,7 +91,15 @@
         "needs": "צרכים",
         "resources": "משאבים",
         "supporters": "תומכים",
+        "coordinators": "רכזים",
         "family": "משפחות"
+    },
+    "Coordinators": {
+        "addCoordinators": "הוסף רכזים",
+        "DeleteCoordinators": {
+            "title": "מחק רכזים",
+            "description": "אתה יכול למחוק רכז"
+        }
     },
     "NeedsPageOnboarding": {
         "FirstStep": {
@@ -176,6 +201,7 @@
         "resources": "לחצו על ״הוספת משאב״ כדי לשמור משאבים שימושיים ",
         "families": "לחצו על ״הוספת משפחה״ כדי להתחיל רשימה",
         "supporters": "לחצו על ״הוספת תומכים״ כדי להתחיל רשימה",
+        "coordinators": "לחצו על ״הוספת רכז״ כדי להתחיל רשימה",
         "default": "ריק"
     },
     "Common": {
@@ -189,6 +215,7 @@
         "tasks": "משימות",
         "memberships": "חברות",
         "supporters": "תומכים",
+        "coordinators": "רכזים",
         "total": "סך הכל",
         "active": "פעיל",
         "inactive": "לא פעיל",
@@ -265,6 +292,9 @@
         "relationship": "מערכת יחסים",
         "addPatient": "הוסף מטופל",
         "hiddenPatient": "מוסתר החולה",
-        "resourcesFile": "קובץ משאבים"
+        "resourcesFile": "קובץ משאבים",
+        "manager": "מנהל",
+        "member": "חבר",
+        "role": "תפקיד"
     }
 }

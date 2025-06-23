@@ -10,6 +10,7 @@ export type NavigationItemType = {
   icon: NavigationItemIconsType;
   translateKey: string;
   disabled: boolean;
+  isForAdmin: boolean;
   navigateTo: string;
 };
 
@@ -18,6 +19,7 @@ export type AVAILABLE_PATHS_ALIAS =
   | "needs"
   | "resources"
   | "supporters"
+  | "coordinators"
   | "families"
   | "family"
   | "memberships";
@@ -57,6 +59,11 @@ export const AVAILABLE_PATHS: AVAILABLE_PATHS_TYPE = {
     keyTo: "/supporters",
     dynamicParamsCount: 0,
   },
+  "coordinators": {
+    key: "coordinators",
+    keyTo: "/coordinators",
+    dynamicParamsCount: 0,
+  },
   "families": {
     key: "families",
     keyTo: "/families",
@@ -79,30 +86,42 @@ export const NAVIGATION_ITEMS: Array<NavigationItemType> = [
     icon: "dashboard",
     translateKey: "dashboard",
     disabled: false,
+    isForAdmin: false,
     navigateTo: "/dashboard",
   },
   {
     icon: "hand",
     translateKey: "needs",
     disabled: false,
+    isForAdmin: false,
     navigateTo: "/needs",
   },
   {
     icon: "resources",
     translateKey: "resources",
     disabled: false,
+    isForAdmin: false,
     navigateTo: "/resources",
   },
   {
     icon: "family",
     translateKey: "families",
     disabled: false,
+    isForAdmin: false,
     navigateTo: "/families",
   },
   {
     icon: "heart",
     translateKey: "supporters",
     disabled: true,
+    isForAdmin: false,
     navigateTo: "/supporters",
+  },
+  {
+    icon: "family",
+    translateKey: "coordinators",
+    disabled: false,
+    isForAdmin: true,
+    navigateTo: "/coordinators",
   },
 ];
