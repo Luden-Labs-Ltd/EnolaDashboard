@@ -7,22 +7,25 @@ import { Button } from "@components/shadowCDN/button";
 import { logoutAction } from "entities/auth/action";
 import { useTranslations } from "next-intl";
 import ChangeProgram from "features/change-program";
-import { Program } from "entities/auth/api/types";
+import { ProfileApi, Program } from "entities/auth/api/types";
 import LogOutIcon from "shared/assets/LogOutIcon";
 import Row from "@components/Row";
 
 interface NavBarProps {
   navigationItems: Array<NavigationItemType>;
+  profile: ProfileApi | null | undefined;
   programs: Program[];
   originCurrentProgram: Program | null;
 }
 
 const NavBar: React.FC<NavBarProps> = ({
   navigationItems,
+  profile,
   programs,
   originCurrentProgram,
 }) => {
   const t = useTranslations();
+  const isUserAdmin = profile?.role === 'admin'
 
   return (
     <div className={styles.navbar}>
@@ -37,6 +40,10 @@ const NavBar: React.FC<NavBarProps> = ({
         <ul className={styles.itemList}>
           {navigationItems.map((item, index) => {
             const elementKey = `${index}-${item.translateKey}`;
+
+            if (!isUserAdmin && item.isForAdmin) {
+              return null
+            }
 
             return <NavigationItem item={item} key={elementKey} />;
           })}

@@ -5,7 +5,7 @@ import resourcesSource from "../../../../public/images/emptyScreens/resources.pn
 import { useTranslations } from "next-intl";
 
 interface EmptyScreenProps {
-  screenFor: "resource" | "families" | "supporters";
+  screenFor: "resource" | "families" | "supporters" | "coordinators";
 }
 
 export const EmptyScreen: React.FC<EmptyScreenProps> = ({ screenFor }) => {
@@ -17,6 +17,7 @@ export const EmptyScreen: React.FC<EmptyScreenProps> = ({ screenFor }) => {
         return familiesSource;
       case "families":
       case "supporters":
+      case "coordinators":
       default:
         return resourcesSource;
     }
@@ -30,6 +31,8 @@ export const EmptyScreen: React.FC<EmptyScreenProps> = ({ screenFor }) => {
         return t("Empty.families");
       case "supporters":
         return t("Empty.supporters");
+      case "coordinators":
+        return t("Empty.coordinators");
       default:
         return t("Empty.default");
     }

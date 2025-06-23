@@ -26,7 +26,7 @@ export default async function RootLayout({
       <div className={styles.layout}>
         <Header userName={fullName} />
         <nav className={styles.navbar}>
-          <NavBar navigationItems={NAVIGATION_ITEMS} programs={programs} originCurrentProgram={originCurrentProgram} />
+          <NavBar profile={profile} navigationItems={NAVIGATION_ITEMS} programs={programs} originCurrentProgram={originCurrentProgram} />
         </nav>
         <div className={styles.main}>{children}</div>
       </div>
