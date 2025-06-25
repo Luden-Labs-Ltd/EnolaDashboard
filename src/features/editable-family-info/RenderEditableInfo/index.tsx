@@ -82,8 +82,6 @@ export const RenderEditableInfo: React.FC<RenderEditableInfoProps> = ({
         onCloseHandler();
       })
       .catch((err) => {
-        console.log(err.message);
-
         setApiError(err.message);
       })
       .finally(() => {

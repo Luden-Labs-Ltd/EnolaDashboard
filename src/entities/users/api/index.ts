@@ -37,7 +37,6 @@ export const getCoordinatorsFromApi = async (
     sorts: sort ? `${sort.name} ${sort.order}` : "created_at desc",
   });
 
-  console.log("params", params)
   const response = await fetchInstance(
     process.env.BASE_URL_BACKEND +
       `/api/v2/dashboard/users?q=${params}&page=${currentPage}&per_page=${perPage}`,
@@ -91,7 +90,6 @@ export const createCoordinatorApi = async (data: {
   last_name: string;
   role: string;
 }) => {
-  console.log(data, "data")
   const response = await fetchInstance(
     process.env.BASE_URL_BACKEND + "/api/v2/dashboard/users",
     {
