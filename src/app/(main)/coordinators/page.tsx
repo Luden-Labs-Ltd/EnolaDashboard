@@ -1,11 +1,19 @@
-import { convertDataForCoordinatorsTable, getCoordinatorsFromApi } from "entities/users";
+import { convertDataForCoordinatorsTable, CoordinatorType, getCoordinatorsFromApi } from "entities/users";
 import Coordinators from "page/coordinators";
 import { PAGE_PAGINATION_SETTINGS } from "shared/constants/page";
 import { AppProps } from "next/app";
+import { getCurrentProfileApi } from "entities/auth";
+import { redirect } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 export default async function FamiliesPage(props: AppProps['pageProps']) {
   const searchParams = await props.searchParams;
+  const profile = await getCurrentProfileApi()
+  const isUserAdmin = profile?.role === 'admin'
+
+  if (!isUserAdmin) {
+    redirect('/dashboard')
+  }
 
   const coordinatorsName = searchParams?.coordinator_name ?? "";
   const phoneNumber = searchParams?.phone_number ?? "";
@@ -34,7 +42,7 @@ export default async function FamiliesPage(props: AppProps['pageProps']) {
       <Coordinators
         perPage={perPage}
         totalCount={totalCount}
-        coordinators={coordinatorsTableData}
+        coordinators={coordinatorsTableData as unknown as CoordinatorType[]}
         sorterTableObject={sorterTableObject}
       />
     </>
