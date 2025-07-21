@@ -117,7 +117,7 @@ export const convertSingleFamilyData = (
     patient: {
       phoneNumber: familyData.patient?.formatted_phone_number || "-",
       fullName: familyData.patient?.full_name ?? "-",
-      city: familyData.patient.city ?? "-",
+      city: familyData.patient?.city ?? "-",
     },
     inviteLink: familyData.supporters_invite_link,
     lastSeen: new Date().toLocaleDateString(),

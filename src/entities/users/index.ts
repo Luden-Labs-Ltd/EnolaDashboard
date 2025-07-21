@@ -1,5 +1,5 @@
 export { getCoordinatorsFromApi, getCoordinatorById } from "./api";
-export type { CoordinatorType, FullCoordinatorType } from "./model";
+export type { CoordinatorType, FullCoordinatorType, TableCoordinatorData } from "./model";
 export type { CoordinatorApi } from "./api/types";
 export type { CoordinatorContextState } from "./model/providerCoordinator";
 export {
