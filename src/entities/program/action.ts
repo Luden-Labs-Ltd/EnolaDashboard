@@ -1,19 +1,12 @@
 "use server";
 import { Program } from "entities/auth/api/types";
-import { cookies } from "next/headers";
+import { setCookie } from "shared/utils/cookies";
 import { fetchInstance } from "shared/api";
 import { handleServerError } from "shared/error/api";
 
-const config = {
-  maxAge: 60 * 60 * 24 * 7, // 1 week
-  path: "/",
-  httpOnly: true,
-  secure: process.env.NODE_ENV === "production",
-};
-
 export async function changeProgram(program: Program) {
   const stringProgram = JSON.stringify(program);
-  await cookies().set("currentProgram", stringProgram, config);
+  await setCookie("currentProgram", stringProgram);
 }
 
 export async function activateProgram(programId: string) {

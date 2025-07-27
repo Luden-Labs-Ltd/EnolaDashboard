@@ -29,7 +29,7 @@ const ChartCard: React.FC<ChartCardProps> = ({ title, dataSet }) => {
         <CardTitle>{title}</CardTitle>
       </CardHeader>
       <CardContent padding="20px 0px 0px 0px">
-        <div className="flex px-5 mx-50 flex-col gap-2">
+        <div className="flex px-5 flex-col gap-2">
           {dataSet.map((item) => {
             return (
               <Row key={item.label} className="justify-between">

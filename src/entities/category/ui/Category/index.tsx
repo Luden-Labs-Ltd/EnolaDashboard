@@ -40,7 +40,7 @@ const categoryVariants = cva(`${styles.wrapper}`, {
 });
 
 export interface CategoriesProps
-  extends VariantProps<typeof categoryVariants> {}
+  extends VariantProps<typeof categoryVariants> { }
 export interface CategoriesProps {
   title: string;
   id: string;
@@ -104,7 +104,7 @@ const Category: React.FC<PropsWithChildren<CategoriesProps>> = ({
       })}
     >
       <Row alignItems="center">
-        <RenderCategoryIcon icon={iconType} customIcon={customIcon}/>
+        <RenderCategoryIcon icon={iconType} customIcon={customIcon} />
 
         <div>{title}</div>
       </Row>

@@ -1,0 +1,1 @@
+export const GET_ANALITYCS_TAG = "GET_ANALITYCS_TAG"

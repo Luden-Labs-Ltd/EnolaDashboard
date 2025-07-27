@@ -12,6 +12,7 @@ import { Ceil, renderCeilDropDownItemsType } from "./Ceil";
 import { HeaderCeil } from "./HeaderCeil";
 import { SorterObject } from "shared/types/sort";
 import { CeilItem } from "../lib/types";
+import { cn } from "@utils";
 
 interface UniversalTableProps {
   tableRawData: any[];
@@ -48,11 +49,11 @@ const UniversalTable: React.FC<UniversalTableProps> = ({
   if (!tableRawData.length) {
     return (
       <Table>
-        <TableHeader>
-          <TableRow></TableRow>
+        <TableHeader className="[&_tr]:border-0 border-0">
+          <TableRow className="border-0"></TableRow>
         </TableHeader>
         <TableBody>
-          <TableRow>
+          <TableRow className="border-0">
             <TableCell>List Empty</TableCell>
           </TableRow>
         </TableBody>
@@ -68,8 +69,8 @@ const UniversalTable: React.FC<UniversalTableProps> = ({
   return (
     <>
       <Table>
-        <TableHeader>
-          <TableRow>
+        <TableHeader className="[&_tr]:border-0 border-0">
+          <TableRow className="border-0">
             {tableData.headers.map((header) => (
               <HeaderCeil
                 isChecked={isChecked}
@@ -87,7 +88,7 @@ const UniversalTable: React.FC<UniversalTableProps> = ({
             return (
               <TableRow
                 key={index}
-                className={!!onRowDoubleClick ? "cursor-pointer" : ""}
+                className={cn(!!onRowDoubleClick ? "cursor-pointer" : "", "border-0")}
                 onDoubleClick={() => onDoubleClickHandler?.(row)}
               >
                 {row.map((ceil) => (

@@ -9,6 +9,7 @@ import { FormInput } from "./Input";
 import { FormCheckbox } from "./Checkbox";
 import { FormSelect } from "./Select";
 import { Separator } from "@components/shadowCDN/separator";
+import React from "react";
 
 type fieldsType = "input" | "checkbox" | "phone" | "select" | "title";
 type inputType = InputHTMLAttributes<HTMLInputElement>["type"];
@@ -102,7 +103,7 @@ export default function FormRender<B extends FieldValues>(
           />
         );
       case "title":
-        return  <FormLabel className="min-w-fit">{renderField.label}</FormLabel>
+        return <FormLabel className="min-w-fit">{renderField.label}</FormLabel>
       case "input":
       default:
         return (
@@ -121,23 +122,21 @@ export default function FormRender<B extends FieldValues>(
     <Form {...formObject}>
       <form
         onSubmit={formObject.handleSubmit(onSubmitHandler)}
-        className={`${
-          className ? className : "flex flex-col gap-[15px] w-full"
-        }`}
+        className={`${className ? className : "flex flex-col gap-[15px] w-full"
+          }`}
       >
         <div
-          className={`${
-            fieldsClassName
+          className={`${fieldsClassName
               ? fieldsClassName
               : "flex flex-col gap-[15px] w-full"
-          }`}
+            }`}
         >
           {fields.map((field) => {
             return (
-              <>
+              <React.Fragment key={field.id}>
                 {renderField(field)}
                 {field.separator ? <Separator /> : null}
-              </>
+              </React.Fragment>
             );
           })}
           {customErrorMessage ? (

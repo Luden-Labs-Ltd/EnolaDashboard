@@ -1,13 +1,6 @@
 "use server";
 import { z } from "zod";
-import { cookies } from "next/headers";
-
-const config = {
-  maxAge: 60 * 60 * 24 * 7, // 1 week
-  path: "/",
-  httpOnly: true,
-  secure: process.env.NODE_ENV === "production",
-};
+import { setCookie } from "shared/utils/cookies";
 
 const schemaLanguage = z.object({
   language: z.string(),
@@ -22,5 +15,5 @@ export async function changeLanguage(formData: FormData) {
     return false;
   }
   const language = validatedFields.data.language;
-  await cookies().set("currentLanguage", language, config);
+  await setCookie("currentLanguage", language);
 }

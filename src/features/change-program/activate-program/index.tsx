@@ -38,7 +38,7 @@ export const ActivateProgram: React.FC<ActivateProgramProps> = ({
       <Button onClick={handelActivateProgram} disabled={isDisabled} size={"lg"}>
         {t("Common.activate")}
       </Button>
-      {error ? <ZodErrors error={[error]}/> : null}
+      {error ? <ZodErrors error={[error]} /> : null}
     </>
   );
 };

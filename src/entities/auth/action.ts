@@ -1,14 +1,7 @@
 "use server";
 import { z } from "zod";
-import { cookies } from "next/headers";
+import { setCookie, deleteCookie } from "shared/utils/cookies";
 import { redirect } from "next/navigation";
-
-const config = {
-  maxAge: 60 * 60 * 24 * 7, // 1 week
-  path: "/",
-  httpOnly: true,
-  secure: process.env.NODE_ENV === "production",
-};
 
 const schemaOtpSend = z.object({
   phoneNumber: z.string().min(6).max(20),
@@ -46,7 +39,7 @@ export async function testAction(prevState: any, formData: FormData) {
       data: "false",
     };
   }
-  cookies().set("jwt", result.token, config);
+  await setCookie("jwt", result.token);
   return redirect("/dashboard");
 }
 
@@ -84,7 +77,7 @@ export async function sendOtpCode(formData: FormData) {
     const code = response.headers.get("x-requested-user");
     console.info("OTP", code);
     if (code) {
-      cookies().set("OTP", code, config);
+      await setCookie("OTP", code);
     }
   }
 }
@@ -121,6 +114,6 @@ export async function authenticate(formData: FormData): Promise<{
 }
 
 export async function logoutAction() {
-  cookies().set("jwt", "", { ...config, maxAge: 0 });
+  await deleteCookie("jwt");
   redirect("/signin");
 }

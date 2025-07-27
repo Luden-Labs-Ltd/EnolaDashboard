@@ -1,9 +1,9 @@
-@import "../../../shared/styles/utils/colors.scss";
+@use "../../../shared/styles/utils/colors.scss" as colors;
 
 .RouteName {
   font-weight: 700;
   font-size: 24px;
-  color: $primaryColor;
+  color: colors.$primaryColor;
 
   &::first-letter {
     text-transform: capitalize;

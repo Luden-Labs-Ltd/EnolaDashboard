@@ -13,6 +13,7 @@ import {
 import { Button } from "@components/shadowCDN/button";
 import { changeProgram } from "entities/program";
 import { ActivateProgram } from "../activate-program";
+import { cn } from "@utils";
 
 interface ChangeProgramProps {
   logo: StaticImageData;
@@ -34,7 +35,7 @@ export const ChangeProgram: React.FC<PropsWithChildren<ChangeProgramProps>> = ({
       .then(() => {
         setCurrentProgram(program);
       })
-      .catch(() => {});
+      .catch(() => { });
   };
 
   return (
@@ -50,7 +51,7 @@ export const ChangeProgram: React.FC<PropsWithChildren<ChangeProgramProps>> = ({
           <DropdownMenuContent
             side="right"
             sideOffset={30}
-            className={styles.DropdownMenuContent}
+            className={cn(styles.DropdownMenuContent, "border-0")}
           >
             {programs.map((program, index) => {
               const isActive = program.id === currentProgram.id;

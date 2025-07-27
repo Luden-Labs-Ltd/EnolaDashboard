@@ -39,7 +39,7 @@ export function FormSelect<F extends FieldValues>(props: FormFieldProps<F>) {
                 <SelectTrigger disabled={disabled} className="select">
                   <SelectValue placeholder={renderField.placeholder} />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="border-0">
                   {renderField.options?.map((item) => {
                     return (
                       <SelectItem

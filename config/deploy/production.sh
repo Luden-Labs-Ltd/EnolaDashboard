@@ -53,4 +53,4 @@ echo "Starting the new app version ..."
 ssh $USER_ROLE@$DOMAIN_NAME "cd $APP_PATH/$RELEASE && docker compose up -d --build production"
 
 # clear none images
-ssh $USER_ROLE@$DOMAIN_NAME 'docker image prune'
+ssh $USER_ROLE@$DOMAIN_NAME 'docker image prune -af'

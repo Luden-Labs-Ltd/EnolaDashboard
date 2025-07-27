@@ -1,7 +1,6 @@
-import { cookies } from "next/headers";
+import { getCookie } from "shared/utils/cookies";
 
 export async function getAuthToken() {
-  const authToken = cookies().get("jwt")?.value;
-
+  const authToken = await getCookie("jwt");
   return authToken;
 }

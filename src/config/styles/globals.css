@@ -1,10 +1,92 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
+@import "tw-animate-css";
+
+/* Font fallbacks for Google Fonts */
+@font-face {
+  font-family: 'Space Grotesk Fallback';
+  src: local('Arial'), local('Helvetica'), local('sans-serif');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Rubik Fallback';
+  src: local('Arial'), local('Helvetica'), local('sans-serif');
+  font-display: swap;
+}
+
+:root {
+  --background: hsl(0 0% 100%);
+  --foreground: hsl(222.2 47.4% 11.2%);
+  --muted: hsl(210 40% 96.1%);
+  --muted-foreground: hsl(215.4 16.3% 46.9%);
+  --popover: hsl(0 0% 100%);
+  --popover-foreground: hsl(222.2 47.4% 11.2%);
+  --border: hsl(214.3 31.8% 91.4%);
+  --input: hsl(214.3 31.8% 91.4%);
+  --card: hsl(0 0% 100%);
+  --card-foreground: hsl(222.2 47.4% 11.2%);
+  --primary: hsl(225, 27%, 26%, 1);
+  --primary-foreground: hsl(210 40% 98%);
+  --secondary: hsl(0, 0%, 100%);
+  --secondary-border: hsl(225, 100%, 93%, 1);
+  --secondary-foreground: hsl(225, 27%, 26%, 1);
+  --accent: hsl(210 40% 96.1%);
+  --accent-foreground: hsl(222.2 47.4% 11.2%);
+  --destructive: hsl(0 100% 50%);
+  --destructive-foreground: hsl(210 40% 98%);
+  --ring: hsl(215 20.2% 65.1%);
+  --radius: 0.5rem;
+}
+
+.dark {
+  --background: hsl(224 71% 4%);
+  --foreground: hsl(213 31% 91%);
+  --muted: hsl(223 47% 11%);
+  --muted-foreground: hsl(215.4 16.3% 56.9%);
+  --accent: hsl(216 34% 17%);
+  --accent-foreground: hsl(210 40% 98%);
+  --popover: hsl(224 71% 4%);
+  --popover-foreground: hsl(215 20.2% 65.1%);
+  --border: hsl(216 34% 17%);
+  --input: hsl(216 34% 17%);
+  --card: hsl(224 71% 4%);
+  --card-foreground: hsl(213 31% 91%);
+  --primary: hsl(225, 27%, 26%, 1);
+  --primary-foreground: hsl(222.2 47.4% 1.2%);
+  --secondary: hsl(225, 100%, 93%, 1);
+  --secondary-foreground: hsl(225, 100%, 93%, 1);
+  --destructive: hsl(0 63% 31%);
+  --destructive-foreground: hsl(210 40% 98%);
+  --ring: hsl(216 34% 17%);
+  --radius: 0.5rem;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-border: var(--secondary-border);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-ring: var(--ring);
+}
 
 body {
-  background-color: #fff;
+  background-color: var(--background);
 }
 
 @layer utilities {
@@ -27,28 +109,36 @@ body {
   transform: translateX(-50%);
   transform: translateY(-50%);
 }
+
 .loader::before,
 .loader::after {
   content: "";
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  background: #313A56;
+  background: var(--primary);
 }
+
 .loader::before {
   box-shadow: -25px 0;
   animation: l8-1 1s infinite linear;
 }
+
 .loader::after {
   transform: rotate(0deg) translateX(25px);
   animation: l8-2 1s infinite linear;
 }
 
 @keyframes l8-1 {
-    100%{transform: translateX(25px)}
+  100% {
+    transform: translateX(25px)
+  }
 }
+
 @keyframes l8-2 {
-    100%{transform: rotate(-180deg) translateX(25px)}
+  100% {
+    transform: rotate(-180deg) translateX(25px)
+  }
 }
 
 .skeleton {
@@ -56,95 +146,28 @@ body {
   height: 100%;
   border-radius: inherit;
   cursor: progress;
-  background: 
-    linear-gradient(0.25turn, transparent, #fff, transparent),
-    linear-gradient(#eee, #eee);  
+  background:
+    linear-gradient(0.25turn, transparent, var(--background), transparent),
+    linear-gradient(var(--muted), var(--muted));
   background-repeat: no-repeat;
-  background-position: -315px 0, 0 0, 0px 190px, 50px 195px; 
+  background-position: -315px 0, 0 0, 0px 190px, 50px 195px;
   animation: loading 1.5s infinite;
 }
 
-@keyframes loading {  
+@keyframes loading {
   to {
     background-position: 315px 0, 0 0, 0 190px, 50px 195px;
   }
 }
 
 @layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 47.4% 11.2%;
-
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 47.4% 11.2%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 47.4% 11.2%;
-
-    --primary: 225, 27%, 26%, 1;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary:  0, 0%, 100%;
-    --secondary-border: 225, 100%, 93%, 1;
-    --secondary-foreground: 225, 27%, 26%, 1;
-
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-
-    --destructive: 0 100% 50%;
-    --destructive-foreground: 210 40% 98%;
-
-    --ring: 215 20.2% 65.1%;
-
-    --radius: 0.5rem;
-  }
-
-  .dark {
-    --background: 224 71% 4%;
-    --foreground: 213 31% 91%;
-
-    --muted: 223 47% 11%;
-    --muted-foreground: 215.4 16.3% 56.9%;
-
-    --accent: 216 34% 17%;
-    --accent-foreground: 210 40% 98%;
-
-    --popover: 224 71% 4%;
-    --popover-foreground: 215 20.2% 65.1%;
-
-    --border: 216 34% 17%;
-    --input: 216 34% 17%;
-
-    --card: 224 71% 4%;
-    --card-foreground: 213 31% 91%;
-
-    --primary: 225, 27%, 26%, 1;
-    --primary-foreground: 222.2 47.4% 1.2%;
-
-    --secondary: 225, 100%, 93%, 1;
-    --secondary-foreground: 225, 100%, 93%, 1;
-
-    --destructive: 0 63% 31%;
-    --destructive-foreground: 210 40% 98%;
-
-    --ring: 216 34% 17%;
-
-    --radius: 0.5rem;
-  }
-}
-
- @layer base {
   * {
-    @apply border-border;
+    border-color: var(--border);
   }
+
   body {
-    @apply bg-background text-foreground;
+    background-color: var(--background);
+    color: var(--foreground);
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 }

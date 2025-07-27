@@ -5,27 +5,22 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import React from "react";
 
-export const BackButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ ...props }, ref) => {
-    const router = useRouter();
-    const t = useTranslations();
+export function BackButton({ ...props }: ButtonProps) {
+  const router = useRouter();
+  const t = useTranslations();
 
-    return (
-      <Button
-        variant={"ghost"}
-        onClick={() => {
-          router.back();
-        }}
-        ref={ref}
-        {...props}
-      >
-        <Row alignItems="center" className="gap-[10px]">
-          <ArrowLeftIcon />
-          {/* {t("Common.goBack")} */}
-        </Row>
-      </Button>
-    );
-  }
-);
-
-BackButton.displayName = "BackButton";
+  return (
+    <Button
+      variant={"ghost"}
+      onClick={() => {
+        router.back();
+      }}
+      {...props}
+    >
+      <Row alignItems="center" className="gap-[10px]">
+        <ArrowLeftIcon />
+        {/* {t("Common.goBack")} */}
+      </Row>
+    </Button>
+  );
+}

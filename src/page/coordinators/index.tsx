@@ -1,6 +1,6 @@
 import Row from "@components/Row";
 import { ScrollArea } from "@components/shadowCDN/scroll-area";
-import {  CoordinatorType } from "entities/users";
+import { CoordinatorType } from "entities/users";
 import SearchPanel from "features/search-panel";
 import React from "react";
 import { SorterObject } from "shared/types/sort";
@@ -31,7 +31,7 @@ const Coordinators: React.FC<CoordinatorsProps> = ({
             <AddCoordinator />
           </Row>
         </SearchPanel>
-        <ScrollArea className="h-[79vh] w-full border p-4">
+        <ScrollArea className="h-[79vh] w-full p-4">
           <CoordinatorsTable
             totalCount={totalCount}
             perPage={perPage}

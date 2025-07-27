@@ -33,6 +33,7 @@ export function FormInput<F extends FieldValues>(props: FormFieldProps<F>) {
             <FormControl>
               <Input
                 type={renderField.inputType}
+                className="shadow-sm bg-transparent"
                 placeholder={renderField.placeholder}
                 {...formObject.register(field.name, {
                   valueAsNumber:
@@ -52,7 +53,7 @@ export function FormInput<F extends FieldValues>(props: FormFieldProps<F>) {
           />
         </FormItem>
       }
-    }
+      }
     />
   );
 }

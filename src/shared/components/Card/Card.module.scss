@@ -1,18 +1,18 @@
-@import "../../styles/utils/colors.scss";
+@use "../../styles/utils/colors.scss" as colors;
 
 .card {
-  border: 2px solid $mainBackgroundColor;
+  border: 2px solid colors.$mainBackgroundColor;
   border-radius: 12px;
-  background-color: $mainBackgroundColor;
+  background-color: colors.$mainBackgroundColor;
   flex: 1;
-  color: $primaryColor;
+  color: colors.$primaryColor;
 
   &Header {
     display: flex;
     padding: 16px;
     border-radius: 12px 12px 0px 0px;
     justify-content: space-between;
-    background-color: $white;
+    background-color: colors.$white;
   }
 
   .headerTitle {

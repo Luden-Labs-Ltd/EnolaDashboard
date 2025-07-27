@@ -1,1 +1,1 @@
-export {default as CharWithFilters} from "./ui/CharWithFilter"
+export { default as CharWithFilters } from "./ui/CharWithFilter"

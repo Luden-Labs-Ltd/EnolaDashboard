@@ -1,4 +1,4 @@
-@import "../../shared/styles/utils/colors.scss";
+@use "../../shared/styles/utils/colors.scss" as colors;
 
 .header {
 
@@ -12,22 +12,22 @@
 .RouteName {
   font-weight: 700;
   font-size: 24px;
-  color: $primaryColor;
+  color: colors.$primaryColor;
 
   &::first-letter {
     text-transform: capitalize;
-}
+  }
 
 }
 
 .avatar {
-  background-color: $avatarBackground;
+  background-color: colors.$avatarBackground;
   width: 36px;
   height: 36px;
   border-radius: 50%;
 
   &Name {
-    color: $lightBlue;
+    color: colors.$lightBlue;
     font-size: 16px;
   }
 

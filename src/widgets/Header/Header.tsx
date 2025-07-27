@@ -18,7 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@components/shadowCDN/select";
-import { changeLanguage } from "entities/languaage/action";
+import { changeLanguage } from "entities/language/action";
 import { BreadcrumbBar } from "./Breadcrumb";
 
 interface HeaderProps {
@@ -52,7 +52,7 @@ export default function Header(props: HeaderProps) {
           <SelectTrigger className="w-[60px]">
             <SelectValue placeholder="Language" />
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent className="border-0">
             <SelectItem value="en">En</SelectItem>
             <SelectItem value="he">He</SelectItem>
           </SelectContent>

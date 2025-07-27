@@ -4,8 +4,7 @@ import PhoneField from "@components/PhoneField";
 import { Button } from "@components/shadowCDN/button";
 import { sendOtpCode, testAction } from "entities/auth/action";
 import { useTranslations } from "next-intl";
-import React, { MouseEvent, useEffect, useRef, useState } from "react";
-import { useFormState } from "react-dom";
+import React, { MouseEvent, useEffect, useRef, useState, useActionState } from "react";
 import { ZodErrors } from "@components/ZodErrors/ZodErrors";
 import { OtpForm } from "./ui/OtpForm/OtpForm";
 import Loading from "app/(main)/loading";
@@ -17,7 +16,7 @@ const INITIAL_STATE = {
 function SingInPage() {
   const t = useTranslations("Auth");
 
-  const [formState, formAction] = useFormState(testAction, INITIAL_STATE);
+  const [formState, formAction] = useActionState(testAction, INITIAL_STATE);
 
   const [phone, setPhone] = useState("");
   const [otp, setOtp] = useState("");
@@ -68,8 +67,8 @@ function SingInPage() {
   const apiError = formState?.apiError
     ? formState?.apiError
     : error
-    ? error
-    : null;
+      ? error
+      : null;
 
   return (
     <form
