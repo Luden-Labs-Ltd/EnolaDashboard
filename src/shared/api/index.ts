@@ -7,7 +7,7 @@ export const fetchInstance = async (
 ): Promise<Response | null> => {
   try {
     const token = await getAuthToken() ?? 'token not found';
-    const {headers, ...rest} = init ?? {}
+    const { headers, ...rest } = init ?? {}
     const response = await fetch(input, {
       headers: {
         Authorization: token,

@@ -2,6 +2,7 @@
 import { z } from "zod";
 import { setCookie, deleteCookie } from "shared/utils/cookies";
 import { redirect } from "next/navigation";
+import { handleNetworkError } from "shared/utils/network-error";
 
 const schemaOtpSend = z.object({
   phoneNumber: z.string().min(6).max(20),
@@ -52,33 +53,40 @@ export async function sendOtpCode(formData: FormData) {
     throw new Error("invalid phone");
   }
 
-  const response = await fetch(
-    process.env.BASE_URL_BACKEND + "/api/v2/dashboard/auth/code",
-    {
-      //@ts-ignore
-      headers:
-        process.env.NODE_ENV === "development"
-          ? { "X-Debug-Token": process.env.REACT_APP_X_DEBUG_TOKEN }
-          : {},
-      method: "POST",
-      body: formData,
-    }
-  );
+  try {
+    const response = await fetch(
+      process.env.BASE_URL_BACKEND + "/api/v2/dashboard/auth/code",
+      {
+        //@ts-ignore
+        headers:
+          process.env.NODE_ENV === "development"
+            ? { "X-Debug-Token": process.env.REACT_APP_X_DEBUG_TOKEN }
+            : {},
+        method: "POST",
+        body: formData,
+      }
+    );
 
-  const jsonResponse = await response.json();
+    const jsonResponse = await response.json();
 
-  if (jsonResponse.error) {
-    return {
-      error: jsonResponse.error + " " + "phone:" + validatedFields.data.phoneNumber
+    if (jsonResponse.error) {
+      return {
+        error: jsonResponse.error + " " + "phone:" + validatedFields.data.phoneNumber
+      }
     }
-  }
 
-  if (process.env.NODE_ENV === "development") {
-    const code = response.headers.get("x-requested-user");
-    console.info("OTP", code);
-    if (code) {
-      await setCookie("OTP", code);
+    if (process.env.NODE_ENV === "development") {
+      const code = response.headers.get("x-requested-user");
+      console.info("OTP", code);
+      if (code) {
+        await setCookie("OTP", code);
+      }
     }
+
+    return { error: null };
+  } catch (error) {
+    const networkError = handleNetworkError(error);
+    return { error: networkError };
   }
 }
 
@@ -106,9 +114,10 @@ export async function authenticate(formData: FormData): Promise<{
       error: "Login unsuccessful",
     };
   } catch (error) {
+    const networkError = handleNetworkError(error);
     return {
       token: null,
-      error: "Login unsuccessful",
+      error: networkError,
     };
   }
 }

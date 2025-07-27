@@ -74,7 +74,7 @@ function SingInPage() {
     <form
       action={formAction}
       ref={form}
-      className="gap-5 flex flex-col items-center w-full max-w-500px"
+      className="gap-5 flex flex-col items-center w-full max-w-[500px]"
     >
       <PhoneField
         value={phone}
