@@ -1,9 +1,28 @@
 export interface AnalyticsData {
   id: number | null;
   program_id: number | null;
-  families: Record<string, { active: number; inactive: number; total: number }>;
-  tasks: Record<string, { opened: number; closed: number; total: number }>;
-  supporters: Record<string, { active: number; inactive: number; total: number }>;
+  families: {
+    activity: Array<{ date: string; count: number }>;
+    active: number;
+    inactive: number;
+    total: number;
+  };
+  tasks: {
+    activity: {
+      opened: Array<{ date: string; count: number }>;
+      closed: Array<{ date: string; count: number }>;
+    };
+    opened: number;
+    closed: number;
+    total: number;
+  };
+  supporters: {
+    activity: Array<{ date: string; count: number }>;
+    active: number;
+    inactive: number;
+    total: number;
+  };
+  users: Record<string, any>;
 }
 
 export interface AnalyticsFilters {

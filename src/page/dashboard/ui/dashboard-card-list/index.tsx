@@ -7,19 +7,27 @@ export default function CardList() {
   const t = useTranslations();
   const { analyticsState } = useAnalyticsStore();
 
-  // Get the latest data from analytics (last date in the record)
-  const getLatestData = (data: Record<string, any> | null | undefined) => {
-    if (!data || typeof data !== 'object') {
-      return { active: 0, inactive: 0, opened: 0, closed: 0 };
+  // Get data from the new structure
+  const familiesData = analyticsState.analyticsData?.families
+    ? {
+      active: analyticsState.analyticsData.families.active,
+      inactive: analyticsState.analyticsData.families.inactive
     }
+    : { active: 0, inactive: 0 };
 
-    const dates = Object.keys(data).sort();
-    return dates.length > 0 ? data[dates[dates.length - 1]] : { active: 0, inactive: 0, opened: 0, closed: 0 };
-  };
+  const tasksData = analyticsState.analyticsData?.tasks
+    ? {
+      opened: analyticsState.analyticsData.tasks.opened,
+      closed: analyticsState.analyticsData.tasks.closed
+    }
+    : { opened: 0, closed: 0 };
 
-  const familiesData = analyticsState.analyticsData ? getLatestData(analyticsState.analyticsData.families) : { active: 0, inactive: 0 };
-  const tasksData = analyticsState.analyticsData ? getLatestData(analyticsState.analyticsData.tasks) : { opened: 0, closed: 0 };
-  const supportersData = analyticsState.analyticsData ? getLatestData(analyticsState.analyticsData.supporters) : { active: 0, inactive: 0 };
+  const supportersData = analyticsState.analyticsData?.supporters
+    ? {
+      active: analyticsState.analyticsData.supporters.active,
+      inactive: analyticsState.analyticsData.supporters.inactive
+    }
+    : { active: 0, inactive: 0 };
 
   return (
     <div className="flex gap-10 flex-wrap">

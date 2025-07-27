@@ -1,7 +1,7 @@
 "use client";
 import { isWithinInterval } from "date-fns";
 import dynamic from "next/dynamic";
-import { useMemo, useState, useCallback } from "react";
+import { useMemo, useState, useCallback, useEffect } from "react";
 import { DateRangeItem } from "@components/DateRange/DateRangePicker";
 import Filters, { FilterItem } from "../Filters/Filters";
 import { useTranslations } from "next-intl";
@@ -121,11 +121,11 @@ const transformAnalyticsToChartData = (analyticsData: AnalyticsData | null): Bas
 
   const result: BaseLineData[] = [];
 
-  // Transform families data
-  if (analyticsData.families && typeof analyticsData.families === 'object') {
-    const familiesData = Object.entries(analyticsData.families).map(([date, data]) => ({
-      value: data.active,
-      date: new Date(date)
+  // Transform families data from activity array
+  if (analyticsData.families?.activity && Array.isArray(analyticsData.families.activity)) {
+    const familiesData = analyticsData.families.activity.map((item) => ({
+      value: item.count,
+      date: new Date(item.date)
     }));
 
     result.push({
@@ -135,11 +135,11 @@ const transformAnalyticsToChartData = (analyticsData: AnalyticsData | null): Bas
     });
   }
 
-  // Transform supporters data
-  if (analyticsData.supporters && typeof analyticsData.supporters === 'object') {
-    const supportersData = Object.entries(analyticsData.supporters).map(([date, data]) => ({
-      value: data.active,
-      date: new Date(date)
+  // Transform supporters data from activity array
+  if (analyticsData.supporters?.activity && Array.isArray(analyticsData.supporters.activity)) {
+    const supportersData = analyticsData.supporters.activity.map((item) => ({
+      value: item.count,
+      date: new Date(item.date)
     }));
 
     result.push({
@@ -149,29 +149,35 @@ const transformAnalyticsToChartData = (analyticsData: AnalyticsData | null): Bas
     });
   }
 
-  // Transform tasks data
-  if (analyticsData.tasks && typeof analyticsData.tasks === 'object') {
-    const openTasksData = Object.entries(analyticsData.tasks).map(([date, data]) => ({
-      value: data.opened,
-      date: new Date(date)
-    }));
+  // Transform tasks data from activity arrays
+  if (analyticsData.tasks?.activity) {
+    // Transform opened tasks
+    if (analyticsData.tasks.activity.opened && Array.isArray(analyticsData.tasks.activity.opened)) {
+      const openTasksData = analyticsData.tasks.activity.opened.map((item) => ({
+        value: item.count,
+        date: new Date(item.date)
+      }));
 
-    result.push({
-      data: openTasksData,
-      id: "open_tasks",
-      color: "#22C55E" // Green to match success filter button
-    });
+      result.push({
+        data: openTasksData,
+        id: "open_tasks",
+        color: "#22C55E" // Green to match success filter button
+      });
+    }
 
-    const completedTasksData = Object.entries(analyticsData.tasks).map(([date, data]) => ({
-      value: data.closed,
-      date: new Date(date)
-    }));
+    // Transform closed tasks
+    if (analyticsData.tasks.activity.closed && Array.isArray(analyticsData.tasks.activity.closed)) {
+      const completedTasksData = analyticsData.tasks.activity.closed.map((item) => ({
+        value: item.count,
+        date: new Date(item.date)
+      }));
 
-    result.push({
-      data: completedTasksData,
-      id: "completed_tasks",
-      color: "#8B5CF6" // Violet to match error filter button
-    });
+      result.push({
+        data: completedTasksData,
+        id: "completed_tasks",
+        color: "#8B5CF6" // Violet to match error filter button
+      });
+    }
   }
 
   return result;
@@ -187,12 +193,23 @@ const Echarts = dynamic(() => import("@components/Chart/Echarts"), {
 const CharWithFilters = () => {
   const t = useTranslations();
   const { analyticsState, updateAnalyticsData, setLoading } = useAnalyticsStore();
+
+  // Set default date range to last + current week from Sunday to today using useMemo to prevent recreation
+  const defaultDates = useMemo(() => {
+    const today = new Date();
+    const sunday = new Date(today);
+    // Set to the most recent Sunday (0 = Sunday, 1 = Monday, etc.)
+    const dayOfWeek = today.getDay();
+    sunday.setDate(today.getDate() - dayOfWeek - 7);
+    return { sunday, today };
+  }, []);
+
   const [filters, setFilters] = useState<FilterStateType>({
     activeItemsFilters: ["families", "supporters", "open_tasks", "completed_tasks"],
     days: [
       {
-        startDate: null,
-        endDate: null,
+        startDate: defaultDates.sunday,
+        endDate: defaultDates.today,
         key: "selection",
       },
     ],
@@ -299,29 +316,49 @@ const CharWithFilters = () => {
     }
   }, [updateAnalyticsData, setLoading]);
 
-  // Get unique dates for x-axis
+  // Get unique dates for x-axis from date range filters
   const xAxisData = useMemo(() => {
-    if (!analyticsState.analyticsData) return [];
+    const startDate = filters.days[0]?.startDate;
+    const endDate = filters.days[0]?.endDate;
 
-    const allDates = new Set<string>();
-
-    if (analyticsState.analyticsData.families && typeof analyticsState.analyticsData.families === 'object') {
-      Object.keys(analyticsState.analyticsData.families).forEach(date => allDates.add(date));
+    if (!startDate || !endDate) {
+      // If no date range is selected, return empty array
+      return [];
     }
 
-    if (analyticsState.analyticsData.tasks && typeof analyticsState.analyticsData.tasks === 'object') {
-      Object.keys(analyticsState.analyticsData.tasks).forEach(date => allDates.add(date));
+    const dates: string[] = [];
+    const currentDate = new Date(startDate);
+    const lastDate = new Date(endDate);
+
+    // Generate dates for each day in the range
+    while (currentDate <= lastDate) {
+      dates.push(currentDate.toLocaleDateString('en-US', { weekday: 'short' }));
+      currentDate.setDate(currentDate.getDate() + 1);
     }
 
-    if (analyticsState.analyticsData.supporters && typeof analyticsState.analyticsData.supporters === 'object') {
-      Object.keys(analyticsState.analyticsData.supporters).forEach(date => allDates.add(date));
-    }
+    return dates;
+  }, [filters.days]);
 
-    return Array.from(allDates).sort().map(date => {
-      const d = new Date(date);
-      return d.toLocaleDateString('en-US', { weekday: 'short' });
-    });
-  }, [analyticsState.analyticsData]);
+  useEffect(() => {
+    const fetchInitialData = async (): Promise<void> => {
+      const filters: AnalyticsFilters = {
+        date_gteq: defaultDates.sunday.toISOString().split('T')[0], // Sunday
+        date_lteq: defaultDates.today.toISOString().split('T')[0], // Today
+      };
+
+      try {
+        setLoading(true);
+        const newData = await getAnalyticsWithFilters(filters);
+        updateAnalyticsData(newData);
+      } catch (error) {
+        console.error('Failed to fetch initial analytics data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchInitialData();
+  }, []);
 
   return (
     <div>
