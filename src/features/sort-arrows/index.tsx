@@ -26,8 +26,8 @@ export const SortArrows: React.FC<SortArrowsProps> = ({
     typeof initSortParam === "string"
       ? JSON.parse(initSortParam)
       : {
-          order: sortOrder,
-        };
+        order: sortOrder,
+      };
 
   const defaultOrder =
     initSortObject.name === sortName ? initSortObject.order : sortOrder;
@@ -49,20 +49,20 @@ export const SortArrows: React.FC<SortArrowsProps> = ({
     switch (type) {
       case "number":
         return (
-          <div className="flex flex-row gap-1">
+          <span className="flex flex-row gap-1">
             <span>0</span>
             <SortIcons height={14} width={14} />
             <span>9</span>
-          </div>
+          </span>
         );
       case "text":
       default:
         return (
-          <div className="flex flex-row gap-1">
+          <span className="flex flex-row gap-1">
             <span>A</span>
             <SortIcons height={14} width={14} />
             <span>Z</span>
-          </div>
+          </span>
         );
     }
   };

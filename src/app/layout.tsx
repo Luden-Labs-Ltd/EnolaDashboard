@@ -1,20 +1,27 @@
 import { NextIntlClientProvider } from "next-intl";
 import { Space_Grotesk, Rubik } from "next/font/google";
 import { getLocale, getMessages } from "next-intl/server";
-import "@styles/globals.css";
 import "@styles/reset.scss";
-import { Toaster } from "@components/shadowCDN/toaster";
+import "@styles/globals.css";
+import { Toaster } from "@components/shadowCDN/sonner";
 
+// Font configuration with error handling
 const SpaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-grotesk",
+  preload: true,
+  fallback: ["system-ui", "arial"],
+  adjustFontFallback: true,
 });
 
 const RubikFont = Rubik({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-rubik",
+  preload: true,
+  fallback: ["system-ui", "arial"],
+  adjustFontFallback: true,
 });
 
 export default async function RootLayout({
@@ -30,12 +37,15 @@ export default async function RootLayout({
       lang={locale}
       dir={locale === "he" ? "rtl" : "ltr"}
       className={`${SpaceGrotesk.variable} ${RubikFont.variable} font-grotesk`}
+      style={{
+        fontFamily: 'var(--font-grotesk), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
+      }}
     >
       <body>
-          <NextIntlClientProvider messages={messages}>
-            <main>{children}</main>
-            <Toaster />
-          </NextIntlClientProvider>
+        <NextIntlClientProvider messages={messages}>
+          <main>{children}</main>
+          <Toaster />
+        </NextIntlClientProvider>
       </body>
     </html>
   );

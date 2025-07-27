@@ -26,4 +26,4 @@ ssh app@qa.enolahelp.com  'cd /home/nextProjects/dashboardNext && docker-compose
 ssh app@qa.enolahelp.com  'cd /home/nextProjects/dashboardNext && docker-compose up -d --build qa'
 
 # clear none images
-ssh app@qa.enolahelp.com  'docker image prune'
+ssh app@qa.enolahelp.com  'docker image prune -af'

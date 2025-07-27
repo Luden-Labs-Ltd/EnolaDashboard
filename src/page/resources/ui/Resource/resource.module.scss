@@ -1,7 +1,7 @@
-@import "../../../../shared/styles/utils/colors.scss";
+@use "../../../../shared/styles/utils/colors.scss" as colors;
 
 .wrapper {
-    border: 1px solid $lightGray;
+    border: 1px solid colors.$lightGray;
     font-size: 16px;
     max-width: 360px;
     padding: 16px;
@@ -12,20 +12,20 @@
 }
 
 .title {
-    color: $grayDark;
+    color: colors.$grayDark;
     font-weight: 565;
     font-size: 20px;
 }
 
 .label {
     text-wrap: nowrap;
-    color: $grayDark;
+    color: colors.$grayDark;
     font-weight: 400;
     line-height: 18.96px;
 }
 
 .light {
-    color: $lightBlue;
+    color: colors.$lightBlue;
     text-wrap: pretty;
     word-wrap: break-word;
     max-width: 80%;

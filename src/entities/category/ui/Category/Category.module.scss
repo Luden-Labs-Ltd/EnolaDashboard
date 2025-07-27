@@ -1,4 +1,4 @@
-@import "../../../../shared/styles/utils/colors.scss";
+@use "../../../../shared/styles/utils/colors.scss" as colors;
 
 .wrapper {
   display: flex;
@@ -7,15 +7,17 @@
   cursor: pointer;
 }
 
-.wrapper:hover, .active {
-  background-color: $mainBackgroundColor;
+.wrapper:hover,
+.active {
+  background-color: colors.$mainBackgroundColor;
 }
 
-.wrapper.secondary:hover, .secondary.active {
-  background-color: $mainBackgroundColorLight;
+.wrapper.secondary:hover,
+.secondary.active {
+  background-color: colors.$mainBackgroundColorLight;
 }
 
 .chip {
-  border: 1px solid $primaryColor;
+  border: 1px solid colors.$primaryColor;
   border-radius: 8px;
 }

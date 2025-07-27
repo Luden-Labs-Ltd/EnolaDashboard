@@ -17,6 +17,23 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  experimental: {
+    optimizePackageImports: ['@radix-ui/react-icons'],
+  },
+  // Add DNS prefetch for Google Fonts
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'Link',
+            value: '<https://fonts.gstatic.com>; rel=preconnect; crossorigin',
+          },
+        ],
+      },
+    ];
+  },
 };
 
 export default withSentryConfig(withNextIntl(nextConfig), {

@@ -34,7 +34,7 @@ export function FormCheckbox<F extends FieldValues>(props: FormFieldProps<F>) {
                 <Checkbox
                   defaultChecked={field.value}
                   checked={field.value}
-                  className="m-0 mt-2"
+                  className="m-0 mt-2 border-primary"
                   onCheckedChange={field.onChange}
                   {...field}
                 />

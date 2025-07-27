@@ -1,1 +1,1 @@
-export {default as UniversalTable} from "./ui"
+export { default as UniversalTable } from "./ui"

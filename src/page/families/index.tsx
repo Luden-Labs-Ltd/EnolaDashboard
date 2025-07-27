@@ -25,14 +25,14 @@ const Families: React.FC<FamiliesProps> = ({
       <FamiliesStoreProvider families={families}>
         <SearchPanel
           filterForm={<SearchFilter />}
-          actions={<ShowMyFamily/>}
+          actions={<ShowMyFamily />}
           searchParamName="family_name"
         >
           <Row alignItems="center">
             <AddFamily />
           </Row>
         </SearchPanel>
-        <ScrollArea className="h-[79vh] w-full border p-4">
+        <ScrollArea className="h-[79vh] w-full p-4">
           <FamiliesTable
             totalCount={totalCount}
             perPage={perPage}

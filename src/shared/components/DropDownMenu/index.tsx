@@ -12,6 +12,7 @@ import DotsIcon from "shared/assets/DotsIcon";
 import styles from "./DropDownMenu.module.scss";
 import Link from "next/link";
 import "./DropDownItem.css";
+import { cn } from "@utils";
 
 export type DropDownMenuItemsType = {
   id: string;
@@ -55,7 +56,7 @@ const DropDownMenu: React.FC<PropsWithChildren<DropDownMenuProps>> = ({
       </DropdownMenuTrigger>
       <DropdownMenuContent
         onInteractOutside={onClose}
-        className={`${styles.DropDownWrapper} DropDownWrapper`}
+        className={cn(`${styles.DropDownWrapper} DropDownWrapper`, "border-0")}
       >
         {items.map((item) => {
           if (item.renderCustomComponent) {

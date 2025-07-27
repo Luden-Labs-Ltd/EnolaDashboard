@@ -1,12 +1,12 @@
 "use server";
 
 import { Program } from "entities/auth/api/types";
-import { cookies } from "next/headers";
+import { getCookie } from "shared/utils/cookies";
 import { DEFAULT_PROGRAM_NAME } from "..";
 import { getCurrentProfileApi } from "entities/auth";
 
 export async function getCurrentProgram(): Promise<Program | null> {
-  const stringProgram = cookies().get("currentProgram")?.value;
+  const stringProgram = await getCookie("currentProgram");
 
   if (!stringProgram) {
     return null;

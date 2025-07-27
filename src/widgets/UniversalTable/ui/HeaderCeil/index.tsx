@@ -31,6 +31,7 @@ export const HeaderCeil: React.FC<HeaderProps> = ({
     return (
       <TableHead>
         <Checkbox
+          className="border-primary"
           onClick={toggleMainSelect}
           checked={isIndeterminate ? "indeterminate" : isChecked ? true : false}
         />
@@ -46,7 +47,7 @@ export const HeaderCeil: React.FC<HeaderProps> = ({
       <div className="flex flex-row items-center gap-[16px]">
         <span>{valueToShow}</span>
         {sortNameParam?.isSortAvailable && (
-          <SortArrows sortName={sortNameParam.apiName} type={sortNameParam.sortType}/>
+          <SortArrows sortName={sortNameParam.apiName} type={sortNameParam.sortType} />
         )}
       </div>
     </TableHead>

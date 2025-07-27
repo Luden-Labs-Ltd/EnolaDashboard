@@ -20,15 +20,20 @@ const FilterButton: React.FC<PropsWithChildren<FilterButtonProps>> = ({
   ...rest
 }) => {
   const colorClasses: Record<FilterColors, string> = {
-    primary: "data-[state=on]:bg-blue-500 data-[state=off]:border-2 border-blue-500 text-blue-500",
-    secondary: "data-[state=on]:bg-fuchsia-500 data-[state=off]:border-2 border-fuchsia-500 text-fuchsia-500",
-    warning: "data-[state=on]:bg-yellow-600 data-[state=off]:border-2 border-yellow-600 text-yellow-600",
-    success: "data-[state=on]:bg-green-500 data-[state=off]:border-2 border-green-500 text-green-500",
-    error: "data-[state=on]:bg-violet-500 data-[state=off]:border-2 border-violet-500 text-violet-500",
+    primary: "data-[state=on]:bg-blue-500/50 data-[state=off]:border-2 border-blue-500/75 text-blue-500",
+    secondary: "data-[state=on]:bg-fuchsia-500/50 data-[state=off]:border-2 border-fuchsia-500/75 text-fuchsia-500",
+    warning: "data-[state=on]:bg-yellow-600/50 data-[state=off]:border-2 border-yellow-600/75 text-yellow-600",
+    success: "data-[state=on]:bg-green-500/50 data-[state=off]:border-2 border-green-500/75 text-green-500",
+    error: "data-[state=on]:bg-violet-500/50 data-[state=off]:border-2 border-violet-500/75 text-violet-500",
   };
 
   return (
-    <Toggle className={colorClasses[color]} variant={"clear"} {...rest}/>
+    <Toggle
+      className={colorClasses[color]}
+      variant="default"
+      pressed={variant === "active"}
+      {...rest}
+    />
   );
 };
 

@@ -1,4 +1,4 @@
-@import "../../styles/utils/colors.scss";
+@use "../../styles/utils/colors.scss" as colors;
 
 .category {
     flex: 1;
@@ -8,7 +8,7 @@
 
 .title {
     font-size: 20px;
-    color: $primaryColor;
+    color: colors.$primaryColor;
     padding: 16px;
     font-weight: 550;
     margin-bottom: 4px;
@@ -17,18 +17,18 @@
 .headerPanel {
     display: flex;
     justify-content: flex-end;
-    background-color: $white;
+    background-color: colors.$white;
     border-radius: 0px 20px 0px 0px;
     padding: 16px;
 }
 
 .wrapper {
     border-radius: 20px;
-    border: 1px solid $mainBackgroundColor;
+    border: 1px solid colors.$mainBackgroundColor;
     min-height: 77vh;
 }
 
 .content {
-    background-color: $mainBackgroundColor;
+    background-color: colors.$mainBackgroundColor;
     border-radius: 0 20px 20px 0px;
 }

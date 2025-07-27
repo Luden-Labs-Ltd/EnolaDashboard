@@ -1,4 +1,4 @@
-@import "../../shared/styles/utils/colors.scss";
+@use "../../shared/styles/utils/colors.scss" as colors;
 
 .navbar {
   display: flex;
@@ -6,13 +6,13 @@
   align-items: center;
   max-height: 100vh;
   padding: 16px 20px;
-  background-color: $mainBackgroundColor;
+  background-color: colors.$mainBackgroundColor;
 
   .top {
     margin-bottom: 24px;
   }
 
-  .topLogoWrapper{
+  .topLogoWrapper {
     display: flex;
     align-items: center;
     gap: 16px;
@@ -30,7 +30,7 @@
       height: 40px;
 
       &:hover {
-        background-color: $mainBackgroundColorLight;
+        background-color: colors.$mainBackgroundColorLight;
       }
     }
   }
@@ -38,7 +38,7 @@
   .programName {
     font-size: 20px;
     padding-bottom: 16px;
-    color: $primaryColor;
+    color: colors.$primaryColor;
     border-bottom: 0.5px solid #A3ABC3;
   }
 
@@ -73,28 +73,28 @@
     width: 100%;
     border-radius: 8px;
     padding: 8px;
-    color: $primaryColor;
+    color: colors.$primaryColor;
     cursor: pointer;
     transition: 0.2s;
 
     &.active,
-    &:hover{
-      background-color: $primaryColor;
-      color: $white;
+    &:hover {
+      background-color: colors.$primaryColor;
+      color: colors.$white;
 
-      .itemIcon svg{
-        fill: $primaryColor;
-        stroke: $white;
+      .itemIcon svg {
+        fill: colors.$primaryColor;
+        stroke: colors.$white;
       }
     }
 
     &.disabled {
       cursor: not-allowed;
       pointer-events: none;
-      color: $disabled;
+      color: colors.$disabled;
 
-      .itemIcon svg{
-        fill: $disabled;
+      .itemIcon svg {
+        fill: colors.$disabled;
       }
     }
   }

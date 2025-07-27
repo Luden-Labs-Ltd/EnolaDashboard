@@ -1,4 +1,4 @@
-@import "../../../shared/styles/utils/colors.scss";
+@use "../../../shared/styles/utils/colors.scss" as colors;
 
 .top {
   margin-bottom: 24px;
@@ -22,12 +22,12 @@
     height: 40px;
 
     // &:hover {
-    //   background-color: $mainBackgroundColorLight;
+    //   background-color: colors.$mainBackgroundColorLight;
     // }
   }
 }
 
-.DropdownMenuContent{
+.DropdownMenuContent {
   padding: 16px;
 }
 
@@ -41,14 +41,14 @@
 }
 
 .activeItem {
-  background-color: $mainBackgroundColor;
+  background-color: colors.$mainBackgroundColor;
 }
 
 
 .programName {
   font-size: 18px;
   padding-bottom: 16px;
-  color: $primaryColor;
+  color: colors.$primaryColor;
   border-bottom: 0.5px solid #A3ABC3;
   display: flex;
   flex-direction: column;

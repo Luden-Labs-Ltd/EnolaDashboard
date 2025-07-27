@@ -11,25 +11,25 @@ import { useTranslations } from "next-intl";
 import React, { MouseEvent } from "react";
 
 interface PaginationWithNumbersProps {
-    currentPage: number;
-    totalPages: number;
-    pageRanges: number[]
-    isRenderFirstEclipse: boolean;
-    isRenderLastEclipse: boolean;
-    previousHandler: (event: MouseEvent) => void;
-    nextHandler: (event: MouseEvent) => void;
-    onPageClick: (event: MouseEvent, page: number) => void;
+  currentPage: number;
+  totalPages: number;
+  pageRanges: number[]
+  isRenderFirstEclipse: boolean;
+  isRenderLastEclipse: boolean;
+  previousHandler: (event: MouseEvent) => void;
+  nextHandler: (event: MouseEvent) => void;
+  onPageClick: (event: MouseEvent, page: number) => void;
 }
 
 export const PaginationWithNumbers: React.FC<PaginationWithNumbersProps> = ({
-    currentPage,
-    totalPages,
-    pageRanges,
-    isRenderFirstEclipse,
-    isRenderLastEclipse,
-    onPageClick,
-    previousHandler,
-    nextHandler
+  currentPage,
+  totalPages,
+  pageRanges,
+  isRenderFirstEclipse,
+  isRenderLastEclipse,
+  onPageClick,
+  previousHandler,
+  nextHandler
 }) => {
   const t = useTranslations();
 
@@ -41,7 +41,7 @@ export const PaginationWithNumbers: React.FC<PaginationWithNumbersProps> = ({
             textLabel={t("Common.previous")}
             onClick={previousHandler}
             href="#"
-            // disabled={currentPage === 1}
+          // disabled={currentPage === 1}
           />
         </PaginationItem>
 
@@ -62,10 +62,10 @@ export const PaginationWithNumbers: React.FC<PaginationWithNumbersProps> = ({
               isActive={page === currentPage}
               style={{
                 background:
-                  page === currentPage ? "hsl(var(--primary))" : undefined,
+                  page === currentPage ? "var(--primary)" : undefined,
                 color:
                   page === currentPage
-                    ? "hsl(var(--primary-foreground))"
+                    ? "var(--primary-foreground)"
                     : undefined,
               }}
               aria-current={page === currentPage ? "page" : undefined}
@@ -95,7 +95,7 @@ export const PaginationWithNumbers: React.FC<PaginationWithNumbersProps> = ({
             textLabel={t("Common.next")}
             onClick={nextHandler}
             href="#"
-            // disabled={currentPage === totalPages}
+          // disabled={currentPage === totalPages}
           />
         </PaginationItem>
       </PaginationContent>

@@ -61,19 +61,20 @@ const SearchPanel: React.FC<PropsWithChildren<SearchPanelProps>> = ({
               id="outlined-basic"
               value={searchParamValue}
               onChange={onChangeHandler}
+              className="shadow-sm border-input"
               placeholder={t("Common.search")}
             />
           </div>
           {
             filterForm ? <Button
-                    variant={"ghost"}
-                    className={"flex items-center gap-2 cursor-pointer"}
-                    onClick={onSortClick}
-                  >
-                  <SortIcon />
-                  <div>{t("Common.sort")}</div>
-                </Button>
-             : null
+              variant={"ghost"}
+              className={"flex items-center gap-2 cursor-pointer"}
+              onClick={onSortClick}
+            >
+              <SortIcon />
+              <div>{t("Common.sort")}</div>
+            </Button>
+              : null
           }
           {
             actions ? actions : null

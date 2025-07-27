@@ -17,7 +17,7 @@ export const Ceil: React.FC<CeilProps> = ({ ceil, toggleSelectedItems, renderCei
   if (ceil.type === CeilItemType.SELECT) {
     return (
       <TableCell>
-        <Checkbox checked={ceil.isActive} onClick={() => toggleSelectedItems(ceil.itemId)} />
+        <Checkbox className="border-primary" checked={ceil.isActive} onClick={() => toggleSelectedItems(ceil.itemId)} />
       </TableCell>
     );
   }

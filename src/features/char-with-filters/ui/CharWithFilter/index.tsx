@@ -1,10 +1,11 @@
 "use client";
 import { isWithinInterval } from "date-fns";
 import dynamic from "next/dynamic";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useCallback } from "react";
 import { DateRangeItem } from "@components/DateRange/DateRangePicker";
 import Filters, { FilterItem } from "../Filters/Filters";
 import { useTranslations } from "next-intl";
+import { AnalyticsData, getAnalyticsWithFilters, AnalyticsFilters, useAnalyticsStore } from "entities/analitycs";
 
 export type FilterStateType = {
   activeItemsFilters: Array<string>;
@@ -35,7 +36,7 @@ type lineObject = {
     date: Date;
   }[];
   type: string;
-  stack: string;
+  stack?: string;
   symbolSize: number;
   lineStyle: {
     color: string;
@@ -49,6 +50,12 @@ type CreateBaseLineObject = {
   minDate: Date | null;
   maxDate: Date | null;
 };
+
+interface CharWithFiltersProps {
+  analyticsData: AnalyticsData | null;
+  onDataChange?: (data: AnalyticsData | null) => void;
+}
+
 const createBaseLineObject = ({
   item,
   minDate,
@@ -70,7 +77,6 @@ const createBaseLineObject = ({
     name: id,
     data: dataArray,
     type: "line",
-    stack: "x",
     symbolSize: 10,
     lineStyle: {
       color: color,
@@ -83,10 +89,15 @@ const createBaseLineObject = ({
 
 const createCharData = ({ originData, filters }: CreateCharDataArguments) => {
   let filteredData = originData;
-  if (filters.activeFilters.length) {
+
+  // If there are active filters, show only those. If no active filters, show nothing.
+  if (filters.activeFilters.length > 0) {
     filteredData = originData.filter((item) =>
       filters.activeFilters.includes(item.id)
     );
+  } else {
+    // When no filters are active, show no data
+    filteredData = [];
   }
 
   const result: lineObject[] = [];
@@ -104,6 +115,68 @@ const createCharData = ({ originData, filters }: CreateCharDataArguments) => {
   return result;
 };
 
+// Transform analytics data to chart format
+const transformAnalyticsToChartData = (analyticsData: AnalyticsData | null): BaseLineData[] => {
+  if (!analyticsData) return [];
+
+  const result: BaseLineData[] = [];
+
+  // Transform families data
+  if (analyticsData.families && typeof analyticsData.families === 'object') {
+    const familiesData = Object.entries(analyticsData.families).map(([date, data]) => ({
+      value: data.active,
+      date: new Date(date)
+    }));
+
+    result.push({
+      data: familiesData,
+      id: "families",
+      color: "#3B82F6" // Blue to match primary filter button
+    });
+  }
+
+  // Transform supporters data
+  if (analyticsData.supporters && typeof analyticsData.supporters === 'object') {
+    const supportersData = Object.entries(analyticsData.supporters).map(([date, data]) => ({
+      value: data.active,
+      date: new Date(date)
+    }));
+
+    result.push({
+      data: supportersData,
+      id: "supporters",
+      color: "#CA8A04" // Yellow to match warning filter button
+    });
+  }
+
+  // Transform tasks data
+  if (analyticsData.tasks && typeof analyticsData.tasks === 'object') {
+    const openTasksData = Object.entries(analyticsData.tasks).map(([date, data]) => ({
+      value: data.opened,
+      date: new Date(date)
+    }));
+
+    result.push({
+      data: openTasksData,
+      id: "open_tasks",
+      color: "#22C55E" // Green to match success filter button
+    });
+
+    const completedTasksData = Object.entries(analyticsData.tasks).map(([date, data]) => ({
+      value: data.closed,
+      date: new Date(date)
+    }));
+
+    result.push({
+      data: completedTasksData,
+      id: "completed_tasks",
+      color: "#8B5CF6" // Violet to match error filter button
+    });
+  }
+
+  return result;
+};
+
 const Echarts = dynamic(() => import("@components/Chart/Echarts"), {
   ssr: false,
   loading: () => {
@@ -113,8 +186,9 @@ const Echarts = dynamic(() => import("@components/Chart/Echarts"), {
 
 const CharWithFilters = () => {
   const t = useTranslations();
+  const { analyticsState, updateAnalyticsData, setLoading } = useAnalyticsStore();
   const [filters, setFilters] = useState<FilterStateType>({
-    activeItemsFilters: [],
+    activeItemsFilters: ["families", "supporters", "open_tasks", "completed_tasks"],
     days: [
       {
         startDate: null,
@@ -126,14 +200,9 @@ const CharWithFilters = () => {
 
   const filtersItems: Array<FilterItem> = [
     {
-      label: t("Dashboard.filters.active"),
-      id: "active_user",
-      color: "primary",
-    },
-    {
       label: t("Dashboard.filters.families"),
       id: "families",
-      color: "secondary",
+      color: "primary",
     },
     {
       label: t("Dashboard.filters.supporters"),
@@ -153,110 +222,10 @@ const CharWithFilters = () => {
   ];
 
   const ChartData = useMemo(() => {
+    const transformedData = transformAnalyticsToChartData(analyticsState.analyticsData);
+
     const data = createCharData({
-      originData: [
-        {
-          data: [
-            { value: 10, date: new Date(2024, 8, 1) },
-            { value: 22, date: new Date(2024, 8, 2) },
-            { value: 28, date: new Date(2024, 8, 3) },
-            { value: 43, date: new Date(2024, 8, 4) },
-            { value: 48, date: new Date(2024, 8, 5) },
-          ],
-          id: "active_user",
-          color: "#269ACF",
-        },
-        {
-          data: [
-            { value: 15, date: new Date(2024, 9, 1) },
-            { value: 14, date: new Date(2024, 9, 2) },
-            { value: 13, date: new Date(2024, 9, 3) },
-            { value: 30, date: new Date(2024, 9, 4) },
-            { value: 14, date: new Date(2024, 9, 5) },
-            { value: 19, date: new Date(2024, 9, 6) },
-          ],
-          id: "families",
-          color: "purple",
-        },
-        {
-          data: [
-            {
-              value: 12,
-              date: new Date(2024, 2, Math.floor(Math.random() * 31) + 1),
-            },
-            {
-              value: 50,
-              date: new Date(2024, 2, Math.floor(Math.random() * 31) + 1),
-            },
-            {
-              value: 30,
-              date: new Date(2024, 2, Math.floor(Math.random() * 31) + 1),
-            },
-            {
-              value: 2,
-              date: new Date(2024, 2, Math.floor(Math.random() * 31) + 1),
-            },
-            {
-              value: 45,
-              date: new Date(2024, 2, Math.floor(Math.random() * 31) + 1),
-            },
-          ],
-          id: "supporters",
-          color: "orange",
-        },
-        {
-          data: [
-            {
-              value: 5,
-              date: new Date(2024, 3, Math.floor(Math.random() * 30) + 1),
-            },
-            {
-              value: 4,
-              date: new Date(2024, 3, Math.floor(Math.random() * 30) + 1),
-            },
-            {
-              value: 3,
-              date: new Date(2024, 3, Math.floor(Math.random() * 30) + 1),
-            },
-            {
-              value: 5,
-              date: new Date(2024, 3, Math.floor(Math.random() * 30) + 1),
-            },
-            {
-              value: 10,
-              date: new Date(2024, 3, Math.floor(Math.random() * 30) + 1),
-            },
-          ],
-          id: "open_tasks",
-          color: "green",
-        },
-        {
-          data: [
-            {
-              value: 10,
-              date: new Date(2024, 4, Math.floor(Math.random() * 31) + 1),
-            },
-            {
-              value: 15,
-              date: new Date(2024, 4, Math.floor(Math.random() * 31) + 1),
-            },
-            {
-              value: 18,
-              date: new Date(2024, 4, Math.floor(Math.random() * 31) + 1),
-            },
-            {
-              value: 10,
-              date: new Date(2024, 4, Math.floor(Math.random() * 31) + 1),
-            },
-            {
-              value: 30,
-              date: new Date(2024, 4, Math.floor(Math.random() * 31) + 1),
-            },
-          ],
-          id: "completed_tasks",
-          color: "red",
-        },
-      ],
+      originData: transformedData,
       filters: {
         activeFilters: filters.activeItemsFilters,
         minDate: filters.days[0]?.startDate,
@@ -265,7 +234,7 @@ const CharWithFilters = () => {
     });
 
     return data;
-  }, [filters]);
+  }, [filters, analyticsState.analyticsData]);
 
   const onChangeItemFilter = (filterId: string) => {
     setFilters((prev) => {
@@ -286,14 +255,73 @@ const CharWithFilters = () => {
     });
   };
 
-  const onChangeDate = (newDates: Array<DateRangeItem>) => {
-    setFilters((prev) => {
-      return {
-        ...prev,
-        days: newDates,
-      };
+  const onChangeDate = useCallback(async (newDates: Array<DateRangeItem>) => {
+    setFilters((prev) => ({
+      ...prev,
+      days: newDates,
+    }));
+
+    // Fetch new data when date range changes
+    const startDate = newDates[0]?.startDate;
+    const endDate = newDates[0]?.endDate;
+
+    if (startDate || endDate) {
+      const filters: AnalyticsFilters = {};
+
+      if (startDate) {
+        filters.date_gteq = startDate.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+      }
+
+      if (endDate) {
+        filters.date_lteq = endDate.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+      }
+
+      try {
+        setLoading(true);
+        const newData = await getAnalyticsWithFilters(filters);
+        updateAnalyticsData(newData);
+      } catch (error) {
+        console.error('Failed to fetch analytics data:', error);
+      } finally {
+        setLoading(false);
+      }
+    } else {
+      // If no date range is selected, fetch all data
+      try {
+        setLoading(true);
+        const newData = await getAnalyticsWithFilters();
+        updateAnalyticsData(newData);
+      } catch (error) {
+        console.error('Failed to fetch analytics data:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+  }, [updateAnalyticsData]);
+
+  // Get unique dates for x-axis
+  const xAxisData = useMemo(() => {
+    if (!analyticsState.analyticsData) return [];
+
+    const allDates = new Set<string>();
+
+    if (analyticsState.analyticsData.families && typeof analyticsState.analyticsData.families === 'object') {
+      Object.keys(analyticsState.analyticsData.families).forEach(date => allDates.add(date));
+    }
+
+    if (analyticsState.analyticsData.tasks && typeof analyticsState.analyticsData.tasks === 'object') {
+      Object.keys(analyticsState.analyticsData.tasks).forEach(date => allDates.add(date));
+    }
+
+    if (analyticsState.analyticsData.supporters && typeof analyticsState.analyticsData.supporters === 'object') {
+      Object.keys(analyticsState.analyticsData.supporters).forEach(date => allDates.add(date));
+    }
+
+    return Array.from(allDates).sort().map(date => {
+      const d = new Date(date);
+      return d.toLocaleDateString('en-US', { weekday: 'short' });
     });
-  };
+  }, [analyticsState.analyticsData]);
 
   return (
     <div>
@@ -304,14 +332,18 @@ const CharWithFilters = () => {
         onChangeDate={onChangeDate}
       />
       <Echarts
-        loading={false}
+        loading={analyticsState.isLoading}
         options={{
           tooltip: {
             trigger: "item",
           },
+          legend: {
+            data: ChartData.map(series => series.name),
+            top: 10,
+          },
           xAxis: {
             type: "category",
-            data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+            data: xAxisData,
           },
           yAxis: {
             type: "value",
