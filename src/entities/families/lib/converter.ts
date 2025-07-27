@@ -66,13 +66,13 @@ export const convertDataForTable = (
     const inProgress = family.occurrences_by_status?.in_progress ?? 0;
     const initial = family.occurrences_by_status?.initial ?? 0;
     const currentTasksCount = completed + inProgress + initial;
-
+    console.log(family);
     return {
       id: family.id,
       name: family.title,
       caregiver: family.primary_caregiver?.full_name ?? "no",
-      lastSeen: new Date().toLocaleDateString(),
-      lastActive: new Date().toLocaleDateString(),
+      lastSeen: new Date(family.last_seen_at).toLocaleDateString(),
+      lastActive: new Date(family.last_seen_at).toLocaleDateString(),
       archived: String(family.archived),
       enrolmentSource: "enrolmentSource",
       tasks: currentTasksCount,
@@ -120,8 +120,8 @@ export const convertSingleFamilyData = (
       city: familyData.patient?.city ?? "-",
     },
     inviteLink: familyData.supporters_invite_link,
-    lastSeen: new Date().toLocaleDateString(),
-    lastActive: new Date().toLocaleDateString(),
+    lastSeen: new Date(familyData.last_seen_at).toLocaleDateString(),
+    lastActive: new Date(familyData.last_seen_at).toLocaleDateString(),
     enrolmentSource: "enrolmentSource",
     tasksChart: {
       completed,

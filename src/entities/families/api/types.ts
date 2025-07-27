@@ -49,6 +49,7 @@ export interface FamilyApi {
   company_id: string;
   program_id: any;
   archived: boolean;
+  last_seen_at: string;
 }
 
 export interface OccurrencesByStatus {
