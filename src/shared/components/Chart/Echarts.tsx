@@ -44,7 +44,7 @@ const ECharts: React.FC<EchartsProps> = (props) => {
     if (chart && options && message) {
       chart.clear();
     }
-  }, [message]);
+  }, [message, chart, options]);
 
   const newStyle = {
     height: 500,

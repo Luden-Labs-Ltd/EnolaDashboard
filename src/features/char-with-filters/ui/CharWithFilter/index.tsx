@@ -297,7 +297,7 @@ const CharWithFilters = () => {
         setLoading(false);
       }
     }
-  }, [updateAnalyticsData]);
+  }, [updateAnalyticsData, setLoading]);
 
   // Get unique dates for x-axis
   const xAxisData = useMemo(() => {

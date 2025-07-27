@@ -97,7 +97,7 @@ export const MembershipTable = () => {
         },
       ];
     },
-    [t]
+    [t, familyId]
   );
 
   if (!memberships.length) {
