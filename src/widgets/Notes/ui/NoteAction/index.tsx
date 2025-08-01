@@ -17,7 +17,7 @@ interface INotesAction {
 export const NoteAction: React.FC<INotesAction> = ({ familyId }) => {
   const { notesState, deleteNote, saveChanges, addNote, saveNewNote, getNote } =
     useNoteStore();
-  const { toast } = useToast();
+  const toast = useToast();
   const { activeNotesId, newNote } = notesState;
 
   const createNewNote = () => {
@@ -27,16 +27,10 @@ export const NoteAction: React.FC<INotesAction> = ({ familyId }) => {
       created_at: currentNote?.created_at ?? new Date().toISOString(),
     }).then((res) => {
       if (isActionError(res)) {
-        return toast({
-          title: `${res?.nextError}`,
-          variant: "destructive",
-        });
+        return toast.error(`${res?.nextError}`);
       }
       saveNewNote(res?.id);
-      return toast({
-        title: `create successful`,
-        variant: "default",
-      });
+      return toast.success(`create successful`);
     });
   };
 
@@ -47,32 +41,20 @@ export const NoteAction: React.FC<INotesAction> = ({ familyId }) => {
       created_at: new Date().toISOString(),
     }).then((res) => {
       if (isActionError(res)) {
-        return toast({
-          title: `${res?.nextError}`,
-          variant: "destructive",
-        });
+        return toast.error(`${res?.nextError}`);
       }
       saveChanges(activeNotesId);
-      return toast({
-        title: `update successful`,
-        variant: "default",
-      });
+      return toast.success(`update successful`)
     });
   };
 
   const onDeleteNote = () => {
     deleteNotes(familyId, activeNotesId).then((res) => {
       if (isActionError(res)) {
-        return toast({
-          title: `${res?.nextError}`,
-          variant: "destructive",
-        });
+        return toast.error(`${res?.nextError}`);
       }
       deleteNote(activeNotesId);
-      return toast({
-        title: `delete successful`,
-        variant: "default",
-      });
+       return toast.success(`delete successful`);
     });
   };
 

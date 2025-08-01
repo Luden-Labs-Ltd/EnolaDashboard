@@ -161,7 +161,10 @@
             "title": "Import resources",
             "description": "You can download the file in XLS, XLSX, or CSV formats, ensuring it matches the structure of the file provided above, or you can use the file above as a template.",
             "downloadExample": "Download Example File",
-            "import": "import"
+            "import": "import",
+            "success": "Resources imported successfully",
+            "error": "Error",
+            "pleaseSelectFile": "Please select a file"
         }
     },
     "Families": {

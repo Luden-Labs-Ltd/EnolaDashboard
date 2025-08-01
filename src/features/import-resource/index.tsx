@@ -16,6 +16,7 @@ import { useTranslations } from "next-intl";
 import React, { useState } from "react";
 import AddIcon from "shared/assets/AddIcon";
 import { isActionError } from "shared/error/api";
+import { useToast } from "@hooks/use-toast";
 
 interface AddResourcesModalActionProps {
 }
@@ -23,7 +24,7 @@ interface AddResourcesModalActionProps {
 const ImportResourcesModal: React.FC<AddResourcesModalActionProps> = ({
 }) => {
   const t = useTranslations();
-
+  const toast = useToast();
   const [isOpen, setIsOpen] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const [error, setError] = useState<string>("");
@@ -43,16 +44,19 @@ const ImportResourcesModal: React.FC<AddResourcesModalActionProps> = ({
 
   const onDownload = () => {
     if (!file) {
+        toast.error(t("Resources.ImportResources.pleaseSelectFile"))
         return
     }
     const newFormData = new FormData()
     newFormData.append("file", file)
     importResources(newFormData).then((data) => {
         if (isActionError(data)) {
+            toast.error(data.nextError)
             setError(data.nextError)
             return
         }else {
             setError("")
+            toast.success(t("Resources.ImportResources.success"))
         }
     })
   }
