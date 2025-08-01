@@ -11,21 +11,13 @@ export const CopyText: React.FC<PropsWithChildren<CopyTextProps>> = ({
   textToCopy,
   callback,
 }) => {
-  const { toast } = useToast();
+  const toast = useToast();
 
   const showTost = (error?: any) => {
     if (error) {
-        return toast({
-            title: `can't copy link ${textToCopy}`,
-            variant: "destructive",
-            description: error?.message,
-          });
+        return toast.error(`can't copy link ${textToCopy}`);
     }
-    return toast({
-      title: `Link copied to your clipboard`,
-      variant: "secondary",
-      description: new Date().toLocaleDateString(),
-    });
+    return toast.info(`Link copied to your clipboard`)
   };
 
   const copyTextHandler = () => {
