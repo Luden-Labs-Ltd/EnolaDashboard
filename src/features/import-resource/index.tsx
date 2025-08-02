@@ -54,7 +54,7 @@ const ImportResourcesModal: React.FC<AddResourcesModalActionProps> = ({
     setIsLoading(true);
     const newFormData = new FormData();
     newFormData.append("file", file);
-    
+
     try {
       const data = await importResources(newFormData);
       if (isActionError(data)) {
@@ -92,7 +92,7 @@ const ImportResourcesModal: React.FC<AddResourcesModalActionProps> = ({
             {t("Resources.ImportResources.title")}
           </DialogTitle>
         </DialogHeader>
-        
+
         <div className="flex flex-col gap-6">
           <DragDropZoneInput
             id="resource-file"
@@ -116,7 +116,7 @@ const ImportResourcesModal: React.FC<AddResourcesModalActionProps> = ({
                     <p className="text-sm text-gray-600 mb-4">
                       {t("Resources.ImportResources.description")}
                     </p>
-                    
+
                     <Button
                       variant="outline"
                       size="sm"

@@ -97,7 +97,11 @@ export const deleteResourceApi = async (
     throw new Error("Some Error deleteResourceApi");
   }
 
-  return true;
+  const resJSON = await response.json();
+  if (resJSON.error) {
+    throw new Error(resJSON.error);
+  }
+  return resJSON;
 };
 
 
@@ -114,8 +118,12 @@ export const importResourcesApi = async (
   );
 
   if (!response) {
-    throw new Error("Some Error importResources");
+    throw new Error("Some Error importResourcesApi");
   }
 
-  return true;
+  const resJSON = await response.json();
+  if (resJSON.error) {
+    throw new Error(resJSON.error);
+  }
+  return resJSON;
 };

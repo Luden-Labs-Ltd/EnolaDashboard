@@ -42,9 +42,9 @@ const AddResourcesModal: React.FC<AddResourcesModalActionProps> = ({
         <DialogHeader>
           <DialogTitle>{t("Resources.addResources")}</DialogTitle>
         </DialogHeader>
-        <DialogDescription className="w-full p-[40px]">
+        <div className="w-full p-[40px]">
           <ResourceForm categories={categories} callback={onClose} />
-        </DialogDescription>
+        </div>
       </DialogContent>
     </Dialog>
   );
