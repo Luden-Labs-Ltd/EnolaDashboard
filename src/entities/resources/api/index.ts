@@ -81,7 +81,6 @@ export const editResourceApi = async (programId: string, resourceId: number, dat
   return resJSON;
 };
 
-
 export const deleteResourceApi = async (
   resourceId: number
 ) => {
@@ -97,7 +96,8 @@ export const deleteResourceApi = async (
     throw new Error("Some Error deleteResourceApi");
   }
 
-  const resJSON = await response.json();
+
+  const resJSON = response.body ? await response.json() : {};
   if (resJSON.error) {
     throw new Error(resJSON.error);
   }
