@@ -33,7 +33,7 @@ const AddFamilyModal: React.FC<AddFamilyModalActionProps> = ({}) => {
           <span>{t("Families.addFamilies")}</span>
         </Button>
       </DialogTrigger>
-      <DialogContent className="flex items-center flex-col w-full max-w-xl p-0">
+      <DialogContent aria-describedby={undefined} className="flex items-center flex-col w-full max-w-xl p-0">
         <DialogHeader className="pt-[16px]">
           <DialogTitle>{t("Families.addFamilies")}</DialogTitle>
         </DialogHeader>

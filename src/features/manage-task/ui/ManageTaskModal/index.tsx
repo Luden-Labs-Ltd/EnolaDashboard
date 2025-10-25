@@ -39,7 +39,7 @@ const ManageTaskModal: React.FC<ManageTaskActionProps> = ({ category }) => {
             <span>{t("Tasks.manageTasks")}</span>
           </Button>
         </DialogTrigger>
-        <DialogContent className="flex items-center flex-col w-full max-w-sm">
+        <DialogContent aria-describedby={undefined} className="flex items-center flex-col w-full max-w-sm">
           <DialogHeader>
             <DialogTitle>{t("Tasks.categoryNotSet")}</DialogTitle>
           </DialogHeader>
@@ -69,7 +69,7 @@ const ManageTaskModal: React.FC<ManageTaskActionProps> = ({ category }) => {
           <span>{t('Tasks.manageTasks')}</span>
         </Button>
       </DialogTrigger>
-      <DialogContent className="flex items-center flex-col w-full max-w-[800px]">
+      <DialogContent aria-describedby={undefined} className="flex items-center flex-col w-full max-w-[800px]">
         <DialogHeader>
           <DialogTitle>
             {category.title} {t("Common.tasks")}

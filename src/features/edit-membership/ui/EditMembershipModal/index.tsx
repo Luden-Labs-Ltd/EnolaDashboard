@@ -93,6 +93,7 @@ const EditMembershipModal: React.FC<
     <Dialog onOpenChange={setIsOpen} open={isOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent
+        aria-describedby={undefined}
         onInteractOutside={onClose}
         className="flex items-center flex-col w-full max-w-lg"
       >

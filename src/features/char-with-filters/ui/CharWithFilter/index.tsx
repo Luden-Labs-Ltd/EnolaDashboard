@@ -358,7 +358,7 @@ const CharWithFilters = () => {
     };
 
     fetchInitialData();
-  }, []);
+  }, [defaultDates.sunday, defaultDates.today, updateAnalyticsData, setLoading]);
 
   return (
     <div>

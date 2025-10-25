@@ -10,7 +10,7 @@ const withNextIntl = createNextIntlPlugin();
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: "standalone",
+  output: process.env.BUILD_STANDALONE === 'true' ? "standalone" : undefined,
   sassOptions: {
     includePaths: [path.join(__dirname, "styles")],
   },
@@ -20,7 +20,7 @@ const nextConfig = {
   experimental: {
     optimizePackageImports: ['@radix-ui/react-icons'],
   },
-  // Add DNS prefetch for Google Fonts
+  // Optimize font loading with proper preconnect and preload headers
   async headers() {
     return [
       {
@@ -28,11 +28,15 @@ const nextConfig = {
         headers: [
           {
             key: 'Link',
-            value: '<https://fonts.gstatic.com>; rel=preconnect; crossorigin',
+            value: '<https://fonts.googleapis.com>; rel=preconnect; crossorigin, <https://fonts.gstatic.com>; rel=preconnect; crossorigin',
           },
         ],
       },
     ];
+  },
+  // Optimize CSS loading
+  compiler: {
+    removeConsole: process.env.NODE_ENV === "production",
   },
 };
 

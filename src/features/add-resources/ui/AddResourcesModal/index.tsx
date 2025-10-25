@@ -38,7 +38,7 @@ const AddResourcesModal: React.FC<AddResourcesModalActionProps> = ({
           <span>{t("Resources.newResources")}</span>
         </Button>
       </DialogTrigger>
-      <DialogContent className="flex items-center flex-col w-full">
+      <DialogContent aria-describedby={undefined} className="flex items-center flex-col w-full">
         <DialogHeader>
           <DialogTitle>{t("Resources.addResources")}</DialogTitle>
         </DialogHeader>

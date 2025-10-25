@@ -41,7 +41,7 @@ export const ChangeProgram: React.FC<PropsWithChildren<ChangeProgramProps>> = ({
   return (
     <form>
       <div className={styles.topLogoWrapper}>
-        <Image alt="logo navbar" src={logo} />
+        <Image alt="logo navbar" src={logo} priority />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant={"ghost"} size={"icon"}>

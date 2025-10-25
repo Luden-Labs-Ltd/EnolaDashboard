@@ -70,12 +70,9 @@ const ArchiveFamily: React.FC<PropsWithChildren<ArchiveFamilyActionProps>> = ({
         </DialogHeader>
         <DialogDescription className="text-center">
           {t("Families.ArchiveFamilies.description", {
-            familyName: currentFamily?.name,
+            familyName: currentFamily?.name ?? "",
           })}
         </DialogDescription>
-        {/* <DialogDescription className="text-center  text-red-500">
-          {`" ${t("Families.ArchiveFamilies.note")} "`}
-        </DialogDescription> */}
         <div className="flex gap-6">
           <Button
             rounded={"circle"}

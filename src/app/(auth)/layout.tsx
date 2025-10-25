@@ -18,7 +18,7 @@ export default function LayoutsAuth({
       <div className="flex flex-col items-center justify-center w-full h-full">
         <div className="flex flex-col w-full h-full">
           <div className={styles.content}>
-            <Image src={ImageStub} className={styles.logo} alt="Image Stub" />
+            <Image src={ImageStub} className={styles.logo} alt="Image Stub" priority />
             {children}
           </div>
         </div>

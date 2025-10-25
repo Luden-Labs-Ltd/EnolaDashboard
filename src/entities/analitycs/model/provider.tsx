@@ -7,6 +7,7 @@ import {
   useContext,
   useEffect,
   useState,
+  useCallback,
 } from "react";
 import { AnalyticsData, AnalyticsFilters } from "./types";
 
@@ -81,13 +82,13 @@ export const useAnalyticsStore = () => {
     });
   };
 
-  const setLoading = (isLoading: boolean) => {
+  const setLoading = useCallback((isLoading: boolean) => {
     setData((prev) => ({ ...prev, isLoading }));
-  };
+  }, [setData]);
 
-  const updateAnalyticsData = (data: AnalyticsData | null) => {
+  const updateAnalyticsData = useCallback((data: AnalyticsData | null) => {
     setData((prev) => ({ ...prev, analyticsData: data }));
-  };
+  }, [setData]);
 
   return {
     analyticsState,

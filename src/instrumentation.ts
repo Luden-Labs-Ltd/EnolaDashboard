@@ -1,16 +1,25 @@
 import * as Sentry from '@sentry/nextjs';
 
 export async function register() {
-  if (process.env.NEXT_RUNTIME === 'nodejs') {
-    await import('../sentry.server.config');
+  const startTime = performance.now();
+
+  try {
+    // Only import what's needed for the current runtime
+    const runtime = process.env.NEXT_RUNTIME;
+
+    if (runtime === 'nodejs') {
+      await import('../sentry.server.config');
+    } else if (runtime === 'edge') {
+      await import('../sentry.edge.config');
+    }
+
+  } catch (error) {
+    console.error('Instrumentation registration error:', error);
   }
 
-  if (process.env.NEXT_RUNTIME === 'edge') {
-    await import('../sentry.edge.config');
-  }
-
-  if (process.env.NEXT_RUNTIME === 'client') {
-    await import('./instrumentation-client');
+  const totalTime = performance.now() - startTime;
+  if (process.env.NODE_ENV === 'development') {
+    console.log(`Total instrumentation registration took ${totalTime}ms`);
   }
 }
 

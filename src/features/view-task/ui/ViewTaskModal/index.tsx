@@ -58,7 +58,7 @@ const ViewTaskModal: React.FC<ViewTaskModalProps> = ({ task }) => {
           <ViewIcon />
         </Button>
       </TooltipWrapper>
-      <DialogContent className="flex items-center flex-col w-full max-w-sm">
+      <DialogContent aria-describedby={undefined} className="flex items-center flex-col w-full max-w-sm">
         <DialogHeader>
           <DialogTitle>{t("Tasks.ViewTasks.title")}</DialogTitle>
         </DialogHeader>

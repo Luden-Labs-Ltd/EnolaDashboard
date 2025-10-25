@@ -13,6 +13,7 @@ interface ResourcesProps {
   resources: ResourcesType[];
   maxResourceCount: number;
   maxTaskCount: number;
+  isRTL: boolean;
 }
 
 export default function Resources({
@@ -20,6 +21,7 @@ export default function Resources({
   resources,
   maxResourceCount,
   maxTaskCount,
+  isRTL,
 }: ResourcesProps) {
   return (
     <main>
@@ -37,7 +39,7 @@ export default function Resources({
           categories={categories}
         >
           <FilterByCategories />
-          <ResourcesList />
+          <ResourcesList isRTL={isRTL} />
         </CategoryStoreProvider>
       </ResourcesStoreProvider>
     </main>

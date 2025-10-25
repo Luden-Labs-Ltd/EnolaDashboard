@@ -18,15 +18,35 @@ const ECharts: React.FC<EchartsProps> = (props) => {
   const chartRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
-    const chart = echarts.init(chartRef.current, null); // echarts theme
-    if (!chart) {
-      return
-    }
+    if (!chartRef.current) return;
+
+    const chartInstance = echarts.init(chartRef.current, null);
+    if (!chartInstance) return;
+
+    setChart(chartInstance);
+
+    return () => {
+      if (chartInstance) {
+        chartInstance.dispose();
+      }
+    };
+  }, []); // Empty dependency array - only run once on mount
+
+  useEffect(() => {
+    if (!chart || !chartRef.current) return;
+
+    // Capture the ref value to avoid stale closure issues
+    const currentElement = chartRef.current;
+
     chart.setOption({ ...options, resizeObserver }, true); // second param is for 'noMerge'
-    setChart(chart);
-    // @ts-ignore
-    if (resizeObserver) resizeObserver.observe(chartRef.current);
-  }, [options]);
+
+    // Set up resize observer
+    resizeObserver.observe(currentElement);
+
+    return () => {
+      resizeObserver.unobserve(currentElement);
+    };
+  }, [chart, options, chartRef]);
 
   useEffect(() => {
     if (!chart) {
@@ -41,10 +61,10 @@ const ECharts: React.FC<EchartsProps> = (props) => {
   }, [chart, loading]);
 
   useEffect(() => {
-    if (chart && options && message) {
+    if (chart && message) {
       chart.clear();
     }
-  }, [message, chart, options]);
+  }, [message, chart]);
 
   const newStyle = {
     height: 500,
