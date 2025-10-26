@@ -21,7 +21,6 @@ export default async function ResourcesPage(props: AppProps["pageProps"]) {
     convertCategoryData(categoriesApiData);
   const resourcesData = convertResourcesData(resourcesApiData);
   const locale = await getLocale();
-  const isRTL = locale === "he" ? true : false;
 
   return (
     <>
@@ -30,7 +29,7 @@ export default async function ResourcesPage(props: AppProps["pageProps"]) {
         maxTaskCount={maxTaskCount}
         categories={categoriesData}
         resources={resourcesData}
-        isRTL={isRTL}
+        locale={locale}
       />
     </>
   );

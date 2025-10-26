@@ -19,9 +19,11 @@ import { useToast } from "@hooks/use-toast";
 import { Separator } from "@components/shadowCDN/separator";
 
 interface AddResourcesModalActionProps {
+  locale: string;
 }
 
 const ImportResourcesModal: React.FC<AddResourcesModalActionProps> = ({
+  locale,
 }) => {
   const t = useTranslations();
   const toast = useToast();
@@ -38,8 +40,8 @@ const ImportResourcesModal: React.FC<AddResourcesModalActionProps> = ({
 
   const handleDownloadExample = () => {
     const link = document.createElement("a");
-    link.href = "/example-files/example-file-resources.xlsx";
-    link.download = "example-file-resources.xlsx";
+    link.href = locale === "he" ? "/example-files/resources_import_he.xlsx" : "/example-files/resources_import_en.xlsx";
+    link.download = locale === "he" ? "ייבוא_משאבים.xlsx" : "import_resources.xlsx";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

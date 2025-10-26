@@ -13,7 +13,7 @@ interface ResourcesProps {
   resources: ResourcesType[];
   maxResourceCount: number;
   maxTaskCount: number;
-  isRTL: boolean;
+  locale: string;
 }
 
 export default function Resources({
@@ -21,15 +21,17 @@ export default function Resources({
   resources,
   maxResourceCount,
   maxTaskCount,
-  isRTL,
+  locale,
 }: ResourcesProps) {
+  const isRTL = locale === "he" ? true : false;
+
   return (
     <main>
       <ResourcesStoreProvider resources={resources}>
         <SearchPanel searchParamName="resource_name">
           <Row>
             <AddResources categories={categories} />
-            <ImportResourcesModal />
+            <ImportResourcesModal locale={locale} />
           </Row>
         </SearchPanel>
         <CategoryStoreProvider
