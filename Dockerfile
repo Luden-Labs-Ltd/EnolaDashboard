@@ -39,6 +39,7 @@ RUN addgroup -g 1001 -S nodejs
 RUN adduser -S deployer -u 1001
 
 # Copy the built artifacts from the builder stage
+COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next/standalone/ ./
 COPY --from=builder /app/.next/static ./.next/static
 
