@@ -35,7 +35,7 @@ export const FilterByCategories: React.FC<FilterByCategoriesProps> = ({}) => {
         color="secondary"
         count={maxResourceCount}
         pressCallback={onFilterClick}
-        title={t('Common.')}
+        title={t('Common.all')}
         iconType={"general"}
       />
       {categories.map((category) => {
