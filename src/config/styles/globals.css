@@ -2,19 +2,6 @@
 
 @import "tw-animate-css";
 
-/* Font fallbacks for Google Fonts */
-@font-face {
-  font-family: 'Space Grotesk Fallback';
-  src: local('Arial'), local('Helvetica'), local('sans-serif');
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Rubik Fallback';
-  src: local('Arial'), local('Helvetica'), local('sans-serif');
-  font-display: swap;
-}
-
 :root {
   --background: hsl(0 0% 100%);
   --foreground: hsl(222.2 47.4% 11.2%);

@@ -5,12 +5,12 @@ import "@styles/reset.scss";
 import "@styles/globals.css";
 import { Toaster } from "@components/shadowCDN/sonner";
 
-// Font configuration with error handling
+// Font configuration with optimized preloading
 const SpaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-grotesk",
-  preload: true,
+  preload: true, // Enable preload for better font loading
   fallback: ["system-ui", "arial"],
   adjustFontFallback: true,
 });
@@ -19,7 +19,7 @@ const RubikFont = Rubik({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-rubik",
-  preload: true,
+  preload: true, // Enable preload for better font loading
   fallback: ["system-ui", "arial"],
   adjustFontFallback: true,
 });

@@ -6,15 +6,17 @@ import CopyText from "features/copy-text";
 import DeleteResourceModal from "features/delete-resource/ui/DeleteResourceModal";
 import { EditResource } from "features/edit-resources";
 import { useTranslations } from "next-intl";
-import React from "react";
+import React, { useCallback } from "react";
 import ShareIcon from "shared/assets/ShareIcon";
 import styles from "./resource.module.scss";
+import { cn } from "@utils";
 
 interface ResourceProps {
   resource: ResourcesType;
+  isRTL: boolean;
 }
 
-export const Resource: React.FC<ResourceProps> = ({ resource }) => {
+export const Resource: React.FC<ResourceProps> = ({ resource, isRTL }) => {
   const t = useTranslations();
   EditResource;
   const resourceDropDownItems: DropDownMenuItemsType[] = [
@@ -73,6 +75,8 @@ export const Resource: React.FC<ResourceProps> = ({ resource }) => {
     },
   ];
 
+  const renderLabel = useCallback((label: string) => isRTL? ":" + label : label + ":", [isRTL]);
+
   return (
     <div className={styles.wrapper}>
       <Row className="justify-between rtl:flex-row-reverse" alignItems="center">
@@ -80,34 +84,51 @@ export const Resource: React.FC<ResourceProps> = ({ resource }) => {
 
         <DropDownMenu items={resourceDropDownItems} />
       </Row>
-      <p className={styles.light}>{resource.organization}</p>
-      <Row className="rtl:flex-row-reverse gap-[4px]">
-        <span className={styles.label}>{t("Resources.contactPerson")}</span>
-        <span className={styles.colon}>:</span>
-        <span className={styles.light}>{resource.contactPerson}</span>
-      </Row>
-      <Row className="rtl:flex-row-reverse gap-[4px] ">
-        <span className={styles.label}>{t("Resources.serviceNature")}</span>
-        <span className={styles.colon}>:</span>
-        <span className={styles.light}>{resource.termsOfService}</span>
-      </Row>
-      <Row className="rtl:flex-row-reverse gap-[4px]">
-        <span className={styles.label}>{t("Common.phone")}</span>
-        <span className={styles.colon}>:</span>
-        <span className={styles.light}>{resource.phone}</span>
-      </Row>
-      <Row className="rtl:flex-row-reverse gap-[4px]">
-        <span className={styles.label}>{t("Common.email")}</span>
-        <span className={styles.colon}>:</span>
-        <span className={styles.light}>{resource.email}</span>
-      </Row>
-      <Row className="rtl:flex-row-reverse gap-[4px]">
-        <span className={styles.label}>{t("Common.url")}</span>
-        <span className={styles.colon}>:</span>
-        <a href={resource.site} target="_blank" className={styles.light}>
-          {resource.site}
-        </a>
-      </Row>
+      {resource.organization && (
+        <p className={cn(styles.light, styles.provider, 'rtl:text-right')}title={resource.organization}>
+          {resource.organization}
+        </p>
+      )}
+      {resource.contactPerson && (
+        <Row className="rtl:flex-row-reverse gap-[4px] items-baseline">
+          <span className={styles.label}>{renderLabel(t("Resources.contactPerson"))}</span>
+          <span className={styles.light} title={resource.contactPerson}>
+            {resource.contactPerson}
+          </span>
+        </Row>
+      )}
+      {resource.termsOfService && (
+        <Row className="rtl:flex-row-reverse gap-[4px] items-baseline">
+          <span className={styles.label}>{renderLabel(t("Resources.serviceNature"))}</span>
+          <span className={styles.light} title={resource.termsOfService}>
+            {resource.termsOfService}
+          </span>
+        </Row>
+      )}
+      {resource.phone && (
+        <Row className="rtl:flex-row-reverse gap-[4px] items-baseline">
+          <span className={styles.label}>{renderLabel(t("Common.phone"))}</span>
+          <a href={`tel:${resource.phone}`} className={styles.light} title={resource.phone}>
+            {resource.phone}
+          </a>
+        </Row>
+      )}
+      {resource.email && (
+        <Row className="rtl:flex-row-reverse gap-[4px] items-baseline">
+          <span className={styles.label}>{renderLabel(t("Common.email"))}</span>
+          <a href={`mailto:${resource.email}`} className={styles.light} title={resource.email}>
+            {resource.email}
+          </a>
+        </Row>
+      )}
+      {resource.site && (
+        <Row className="rtl:flex-row-reverse gap-[4px] items-baseline">
+          <span className={styles.label}>{renderLabel(t("Common.url"))}</span>
+          <a href={resource.site} target="_blank" className={cn(styles.light, 'underline')} title={resource.site}>
+            {resource.site}
+          </a>
+        </Row>
+      )}
     </div>
   );
 };

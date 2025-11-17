@@ -22,8 +22,10 @@ export const editResource = async (
 ) => {
   try {
     const programId = await getCurrentProgramId();
-    await editResourceApi(programId, resourceId, data);
+    const responseData = await editResourceApi(programId, resourceId, data);
+
     revalidateTag(GET_RESOURCES_REVALIDATE_TAG);
+    return responseData;
   } catch (error) {
     return handleServerError(error);
   }
@@ -31,19 +33,19 @@ export const editResource = async (
 
 export const deleteResource = async (resourceId: number) => {
   try {
-    await deleteResourceApi(resourceId);
+    const data = await deleteResourceApi(resourceId);
     revalidateTag(GET_RESOURCES_REVALIDATE_TAG);
+    return data;
   } catch (error) {
     return handleServerError(error);
   }
 };
 
-
-
 export const importResources = async (formData: FormData) => {
   try {
-    await importResourcesApi(formData);
+    const data = await importResourcesApi(formData);
     revalidateTag(GET_RESOURCES_REVALIDATE_TAG);
+    return data;
   } catch (error) {
     return handleServerError(error);
   }

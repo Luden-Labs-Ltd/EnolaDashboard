@@ -32,7 +32,7 @@ const AddCoordinatorModal: React.FC<AddCoordinatorModalActionProps> = ({}) => {
           <span>{t("Coordinators.addCoordinators")}</span>
         </Button>
       </DialogTrigger>
-      <DialogContent className="flex items-center flex-col w-full max-w-xl p-0">
+      <DialogContent aria-describedby={undefined} className="flex items-center flex-col w-full max-w-xl p-0">
         <DialogHeader className="pt-[16px]">
           <DialogTitle>{t("Coordinators.addCoordinators")}</DialogTitle>
         </DialogHeader>

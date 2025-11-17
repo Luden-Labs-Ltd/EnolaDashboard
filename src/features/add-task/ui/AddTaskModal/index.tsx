@@ -33,7 +33,7 @@ const AddTaskModal: React.FC<AddTaskActionProps> = ({ category }) => {
             <span>{t("Common.addTask")}</span>
           </Button>
         </DialogTrigger>
-        <DialogContent className="flex items-center flex-col w-full max-w-sm">
+        <DialogContent aria-describedby={undefined} className="flex items-center flex-col w-full max-w-sm">
           <DialogHeader>
             <DialogTitle>Category Not Set</DialogTitle>
           </DialogHeader>
@@ -55,7 +55,7 @@ const AddTaskModal: React.FC<AddTaskActionProps> = ({ category }) => {
           <span>{t("Common.addTask")}</span>
         </Button>
       </DialogTrigger>
-      <DialogContent className="flex items-center flex-col w-full max-w-[600px]">
+      <DialogContent aria-describedby={undefined} className="flex items-center flex-col w-full max-w-[600px]">
         <DialogHeader>
           <DialogTitle>
             {t("Common.add")} {category.title} {t("Common.tasks")}

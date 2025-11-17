@@ -4,7 +4,7 @@ import { Resource } from "../Resource/Resource";
 import { ScrollArea } from "@components/shadowCDN/scroll-area";
 import { EmptyScreen } from "@components/EmptyScreen";
 
-export const ResourcesList = () => {
+export const ResourcesList = ({ isRTL }: { isRTL: boolean }) => {
   const { resourcesState } = useResourcesStore();
   const { resources } = resourcesState;
 
@@ -15,7 +15,7 @@ export const ResourcesList = () => {
       ) : (
         <div className="flex flex-wrap gap-[32px] justify-start rtl:justify-end">
           {resources.map((resource) => {
-            return <Resource key={resource.id} resource={resource} />;
+            return <Resource key={resource.id} resource={resource} isRTL={isRTL} />;
           })}
         </div>
       )}

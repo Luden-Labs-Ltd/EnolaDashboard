@@ -1,5 +1,6 @@
 import { convertCategoryData, getCategoriesApi } from "entities/category";
 import { convertResourcesData, getResourcesFromApi } from "entities/resources";
+import { getLocale } from "next-intl/server";
 import { AppProps } from "next/app";
 import Resources from "page/resources";
 
@@ -19,6 +20,7 @@ export default async function ResourcesPage(props: AppProps["pageProps"]) {
   const { categoriesData, maxResourceCount, maxTaskCount } =
     convertCategoryData(categoriesApiData);
   const resourcesData = convertResourcesData(resourcesApiData);
+  const locale = await getLocale();
 
   return (
     <>
@@ -27,6 +29,7 @@ export default async function ResourcesPage(props: AppProps["pageProps"]) {
         maxTaskCount={maxTaskCount}
         categories={categoriesData}
         resources={resourcesData}
+        locale={locale}
       />
     </>
   );

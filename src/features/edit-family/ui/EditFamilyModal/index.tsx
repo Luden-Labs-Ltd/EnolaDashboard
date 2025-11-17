@@ -129,6 +129,7 @@ const EditFamilyModal: React.FC<PropsWithChildren<DeleteFamilyActionProps>> = ({
         </div>
       </DialogTrigger>
       <DialogContent
+        aria-describedby={undefined}
         onInteractOutside={onClose}
         className="flex items-center flex-col w-full max-w-lg"
       >

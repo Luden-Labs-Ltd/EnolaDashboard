@@ -19,9 +19,11 @@ import { useToast } from "@hooks/use-toast";
 import { Separator } from "@components/shadowCDN/separator";
 
 interface AddResourcesModalActionProps {
+  locale: string;
 }
 
 const ImportResourcesModal: React.FC<AddResourcesModalActionProps> = ({
+  locale,
 }) => {
   const t = useTranslations();
   const toast = useToast();
@@ -38,8 +40,8 @@ const ImportResourcesModal: React.FC<AddResourcesModalActionProps> = ({
 
   const handleDownloadExample = () => {
     const link = document.createElement("a");
-    link.href = "/example-files/example-file-resources.xlsx";
-    link.download = "example-file-resources.xlsx";
+    link.href = locale === "he" ? "/example-files/resources_import_he.xlsx" : "/example-files/resources_import_en.xlsx";
+    link.download = locale === "he" ? "ייבוא_משאבים.xlsx" : "import_resources.xlsx";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -54,7 +56,7 @@ const ImportResourcesModal: React.FC<AddResourcesModalActionProps> = ({
     setIsLoading(true);
     const newFormData = new FormData();
     newFormData.append("file", file);
-    
+
     try {
       const data = await importResources(newFormData);
       if (isActionError(data)) {
@@ -92,7 +94,7 @@ const ImportResourcesModal: React.FC<AddResourcesModalActionProps> = ({
             {t("Resources.ImportResources.title")}
           </DialogTitle>
         </DialogHeader>
-        
+
         <div className="flex flex-col gap-6">
           <DragDropZoneInput
             id="resource-file"
@@ -116,7 +118,7 @@ const ImportResourcesModal: React.FC<AddResourcesModalActionProps> = ({
                     <p className="text-sm text-gray-600 mb-4">
                       {t("Resources.ImportResources.description")}
                     </p>
-                    
+
                     <Button
                       variant="outline"
                       size="sm"

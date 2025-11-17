@@ -9,8 +9,12 @@ import * as Sentry from "@sentry/nextjs";
 export function handleServerError(error: any): HandelServerObj {
   Sentry.captureException(error);
   if (error.message) {
+    console.error("Request API Failed: ", error.message);
+
     return { nextError: error.message, statusCode: 500 };
   } else {
+    console.error("Request API Failed: ", error);
+
     return {
       nextError:
         "Unknown server error, Please try again later or contact support.",
