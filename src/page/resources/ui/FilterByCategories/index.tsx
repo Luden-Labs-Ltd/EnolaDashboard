@@ -4,6 +4,7 @@ import {
   CategoryPressCallbackArguments,
   useCategoryStore,
 } from "entities/category";
+import { useTranslations } from "next-intl";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { useState } from "react";
 
@@ -15,6 +16,7 @@ export const FilterByCategories: React.FC<FilterByCategoriesProps> = ({}) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const { categoryState } = useCategoryStore();
+  const t = useTranslations()
   const { categories, maxResourceCount } = categoryState;
 
   const onFilterClick = ({ id }: CategoryPressCallbackArguments) => {
@@ -33,7 +35,7 @@ export const FilterByCategories: React.FC<FilterByCategoriesProps> = ({}) => {
         color="secondary"
         count={maxResourceCount}
         pressCallback={onFilterClick}
-        title={"all"}
+        title={t('Common.')}
         iconType={"general"}
       />
       {categories.map((category) => {

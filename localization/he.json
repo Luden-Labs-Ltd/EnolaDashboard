@@ -298,6 +298,7 @@
         "resourcesFile": "קובץ משאבים",
         "manager": "מנהל",
         "member": "חבר",
-        "role": "תפקיד"
+        "role": "תפקיד",
+        "all": "כל"
     }
 }

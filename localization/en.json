@@ -298,6 +298,7 @@
         "resourcesFile": "Resource File",
         "manager": "Manager",
         "member": "Member",
-        "role": "Role"
+        "role": "Role",
+        "all": "all"
     }
 }

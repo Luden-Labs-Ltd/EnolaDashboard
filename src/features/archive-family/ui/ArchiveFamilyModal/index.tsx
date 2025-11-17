@@ -70,7 +70,7 @@ const ArchiveFamily: React.FC<PropsWithChildren<ArchiveFamilyActionProps>> = ({
         </DialogHeader>
         <DialogDescription className="text-center">
           {t("Families.ArchiveFamilies.description", {
-            familyName: currentFamily?.name,
+            familyName: currentFamily?.name ?? "",
           })}
         </DialogDescription>
         {/* <DialogDescription className="text-center  text-red-500">
