@@ -80,13 +80,13 @@ export const Resource: React.FC<ResourceProps> = ({ resource, isRTL }) => {
   return (
     <div className={styles.wrapper}>
       <Row className="justify-between rtl:flex-row-reverse" alignItems="center">
-        <span className={styles.title}>{resource.serviceName}</span>
+        <span className={styles.title}>{resource.organization}</span>
 
         <DropDownMenu items={resourceDropDownItems} />
       </Row>
       {resource.organization && (
         <p className={cn(styles.light, styles.provider, 'rtl:text-right')}title={resource.organization}>
-          {resource.organization}
+          {resource.serviceName}
         </p>
       )}
       {resource.contactPerson && (
