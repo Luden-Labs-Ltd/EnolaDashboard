@@ -164,7 +164,8 @@
             "import": "import",
             "success": "Resources imported successfully",
             "error": "Error",
-            "pleaseSelectFile": "Please select a file"
+            "pleaseSelectFile": "Please select a file",
+            "useAi": "AI Powered Import"
         }
     },
     "Families": {

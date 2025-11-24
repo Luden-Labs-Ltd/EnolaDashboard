@@ -41,9 +41,9 @@ export const deleteResource = async (resourceId: number) => {
   }
 };
 
-export const importResources = async (formData: FormData) => {
+export const importResources = async (formData: FormData, ai: boolean = false) => {
   try {
-    const data = await importResourcesApi(formData);
+    const data = await importResourcesApi(formData, ai);
     revalidateTag(GET_RESOURCES_REVALIDATE_TAG);
     return data;
   } catch (error) {

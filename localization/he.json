@@ -171,7 +171,8 @@
             "import": "יבוא",
             "success": "משאבים יובאו בהצלחה",
             "error": "שגיאה",
-            "pleaseSelectFile": "אנא בחר קובץ"
+            "pleaseSelectFile": "אנא בחר קובץ",
+            "useAi": "ייבוא מונע AI"
         }
     },
     "Families": {

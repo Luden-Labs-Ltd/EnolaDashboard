@@ -17,6 +17,8 @@ import AddIcon from "shared/assets/AddIcon";
 import { isActionError } from "shared/error/api";
 import { useToast } from "@hooks/use-toast";
 import { Separator } from "@components/shadowCDN/separator";
+import { Checkbox } from "@components/shadowCDN/checkbox";
+import { Label } from "@components/shadowCDN/label";
 
 interface AddResourcesModalActionProps {
   locale: string;
@@ -31,11 +33,13 @@ const ImportResourcesModal: React.FC<AddResourcesModalActionProps> = ({
   const [file, setFile] = useState<File | null>(null);
   const [error, setError] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
+  const [useAi, setUseAi] = useState(false);
 
   const onClose = () => {
     setIsOpen(false);
     setFile(null);
     setError("");
+    setUseAi(false);
   };
 
   const handleDownloadExample = () => {
@@ -58,7 +62,7 @@ const ImportResourcesModal: React.FC<AddResourcesModalActionProps> = ({
     newFormData.append("file", file);
 
     try {
-      const data = await importResources(newFormData);
+      const data = await importResources(newFormData, useAi);
       if (isActionError(data)) {
         toast.error(data.nextError);
         setError(data.nextError);
@@ -133,31 +137,46 @@ const ImportResourcesModal: React.FC<AddResourcesModalActionProps> = ({
           }
 
           {file && (
-            <div className="flex justify-end gap-3">
-              <Button
-                variant="outline"
-                onClick={onClose}
-                disabled={isLoading}
-              >
-                {t("Common.cancel")}
-              </Button>
-              <Button
-                onClick={onImport}
-                disabled={isLoading}
-                className="min-w-[80px]"
-              >
-                {isLoading ? (
-                  <>
-                    <svg className="w-4 h-4 mr-2 animate-spin" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clipRule="evenodd" />
-                    </svg>
-                    {t("Resources.ImportResources.import")}
-                  </>
-                ) : (
-                  t("Resources.ImportResources.import")
-                )}
-              </Button>
-            </div>
+            <>
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  id="use-ai"
+                  checked={useAi}
+                  onCheckedChange={(checked) => setUseAi(checked === true)}
+                />
+                <Label
+                  htmlFor="use-ai"
+                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
+                >
+                  {t("Resources.ImportResources.useAi")}
+                </Label>
+              </div>
+              <div className="flex justify-end gap-3">
+                <Button
+                  variant="outline"
+                  onClick={onClose}
+                  disabled={isLoading}
+                >
+                  {t("Common.cancel")}
+                </Button>
+                <Button
+                  onClick={onImport}
+                  disabled={isLoading}
+                  className="min-w-[80px]"
+                >
+                  {isLoading ? (
+                    <>
+                      <svg className="w-4 h-4 mr-2 animate-spin" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clipRule="evenodd" />
+                      </svg>
+                      {t("Resources.ImportResources.import")}
+                    </>
+                  ) : (
+                    t("Resources.ImportResources.import")
+                  )}
+                </Button>
+              </div>
+            </>
           )}
         </div>
       </DialogContent>

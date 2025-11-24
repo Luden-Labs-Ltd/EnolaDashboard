@@ -106,9 +106,14 @@ export const deleteResourceApi = async (
 
 
 export const importResourcesApi = async (
-  formData: FormData
+  formData: FormData,
+  ai: boolean = false
 ) => {
   const programId = await getCurrentProgramId()
+  
+  // Добавляем параметр ai в FormData
+  formData.append("ai", ai.toString());
+  
   const response = await fetchInstance(
     `${process.env.BASE_URL_BACKEND}/api/v2/dashboard/programs/${programId}/resources/import`,
     {
