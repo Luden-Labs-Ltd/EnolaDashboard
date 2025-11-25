@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description: "Auth to app",
 };
 
-export default function LayoutsAuth({
+export default async function LayoutsAuth({
   children,
 }: Readonly<{
   children: React.ReactNode;

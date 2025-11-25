@@ -5,6 +5,7 @@ import NavBar from "@widgets/NavBar";
 import { NAVIGATION_ITEMS } from "shared/constants/navbar";
 import { getCurrentProfileApi } from "entities/auth";
 import { getCurrentProgram } from "entities/program";
+import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "Enola App",
@@ -17,9 +18,15 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const profile = await getCurrentProfileApi()
+
+  if (!profile) {
+    console.log("[RootLayout] no profile found, redirecting to signin");
+    return redirect("/signin");
+  }
+
   const programs = profile?.company.programs ?? []
   const originCurrentProgram = await getCurrentProgram();
-  const fullName = `${profile?.first_name} ${profile?.last_name}`
+  const fullName = `${profile!.company!.name} | ${profile!.first_name} ${profile!.last_name}`
 
   return (
     <div>

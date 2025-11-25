@@ -7,12 +7,19 @@ import * as Sentry from "@sentry/nextjs";
 
 // ERROR HANDLERS
 export function handleServerError(error: any): HandelServerObj {
-  Sentry.captureException(error);
   if (error.message) {
     console.error("Request API Failed: ", error.message);
 
+    if (error.message.includes("Unauthorized")) {
+      console.log("[handleServerError] unauthorized");
+      return { nextError: error.message, statusCode: 401 };
+    }
+
     return { nextError: error.message, statusCode: 500 };
   } else {
+    console.error(error);
+    Sentry.captureException(error);
+
     console.error("Request API Failed: ", error);
 
     return {

@@ -19,6 +19,7 @@ export async function getCurrentProgramId(): Promise<string> {
   let currentProgram = await getCurrentProgram();
 
   if (!currentProgram) {
+    console.log("[getCurrentProgramId] no current program found, getting profile");
     const profile = await getCurrentProfileApi()
     currentProgram = profile?.company?.programs[0] ?? null
   }

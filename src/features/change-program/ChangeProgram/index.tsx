@@ -1,6 +1,6 @@
 "use client";
 import Image, { StaticImageData } from "next/image";
-import React, { PropsWithChildren, useState } from "react";
+import React, { PropsWithChildren, useState, useEffect } from "react";
 import styles from "./changeProgram.module.scss";
 import { Program } from "entities/auth/api/types";
 import BurgerIcon from "shared/assets/BurgerIcon";
@@ -30,6 +30,12 @@ export const ChangeProgram: React.FC<PropsWithChildren<ChangeProgramProps>> = ({
     originCurrentProgram ? originCurrentProgram : programs[0]
   );
 
+  useEffect(() => {
+    if (currentProgram && !programs.some((program) => program.id === currentProgram.id)) {
+      onCurrentProgramChange(programs[0]);
+    }
+  }, [programs]);
+
   const onCurrentProgramChange = (program: Program) => {
     changeProgram(program)
       .then(() => {
@@ -37,6 +43,10 @@ export const ChangeProgram: React.FC<PropsWithChildren<ChangeProgramProps>> = ({
       })
       .catch(() => { });
   };
+
+  if (!currentProgram) {
+    return <div>No program found</div>;
+  }
 
   return (
     <form>

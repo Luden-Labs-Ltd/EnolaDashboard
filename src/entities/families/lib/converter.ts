@@ -66,7 +66,7 @@ export const convertDataForTable = (
     const inProgress = family.occurrences_by_status?.in_progress ?? 0;
     const initial = family.occurrences_by_status?.initial ?? 0;
     const currentTasksCount = completed + inProgress + initial;
-    console.log(family);
+
     return {
       id: family.id,
       name: family.title,

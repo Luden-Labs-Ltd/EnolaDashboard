@@ -12,6 +12,7 @@ export const getCurrentProfileApi = async (): Promise<
       `${process.env.BASE_URL_BACKEND}/api/v2/dashboard/auth/current`,
       {
         method: "GET",
+        next: { revalidate: 10 },
       }
     );
 
@@ -19,13 +20,15 @@ export const getCurrentProfileApi = async (): Promise<
       throw new Error("something happen when profile fetch");
     }
     const resJSON = await response.json();
+
     if (resJSON.error) {
       throw new Error(resJSON.error);
     }
 
     return resJSON;
   } catch (error) {
+    console.log("[getCurrentProfileApi] error", error);
     handleServerError(error);
-    return null
+    return null;
   }
 };
