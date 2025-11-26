@@ -44,7 +44,7 @@ const ImportResourcesModal: React.FC<AddResourcesModalActionProps> = ({
 
   const handleDownloadExample = () => {
     const link = document.createElement("a");
-    link.href = locale === "he" ? "/example-files/resources_import_he.xlsx" : "/example-files/resources_import_en.xlsx";
+    link.href = locale === "he" ? "/example-files/import_resources_he" : "/example-files/import_resources_en.xlsx";
     link.download = locale === "he" ? "ייבוא_משאבים.xlsx" : "import_resources.xlsx";
     document.body.appendChild(link);
     link.click();
