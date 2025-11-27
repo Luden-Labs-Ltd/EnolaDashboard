@@ -28,7 +28,8 @@
         "coordinators": "רכזים",
         "families": "משפחות",
         "family": "משפחה",
-        "memberships": "חברות"
+        "memberships": "חברות",
+        "tasks": "משימות"
     },
     "Dashboard": {
         "filters": {

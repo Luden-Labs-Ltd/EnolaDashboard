@@ -28,7 +28,8 @@
         "families": "Families",
         "family": "Family card",
         "memberships": "Memberships",
-        "coordinators": "Coordinators"
+        "coordinators": "Coordinators",
+        "tasks": "Tasks"
     },
     "Dashboard": {
         "filters": {

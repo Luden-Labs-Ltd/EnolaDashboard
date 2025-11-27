@@ -2,6 +2,7 @@ export type NavigationItemIconsType =
   | "dashboard"
   | "hand"
   | "resources"
+  | "tasks"
   | "family"
   | "tasks"
   | "heart";
@@ -18,6 +19,7 @@ export type AVAILABLE_PATHS_ALIAS =
   | "dashboard"
   | "needs"
   | "resources"
+  | "tasks"
   | "supporters"
   | "coordinators"
   | "families"
@@ -52,6 +54,11 @@ export const AVAILABLE_PATHS: AVAILABLE_PATHS_TYPE = {
   "resources": {
     key: "resources",
     keyTo: "/resources",
+    dynamicParamsCount: 0,
+  },
+  "tasks": {
+    key: "tasks",
+    keyTo: "/tasks",
     dynamicParamsCount: 0,
   },
   "supporters": {
@@ -102,6 +109,13 @@ export const NAVIGATION_ITEMS: Array<NavigationItemType> = [
     disabled: false,
     isForAdmin: false,
     navigateTo: "/resources",
+  },
+  {
+    icon: "tasks",
+    translateKey: "tasks",
+    disabled: true,
+    isForAdmin: false,
+    navigateTo: "/tasks",
   },
   {
     icon: "family",
