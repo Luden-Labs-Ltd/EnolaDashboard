@@ -47,7 +47,6 @@ export const BreadcrumbBar = () => {
           </BreadcrumbItem>
         ) : (
           <BreadcrumbItem className={styles.RouteName}>
-            {/*@ts-ignore */}
             {t(firstPathKey)}
           </BreadcrumbItem>
         )}

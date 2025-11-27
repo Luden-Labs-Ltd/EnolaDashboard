@@ -113,7 +113,7 @@ export const NAVIGATION_ITEMS: Array<NavigationItemType> = [
   {
     icon: "tasks",
     translateKey: "tasks",
-    disabled: true,
+    disabled: false,
     isForAdmin: false,
     navigateTo: "/tasks",
   },
