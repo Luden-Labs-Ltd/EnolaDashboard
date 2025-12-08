@@ -3,6 +3,8 @@ import { z } from "zod";
 import { setCookie, deleteCookie } from "shared/utils/cookies";
 import { redirect } from "next/navigation";
 import { handleNetworkError } from "shared/utils/network-error";
+import { validateFormDataSecurity, isInputSafe } from "shared/security/server-action-protection";
+import { detectAttackAttempt, logAttackAttempt } from "shared/security/attack-detection";
 
 const schemaOtpSend = z.object({
   phoneNumber: z.string().min(6).max(20),
@@ -45,6 +47,16 @@ export async function testAction(prevState: any, formData: FormData) {
 }
 
 export async function sendOtpCode(formData: FormData) {
+  // Security: Validate FormData for command injection (CVE-2025-55182)
+  try {
+    validateFormDataSecurity(formData);
+  } catch (error) {
+    console.error('[SECURITY] CVE-2025-55182: Invalid FormData in sendOtpCode', error);
+    // Don't reveal security error details
+    return { error: "Invalid input" };
+  }
+
+  // Validate schema (business logic validation)
   const validatedFields = schemaOtpSend.safeParse({
     phoneNumber: formData.get("phone_number"),
   });
@@ -85,6 +97,15 @@ export async function sendOtpCode(formData: FormData) {
 
     return { error: null };
   } catch (error) {
+    // Security: Detect attack attempts in errors
+    if (error instanceof Error) {
+      const attackAttempt = detectAttackAttempt(error.message, { path: '/signin' });
+      if (attackAttempt) {
+        logAttackAttempt(attackAttempt);
+        // Don't reveal error details to potential attackers
+        return { error: 'Request failed' };
+      }
+    }
     const networkError = handleNetworkError(error);
     return { error: networkError };
   }
@@ -94,9 +115,26 @@ export async function authenticate(formData: FormData): Promise<{
   error: string | null;
   token: string | null;
 }> {
+  // Security: Validate FormData for command injection (CVE-2025-55182)
   try {
+    validateFormDataSecurity(formData);
+  } catch (error) {
+    console.error('[SECURITY] CVE-2025-55182: Invalid FormData in authenticate', error);
+    // Don't reveal security error details
+    return {
+      token: null,
+      error: "Invalid input",
+    };
+  }
+
+  try {
+    const backendUrl = process.env.BASE_URL_BACKEND;
+    if (!backendUrl || !isInputSafe(backendUrl)) {
+      throw new Error('Invalid backend URL configuration');
+    }
+
     const response = await fetch(
-      process.env.BASE_URL_BACKEND + "/api/v2/dashboard/auth/login",
+      backendUrl + "/api/v2/dashboard/auth/login",
       {
         method: "POST",
         body: formData,
@@ -114,6 +152,18 @@ export async function authenticate(formData: FormData): Promise<{
       error: "Login unsuccessful",
     };
   } catch (error) {
+    // Security: Detect attack attempts in errors
+    if (error instanceof Error) {
+      const attackAttempt = detectAttackAttempt(error.message, { path: '/signin' });
+      if (attackAttempt) {
+        logAttackAttempt(attackAttempt);
+        // Don't reveal error details to potential attackers
+        return {
+          token: null,
+          error: 'Authentication failed',
+        };
+      }
+    }
     const networkError = handleNetworkError(error);
     return {
       token: null,

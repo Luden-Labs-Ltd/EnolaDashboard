@@ -4,6 +4,7 @@
 // https://docs.sentry.io/platforms/javascript/guides/nextjs/
 
 import * as Sentry from "@sentry/nextjs";
+import { detectAttackAttempt, detectKnownAttackPatterns, logAttackAttempt } from "shared/security/attack-detection";
 
 Sentry.init({
   dsn: process.env.SENTRY_DNS,
@@ -16,8 +17,47 @@ Sentry.init({
 
   enabled: process.env.NODE_ENV === "production",
 
-  // Performance optimizations
-  beforeSend(event) {
+  // Security: Detect and block attack attempts (CVE-2025-55182)
+  beforeSend(event, hint) {
+    if (event.exception) {
+      const error = hint.originalException;
+      if (error instanceof Error) {
+        // Detect known attack patterns
+        const attackDetection = detectKnownAttackPatterns(error);
+        if (attackDetection.detected) {
+          // Log the attack attempt
+          const attackAttempt = detectAttackAttempt(error.message, {
+            path: event.request?.url,
+            ip: event.request?.headers?.['x-forwarded-for'] || event.request?.headers?.['x-real-ip'],
+          });
+          
+          if (attackAttempt) {
+            logAttackAttempt(attackAttempt);
+          }
+
+          // Don't send attack attempts to Sentry
+          return null;
+        }
+
+        // Filter out file system and command execution errors
+        const errorMessage = error.message.toLowerCase();
+        if (
+          errorMessage.includes('eacces') ||
+          errorMessage.includes('permission denied') ||
+          errorMessage.includes('/root') ||
+          errorMessage.includes('/etc/') ||
+          errorMessage.includes('scandir') ||
+          errorMessage.includes('shadow') ||
+          errorMessage.includes('command failed') ||
+          errorMessage.includes('wget') ||
+          errorMessage.includes('curl') ||
+          errorMessage.includes('bash')
+        ) {
+          return null;
+        }
+      }
+    }
+
     // Filter out non-critical events
     if (event.level === 'info' && event.exception) {
       return null;

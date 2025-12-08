@@ -4,10 +4,24 @@ export type HandelServerObj = {
 };
 
 import * as Sentry from "@sentry/nextjs";
+import { detectAttackAttempt, logAttackAttempt, isAttackError } from "shared/security/attack-detection";
 
 // ERROR HANDLERS
 export function handleServerError(error: any): HandelServerObj {
   if (error.message) {
+    // Security: Check for attack attempts before processing error
+    if (isAttackError(error.message)) {
+      const attackAttempt = detectAttackAttempt(error.message);
+      if (attackAttempt) {
+        logAttackAttempt(attackAttempt);
+      }
+      // Don't reveal error details to potential attackers
+      return {
+        nextError: "Request failed",
+        statusCode: 400,
+      };
+    }
+
     console.error("Request API Failed: ", error.message);
 
     if (error.message.includes("Unauthorized")) {
@@ -17,6 +31,20 @@ export function handleServerError(error: any): HandelServerObj {
 
     return { nextError: error.message, statusCode: 500 };
   } else {
+    // Security: Check for attack attempts in error object
+    const errorString = String(error);
+    if (isAttackError(errorString)) {
+      const attackAttempt = detectAttackAttempt(errorString);
+      if (attackAttempt) {
+        logAttackAttempt(attackAttempt);
+      }
+      // Don't send attack attempts to Sentry
+      return {
+        nextError: "Request failed",
+        statusCode: 400,
+      };
+    }
+
     console.error(error);
     Sentry.captureException(error);
 
