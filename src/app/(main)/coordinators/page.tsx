@@ -10,6 +10,7 @@ export default async function FamiliesPage(props: AppProps['pageProps']) {
   const searchParams = await props.searchParams;
   const profile = await getCurrentProfileApi()
   const isUserAdmin = profile?.role === 'admin'
+  const programs = profile?.company.programs ?? []
 
   if (!isUserAdmin) {
     redirect('/dashboard')
@@ -44,6 +45,7 @@ export default async function FamiliesPage(props: AppProps['pageProps']) {
         totalCount={totalCount}
         coordinators={coordinatorsTableData as unknown as CoordinatorType[]}
         sorterTableObject={sorterTableObject}
+        programs={programs}
       />
     </>
   );

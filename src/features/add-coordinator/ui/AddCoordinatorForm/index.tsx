@@ -2,23 +2,26 @@ import { Button } from "@components/shadowCDN/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createCoordinator } from "entities/users/actions";
 import { useTranslations } from "next-intl";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import FormRender, { FormRenderField } from "@components/FormRender";
 import styles from "./addFamilyForm.module.scss";
 import { isActionError } from "shared/error/api";
 import { RoleType } from "shared/types/role";
+import { Program } from "entities/auth/api/types";
 
 interface AddCoordinatorFormProps {
   onClose: () => void;
+  programs: Program[];
 }
 
 const createCoordinatorScheme = z.object({
   phone_number: z.string().min(5).max(50),
   first_name: z.string().min(2).max(50),
   last_name: z.string().min(2).max(50),
-  role: z.enum(["manager", "member"]),
+  role: z.enum(["manager", "admin"]),
+  program_id: z.string().optional(),
 });
 
 type CreateCoordinatorForm = z.infer<typeof createCoordinatorScheme>;
@@ -28,14 +31,19 @@ interface RoleOption {
   name: string;
 }
 
-export const AddCoordinatorForm: React.FC<AddCoordinatorFormProps> = ({ onClose }) => {
+interface ProgramOption {
+  value: string;
+  name: string;
+}
+
+export const AddCoordinatorForm: React.FC<AddCoordinatorFormProps> = ({ onClose, programs }) => {
   const t = useTranslations();
   const [apiError, setApiError] = useState("");
   const [disabled, setDisabled] = useState(false);
 
   const form = useForm<CreateCoordinatorForm>({
     resolver: zodResolver(createCoordinatorScheme),
-    defaultValues: { role: "manager" },
+    defaultValues: { role: "manager", program_id: "" },
   });
 
   async function onSubmit(values: CreateCoordinatorForm) {
@@ -53,13 +61,25 @@ export const AddCoordinatorForm: React.FC<AddCoordinatorFormProps> = ({ onClose 
 
   function onCloseHandler() {
     onClose();
-    form.reset({ phone_number: "", first_name: "", last_name: "", role: "manager" });
+    form.reset({ phone_number: "", first_name: "", last_name: "", role: "manager", program_id: "" });
   }
 
   const roleOptions: RoleOption[] = [
     { value: "manager", name: t("Common.manager") },
-    { value: "member", name: t("Common.member") },
+    { value: "admin", name: t("Common.admin") },
   ];
+
+  const programOptions: ProgramOption[] = [
+    ...programs.map((program) => ({ value: program.id, name: program.name })),
+  ];
+
+  const role = form.watch("role");
+
+  useEffect(() => {
+    if (role === "admin") {
+      form.setValue("program_id", "");
+    }
+  }, [role]);
 
   const formFields: FormRenderField<CreateCoordinatorForm>[] = [
     {
@@ -99,6 +119,18 @@ export const AddCoordinatorForm: React.FC<AddCoordinatorFormProps> = ({ onClose 
       placeholder: t("Common.role"),
     },
   ];
+
+  if (role === "manager") {
+    formFields.push({
+      name: "program_id",
+      type: "select",
+      id: "program_id",
+      label: t("Common.program"),
+      direction: "row",
+      options: programOptions,
+      placeholder: t("Common.selectProgram"),
+    });
+  }
 
   return (
     <div className={`${styles.wrapper} w-full p-[16px] pb-[24px] bg-[#F5F8FF]`}>

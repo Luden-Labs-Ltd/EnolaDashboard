@@ -12,10 +12,13 @@ import { useTranslations } from "next-intl";
 import React, { useState } from "react";
 import AddIcon from "shared/assets/AddIcon";
 import { AddCoordinatorForm } from "../AddCoordinatorForm";
+import { Program } from "entities/auth/api/types";
 
-interface AddCoordinatorModalActionProps {}
+interface AddCoordinatorModalActionProps {
+  programs: Program[];
+}
 
-const AddCoordinatorModal: React.FC<AddCoordinatorModalActionProps> = ({}) => {
+const AddCoordinatorModal: React.FC<AddCoordinatorModalActionProps> = ({ programs }) => {
   const t = useTranslations();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -37,7 +40,7 @@ const AddCoordinatorModal: React.FC<AddCoordinatorModalActionProps> = ({}) => {
           <DialogTitle>{t("Coordinators.addCoordinators")}</DialogTitle>
         </DialogHeader>
 
-        <AddCoordinatorForm onClose={onClose} />
+        <AddCoordinatorForm onClose={onClose} programs={programs} />
       </DialogContent>
     </Dialog>
   );

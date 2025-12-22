@@ -9,6 +9,7 @@ export const createCoordinator = async (data: {
   first_name: string;
   last_name: string;
   role: string;
+  program_id?: string;
 }) => {
   try {
     await createCoordinatorApi(data);

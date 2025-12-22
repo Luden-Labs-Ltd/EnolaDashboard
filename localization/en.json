@@ -299,8 +299,11 @@
         "hiddenPatient": "Hidden Patient",
         "resourcesFile": "Resource File",
         "manager": "Manager",
+        "admin": "Admin",
         "member": "Member",
         "role": "Role",
-        "all": "all"
+        "all": "all",
+        "program": "Program",
+        "selectProgram": "Select Program"
     }
 }

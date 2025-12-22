@@ -299,8 +299,11 @@
         "hiddenPatient": "מוסתר החולה",
         "resourcesFile": "קובץ משאבים",
         "manager": "מנהל",
+        "admin": "אדמין",
         "member": "חבר",
         "role": "תפקיד",
-        "all": "כל"
+        "all": "כל",
+        "program": "תכנית",
+        "selectProgram": "בחר תכנית"
     }
 }

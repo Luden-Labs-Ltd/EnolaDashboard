@@ -7,6 +7,7 @@ import { SorterObject } from "shared/types/sort";
 import { CoordinatorsStoreProvider } from "entities/users/model/providerCoordinators";
 import CoordinatorsTable from "./ui/CoordinatorsTable";
 import { AddCoordinator } from "features/add-coordinator";
+import { Program } from "entities/auth/api/types";
 
 
 interface CoordinatorsProps {
@@ -14,12 +15,14 @@ interface CoordinatorsProps {
   sorterTableObject: SorterObject;
   perPage: number;
   totalCount: number;
+  programs: Program[];
 }
 const Coordinators: React.FC<CoordinatorsProps> = ({
   coordinators,
   sorterTableObject,
   perPage,
   totalCount,
+  programs,
 }) => {
   return (
     <main>
@@ -28,7 +31,7 @@ const Coordinators: React.FC<CoordinatorsProps> = ({
           searchParamName="coordinator_name"
         >
           <Row alignItems="center">
-            <AddCoordinator />
+            <AddCoordinator programs={programs} />
           </Row>
         </SearchPanel>
         <ScrollArea className="h-[79vh] w-full p-4">

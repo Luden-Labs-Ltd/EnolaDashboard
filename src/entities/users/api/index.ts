@@ -89,6 +89,7 @@ export const createCoordinatorApi = async (data: {
   first_name: string;
   last_name: string;
   role: string;
+  program_id?: string;
 }) => {
   const response = await fetchInstance(
     process.env.BASE_URL_BACKEND + "/api/v2/dashboard/users",
@@ -97,7 +98,10 @@ export const createCoordinatorApi = async (data: {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify({
+        ...data,
+        program_ids: data.program_id ? [data.program_id] : [],
+      }),
     }
   );
 
