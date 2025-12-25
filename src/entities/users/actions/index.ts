@@ -1,5 +1,5 @@
 "use server";
-import { createCoordinatorApi, deleteCoordinatorById } from "../api";
+import { createCoordinatorApi, deleteCoordinatorById, updateCoordinatorApi } from "../api";
 import { revalidateTag } from "next/cache";
 import { handleServerError } from "shared/error/api";
 import { GET_COORDINATORS_REVALIDATE_TAG } from "../api/const";
@@ -13,6 +13,22 @@ export const createCoordinator = async (data: {
 }) => {
   try {
     await createCoordinatorApi(data);
+    revalidateTag(GET_COORDINATORS_REVALIDATE_TAG);
+  } catch (error: any) {
+    return handleServerError(error);
+  }
+};
+
+export const updateCoordinator = async (
+  coordinatorId: string | number,
+  data: {
+    first_name: string;
+    last_name: string;
+    role: string;
+  }
+) => {
+  try {
+    await updateCoordinatorApi(coordinatorId, data);
     revalidateTag(GET_COORDINATORS_REVALIDATE_TAG);
   } catch (error: any) {
     return handleServerError(error);

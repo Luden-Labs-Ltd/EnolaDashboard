@@ -29,7 +29,7 @@ export default function Main() {
               className={`flex justify-center items-center w-full ${styles.footer}`}
             >
               <p className="text-center">
-                © {new Date().getFullYear()} Enola Ltd
+                © {new Date().getFullYear()} Tamar Ltd
               </p>
             </div>
           </div>

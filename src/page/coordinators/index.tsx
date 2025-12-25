@@ -8,6 +8,7 @@ import { CoordinatorsStoreProvider } from "entities/users/model/providerCoordina
 import CoordinatorsTable from "./ui/CoordinatorsTable";
 import { AddCoordinator } from "features/add-coordinator";
 import { Program } from "entities/auth/api/types";
+import { ProgramFilter } from "./ui/ProgramFilter";
 
 
 interface CoordinatorsProps {
@@ -29,6 +30,7 @@ const Coordinators: React.FC<CoordinatorsProps> = ({
       <CoordinatorsStoreProvider coordinators={coordinators}>
         <SearchPanel
           searchParamName="coordinator_name"
+          filterForm={<ProgramFilter programs={programs} />}
         >
           <Row alignItems="center">
             <AddCoordinator programs={programs} />

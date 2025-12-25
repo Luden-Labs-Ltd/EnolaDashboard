@@ -13,6 +13,7 @@ type GetCoordinatorsDto = {
   by_phone_number: string;
   full_name_cont: string;
   role_eq?: RoleType;
+  program_id?: string;
   sort: SortObject | null;
   currentPage: number;
   perPage: number;
@@ -26,16 +27,28 @@ export const getCoordinatorsFromApi = async (
   const {
     by_phone_number,
     full_name_cont,
+    role_eq,
+    program_id,
     sort,
     currentPage,
     perPage,
   } = props;
 
-  const params = JSON.stringify({
+  const paramsObj: Record<string, any> = {
     by_phone_number,
     full_name_cont,
     sorts: sort ? `${sort.name} ${sort.order}` : "created_at desc",
-  });
+  };
+
+  if (role_eq) {
+    paramsObj.role_eq = role_eq;
+  }
+
+  if (program_id) {
+    paramsObj.program_id_eq = program_id;
+  }
+
+  const params = JSON.stringify(paramsObj);
 
   const response = await fetchInstance(
     process.env.BASE_URL_BACKEND +
@@ -111,6 +124,35 @@ export const createCoordinatorApi = async (data: {
       throw new Error(responseErrorJson.error);
     }
     throw new Error("Failed to create coordinator");
+  }
+  return response.json();
+};
+
+export const updateCoordinatorApi = async (
+  coordinatorId: string | number,
+  data: {
+    first_name: string;
+    last_name: string;
+    role: string;
+  }
+) => {
+  const response = await fetchInstance(
+    `${process.env.BASE_URL_BACKEND}/api/v2/dashboard/users/${coordinatorId}`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    }
+  );
+
+  if (!response || !response.ok) {
+    const responseErrorJson = await response?.json();
+    if (responseErrorJson.error) {
+      throw new Error(responseErrorJson.error);
+    }
+    throw new Error("Failed to update coordinator");
   }
   return response.json();
 };

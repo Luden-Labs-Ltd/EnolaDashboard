@@ -11,7 +11,11 @@ import { EmptyScreen } from "@components/EmptyScreen";
 import { useCoordinatorsStore } from "entities/users/model/providerCoordinators";
 import { DropdownMenuItem } from "@components/shadowCDN/dropdown-menu";
 import DeleteIcon from "shared/assets/DeleteIcon";
+import EditIcon from "shared/assets/EditIcon";
+import Row from "@components/Row";
 import { DeleteCoordinator } from "features/delete-coordinator";
+import { EditCoordinator } from "features/edit-coordinator";
+import { CoordinatorType } from "entities/users";
 
 interface CoordinatorsTableProps {
   sorterTableObject: SorterObject;
@@ -33,7 +37,33 @@ const CoordinatorsTable: React.FC<CoordinatorsTableProps> = ({
   // @ts-ignore
   const renderCeilDropDownItems = useCallback<renderCeilDropDownItemsType>(
     (ceil) => {
+      const coordinator = ceil.itemData as CoordinatorType;
       return [
+        {
+          id: `${ceil.itemId}-edit`,
+          label: t("Common.edit"),
+          icon: "",
+          href: ``,
+          renderCustomComponent: (onOpen, onClose) => {
+            return (
+              <EditCoordinator
+                key={`${ceil.itemId}-edit`}
+                coordinator={coordinator}
+                callback={onClose}
+              >
+                <DropdownMenuItem
+                  onClick={onOpen}
+                  className={"DropdownMenuItem"}
+                >
+                  <Row alignItems="center" className="gap-[8px]">
+                    <EditIcon height={17} width={17} />
+                    <span>{t("Common.edit")}</span>
+                  </Row>
+                </DropdownMenuItem>
+              </EditCoordinator>
+            );
+          },
+        },
         {
           id: `${ceil.itemId}-delete`,
           label: t("Common.delete"),

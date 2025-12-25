@@ -4,7 +4,7 @@ import ImageStub from '../../../public/images/logo/huge_logo.png';
 import styles from '../../page/singin/styles/auth.module.scss';
 
 export const metadata: Metadata = {
-  title: "Enola App Auth",
+  title: "Tamar App Auth",
   description: "Auth to app",
 };
 
@@ -25,7 +25,7 @@ export default async function LayoutsAuth({
         <div className="flex flex-col items-center w-full mt-auto">
           <div className={`flex justify-center items-center w-full ${styles.footer}`}>
             <p className="text-center">
-              © {new Date().getFullYear()} Enola Ltd
+              © {new Date().getFullYear()} Tamar Ltd
             </p>
           </div>
         </div>

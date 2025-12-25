@@ -8,7 +8,7 @@ import { getCurrentProgram } from "entities/program";
 import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
-  title: "Enola App",
+  title: "Tamar App",
   description: "Admin panel for family's",
 };
 

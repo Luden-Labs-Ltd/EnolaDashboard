@@ -19,6 +19,7 @@ export default async function FamiliesPage(props: AppProps['pageProps']) {
   const coordinatorsName = searchParams?.coordinator_name ?? "";
   const phoneNumber = searchParams?.phone_number ?? "";
   const role = searchParams?.role ?? "";
+  const programId = searchParams?.program_id ?? "";
   const sort = searchParams?.sort ? JSON.parse(searchParams?.sort) : null;
 
   const currentPage = searchParams?.current_page
@@ -32,6 +33,7 @@ export default async function FamiliesPage(props: AppProps['pageProps']) {
     perPage: perPage,
     full_name_cont: coordinatorsName,
     role_eq: role,
+    program_id: programId,
     sort: sort,
   });
 
