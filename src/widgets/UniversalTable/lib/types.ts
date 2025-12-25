@@ -21,7 +21,7 @@ export type HeaderItem = {
 
 export type CeilItem = {
   id: string;
-  itemId: number;
+  itemId: string;
   value: string | number;
   type: CeilItemType;
   itemData: Record<string, any>;

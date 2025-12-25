@@ -15,4 +15,7 @@ export interface CoordinatorApi {
   country_name: string;
   city: string;
   about: string;
+  program_ids: string[];
+  last_seen_at: Date;
+  dashboard_access: boolean;
 }

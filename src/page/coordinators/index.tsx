@@ -1,6 +1,6 @@
 import Row from "@components/Row";
 import { ScrollArea } from "@components/shadowCDN/scroll-area";
-import { CoordinatorType } from "entities/users";
+import { CoordinatorType, TableCoordinatorData } from "entities/users";
 import SearchPanel from "features/search-panel";
 import React from "react";
 import { SorterObject } from "shared/types/sort";
@@ -17,6 +17,7 @@ interface CoordinatorsProps {
   perPage: number;
   totalCount: number;
   programs: Program[];
+  tableData: TableCoordinatorData[];
 }
 const Coordinators: React.FC<CoordinatorsProps> = ({
   coordinators,
@@ -24,6 +25,7 @@ const Coordinators: React.FC<CoordinatorsProps> = ({
   perPage,
   totalCount,
   programs,
+  tableData,
 }) => {
   return (
     <main>
@@ -42,6 +44,7 @@ const Coordinators: React.FC<CoordinatorsProps> = ({
             perPage={perPage}
             sorterTableObject={sorterTableObject}
             programs={programs}
+            tableData={tableData}
           />
         </ScrollArea>
       </CoordinatorsStoreProvider>

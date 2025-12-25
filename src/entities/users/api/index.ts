@@ -45,7 +45,7 @@ export const getCoordinatorsFromApi = async (
   }
 
   if (program_id) {
-    paramsObj.program_id_eq = program_id;
+    paramsObj.program_id_in = [program_id];
   }
 
   const params = JSON.stringify(paramsObj);

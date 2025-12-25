@@ -9,11 +9,8 @@ import { renderCeilDropDownItemsType } from "@widgets/UniversalTable/ui/Ceil";
 import { ArchiveFamily } from "features/archive-family";
 import { DeleteFamily } from "features/delete-family";
 import DeleteIcon from "shared/assets/DeleteIcon";
-import ShareIcon from "shared/assets/ShareIcon";
 import ViewIcon from "shared/assets/ViewIcon";
 import { useTranslations } from "next-intl";
-import CopyText from "features/copy-text";
-import { createUrlFromOrigin } from "@lib/url";
 import { CustomPagination } from "@components/CustomPagination";
 import { SorterObject } from "shared/types/sort";
 import { useRouter } from "next/navigation";
@@ -46,29 +43,6 @@ const FamiliesTable: React.FC<FamiliesTableProps> = ({
           icon: <ViewIcon />,
           href: `/family/${ceil.itemId}`,
         },
-        // {
-        //   id: `${ceil.itemId}-share`,
-        //   label: t("Common.share"),
-        //   icon: <ShareIcon />,
-        //   renderCustomComponent: (onOpen, onClose) => {
-        //     const currentLinkToFamily = createUrlFromOrigin(
-        //       `/family/${ceil.itemId}`
-        //     );
-        //     return (
-        //       <CopyText
-        //         key={`${ceil.itemId}-copy`}
-        //         callback={onClose}
-        //         textToCopy={currentLinkToFamily}
-        //       >
-        //         <DropdownMenuItem className={"DropdownMenuItem"}>
-        //           <ShareIcon />
-        //           <span>{t("Common.share")}</span>
-        //         </DropdownMenuItem>
-        //       </CopyText>
-        //     );
-        //   },
-        //   href: ``,
-        // },
         {
           id: `${ceil.itemId}-delete`,
           label: t("Common.delete"),
@@ -78,7 +52,7 @@ const FamiliesTable: React.FC<FamiliesTableProps> = ({
             return (
               <DeleteFamily
                 key={`${ceil.itemId}-delete`}
-                familyId={ceil.itemId}
+                familyId={String(ceil.itemId)}
                 callback={onClose}
               >
                 <DropdownMenuItem
@@ -98,7 +72,7 @@ const FamiliesTable: React.FC<FamiliesTableProps> = ({
           icon: "",
           href: ``,
           renderCustomComponent: (onOpen, onClose) => {
-            const familyId = Number(ceil.itemId);
+            const familyId = String(ceil.itemId);
             return (
               <ArchiveFamily
                 key={`${ceil.itemId}-archive`}
@@ -129,7 +103,7 @@ const FamiliesTable: React.FC<FamiliesTableProps> = ({
     );
   }
 
-  const onDoubleClickFamilyRow = (familyId: number | null) => {
+  const onDoubleClickFamilyRow = (familyId: string | null) => {
     navigate.push(`/family/${familyId}`);
   };
 

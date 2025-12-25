@@ -7,7 +7,7 @@ type TableData = {
 
 type TableDataConverterDto = {
   tableRawData: any[];
-  selectedColumnIds: number[];
+  selectedColumnIds: string[];
   tableName: string;
 };
 
@@ -43,7 +43,7 @@ const createRow = ({
   itemData,
 }: {
   rowId: string;
-  itemId: number;
+  itemId: string;
   rowValue: string | number;
   type: CeilItemType;
   itemData: Record<string, any>;

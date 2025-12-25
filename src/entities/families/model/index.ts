@@ -1,5 +1,5 @@
 export type FamilyType = {
-    id: number;
+    id: string;
     name: string;
     caregiver: string;
     lastSeen: string;
@@ -30,7 +30,7 @@ type ChartSupportersInfoData = {
 }
 
 export type FullFamilyType = {
-    id: number;
+    id: string;
     name: string;
     reason: string;
     firstName: string | null;

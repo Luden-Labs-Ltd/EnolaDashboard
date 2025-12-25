@@ -80,7 +80,10 @@
             "gender": "gender",
             "age": "age",
             "country_code": "country code",
-            "country_name": "country name"
+            "country_name": "country name",
+            "programs": "programs",
+            "lastSeen": "last seen",
+            "dashboardAccess": "dashboard access"
         }
     },
     "Header": {
@@ -304,6 +307,10 @@
         "role": "Role",
         "all": "all",
         "program": "Program",
-        "selectProgram": "Select Program"
+        "selectProgram": "Select Program",
+        "programAccess": "Program Access",
+        "yes": "Yes",
+        "no": "No",
+        "never": "Never"
     }
 }

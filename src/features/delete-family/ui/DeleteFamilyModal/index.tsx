@@ -7,7 +7,7 @@ import React, { PropsWithChildren, useState } from "react";
 
 interface DeleteFamilyActionProps {
   callback?: () => void;
-  familyId?: number;
+  familyId?: string;
 }
 
 const DeleteFamily: React.FC<PropsWithChildren<DeleteFamilyActionProps>> = ({

@@ -15,7 +15,7 @@ import EditIcon from "shared/assets/EditIcon";
 import Row from "@components/Row";
 import { DeleteCoordinator } from "features/delete-coordinator";
 import { EditCoordinator } from "features/edit-coordinator";
-import { CoordinatorType } from "entities/users";
+import { CoordinatorType, TableCoordinatorData } from "entities/users";
 import { Program } from "entities/auth/api/types";
 
 interface CoordinatorsTableProps {
@@ -23,6 +23,7 @@ interface CoordinatorsTableProps {
   perPage: number;
   totalCount: number;
   programs: Program[];
+  tableData: TableCoordinatorData[];
 }
 
 const CoordinatorsTable: React.FC<CoordinatorsTableProps> = ({
@@ -30,17 +31,23 @@ const CoordinatorsTable: React.FC<CoordinatorsTableProps> = ({
   perPage,
   totalCount,
   programs,
+  tableData,
 }) => {
   const t = useTranslations();
 
-  const { coordinatorsState, toggleMainSelect, toggleSelectedCoordinators } =
+  const { coordinatorsState } =
     useCoordinatorsStore();
   const navigate = useRouter();
 
   // @ts-ignore
   const renderCeilDropDownItems = useCallback<renderCeilDropDownItemsType>(
     (ceil) => {
-      const coordinator = ceil.itemData as CoordinatorType;
+      const coordinator: CoordinatorType | undefined = coordinatorsState.coordinators.find((coordinator) => coordinator.id === String(ceil.itemId));
+
+      if (!coordinator) {
+        return [];
+      }
+
       return [
         {
           id: `${ceil.itemId}-edit`,
@@ -77,7 +84,7 @@ const CoordinatorsTable: React.FC<CoordinatorsTableProps> = ({
             return (
               <DeleteCoordinator
                 key={`${ceil.itemId}-delete`}
-                coordinatorId={ceil.itemId}
+                coordinatorId={String(ceil.itemId)}
                 callback={onClose}
               >
                 <DropdownMenuItem
@@ -96,7 +103,7 @@ const CoordinatorsTable: React.FC<CoordinatorsTableProps> = ({
     [t, programs]
   );
 
-  if (!coordinatorsState.coordinators) {
+  if (!tableData.length) {
     return (
       <div className="flex min-h-[50vh] flex-1 justify-center items-center">
         {t("Common.pleaseCreate", { name: t("Common.coordinators") })}
@@ -104,20 +111,17 @@ const CoordinatorsTable: React.FC<CoordinatorsTableProps> = ({
     );
   }
 
-  const onDoubleClickCoordinatorRow = (coordinatorId: number | null) => {
+  const onDoubleClickCoordinatorRow = (coordinatorId: string | null) => {
     navigate.push(`/coordinator/${coordinatorId}`);
   };
 
-  const isScreenEmpty = !coordinatorsState.coordinators.length;
+  const isScreenEmpty = !tableData.length;
   return (
     <>
       <UniversalTable
         tableName="CoordinatorsTable"
-        tableRawData={coordinatorsState.coordinators}
+        tableRawData={tableData}
         sorterObject={sorterTableObject}
-        selectedColumnIds={coordinatorsState.selectedCoordinators}
-        toggleMainSelect={toggleMainSelect}
-        toggleSelectedItems={toggleSelectedCoordinators}
         renderCeilDropDownItems={renderCeilDropDownItems}
         onRowDoubleClick={onDoubleClickCoordinatorRow}
       />

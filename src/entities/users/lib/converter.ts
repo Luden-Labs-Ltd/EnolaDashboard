@@ -1,16 +1,15 @@
 import { SorterObject } from "shared/types/sort";
 import { CoordinatorApi } from "../api/types";
-import { FullCoordinatorType, TableCoordinatorData } from "../model";
+import { CoordinatorType, TableCoordinatorData } from "../model";
 import { CoordinatorContextState } from "../model/providerCoordinator";
-
+import { Program } from "entities/auth/api/types";
+import { useTranslations } from "next-intl";
 
 export function convertSingleCoordinatorData(
-  coordinatorData: CoordinatorApi,
-  token: string = ""
+  coordinatorData: CoordinatorApi
 ): CoordinatorContextState {
-  const fullCoordinator: FullCoordinatorType = {
-    id: Number(coordinatorData.id),
-    token,
+  const coordinator: CoordinatorType = {
+    id: String(coordinatorData.id),
     full_name: coordinatorData.full_name,
     phone_number: coordinatorData.phone_number,
     formatted_phone_number: coordinatorData.formatted_phone_number,
@@ -24,11 +23,13 @@ export function convertSingleCoordinatorData(
     country_name: coordinatorData.country_name,
     city: coordinatorData.city,
     about: coordinatorData.about,
-    families: { id: 0, title: "-" }, // families не приходит из API, подставляем заглушку
+    program_ids: coordinatorData.program_ids,
+    lastSeen: new Date(coordinatorData.last_seen_at).toLocaleDateString(),
+    dashboardAccess: coordinatorData.dashboard_access,
   };
 
   return {
-    coordinator: fullCoordinator,
+    coordinator,
     coordinatorApi: coordinatorData,
   };
 }
@@ -40,6 +41,8 @@ interface ReturnDataForCoordinatorsTableType {
 
 export function convertDataForCoordinatorsTable(
   coordinatorsData: CoordinatorApi[],
+  programs: Program[],
+  t: TFunction,
 ): ReturnDataForCoordinatorsTableType {
   const sorterObject: SorterObject = {
     id: {
@@ -60,18 +63,6 @@ export function convertDataForCoordinatorsTable(
       availableSorts: ["desc", "asc"],
       sortType: "text",
     },
-    city: {
-      isSortAvailable: false,
-      apiName: "city",
-      availableSorts: ["desc", "asc"],
-      sortType: "text",
-    },
-    boarded: {
-      isSortAvailable: false,
-      apiName: "boarded",
-      availableSorts: ["desc", "asc"],
-      sortType: "text",
-    },
     role: {
       isSortAvailable: false,
       apiName: "role",
@@ -84,16 +75,10 @@ export function convertDataForCoordinatorsTable(
     id: String(coordinator.id),
     full_name: coordinator.full_name,
     phone_number: coordinator.formatted_phone_number,
-    boarded: coordinator.boarded,
+    dashboardAccess: coordinator.dashboard_access ? t("Common.yes") : t("Common.no"),
     role: String(coordinator.role),
-    first_name: coordinator.first_name,
-    last_name: coordinator.last_name,
-    gender: coordinator.gender,
-    age: String(coordinator.age ?? ""),
-    country_code: coordinator.country_code,
-    country_name: coordinator.country_name,
-    city: coordinator.city,
-    about: coordinator.about,
+    programs: programs.filter((program) => coordinator.program_ids.includes(program.id)).map((program) => program.name).join(", "),
+    lastSeen: coordinator.last_seen_at ? new Date(coordinator.last_seen_at).toLocaleDateString("en-US", { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' }) : t("Common.never"),
   }));
 
   return {

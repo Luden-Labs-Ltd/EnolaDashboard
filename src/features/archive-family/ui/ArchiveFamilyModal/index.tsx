@@ -9,14 +9,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@components/shadowCDN/dialog";
-import { FamilyType, useFamiliesStore } from "entities/families";
-import { editFamily } from "entities/families/actions";
+import { useFamiliesStore } from "entities/families";
 import { useTranslations } from "next-intl";
 import React, { PropsWithChildren, useState } from "react";
 
 interface ArchiveFamilyActionProps {
   callback?: () => void;
-  familyId?: FamilyType["id"];
+  familyId?: string;
 }
 
 const ArchiveFamily: React.FC<PropsWithChildren<ArchiveFamilyActionProps>> = ({

@@ -12,7 +12,7 @@ import { FamilyType } from ".";
 
 type FamiliesContextState = {
   families: FamilyType[];
-  selectedFamilies: number[];
+  selectedFamilies: string[];
 };
 
 type FamiliesProviderValue = {
@@ -58,7 +58,7 @@ export const useFamiliesStore = () => {
   }
   const { familiesState, setData } = familiesContext;
 
-  const toggleSelectedFamilies = (familyId: number) => {
+  const toggleSelectedFamilies = (familyId: string) => {
     const isFamilyAlreadySelect = familiesState.selectedFamilies.includes(familyId);
 
     if (isFamilyAlreadySelect) {

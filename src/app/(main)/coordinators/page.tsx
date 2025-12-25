@@ -4,6 +4,7 @@ import { PAGE_PAGINATION_SETTINGS } from "shared/constants/page";
 import { AppProps } from "next/app";
 import { getCurrentProfileApi } from "entities/auth";
 import { redirect } from "next/navigation";
+import { getTranslations } from "next-intl/server";
 
 export const dynamic = "force-dynamic";
 export default async function FamiliesPage(props: AppProps['pageProps']) {
@@ -11,6 +12,7 @@ export default async function FamiliesPage(props: AppProps['pageProps']) {
   const profile = await getCurrentProfileApi()
   const isUserAdmin = profile?.role === 'admin'
   const programs = profile?.company.programs ?? []
+  const t = await getTranslations();
 
   if (!isUserAdmin) {
     redirect('/dashboard')
@@ -38,16 +40,17 @@ export default async function FamiliesPage(props: AppProps['pageProps']) {
   });
 
   const { coordinatorsTableData, sorterTableObject } =
-    convertDataForCoordinatorsTable(coordinatorsApiData);
+    convertDataForCoordinatorsTable(coordinatorsApiData, programs, t);
 
   return (
     <>
       <Coordinators
         perPage={perPage}
         totalCount={totalCount}
-        coordinators={coordinatorsTableData as unknown as CoordinatorType[]}
+        coordinators={coordinatorsApiData as unknown as CoordinatorType[]}
         sorterTableObject={sorterTableObject}
         programs={programs}
+        tableData={coordinatorsTableData}
       />
     </>
   );

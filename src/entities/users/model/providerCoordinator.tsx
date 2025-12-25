@@ -7,13 +7,13 @@ import {
   useContext,
   useState,
 } from "react";
-import { FullCoordinatorType } from ".";
+import { CoordinatorType } from ".";
 import { CoordinatorApi } from "../api/types";
 import { getCoordinatorById } from "../api";
 import { convertSingleCoordinatorData } from "../lib/converter";
 
 export type CoordinatorContextState = {
-  coordinator: FullCoordinatorType;
+  coordinator: CoordinatorType;
   coordinatorApi: CoordinatorApi;
 };
 

@@ -5,7 +5,7 @@ interface Caregiver {
   first_name: string | null;
   full_name: string | null;
   gender: string | null;
-  id: number;
+  id: string;
   individual_dashboard_link: string;
   last_name: string | null;
   location: string | null;
@@ -26,7 +26,7 @@ interface Patient {
 }
 
 export interface FamilyApi {
-  id: number;
+  id: string;
   title: string;
   phone_number: string;
   formatted_phone_number: string;

@@ -7,7 +7,7 @@ import React, { PropsWithChildren, useState } from "react";
 
 interface DeleteCoordinatorActionProps {
   callback?: () => void;
-  coordinatorId?: number;
+  coordinatorId?: string;
 }
 
 const DeleteCoordinator: React.FC<PropsWithChildren<DeleteCoordinatorActionProps>> = ({

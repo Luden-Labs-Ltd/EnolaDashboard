@@ -80,7 +80,10 @@
             "gender": "מגדר",
             "age": "גיל",
             "country_code": "קוד מדינה",
-            "country_name": "שם מדינה"
+            "country_name": "שם מדינה",
+            "programs": "תכניות",
+            "lastSeen": "נראה לאחרונה",
+            "dashboardAccess": "גישת דשבורד"
         }
     },
     "Header": {
@@ -304,6 +307,10 @@
         "role": "תפקיד",
         "all": "כל",
         "program": "תכנית",
-        "selectProgram": "בחר תכנית"
+        "selectProgram": "בחר תכנית",
+        "programAccess": "גישת תכנית",
+        "yes": "כן",
+        "no": "לא",
+        "never": "לעולם לא"
     }
 }

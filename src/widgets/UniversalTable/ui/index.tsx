@@ -11,18 +11,19 @@ import { tableDataConverter } from "../lib";
 import { Ceil, renderCeilDropDownItemsType } from "./Ceil";
 import { HeaderCeil } from "./HeaderCeil";
 import { SorterObject } from "shared/types/sort";
-import { CeilItem } from "../lib/types";
+import { CeilItem, CeilItemType, HeaderItemType } from "../lib/types";
 import { cn } from "@utils";
 
 interface UniversalTableProps {
   tableRawData: any[];
-  selectedColumnIds: number[];
+  selectedColumnIds?: string[];
   sorterObject?: SorterObject;
   tableName: string;
-  toggleMainSelect: () => void;
-  toggleSelectedItems: (id: number) => void;
+  toggleMainSelect?: () => void;
+  toggleSelectedItems?: (id: string) => void;
   renderCeilDropDownItems: renderCeilDropDownItemsType;
-  onRowDoubleClick?: (itemId: number | null) => void;
+  onRowDoubleClick?: (itemId: string | null) => void;
+  withSelection?: boolean;
 }
 
 const UniversalTable: React.FC<UniversalTableProps> = ({
@@ -34,17 +35,18 @@ const UniversalTable: React.FC<UniversalTableProps> = ({
   toggleSelectedItems,
   renderCeilDropDownItems,
   onRowDoubleClick,
+  withSelection = false,
 }) => {
   const tableData = tableDataConverter({
     tableRawData: tableRawData,
-    selectedColumnIds: selectedColumnIds,
+    selectedColumnIds: selectedColumnIds ?? [],
     tableName: tableName,
   });
 
   const isIndeterminate =
-    selectedColumnIds.length > 0 &&
-    selectedColumnIds.length !== tableRawData.length;
-  const isChecked = selectedColumnIds.length === tableRawData.length;
+    !!(selectedColumnIds && selectedColumnIds.length > 0 &&
+    selectedColumnIds.length !== tableRawData.length);
+  const isChecked = !!(selectedColumnIds && selectedColumnIds.length === tableRawData.length);
 
   if (!tableRawData.length) {
     return (
@@ -71,12 +73,12 @@ const UniversalTable: React.FC<UniversalTableProps> = ({
       <Table>
         <TableHeader className="[&_tr]:border-0 border-0">
           <TableRow className="border-0">
-            {tableData.headers.map((header) => (
+            {tableData.headers.map((header) => header.type === HeaderItemType.SELECT && !withSelection ? null : (
               <HeaderCeil
                 isChecked={isChecked}
                 isIndeterminate={isIndeterminate}
                 sorterObject={sorterObject}
-                toggleMainSelect={toggleMainSelect}
+                toggleMainSelect={toggleMainSelect ?? (() => {})}
                 key={header.id}
                 header={header}
               />
@@ -91,9 +93,9 @@ const UniversalTable: React.FC<UniversalTableProps> = ({
                 className={cn(!!onRowDoubleClick ? "cursor-pointer" : "", "border-0")}
                 onDoubleClick={() => onDoubleClickHandler?.(row)}
               >
-                {row.map((ceil) => (
+                {row.map((ceil) => ceil.type === CeilItemType.SELECT && !withSelection ? null : (
                   <Ceil
-                    toggleSelectedItems={toggleSelectedItems}
+                    toggleSelectedItems={toggleSelectedItems ?? (() => {})}
                     renderCeilDropDownItems={renderCeilDropDownItems}
                     key={ceil.id}
                     ceil={ceil}

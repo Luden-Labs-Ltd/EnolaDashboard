@@ -9,7 +9,7 @@ import { DropDownMenuItemsType } from "@components/DropDownMenu";
 export type renderCeilDropDownItemsType = (ceil: CeilItem) => DropDownMenuItemsType[]
 interface CeilProps {
   ceil: CeilItem;
-  toggleSelectedItems: (id: number) => void;
+  toggleSelectedItems: (id: string) => void;
   renderCeilDropDownItems: renderCeilDropDownItemsType;
 }
 

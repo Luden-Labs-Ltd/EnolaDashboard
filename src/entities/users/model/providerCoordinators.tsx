@@ -12,7 +12,7 @@ import { CoordinatorType } from ".";
 
 type CoordinatorsContextState = {
   coordinators: CoordinatorType[];
-  selectedCoordinators: number[];
+  selectedCoordinators: string[];
 };
 
 type CoordinatorsProviderValue = {
@@ -58,15 +58,15 @@ export const useCoordinatorsStore = () => {
   }
   const { coordinatorsState, setData } = coordinatorsContext;
 
-  const toggleSelectedCoordinators = (familyId: number) => {
-    const isFamilyAlreadySelect = coordinatorsState.selectedCoordinators.includes(familyId);
+  const toggleSelectedCoordinators = (coordinatorId: string) => {
+    const isCoordinatorAlreadySelect = coordinatorsState.selectedCoordinators.includes(coordinatorId);
 
-    if (isFamilyAlreadySelect) {
-      const filteredSelectedFamilies = coordinatorsState.selectedCoordinators.filter((currentId) => currentId !== familyId)
-      return setData((prev) => ({ ...prev, selectedCoordinators: filteredSelectedFamilies }));
+    if (isCoordinatorAlreadySelect) {
+      const filteredSelectedCoordinators = coordinatorsState.selectedCoordinators.filter((currentId) => currentId !== coordinatorId)
+      return setData((prev) => ({ ...prev, selectedCoordinators: filteredSelectedCoordinators }));
     }
-    const newSelectedFamilies = [...coordinatorsState.selectedCoordinators, familyId]
-    setData((prev) => ({ ...prev, selectedCoordinators: newSelectedFamilies }));
+    const newSelectedCoordinators = [...coordinatorsState.selectedCoordinators, coordinatorId]
+    setData((prev) => ({ ...prev, selectedCoordinators: newSelectedCoordinators }));
   };
 
   const toggleMainSelect = () => {

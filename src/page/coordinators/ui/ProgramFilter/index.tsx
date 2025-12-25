@@ -49,7 +49,7 @@ export const ProgramFilter: React.FC<ProgramFilterProps> = ({ programs }) => {
       name: "program_id",
       type: "select",
       id: "program_id",
-      label: t("Common.program"),
+      label: t("Common.programAccess"),
       placeholder: t("Common.selectProgram"),
       options: programOptions,
     },
