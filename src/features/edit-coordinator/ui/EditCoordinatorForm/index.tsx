@@ -4,8 +4,9 @@ import { Button } from "@components/shadowCDN/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { updateCoordinator } from "entities/users/actions";
 import { CoordinatorType } from "entities/users";
+import { Program } from "entities/auth/api/types";
 import { useTranslations } from "next-intl";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { isActionError } from "shared/error/api";
 import { RoleType } from "shared/types/role";
@@ -17,6 +18,7 @@ import {
 interface EditCoordinatorFormProps {
   callback: () => void;
   coordinator: CoordinatorType;
+  programs: Program[];
 }
 
 interface RoleOption {
@@ -24,9 +26,15 @@ interface RoleOption {
   name: string;
 }
 
+interface ProgramOption {
+  value: string;
+  name: string;
+}
+
 export const EditCoordinatorForm: React.FC<EditCoordinatorFormProps> = ({
   callback,
   coordinator,
+  programs,
 }) => {
   const t = useTranslations();
   const [apiError, setApiError] = useState("");
@@ -38,13 +46,20 @@ export const EditCoordinatorForm: React.FC<EditCoordinatorFormProps> = ({
       first_name: coordinator.first_name,
       last_name: coordinator.last_name,
       role: coordinator.role as "manager" | "admin",
+      program_id: (coordinator as any).program_ids?.[0] || "",
     },
   });
 
   async function onSubmit(values: EditCoordinatorValues) {
     setDisabled(true);
     setApiError("");
-    const res = await updateCoordinator(coordinator.id, values);
+    const submitData = {
+      first_name: values.first_name,
+      last_name: values.last_name,
+      role: values.role,
+      program_ids: values.program_id ? [values.program_id] : [],
+    };
+    const res = await updateCoordinator(coordinator.id, submitData);
     if (isActionError(res)) {
       setApiError(res.nextError);
       setDisabled(false);
@@ -63,6 +78,18 @@ export const EditCoordinatorForm: React.FC<EditCoordinatorFormProps> = ({
     { value: "manager", name: t("Common.manager") },
     { value: "admin", name: t("Common.admin") },
   ];
+
+  const programOptions: ProgramOption[] = [
+    ...programs.map((program) => ({ value: program.id, name: program.name })),
+  ];
+
+  const role = form.watch("role");
+
+  useEffect(() => {
+    if (role === "admin") {
+      form.setValue("program_id", "");
+    }
+  }, [role, form]);
 
   const formFields: FormRenderField<EditCoordinatorValues>[] = [
     {
@@ -92,6 +119,19 @@ export const EditCoordinatorForm: React.FC<EditCoordinatorFormProps> = ({
       required: true,
       placeholder: t("Common.role"),
     },
+    ...(role === "manager"
+      ? [
+          {
+            name: "program_id" as const,
+            type: "select" as const,
+            id: "program_id",
+            label: t("Common.program"),
+            direction: "row" as const,
+            options: programOptions,
+            placeholder: t("Common.selectProgram"),
+          } as FormRenderField<EditCoordinatorValues>,
+        ]
+      : []),
   ];
 
   return (

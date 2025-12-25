@@ -41,6 +41,7 @@ const Coordinators: React.FC<CoordinatorsProps> = ({
             totalCount={totalCount}
             perPage={perPage}
             sorterTableObject={sorterTableObject}
+            programs={programs}
           />
         </ScrollArea>
       </CoordinatorsStoreProvider>

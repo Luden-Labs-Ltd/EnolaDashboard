@@ -25,6 +25,7 @@ export const updateCoordinator = async (
     first_name: string;
     last_name: string;
     role: string;
+    program_ids?: string[];
   }
 ) => {
   try {

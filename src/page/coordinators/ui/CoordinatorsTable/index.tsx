@@ -16,17 +16,20 @@ import Row from "@components/Row";
 import { DeleteCoordinator } from "features/delete-coordinator";
 import { EditCoordinator } from "features/edit-coordinator";
 import { CoordinatorType } from "entities/users";
+import { Program } from "entities/auth/api/types";
 
 interface CoordinatorsTableProps {
   sorterTableObject: SorterObject;
   perPage: number;
   totalCount: number;
+  programs: Program[];
 }
 
 const CoordinatorsTable: React.FC<CoordinatorsTableProps> = ({
   sorterTableObject,
   perPage,
   totalCount,
+  programs,
 }) => {
   const t = useTranslations();
 
@@ -50,6 +53,7 @@ const CoordinatorsTable: React.FC<CoordinatorsTableProps> = ({
                 key={`${ceil.itemId}-edit`}
                 coordinator={coordinator}
                 callback={onClose}
+                programs={programs}
               >
                 <DropdownMenuItem
                   onClick={onOpen}
@@ -89,7 +93,7 @@ const CoordinatorsTable: React.FC<CoordinatorsTableProps> = ({
         },
       ];
     },
-    [t]
+    [t, programs]
   );
 
   if (!coordinatorsState.coordinators) {

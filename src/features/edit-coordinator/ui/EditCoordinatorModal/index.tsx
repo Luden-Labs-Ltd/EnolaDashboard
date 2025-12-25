@@ -8,6 +8,7 @@ import {
   DialogTrigger,
 } from "@components/shadowCDN/dialog";
 import { CoordinatorType } from "entities/users";
+import { Program } from "entities/auth/api/types";
 import { useTranslations } from "next-intl";
 import React, { PropsWithChildren, useState } from "react";
 import { EditCoordinatorForm } from "../EditCoordinatorForm";
@@ -15,11 +16,13 @@ import { EditCoordinatorForm } from "../EditCoordinatorForm";
 interface EditCoordinatorModalProps {
   callback?: () => void;
   coordinator: CoordinatorType;
+  programs: Program[];
 }
 
 const EditCoordinatorModal: React.FC<PropsWithChildren<EditCoordinatorModalProps>> = ({
   callback,
   coordinator,
+  programs,
   children,
 }) => {
   const t = useTranslations();
@@ -45,7 +48,7 @@ const EditCoordinatorModal: React.FC<PropsWithChildren<EditCoordinatorModalProps
           <DialogTitle>{t("Common.edit")}</DialogTitle>
         </DialogHeader>
 
-        <EditCoordinatorForm callback={onClose} coordinator={coordinator} />
+        <EditCoordinatorForm callback={onClose} coordinator={coordinator} programs={programs} />
       </DialogContent>
     </Dialog>
   );
