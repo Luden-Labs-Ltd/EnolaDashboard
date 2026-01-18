@@ -6,7 +6,8 @@
         "send_code": "Send Code",
         "resend_otp": "Resend code",
         "code": "enter code",
-        "log_in": "log in"
+        "log_in": "log in",
+        "language": "Choose Language"
     },
     "NavBar": {
         "families": "Families",

@@ -20,7 +20,7 @@ export const OtpInput: React.FC<OtpInputProps> = ({ onChange, ...rest }) => {
       pattern={REGEXP_ONLY_DIGITS}
       {...rest}
     >
-      <InputOTPGroup>
+      <InputOTPGroup style={{ direction: 'ltr' }}>
         <InputOTPSlot index={0} />
         <InputOTPSlot index={1} />
         <InputOTPSlot index={2} />
