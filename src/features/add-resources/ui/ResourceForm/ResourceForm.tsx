@@ -67,6 +67,14 @@ export const ResourceForm: React.FC<ResourceFormProps> = ({
       placeholder: "",
     },
     {
+      name: "access_requirements",
+      type: "input",
+      id: "access_requirements",
+      direction: "row",
+      label: t("Resources.accessRequirements"),
+      placeholder: "",
+    },
+    {
       name: "phone_number",
       type: "phone",
       id: "phone",
@@ -90,6 +98,14 @@ export const ResourceForm: React.FC<ResourceFormProps> = ({
       label: t("Common.url"),
       direction: "row",
       placeholder: "https://",
+    },
+    {
+      name: "address",
+      type: "input",
+      id: "address",
+      label: t("Common.address"),
+      direction: "row",
+      placeholder: "",
     },
     {
       name: "category_id",

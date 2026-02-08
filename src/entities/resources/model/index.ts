@@ -4,8 +4,10 @@ export type ResourcesType = {
   organization: string;
   contactPerson: string;
   termsOfService: string;
+  accessRequirements: string;
   phone: string;
   email: string;
   site: string;
+  address: string;
   category: string;
 };

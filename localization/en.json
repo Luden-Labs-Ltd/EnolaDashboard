@@ -159,6 +159,7 @@
         "serviceName": "Service Name",
         "contactPerson": "Contact person",
         "serviceNature": "Terms of service",
+        "accessRequirements": "Access requirements",
         "DeleteResources": {
             "description": "After clicking the Delete button, it will be impossible to restore resources."
         },

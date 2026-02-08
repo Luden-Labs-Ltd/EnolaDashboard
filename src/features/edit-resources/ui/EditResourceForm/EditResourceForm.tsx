@@ -36,8 +36,10 @@ export const EditResourceForm: React.FC<EditResourceFormProps> = ({
       contact_name: resource.contactPerson,
       phone_number: resource.phone,
       terms_of_service: resource.termsOfService,
+      access_requirements: resource.accessRequirements,
       email: resource.email,
       link: resource.site,
+      address: resource.address,
       category_id: String(resource.category),
     },
   });
@@ -76,6 +78,14 @@ export const EditResourceForm: React.FC<EditResourceFormProps> = ({
       placeholder: "",
     },
     {
+      name: "access_requirements",
+      type: "input",
+      id: "access_requirements",
+      direction: "row",
+      label: t("Resources.accessRequirements"),
+      placeholder: "",
+    },
+    {
       name: "phone_number",
       type: "phone",
       id: "phone",
@@ -98,6 +108,14 @@ export const EditResourceForm: React.FC<EditResourceFormProps> = ({
       label: t("Common.url"),
       direction: "row",
       placeholder: "https://",
+    },
+    {
+      name: "address",
+      type: "input",
+      id: "address",
+      label: t("Common.address"),
+      direction: "row",
+      placeholder: "",
     },
     {
       name: "category_id",

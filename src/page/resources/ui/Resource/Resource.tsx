@@ -105,6 +105,14 @@ export const Resource: React.FC<ResourceProps> = ({ resource, isRTL }) => {
           </span>
         </Row>
       )}
+      {resource.accessRequirements && (
+        <Row className="rtl:flex-row-reverse gap-[4px] items-baseline">
+          <span className={styles.label}>{renderLabel(t("Resources.accessRequirements"))}</span>
+          <span className={styles.light} title={resource.accessRequirements}>
+            {resource.accessRequirements}
+          </span>
+        </Row>
+      )}
       {resource.phone && (
         <Row className="rtl:flex-row-reverse gap-[4px] items-baseline">
           <span className={styles.label}>{renderLabel(t("Common.phone"))}</span>
@@ -127,6 +135,14 @@ export const Resource: React.FC<ResourceProps> = ({ resource, isRTL }) => {
           <a href={resource.site} target="_blank" className={cn(styles.light, 'underline')} title={resource.site}>
             {resource.site}
           </a>
+        </Row>
+      )}
+      {resource.address && (
+        <Row className="rtl:flex-row-reverse gap-[4px] items-baseline">
+          <span className={styles.label}>{renderLabel(t("Common.address"))}</span>
+          <span className={styles.light} title={resource.address}>
+            {resource.address}
+          </span>
         </Row>
       )}
     </div>

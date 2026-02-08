@@ -166,6 +166,7 @@
         "serviceName": "שם שירות",
         "contactPerson": "איש קשר",
         "serviceNature": "אופי השירות",
+        "accessRequirements": "אופן קבלת השירות",
         "DeleteResources": {
             "description": "לאחר לחיצה על כפתור המחיקה, לא ניתן יהיה לשחזר משאבים."
         },
