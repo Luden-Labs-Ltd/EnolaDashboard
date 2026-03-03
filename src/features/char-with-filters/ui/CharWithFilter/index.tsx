@@ -378,9 +378,23 @@ const CharWithFilters = () => {
         options={{
           tooltip: {
             trigger: "item",
+            formatter: (params: { seriesName?: string; value?: unknown } | { seriesName?: string; value?: unknown }[]) => {
+              const items = Array.isArray(params) ? params : [params];
+              return items
+                .map((p) => {
+                  const filterItem = filtersItems.find((f) => f.id === p.seriesName);
+                  const label = filterItem ? filterItem.label : p.seriesName;
+                  return `${label}: ${p.value}`;
+                })
+                .join("<br/>");
+            },
           },
           legend: {
-            data: ChartData.map(series => series.name),
+            data: ChartData.map((series) => series.name),
+            formatter: (name: string) => {
+              const filterItem = filtersItems.find((f) => f.id === name);
+              return filterItem ? filterItem.label : name;
+            },
             top: 10,
           },
           xAxis: {
