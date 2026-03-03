@@ -313,6 +313,9 @@
         "programAccess": "Program Access",
         "yes": "Yes",
         "no": "No",
-        "never": "Never"
+        "never": "Never",
+        "language": "Language",
+        "english": "English",
+        "hebrew": "Hebrew"
     }
 }

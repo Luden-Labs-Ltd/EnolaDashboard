@@ -4,35 +4,18 @@ import React from "react";
 import styles from "@styles/main.layout.module.scss";
 import stylesHeader from "./header.module.scss";
 import classNames from "classnames";
-import { useLocale } from "next-intl";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
 } from "@components/shadowCDN/avatar";
-
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@components/shadowCDN/select";
-import { changeLanguage } from "entities/language/action";
 import { BreadcrumbBar } from "./Breadcrumb";
+import { LanguageSwitch } from "features/language-switch";
 
 interface HeaderProps {
   userName: string;
 }
 export default function Header(props: HeaderProps) {
-  const locale = useLocale();
-
-  const onSelectChange = (value: string) => {
-    const formData = new FormData();
-    formData.append("language", value);
-    changeLanguage(formData);
-  };
-
   return (
     <header className={classNames(styles.header, stylesHeader.headerInner)}>
       <BreadcrumbBar />
@@ -44,19 +27,7 @@ export default function Header(props: HeaderProps) {
 
         <div className={stylesHeader.avatarName}>{props.userName}</div>
 
-        <Select
-          name="language"
-          defaultValue={locale}
-          onValueChange={onSelectChange}
-        >
-          <SelectTrigger className="w-[60px]">
-            <SelectValue placeholder="Language" />
-          </SelectTrigger>
-          <SelectContent className="border-0">
-            <SelectItem value="en">En</SelectItem>
-            <SelectItem value="he">He</SelectItem>
-          </SelectContent>
-        </Select>
+        <LanguageSwitch />
       </div>
     </header>
   );

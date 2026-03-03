@@ -313,6 +313,9 @@
         "programAccess": "גישת תכנית",
         "yes": "כן",
         "no": "לא",
-        "never": "לעולם לא"
+        "never": "לעולם לא",
+        "language": "שפה",
+        "english": "אנגלית",
+        "hebrew": "עברית"
     }
 }
