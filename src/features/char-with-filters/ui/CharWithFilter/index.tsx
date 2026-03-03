@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 import { useMemo, useState, useCallback, useEffect } from "react";
 import { DateRangeItem } from "@components/DateRange/DateRangePicker";
 import Filters, { FilterItem } from "../Filters/Filters";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { AnalyticsData, getAnalyticsWithFilters, AnalyticsFilters, useAnalyticsStore } from "entities/analitycs";
 
 export type FilterStateType = {
@@ -192,6 +192,7 @@ const Echarts = dynamic(() => import("@components/Chart/Echarts"), {
 
 const CharWithFilters = () => {
   const t = useTranslations();
+  const appLocale = useLocale();
   const { analyticsState, updateAnalyticsData, setLoading } = useAnalyticsStore();
 
   // Set default date range to last + current week from Sunday to today using useMemo to prevent recreation
@@ -327,17 +328,21 @@ const CharWithFilters = () => {
     }
 
     const dates: string[] = [];
+    const browserLocale =
+      appLocale === "he" ? "he-IL" : appLocale === "ru" ? "ru-RU" : "en-US";
     const currentDate = new Date(startDate);
     const lastDate = new Date(endDate);
 
     // Generate dates for each day in the range
     while (currentDate <= lastDate) {
-      dates.push(currentDate.toLocaleDateString('en-US', { weekday: 'short' }));
+      dates.push(
+        currentDate.toLocaleDateString(browserLocale, { weekday: "short" })
+      );
       currentDate.setDate(currentDate.getDate() + 1);
     }
 
     return dates;
-  }, [filters.days]);
+  }, [filters.days, appLocale]);
 
   useEffect(() => {
     const fetchInitialData = async (): Promise<void> => {

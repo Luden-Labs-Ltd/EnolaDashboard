@@ -324,6 +324,16 @@
         "never": "לעולם לא",
         "language": "שפה",
         "english": "אנגלית",
-        "hebrew": "עברית"
+        "hebrew": "עברית",
+        "dateRange": {
+            "today": "היום",
+            "yesterday": "אתמול",
+            "thisWeek": "השבוע",
+            "lastWeek": "שבוע שעבר",
+            "thisMonth": "החודש",
+            "lastMonth": "חודש שעבר",
+            "daysUpToToday": "ימים עד היום",
+            "daysStartingToday": "ימים מתחילים מהיום"
+        }
     }
 }

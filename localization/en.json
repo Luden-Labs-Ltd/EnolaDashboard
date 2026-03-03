@@ -324,6 +324,16 @@
         "never": "Never",
         "language": "Language",
         "english": "English",
-        "hebrew": "Hebrew"
+        "hebrew": "Hebrew",
+        "dateRange": {
+            "today": "Today",
+            "yesterday": "Yesterday",
+            "thisWeek": "This Week",
+            "lastWeek": "Last Week",
+            "thisMonth": "This Month",
+            "lastMonth": "Last Month",
+            "daysUpToToday": "days up to today",
+            "daysStartingToday": "days starting today"
+        }
     }
 }
