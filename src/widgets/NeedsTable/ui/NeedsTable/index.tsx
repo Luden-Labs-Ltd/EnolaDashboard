@@ -25,6 +25,7 @@ import Row from "@components/Row";
 import ViewIcon from "shared/assets/ViewIcon";
 import { ViewTaskModal } from "features/view-task";
 import { ManageCategories } from "page/needs/ui/ManageCategories";
+import { translateCategoryTitle } from "shared/utils/categoryTranslation";
 
 interface NeedsTableProps {}
 
@@ -70,7 +71,7 @@ const NeedsTable: React.FC<NeedsTableProps> = () => {
                 iconType={category.icon}
                 pressCallback={onCategoryClick}
                 key={category.id}
-                title={category.title}
+                title={translateCategoryTitle(t, category.id, category.title)}
                 id={category.id}
                 active={category.id === currentCategory.id}
               />

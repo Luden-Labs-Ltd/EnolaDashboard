@@ -7,6 +7,7 @@ import {
 import { useTranslations } from "next-intl";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { useState } from "react";
+import { translateCategoryTitle } from "shared/utils/categoryTranslation";
 
 interface FilterByCategoriesProps {}
 
@@ -50,7 +51,7 @@ export const FilterByCategories: React.FC<FilterByCategoriesProps> = ({}) => {
             iconType={category.icon}
             variant="chip"
             count={category.resourceCount}
-            title={category.title}
+            title={translateCategoryTitle(t, category.id, category.title)}
           />
         );
       })}

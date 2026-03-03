@@ -160,6 +160,14 @@
         "contactPerson": "Contact person",
         "serviceNature": "Terms of service",
         "accessRequirements": "Access requirements",
+        "Categories": {
+            "medical": "Medical",
+            "home": "Home",
+            "childcare": "Childcare",
+            "emotional": "Emotional",
+            "legal": "Legal rights",
+            "general": "General"
+        },
         "DeleteResources": {
             "description": "After clicking the Delete button, it will be impossible to restore resources."
         },

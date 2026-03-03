@@ -167,6 +167,14 @@
         "contactPerson": "איש קשר",
         "serviceNature": "אופי השירות",
         "accessRequirements": "אופן קבלת השירות",
+        "Categories": {
+            "medical": "רפואי",
+            "home": "בית",
+            "childcare": "טיפול בילדים",
+            "emotional": "רגשי",
+            "legal": "זכויות משפטיות",
+            "general": "כללי"
+        },
         "DeleteResources": {
             "description": "לאחר לחיצה על כפתור המחיקה, לא ניתן יהיה לשחזר משאבים."
         },
