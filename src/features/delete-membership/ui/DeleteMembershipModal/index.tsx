@@ -9,7 +9,7 @@ import { isActionError } from "shared/error/api";
 interface DeleteMembershipActionProps {
   callback?: () => void;
   familyId: string;
-  membershipId: number;
+  membershipId: number | string;
 }
 
 const DeleteMembership: React.FC<

@@ -8,7 +8,7 @@ import { useTranslations } from "next-intl";
 import { getNotesById, NotesStoreProvider, NotesType } from "entities/notes";
 
 interface INotes {
-  familyId: number;
+  familyId: number | string;
 }
 export const Notes: React.FC<INotes> = ({ familyId }) => {
   const t = useTranslations();

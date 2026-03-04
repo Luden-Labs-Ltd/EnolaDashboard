@@ -34,7 +34,7 @@ export const deleteFamily = async (familyId: string | number) => {
 };
 
 export const editFamily = async (
-  familyId: number,
+  familyId: number | string,
   familyDto: Omit<EditFamilyInfoDto, "program_id">
 ) => {
   try {

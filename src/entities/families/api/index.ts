@@ -138,7 +138,7 @@ export const createFamilyApi = async (data: CreateFamilyDto) => {
 };
 
 export const editFamilyApi = async (
-  familyId: number,
+  familyId: number | string,
   data: EditFamilyInfoDto
 ) => {
   const response = await fetchInstance(

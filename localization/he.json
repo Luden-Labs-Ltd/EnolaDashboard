@@ -222,6 +222,18 @@
         "coordinators": "לחצו על ״הוספת רכז״ כדי להתחיל רשימה",
         "default": "ריק"
     },
+    "FamilyTasks": {
+        "info": "מידע",
+        "tasks": "משימות",
+        "noTasks": "אין משימות עדיין",
+        "markAsDone": "סמן כבוצע",
+        "restore": "שחזר",
+        "confirmDone": "לסמן את המשימה כהושלמה?",
+        "confirmDelete": "האם אתה בטוח שברצונך למחוק משימה זו?",
+        "assignee": "מוקצה",
+        "unassigned": "לא מוקצה",
+        "allCategories": "הכל"
+    },
     "Common": {
         "pleaseCreate": "אנא צור{name}",
         "programName": "שם התוכנית",

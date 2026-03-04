@@ -1,11 +1,18 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@components/Card";
 import Row from "@components/Row";
 import { Button } from "@components/shadowCDN/button";
+import {
+  Tabs,
+  TabsList,
+  TabsTrigger,
+  TabsContent,
+} from "@components/shadowCDN/tabs";
 import TooltipWrapper from "@components/TooltipWrapper";
 import ChartCard from "@widgets/ChartCard";
 import { LastActions } from "@widgets/LastActions";
 import { Notes } from "@widgets/Notes";
 import { useFamilyStore } from "entities/families";
+import { FamilyTaskList } from "features/family-tasks";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import React, { useState } from "react";
@@ -59,52 +66,75 @@ export const Family: React.FC<FamilyProps> = () => {
   ];
 
   return (
-    <div className="flex gap-[24px]">
-      <div className="flex-1">
+    <Tabs defaultValue="overview">
+      <TabsList className="mb-4">
+        <TabsTrigger value="overview">
+          {t("FamilyTasks.info")}
+        </TabsTrigger>
+        <TabsTrigger value="tasks">
+          {t("FamilyTasks.tasks")}
+        </TabsTrigger>
+      </TabsList>
+
+      <TabsContent value="overview" className="mt-0">
+        <div className="flex gap-[24px]">
+          <div className="flex-1">
+            <Card>
+              <CardHeader>
+                <CardTitle>Family</CardTitle>
+
+                <Row alignItems="center">
+                  <TooltipWrapper text={t("Common.edit")}>
+                    <Button onClick={() => {setIsEditable((prev)=> !prev)}} size={"icon"} variant={"ghost"}>
+                      <EditIcon color={isEditable ? "#269ACF" : "#313E44"} />
+                    </Button>
+                  </TooltipWrapper>
+
+                  <TooltipWrapper
+                    text={`${t("Common.view")} ${t("Common.memberships")}`}
+                  >
+                    <Button variant={"secondary"}>
+                      <Link href={`/family/${family.id}/memberships`}>
+                        {t("Families.viewMembers")}
+                      </Link>
+                    </Button>
+                  </TooltipWrapper>
+                </Row>
+              </CardHeader>
+              <CardContent>
+                <EditableFamilyInfo isEditable={isEditable} setIsEditable={setIsEditable} />
+              </CardContent>
+            </Card>
+          </div>
+          <div className="flex flex-col gap-[24px]">
+            <div className="flex gap-[24px]">
+              <ChartCard
+                dataSet={supportersDataSet}
+                title={t("Common.supporters")}
+              />
+              <ChartCard dataSet={tasksDataSet} title={t("Common.tasks")} />
+            </div>
+
+            <div>
+              <LastActions />
+            </div>
+            <div>
+              <Notes familyId={family.id} />
+            </div>
+          </div>
+        </div>
+      </TabsContent>
+
+      <TabsContent value="tasks" className="mt-0">
         <Card>
           <CardHeader>
-            {/* <CardTitle>{familyState.family.name}</CardTitle> */}
-            <CardTitle>Family</CardTitle>
-
-            <Row alignItems="center">
-              <TooltipWrapper text={t("Common.edit")}>
-                <Button onClick={() => {setIsEditable((prev)=> !prev)}} size={"icon"} variant={"ghost"}>
-                  <EditIcon color={isEditable ? "#269ACF" : "#313E44"} />
-                </Button>
-              </TooltipWrapper>
-
-              <TooltipWrapper
-                text={`${t("Common.view")} ${t("Common.memberships")}`}
-              >
-                <Button variant={"secondary"}>
-                  <Link href={`/family/${family.id}/memberships`}>
-                    {t("Families.viewMembers")}
-                  </Link>
-                </Button>
-              </TooltipWrapper>
-            </Row>
+            <CardTitle>{t("Common.tasks")}</CardTitle>
           </CardHeader>
           <CardContent>
-            <EditableFamilyInfo isEditable={isEditable} setIsEditable={setIsEditable} />
+            <FamilyTaskList familyId={family.id} />
           </CardContent>
         </Card>
-      </div>
-      <div className="flex flex-col gap-[24px]">
-        <div className="flex gap-[24px]">
-          <ChartCard
-            dataSet={supportersDataSet}
-            title={t("Common.supporters")}
-          />
-          <ChartCard dataSet={tasksDataSet} title={t("Common.tasks")} />
-        </div>
-
-        <div>
-          <LastActions />
-        </div>
-        <div>
-          <Notes familyId={family.id} />
-        </div>
-      </div>
-    </div>
+      </TabsContent>
+    </Tabs>
   );
 };

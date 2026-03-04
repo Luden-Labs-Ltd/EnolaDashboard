@@ -14,7 +14,7 @@ import { convertDataForTable } from "../lib/converter";
 
 type MembershipsContextState = {
   memberships: Membership[];
-  selectedMemberships: number[];
+  selectedMemberships: string[];
 };
 
 type MembershipsProviderValue = {
@@ -61,7 +61,7 @@ export const useMembershipsStore = () => {
   }
   const { membershipsState, setData } = membershipsContext;
 
-  const toggleSelectedMemberships = (familyId: number) => {
+  const toggleSelectedMemberships = (familyId: string) => {
     const isMembershipsAlreadySelect =
       membershipsState.selectedMemberships.includes(familyId);
 
@@ -98,7 +98,7 @@ export const useMembershipsStore = () => {
       return setData((prev) => ({ ...prev, selectedMemberships: [] }));
     }
     const selectedMemberships = membershipsState.memberships.map(
-      (membership) => membership.id
+      (membership) => String(membership.id)
     );
     return setData((prev) => ({
       ...prev,

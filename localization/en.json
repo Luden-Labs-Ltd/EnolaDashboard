@@ -222,6 +222,18 @@
         "coordinators": "Click “Add coordinator” to start building your list.",
         "default": "Empty"
     },
+    "FamilyTasks": {
+        "info": "Info",
+        "tasks": "Tasks",
+        "noTasks": "No tasks yet",
+        "markAsDone": "Mark as done",
+        "restore": "Restore",
+        "confirmDone": "Mark this task as completed?",
+        "confirmDelete": "Are you sure you want to delete this task?",
+        "assignee": "Assignee",
+        "unassigned": "Unassigned",
+        "allCategories": "All"
+    },
     "Common": {
         "pleaseCreate": "Please create {name}",
         "programName": "Program Name",
