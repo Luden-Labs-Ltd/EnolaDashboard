@@ -232,7 +232,15 @@
         "confirmDelete": "Are you sure you want to delete this task?",
         "assignee": "Assignee",
         "unassigned": "Unassigned",
-        "allCategories": "All"
+        "allCategories": "All",
+        "addTask": "Add Task",
+        "taskTitle": "Title",
+        "taskTitlePlaceholder": "Enter task title",
+        "taskDescription": "Description",
+        "taskDescriptionPlaceholder": "Enter description (optional)",
+        "taskCircle": "Circle",
+        "taskCategory": "Category",
+        "creating": "Creating..."
     },
     "Common": {
         "pleaseCreate": "Please create {name}",

@@ -18,6 +18,14 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@components/shadowCDN/dropdown-menu";
+import {
+  EmotionalIcon,
+  FinanceIcon,
+  HomeIcon,
+  MedicalIcon,
+  MessageIcon,
+  ParentingIcon,
+} from "shared/assets/categoryIcon";
 import { cn } from "@utils";
 
 interface FamilyTaskListProps {
@@ -26,23 +34,11 @@ interface FamilyTaskListProps {
 
 const STATUS_CONFIG: Record<
   FamilyTaskStatus,
-  { label: string; bg: string; text: string }
+  { label: string; color: string; bg: string }
 > = {
-  initial: {
-    label: "Common.initial",
-    bg: "bg-purple-100",
-    text: "text-purple-700",
-  },
-  in_progress: {
-    label: "Common.inProgress",
-    bg: "bg-blue-100",
-    text: "text-blue-700",
-  },
-  completed: {
-    label: "Common.completed",
-    bg: "bg-yellow-100",
-    text: "text-yellow-700",
-  },
+  initial: { label: "Common.initial", color: "#B4407F", bg: "#F3E0EC" },
+  in_progress: { label: "Common.inProgress", color: "#269ACF", bg: "#DDF0FA" },
+  completed: { label: "Common.completed", color: "#EFB825", bg: "#FFF7DF" },
 };
 
 const CATEGORY_COLORS: Record<string, string> = {
@@ -50,8 +46,34 @@ const CATEGORY_COLORS: Record<string, string> = {
   emotional: "#FFB347",
   home: "#77DD77",
   legal: "#6B9BFF",
-  general: "#C39BD3",
+  general: "#A3ABC3",
   childcare: "#F9C5D1",
+};
+
+const getCategoryColor = (key?: string | null) => {
+  if (!key) return "#A3ABC3";
+  return CATEGORY_COLORS[key] ?? "#A3ABC3";
+};
+
+const CategoryIcon: React.FC<{
+  categoryKey?: string | null;
+}> = ({ categoryKey }) => {
+  switch (categoryKey) {
+    case "medical":
+      return <MedicalIcon />;
+    case "home":
+      return <HomeIcon />;
+    case "general":
+      return <MessageIcon />;
+    case "legal":
+      return <FinanceIcon />;
+    case "emotional":
+      return <EmotionalIcon />;
+    case "childcare":
+      return <ParentingIcon />;
+    default:
+      return <MessageIcon />;
+  }
 };
 
 export const FamilyTaskList: React.FC<FamilyTaskListProps> = ({
@@ -83,10 +105,7 @@ export const FamilyTaskList: React.FC<FamilyTaskListProps> = ({
     map.set("all", t("FamilyTasks.allCategories"));
     tasks.forEach((task) => {
       if (task.categorySlug) {
-        map.set(
-          task.categorySlug,
-          task.categoryName || task.categorySlug
-        );
+        map.set(task.categorySlug, task.categoryName || task.categorySlug);
       }
     });
     return map;
@@ -114,7 +133,7 @@ export const FamilyTaskList: React.FC<FamilyTaskListProps> = ({
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center py-12">
+      <div className="flex items-center justify-center py-16">
         <div className="loader" />
       </div>
     );
@@ -122,35 +141,47 @@ export const FamilyTaskList: React.FC<FamilyTaskListProps> = ({
 
   if (tasks.length === 0) {
     return (
-      <div className="flex items-center justify-center py-12 text-muted-foreground text-sm">
-        {t("FamilyTasks.noTasks")}
+      <div className="flex flex-col items-center justify-center py-16 gap-2">
+        <EmptyIcon />
+        <p className="text-[#A3ABC3] text-sm">{t("FamilyTasks.noTasks")}</p>
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-4">
       {categories.size > 2 && (
         <div className="flex gap-2 flex-wrap">
-          {Array.from(categories.entries()).map(([slug, name]) => (
-            <button
-              key={slug}
-              onClick={() => setActiveCategory(slug)}
-              className={cn(
-                "px-3 py-1 rounded-full text-xs font-medium transition-colors border",
-                activeCategory === slug
-                  ? "bg-primary text-primary-foreground border-primary"
-                  : "bg-background text-muted-foreground border-border hover:bg-muted"
-              )}
-            >
-              {name}
-            </button>
-          ))}
+          {Array.from(categories.entries()).map(([slug, name]) => {
+            const isActive = activeCategory === slug;
+
+            return (
+              <Button
+                key={slug}
+                type="button"
+                variant="secondary"
+                size="sm"
+                rounded="circle"
+                withIcon
+                onClick={() => setActiveCategory(slug)}
+                className={cn(
+                  "text-xs font-semibold gap-2 border",
+                  "bg-white",
+                  isActive
+                    ? "border-[#65458E] text-[#313A56] shadow-sm"
+                    : "border-[#DCE5FF] text-[#313A56]"
+                )}
+              >
+                <CategoryIcon categoryKey={slug === "all" ? undefined : slug} />
+                <span>{name}</span>
+              </Button>
+            );
+          })}
         </div>
       )}
 
-      <ScrollArea className="max-h-[50vh]">
-        <div className="flex flex-col gap-2">
+      <ScrollArea className="max-h-[55vh]">
+        <div className="flex flex-col gap-3">
           {filteredTasks.map((task) => (
             <TaskRow
               key={task.id}
@@ -184,106 +215,156 @@ const TaskRow: React.FC<TaskRowProps> = ({
 }) => {
   const statusConfig = STATUS_CONFIG[task.status];
   const isCompleted = task.status === "completed";
-  const categoryColor =
-    CATEGORY_COLORS[task.categorySlug ?? ""] ?? "#C39BD3";
+  const categoryKey = task.categorySlug ?? task.category ?? undefined;
+  const categoryColor = getCategoryColor(categoryKey);
+  const categoryLabel =
+    task.categoryName ||
+    (categoryKey ? t(`Resources.Categories.${categoryKey}`) : "");
 
   return (
     <div
-      className={cn(
-        "flex items-start gap-3 p-3 rounded-lg border transition-colors",
-        isCompleted
-          ? "bg-muted/50 border-border/50"
-          : "bg-background border-border hover:bg-muted/30"
-      )}
+      className="flex items-center gap-4 rounded-xl px-4 py-3 transition-all"
+      style={{
+        background: isCompleted ? "#f0f0f0" : "#fff",
+        border: `1px solid ${isCompleted ? "#e0e0e0" : "#DCE5FF"}`,
+      }}
     >
-      <div
-        className="w-1 self-stretch rounded-full shrink-0"
-        style={{ backgroundColor: isCompleted ? "#d1d5db" : categoryColor }}
-      />
+      <div className="flex items-center justify-center shrink-0 w-8">
+        <CategoryIcon categoryKey={categoryKey} />
+      </div>
 
       <div className="flex-1 min-w-0">
-        <div className="flex items-center gap-2 flex-wrap">
-          {task.categoryName && (
-            <span className="text-xs text-muted-foreground">
-              {task.categoryName}
-            </span>
-          )}
-          <span
-            className={cn(
-              "inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium",
-              statusConfig.bg,
-              statusConfig.text
-            )}
-          >
-            {t(statusConfig.label)}
-          </span>
-          {task.assignee && (
-            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-blue-50 text-blue-600">
-              {task.assignee.fullName}
-            </span>
-          )}
-          {task.circle && !task.assignee && !isCompleted && (
-            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-orange-50 text-orange-600">
-              {t(`Common.${task.circle}`)}
+        <div className="flex items-center gap-2 mb-1">
+          {categoryLabel && (
+            <span
+              className="text-[11px] font-medium uppercase tracking-wide"
+              style={{ color: categoryColor }}
+            >
+              {categoryLabel}
             </span>
           )}
         </div>
 
         <p
-          className={cn(
-            "text-sm font-medium mt-1",
-            isCompleted && "line-through text-muted-foreground"
-          )}
+          className="text-sm font-semibold leading-snug"
+          style={{
+            color: isCompleted ? "#A3ABC3" : "#313A56",
+            textDecoration: isCompleted ? "line-through" : "none",
+          }}
         >
           {task.title}
         </p>
 
         {task.description && (
-          <p className="text-xs text-muted-foreground mt-0.5 line-clamp-2">
+          <p
+            className="text-xs mt-0.5 line-clamp-1"
+            style={{ color: "#A3ABC3" }}
+          >
             {task.description}
           </p>
         )}
       </div>
 
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="ghost" size="icon" className="shrink-0 h-8 w-8">
-            <MoreIcon />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          {!isCompleted && (
-            <DropdownMenuItem onClick={() => onMarkDone(task)}>
-              {t("FamilyTasks.markAsDone")}
-            </DropdownMenuItem>
-          )}
-          {isCompleted && (
-            <DropdownMenuItem onClick={() => onRestore(task)}>
-              {t("FamilyTasks.restore")}
-            </DropdownMenuItem>
-          )}
-          <DropdownMenuItem
-            className="text-destructive focus:text-destructive"
-            onClick={() => onDelete(task)}
+      <div className="flex items-center gap-2 shrink-0">
+        <span
+          className="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold"
+          style={{ background: statusConfig.bg, color: statusConfig.color }}
+        >
+          {t(statusConfig.label)}
+        </span>
+
+        {task.circle && !isCompleted && (
+          <span
+            className="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold"
+            style={{ background: "#DDF0FA", color: "#269ACF" }}
           >
-            {t("Common.delete")}
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+            {t(`Common.${task.circle}`)}
+          </span>
+        )}
+
+        {task.assignee && (
+          <span
+            className="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold"
+            style={{ background: "#F7DACB", color: "#8B5E3C" }}
+          >
+            {task.assignee.fullName}
+          </span>
+        )}
+
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="shrink-0 h-8 w-8 rounded-lg"
+              style={{ color: "#A3ABC3" }}
+            >
+              <MoreIcon />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="rounded-xl">
+            {!isCompleted && (
+              <DropdownMenuItem
+                onClick={() => onMarkDone(task)}
+                className="text-sm"
+              >
+                <CheckIcon />
+                {t("FamilyTasks.markAsDone")}
+              </DropdownMenuItem>
+            )}
+            {isCompleted && (
+              <DropdownMenuItem
+                onClick={() => onRestore(task)}
+                className="text-sm"
+              >
+                <RestoreIcon />
+                {t("FamilyTasks.restore")}
+              </DropdownMenuItem>
+            )}
+            <DropdownMenuItem
+              onClick={() => onDelete(task)}
+              className="text-sm text-red-500 focus:text-red-500"
+            >
+              <TrashIcon />
+              {t("Common.delete")}
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
     </div>
   );
 };
 
 const MoreIcon = () => (
-  <svg
-    width="16"
-    height="16"
-    viewBox="0 0 16 16"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
     <circle cx="8" cy="3" r="1.5" fill="currentColor" />
     <circle cx="8" cy="8" r="1.5" fill="currentColor" />
     <circle cx="8" cy="13" r="1.5" fill="currentColor" />
+  </svg>
+);
+
+const CheckIcon = () => (
+  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="mr-2 shrink-0">
+    <path d="M2.5 7.5L5.5 10.5L11.5 3.5" stroke="#269ACF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+const RestoreIcon = () => (
+  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="mr-2 shrink-0">
+    <path d="M2 7a5 5 0 019.33-2.5M12 7a5 5 0 01-9.33 2.5" stroke="#269ACF" strokeWidth="1.5" strokeLinecap="round" />
+    <path d="M11.5 2v3h-3" stroke="#269ACF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+const TrashIcon = () => (
+  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="mr-2 shrink-0">
+    <path d="M3 4h8M5.5 4V3a1 1 0 011-1h1a1 1 0 011 1v1M6 6.5v3M8 6.5v3M4 4l.5 7a1 1 0 001 1h3a1 1 0 001-1L10 4" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+const EmptyIcon = () => (
+  <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+    <rect x="8" y="10" width="32" height="28" rx="4" stroke="#DCE5FF" strokeWidth="2" />
+    <path d="M16 20h16M16 26h10" stroke="#DCE5FF" strokeWidth="2" strokeLinecap="round" />
   </svg>
 );

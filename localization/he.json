@@ -232,7 +232,15 @@
         "confirmDelete": "האם אתה בטוח שברצונך למחוק משימה זו?",
         "assignee": "מוקצה",
         "unassigned": "לא מוקצה",
-        "allCategories": "הכל"
+        "allCategories": "הכל",
+        "addTask": "הוסף משימה",
+        "taskTitle": "כותרת",
+        "taskTitlePlaceholder": "הזן כותרת משימה",
+        "taskDescription": "תיאור",
+        "taskDescriptionPlaceholder": "הזן תיאור (אופציונלי)",
+        "taskCircle": "מעגל",
+        "taskCategory": "קטגוריה",
+        "creating": "יוצר..."
     },
     "Common": {
         "pleaseCreate": "אנא צור{name}",

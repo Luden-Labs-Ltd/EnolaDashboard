@@ -4,8 +4,8 @@ import { fetchInstance } from "shared/api";
 import { FamilyTaskApi } from "./types";
 import { handleServerError } from "shared/error/api";
 
-// TODO: заменить на "/api/v2/dashboard/families" когда бэк добавит роуты
-const FAMILIES_BASE = "/api/v2/families";
+// TODO: заменить на "/api/v2/dashboard/families"
+const FAMILIES_BASE = "/api/v2/dashboard/families";
 
 export const getFamilyTasks = async (
   familyId: string
@@ -65,6 +65,43 @@ export const restoreFamilyTask = async (
 
     if (!response || !response.ok) {
       throw new Error("Failed to restore task");
+    }
+
+    return await response.json();
+  } catch (error) {
+    return handleServerError(error);
+  }
+};
+
+export type CreateFamilyTaskDto = {
+  title: string;
+  description?: string;
+  circle?: "public" | "private" | "intimate";
+  category?: string;
+  type?: "no_time" | "exact_time" | "until_time";
+  schedule?: string;
+};
+
+export const createFamilyTask = async (
+  familyId: string,
+  dto: CreateFamilyTaskDto
+) => {
+  try {
+    const response = await fetchInstance(
+      `${process.env.BASE_URL_BACKEND}${FAMILIES_BASE}/${familyId}/tasks`,
+      {
+        method: "POST",
+        body: JSON.stringify({
+          ...dto,
+          schedule: dto.schedule || "* * * * *",
+          type: dto.type || "no_time",
+        }),
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+
+    if (!response || !response.ok) {
+      throw new Error("Failed to create task");
     }
 
     return await response.json();

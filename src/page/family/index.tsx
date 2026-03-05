@@ -12,7 +12,7 @@ import ChartCard from "@widgets/ChartCard";
 import { LastActions } from "@widgets/LastActions";
 import { Notes } from "@widgets/Notes";
 import { useFamilyStore } from "entities/families";
-import { FamilyTaskList } from "features/family-tasks";
+import { FamilyTaskList, AddTaskDialog } from "features/family-tasks";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import React, { useState } from "react";
@@ -27,6 +27,7 @@ export const Family: React.FC<FamilyProps> = () => {
   const { familyState } = useFamilyStore();
   const { family } = familyState;
   const [isEditable, setIsEditable] = useState(false);
+  const [taskRefreshKey, setTaskRefreshKey] = useState(0);
 
   const t = useTranslations();
   const supportersDataSet = [
@@ -67,11 +68,17 @@ export const Family: React.FC<FamilyProps> = () => {
 
   return (
     <Tabs defaultValue="overview">
-      <TabsList className="mb-4">
-        <TabsTrigger value="overview">
+      <TabsList className="mb-5 h-11 gap-1 rounded-xl bg-[#F5F8FF] p-1.5">
+        <TabsTrigger
+          value="overview"
+          className="rounded-lg px-5 py-2 text-sm font-semibold text-[#A3ABC3] data-[state=active]:bg-white data-[state=active]:text-[#313A56] data-[state=active]:shadow-sm"
+        >
           {t("FamilyTasks.info")}
         </TabsTrigger>
-        <TabsTrigger value="tasks">
+        <TabsTrigger
+          value="tasks"
+          className="rounded-lg px-5 py-2 text-sm font-semibold text-[#A3ABC3] data-[state=active]:bg-white data-[state=active]:text-[#313A56] data-[state=active]:shadow-sm"
+        >
           {t("FamilyTasks.tasks")}
         </TabsTrigger>
       </TabsList>
@@ -129,9 +136,13 @@ export const Family: React.FC<FamilyProps> = () => {
         <Card>
           <CardHeader>
             <CardTitle>{t("Common.tasks")}</CardTitle>
+            <AddTaskDialog
+              familyId={family.id}
+              onCreated={() => setTaskRefreshKey((k) => k + 1)}
+            />
           </CardHeader>
           <CardContent>
-            <FamilyTaskList familyId={family.id} />
+            <FamilyTaskList key={taskRefreshKey} familyId={family.id} />
           </CardContent>
         </Card>
       </TabsContent>
