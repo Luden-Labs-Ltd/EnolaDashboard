@@ -25,7 +25,7 @@ const NavBar: React.FC<NavBarProps> = ({
   originCurrentProgram,
 }) => {
   const t = useTranslations();
-  const isUserAdmin = profile?.role === 'admin'
+  const isUserAdmin = profile?.role === "admin";
 
   return (
     <div className={styles.navbar}>
@@ -34,6 +34,7 @@ const NavBar: React.FC<NavBarProps> = ({
           programs={programs}
           logo={Logo}
           originCurrentProgram={originCurrentProgram}
+          isAdmin={isUserAdmin}
         />
       </div>
       <div className={styles.content}>

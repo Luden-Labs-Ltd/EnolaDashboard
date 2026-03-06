@@ -24,6 +24,7 @@ export type FormRenderField<FieldsGeneric> = {
   className?: string;
   description?: string;
   inputType?: inputType;
+  autoComplete?: string;
   options?: Array<{
     value: PathValue<FieldsGeneric, Path<FieldsGeneric>>;
     name: string | React.ReactNode;

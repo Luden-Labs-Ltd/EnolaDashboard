@@ -35,6 +35,7 @@ export function FormInput<F extends FieldValues>(props: FormFieldProps<F>) {
                 type={renderField.inputType}
                 className="shadow-sm bg-transparent"
                 placeholder={renderField.placeholder}
+                autoComplete={renderField.autoComplete}
                 {...formObject.register(field.name, {
                   valueAsNumber:
                     renderField.inputType === "number" ? true : false,

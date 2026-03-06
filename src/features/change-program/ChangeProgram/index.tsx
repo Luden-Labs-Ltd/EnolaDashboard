@@ -14,26 +14,40 @@ import { Button } from "@components/shadowCDN/button";
 import { changeProgram } from "entities/program";
 import { ActivateProgram } from "../activate-program";
 import { cn } from "@utils";
+import { CreateProgram } from "features/create-program";
+import AddIcon from "shared/assets/AddIcon";
+import { useTranslations } from "next-intl";
 
 interface ChangeProgramProps {
   logo: StaticImageData;
   programs: Program[];
   originCurrentProgram: Program | null;
+  isAdmin?: boolean;
 }
 
 export const ChangeProgram: React.FC<PropsWithChildren<ChangeProgramProps>> = ({
   logo,
   programs,
   originCurrentProgram,
+  isAdmin = false,
 }) => {
+  const t = useTranslations();
+  const [programsState, setProgramsState] = useState<Program[]>(programs);
   const [currentProgram, setCurrentProgram] = useState(
     originCurrentProgram ? originCurrentProgram : programs[0]
   );
 
   useEffect(() => {
-    if (currentProgram && !programs.some((program) => program.id === currentProgram.id)) {
-      onCurrentProgramChange(programs[0]);
+    if (
+      currentProgram &&
+      !programsState.some((program) => program.id === currentProgram.id)
+    ) {
+      onCurrentProgramChange(programsState[0]);
     }
+  }, [programsState]);
+
+  useEffect(() => {
+    setProgramsState(programs);
   }, [programs]);
 
   const onCurrentProgramChange = (program: Program) => {
@@ -63,9 +77,9 @@ export const ChangeProgram: React.FC<PropsWithChildren<ChangeProgramProps>> = ({
             sideOffset={30}
             className={cn(styles.DropdownMenuContent, "border-0")}
           >
-            {programs.map((program, index) => {
+            {programsState.map((program, index) => {
               const isActive = program.id === currentProgram.id;
-              const isDivider = programs.length - 1 !== index;
+              const isDivider = programsState.length - 1 !== index;
               return (
                 <DropdownMenuItem
                   key={program.id}
@@ -79,18 +93,42 @@ export const ChangeProgram: React.FC<PropsWithChildren<ChangeProgramProps>> = ({
                 </DropdownMenuItem>
               );
             })}
+            {isAdmin && (
+              <div className={styles.AddProgramItem}>
+                <CreateProgram
+                  onCreated={(program) => {
+                    setProgramsState((prev) => [...prev, program]);
+                    onCurrentProgramChange(program);
+                  }}
+                  trigger={
+                    <Button
+                      variant="ghost"
+                      size="default"
+                      className={styles.AddProgramButton}
+                    >
+                      <AddIcon />
+                      <span>
+                        {t("Common.add")} {t("Common.program")}
+                      </span>
+                    </Button>
+                  }
+                />
+              </div>
+            )}
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
       <div className={styles.programName}>
         {currentProgram.name}
-        <ActivateProgram
-          onProgramActivateCallback={(program) =>
-            onCurrentProgramChange(program)
-          }
-          isDisabled={currentProgram.active}
-          programId={currentProgram.id}
-        />
+        <div className="flex flex-wrap gap-2">
+          <ActivateProgram
+            onProgramActivateCallback={(program) =>
+              onCurrentProgramChange(program)
+            }
+            isDisabled={currentProgram.active}
+            programId={currentProgram.id}
+          />
+        </div>
       </div>
     </form>
   );

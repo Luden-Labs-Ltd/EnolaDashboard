@@ -12,7 +12,7 @@ export const getCurrentProfileApi = async (): Promise<
       `${process.env.BASE_URL_BACKEND}/api/v2/dashboard/auth/current`,
       {
         method: "GET",
-        next: { revalidate: 10 },
+        cache: "no-store",
       }
     );
 

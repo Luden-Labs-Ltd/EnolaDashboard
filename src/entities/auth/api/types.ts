@@ -36,4 +36,5 @@ export interface Program {
   family_enrolment_url: string;
   id: string;
   name: string;
+  language?: string;
 }

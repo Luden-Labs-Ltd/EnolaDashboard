@@ -30,3 +30,32 @@ export async function activateProgram(programId: string) {
     return handleServerError(error);
   }
 }
+
+export async function createProgram(data: { name: string; language: string }) {
+  try {
+    const response = await fetchInstance(
+      `${process.env.BASE_URL_BACKEND}/api/v2/dashboard/programs`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }
+    );
+
+    if (!response) {
+      throw new Error("something happen when program create");
+    }
+
+    const resJSON = await response.json();
+
+    if (resJSON.error) {
+      throw new Error(resJSON.error);
+    }
+
+    return resJSON as Program;
+  } catch (error) {
+    return handleServerError(error);
+  }
+}
