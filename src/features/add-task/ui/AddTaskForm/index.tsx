@@ -57,20 +57,11 @@ export const AddTaskForm: React.FC<AddTaskFormProps> = ({
       type: "select",
       id: "circle",
       options: [
-        {
-          value: "public",
-          name: "Public",
-        },
-        {
-          value: "private",
-          name: "Private",
-        },
-        {
-          value: "intimate",
-          name: "Intimate",
-        },
+        { value: "public", name: t("Common.public") },
+        { value: "private", name: t("Common.private") },
+        { value: "intimate", name: t("Common.intimate") },
       ],
-      label: "Circle",
+      label: t("Common.circle"),
       placeholder: "",
     },
   ];

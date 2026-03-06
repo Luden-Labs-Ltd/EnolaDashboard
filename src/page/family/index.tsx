@@ -68,6 +68,9 @@ export const Family: React.FC<FamilyProps> = () => {
 
   return (
     <Tabs defaultValue="overview">
+      <h1 className="mb-5 text-2xl font-semibold text-[#313A56]">
+        {family?.name ?? t("Common.family")}
+      </h1>
       <TabsList className="mb-5 h-11 gap-1 rounded-xl bg-[#F5F8FF] p-1.5">
         <TabsTrigger
           value="overview"
@@ -88,7 +91,7 @@ export const Family: React.FC<FamilyProps> = () => {
           <div className="flex-1">
             <Card>
               <CardHeader>
-                <CardTitle>Family</CardTitle>
+                <CardTitle>{family?.name ?? t("Common.family")}</CardTitle>
 
                 <Row alignItems="center">
                   <TooltipWrapper text={t("Common.edit")}>

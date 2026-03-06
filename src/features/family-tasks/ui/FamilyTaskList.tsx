@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import {
   getFamilyTasks,
   markFamilyTaskDone,
@@ -26,6 +26,7 @@ import {
   MessageIcon,
   ParentingIcon,
 } from "shared/assets/categoryIcon";
+import { translateCategoryTitle } from "shared/utils/categoryTranslation";
 import { cn } from "@utils";
 
 interface FamilyTaskListProps {
@@ -105,7 +106,14 @@ export const FamilyTaskList: React.FC<FamilyTaskListProps> = ({
     map.set("all", t("FamilyTasks.allCategories"));
     tasks.forEach((task) => {
       if (task.categorySlug) {
-        map.set(task.categorySlug, task.categoryName || task.categorySlug);
+        map.set(
+          task.categorySlug,
+          translateCategoryTitle(
+            t,
+            task.categorySlug,
+            task.categoryName || task.categorySlug
+          )
+        );
       }
     });
     return map;
@@ -151,7 +159,7 @@ export const FamilyTaskList: React.FC<FamilyTaskListProps> = ({
   return (
     <div className="flex flex-col gap-4">
       {categories.size > 2 && (
-        <div className="flex gap-2 flex-wrap">
+        <div className="flex gap-2 flex-wrap rtl:flex-row-reverse">
           {Array.from(categories.entries()).map(([slug, name]) => {
             const isActive = activeCategory === slug;
 
@@ -165,7 +173,7 @@ export const FamilyTaskList: React.FC<FamilyTaskListProps> = ({
                 withIcon
                 onClick={() => setActiveCategory(slug)}
                 className={cn(
-                  "text-xs font-semibold gap-2 border",
+                  "text-xs font-semibold gap-2 border flex rtl:flex-row-reverse",
                   "bg-white",
                   isActive
                     ? "border-[#65458E] text-[#313A56] shadow-sm"
@@ -180,7 +188,7 @@ export const FamilyTaskList: React.FC<FamilyTaskListProps> = ({
         </div>
       )}
 
-      <ScrollArea className="max-h-[55vh]">
+      <ScrollArea className="h-[55vh] w-full">
         <div className="flex flex-col gap-3">
           {filteredTasks.map((task) => (
             <TaskRow
@@ -213,27 +221,41 @@ const TaskRow: React.FC<TaskRowProps> = ({
   onDelete,
   t,
 }) => {
+  const locale = useLocale();
+  const isRtl = locale === "he";
   const statusConfig = STATUS_CONFIG[task.status];
   const isCompleted = task.status === "completed";
   const categoryKey = task.categorySlug ?? task.category ?? undefined;
   const categoryColor = getCategoryColor(categoryKey);
-  const categoryLabel =
-    task.categoryName ||
-    (categoryKey ? t(`Resources.Categories.${categoryKey}`) : "");
+  const categoryLabel = categoryKey
+    ? translateCategoryTitle(t, categoryKey, task.categoryName || categoryKey)
+    : "";
 
   return (
     <div
-      className="flex items-center gap-4 rounded-xl px-4 py-3 transition-all"
+      className="flex items-center gap-4 rounded-xl px-4 py-3 transition-all rtl:flex-row-reverse"
       style={{
         background: isCompleted ? "#f0f0f0" : "#fff",
         border: `1px solid ${isCompleted ? "#e0e0e0" : "#DCE5FF"}`,
       }}
     >
-      <div className="flex items-center justify-center shrink-0 w-8">
+      <div className="flex items-center justify-center shrink-0 w-8 rtl:order-2">
         <CategoryIcon categoryKey={categoryKey} />
       </div>
 
-      <div className="flex-1 min-w-0">
+      <div
+        className="flex-1 min-w-0 rtl:order-1"
+        style={
+          isRtl
+            ? {
+                textAlign: "right",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-end",
+              }
+            : undefined
+        }
+      >
         <div className="flex items-center gap-2 mb-1">
           {categoryLabel && (
             <span
@@ -250,6 +272,7 @@ const TaskRow: React.FC<TaskRowProps> = ({
           style={{
             color: isCompleted ? "#A3ABC3" : "#313A56",
             textDecoration: isCompleted ? "line-through" : "none",
+            ...(isRtl && { width: "100%", textAlign: "right" }),
           }}
         >
           {task.title}
@@ -258,14 +281,17 @@ const TaskRow: React.FC<TaskRowProps> = ({
         {task.description && (
           <p
             className="text-xs mt-0.5 line-clamp-1"
-            style={{ color: "#A3ABC3" }}
+            style={{
+              color: "#A3ABC3",
+              ...(isRtl && { width: "100%", textAlign: "right" }),
+            }}
           >
             {task.description}
           </p>
         )}
       </div>
 
-      <div className="flex items-center gap-2 shrink-0">
+      <div className="flex items-center gap-2 shrink-0 rtl:flex-row-reverse rtl:order-3">
         <span
           className="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold"
           style={{ background: statusConfig.bg, color: statusConfig.color }}
@@ -306,7 +332,7 @@ const TaskRow: React.FC<TaskRowProps> = ({
             {!isCompleted && (
               <DropdownMenuItem
                 onClick={() => onMarkDone(task)}
-                className="text-sm"
+                className="text-sm flex items-center gap-2 rtl:flex-row-reverse"
               >
                 <CheckIcon />
                 {t("FamilyTasks.markAsDone")}
@@ -315,7 +341,7 @@ const TaskRow: React.FC<TaskRowProps> = ({
             {isCompleted && (
               <DropdownMenuItem
                 onClick={() => onRestore(task)}
-                className="text-sm"
+                className="text-sm flex items-center gap-2 rtl:flex-row-reverse"
               >
                 <RestoreIcon />
                 {t("FamilyTasks.restore")}
@@ -323,7 +349,7 @@ const TaskRow: React.FC<TaskRowProps> = ({
             )}
             <DropdownMenuItem
               onClick={() => onDelete(task)}
-              className="text-sm text-red-500 focus:text-red-500"
+              className="text-sm text-red-500 focus:text-red-500 flex items-center gap-2 rtl:flex-row-reverse"
             >
               <TrashIcon />
               {t("Common.delete")}
@@ -344,20 +370,20 @@ const MoreIcon = () => (
 );
 
 const CheckIcon = () => (
-  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="mr-2 shrink-0">
+  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="me-2 shrink-0">
     <path d="M2.5 7.5L5.5 10.5L11.5 3.5" stroke="#269ACF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
 
 const RestoreIcon = () => (
-  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="mr-2 shrink-0">
+  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="me-2 shrink-0">
     <path d="M2 7a5 5 0 019.33-2.5M12 7a5 5 0 01-9.33 2.5" stroke="#269ACF" strokeWidth="1.5" strokeLinecap="round" />
     <path d="M11.5 2v3h-3" stroke="#269ACF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
 
 const TrashIcon = () => (
-  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="mr-2 shrink-0">
+  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="me-2 shrink-0">
     <path d="M3 4h8M5.5 4V3a1 1 0 011-1h1a1 1 0 011 1v1M6 6.5v3M8 6.5v3M4 4l.5 7a1 1 0 001 1h3a1 1 0 001-1L10 4" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useTransition } from "react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import {
   Dialog,
   DialogContent,
@@ -21,6 +21,7 @@ import {
 } from "@components/shadowCDN/select";
 import { createFamilyTask } from "entities/family-task";
 import type { CreateFamilyTaskDto } from "entities/family-task";
+import { translateCategoryTitle } from "shared/utils/categoryTranslation";
 import {
   EmotionalIcon,
   FinanceIcon,
@@ -70,6 +71,8 @@ export const AddTaskDialog: React.FC<AddTaskDialogProps> = ({
   onCreated,
 }) => {
   const t = useTranslations();
+  const locale = useLocale();
+  const isRtl = locale === "he";
   const [open, setOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
 
@@ -111,7 +114,7 @@ export const AddTaskDialog: React.FC<AddTaskDialogProps> = ({
           size="sm"
           rounded="circle"
           withIcon
-          className="font-semibold px-4"
+          className="font-semibold px-4 flex gap-2 rtl:flex-row-reverse"
         >
           <PlusIcon />
           {t("FamilyTasks.addTask")}
@@ -126,7 +129,11 @@ export const AddTaskDialog: React.FC<AddTaskDialogProps> = ({
             {t("FamilyTasks.addTask")}
           </DialogTitle>
         </DialogHeader>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-5 mt-2">
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col gap-5 mt-2"
+          dir={isRtl ? "rtl" : undefined}
+        >
           <div className="flex flex-col gap-1.5">
             <label className="text-xs font-semibold" style={{ color: "#313A56" }}>
               {t("FamilyTasks.taskTitle")} *
@@ -163,10 +170,10 @@ export const AddTaskDialog: React.FC<AddTaskDialogProps> = ({
                   setCircle(v as CreateFamilyTaskDto["circle"])
                 }
               >
-                <SelectTrigger className="rounded-lg border-[#DCE5FF] bg-[#F5F8FF]">
+                <SelectTrigger className="rounded-lg border-[#DCE5FF] bg-[#F5F8FF] rtl:flex-row-reverse rtl:text-right">
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent className="rounded-xl">
+                <SelectContent className="rounded-xl" dir={isRtl ? "rtl" : undefined}>
                   {CIRCLES.map((c) => (
                     <SelectItem key={c} value={c}>
                       {t(`Common.${c}`)}
@@ -181,15 +188,15 @@ export const AddTaskDialog: React.FC<AddTaskDialogProps> = ({
                 {t("FamilyTasks.taskCategory")}
               </label>
               <Select value={category} onValueChange={setCategory}>
-                <SelectTrigger className="rounded-lg border-[#DCE5FF] bg-[#F5F8FF]">
+                <SelectTrigger className="rounded-lg border-[#DCE5FF] bg-[#F5F8FF] rtl:flex-row-reverse rtl:text-right">
                   <SelectValue placeholder={t("FamilyTasks.allCategories")} />
                 </SelectTrigger>
-                <SelectContent className="rounded-xl">
+                <SelectContent className="rounded-xl" dir={isRtl ? "rtl" : undefined}>
                   {CATEGORIES.map((cat) => (
                     <SelectItem key={cat.slug} value={cat.slug}>
                       <span className="flex items-center gap-2">
                         {renderCategoryIcon(cat.slug)}
-                        <span>{cat.label}</span>
+                        <span>{translateCategoryTitle(t, cat.slug, cat.label)}</span>
                       </span>
                     </SelectItem>
                   ))}
@@ -198,7 +205,7 @@ export const AddTaskDialog: React.FC<AddTaskDialogProps> = ({
             </div>
           </div>
 
-          <DialogFooter className="mt-2">
+          <DialogFooter className="mt-2 flex gap-2 flex-wrap rtl:flex-row-reverse">
             <Button
               type="button"
               variant="outline"
