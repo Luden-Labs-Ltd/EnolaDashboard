@@ -11,6 +11,7 @@ export const convertFamilyTask = (task: FamilyTaskApi): FamilyTask => ({
   category: task.category,
   categorySlug: task.category_slug,
   categoryName: task.category_name,
+  categoryIcon: task.category_icon ?? null,
   repeated: task.repeated,
   schedule: task.schedule,
   startAt: task.start_at,

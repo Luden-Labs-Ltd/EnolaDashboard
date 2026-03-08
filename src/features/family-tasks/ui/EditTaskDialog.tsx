@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useTransition } from "react";
+import React, { useState, useTransition, useEffect } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import {
   Dialog,
@@ -8,7 +8,6 @@ import {
   DialogHeader,
   DialogTitle,
   DialogFooter,
-  DialogTrigger,
 } from "@components/shadowCDN/dialog";
 import { Button } from "@components/shadowCDN/button";
 import { Input } from "@components/shadowCDN/input";
@@ -19,8 +18,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@components/shadowCDN/select";
-import { createFamilyTask } from "entities/family-task";
-import type { CreateFamilyTaskDto } from "entities/family-task";
+import { Checkbox } from "@components/shadowCDN/checkbox";
+import { updateFamilyTask } from "entities/family-task";
+import type { UpdateFamilyTaskDto } from "entities/family-task";
+import type { FamilyTask } from "entities/family-task";
 import { translateCategoryTitle } from "shared/utils/categoryTranslation";
 import {
   EmotionalIcon,
@@ -30,11 +31,6 @@ import {
   MessageIcon,
   ParentingIcon,
 } from "shared/assets/categoryIcon";
-
-interface AddTaskDialogProps {
-  familyId: string;
-  onCreated: () => void;
-}
 
 const CIRCLES = ["intimate", "private", "public"] as const;
 
@@ -66,67 +62,105 @@ const renderCategoryIcon = (slug: string) => {
   }
 };
 
-export const AddTaskDialog: React.FC<AddTaskDialogProps> = ({
+interface EditTaskDialogProps {
+  familyId: string;
+  task: FamilyTask | null;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  onUpdated: () => void;
+}
+
+export const EditTaskDialog: React.FC<EditTaskDialogProps> = ({
   familyId,
-  onCreated,
+  task,
+  open,
+  onOpenChange,
+  onUpdated,
 }) => {
   const t = useTranslations();
   const locale = useLocale();
   const isRtl = locale === "he";
-  const [open, setOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [circle, setCircle] = useState<CreateFamilyTaskDto["circle"]>("intimate");
+  const [circle, setCircle] = useState<UpdateFamilyTaskDto["circle"]>("intimate");
   const [category, setCategory] = useState("");
+  const [taskType, setTaskType] = useState<UpdateFamilyTaskDto["type"]>("no_time");
+  const [repeated, setRepeated] = useState(false);
+  const [schedule, setSchedule] = useState("");
+  const [dateTime, setDateTime] = useState("");
 
-  const resetForm = () => {
-    setTitle("");
-    setDescription("");
-    setCircle("intimate");
-    setCategory("");
+  const toDateTimeLocal = (iso: string | null | undefined): string => {
+    if (!iso) return "";
+    try {
+      const d = new Date(iso);
+      if (Number.isNaN(d.getTime())) return "";
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, "0");
+      const day = String(d.getDate()).padStart(2, "0");
+      const h = String(d.getHours()).padStart(2, "0");
+      const min = String(d.getMinutes()).padStart(2, "0");
+      return `${y}-${m}-${day}T${h}:${min}`;
+    } catch {
+      return "";
+    }
   };
+
+  useEffect(() => {
+    if (task) {
+      setTitle(task.title);
+      setDescription(task.description ?? "");
+      setCircle((task.circle as UpdateFamilyTaskDto["circle"]) ?? "intimate");
+      setCategory(task.categorySlug ?? task.category ?? "");
+      setTaskType(task.type ?? "no_time");
+      setRepeated(task.repeated ?? false);
+      setSchedule(task.schedule ?? "");
+      setDateTime(toDateTimeLocal(task.endAt ?? task.startAt ?? null));
+    }
+  }, [task]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!title.trim()) return;
+    if (!task || !title.trim()) return;
 
     startTransition(async () => {
-      const dto: CreateFamilyTaskDto = {
+      const dto: UpdateFamilyTaskDto = {
         title: title.trim(),
         circle,
-        ...(description.trim() && { description: description.trim() }),
-        ...(category && { category, category_slug: category }),
+        ...(description.trim() ? { description: description.trim() } : { description: "" }),
+        ...(category ? { category, category_slug: category } : {}),
+        type: taskType,
+        repeated,
+        schedule: repeated && schedule.trim() ? schedule.trim() : null,
       };
+      if (taskType !== "no_time" && dateTime.trim()) {
+        const iso = new Date(dateTime.trim()).toISOString();
+        dto.end_at = iso;
+        if (taskType === "exact_time" && !task?.startAt) dto.start_at = iso;
+        else if (taskType === "exact_time" && task?.startAt) dto.start_at = task.startAt;
+      } else if (taskType === "no_time") {
+        dto.end_at = null;
+        dto.start_at = null;
+      }
 
-      await createFamilyTask(familyId, dto);
-      resetForm();
-      setOpen(false);
-      onCreated();
+      await updateFamilyTask(familyId, task.id, dto);
+      onOpenChange(false);
+      onUpdated();
     });
   };
 
+  if (!task) return null;
+
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button
-          size="sm"
-          rounded="circle"
-          withIcon
-          className="font-semibold px-4 flex gap-2 rtl:flex-row-reverse"
-        >
-          <PlusIcon />
-          {t("FamilyTasks.addTask")}
-        </Button>
-      </DialogTrigger>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[440px] rounded-2xl border-[#DCE5FF]">
         <DialogHeader>
           <DialogTitle
             className="text-lg font-bold"
             style={{ color: "#313A56" }}
           >
-            {t("FamilyTasks.addTask")}
+            {t("FamilyTasks.editTask")}
           </DialogTitle>
         </DialogHeader>
         <form
@@ -167,7 +201,7 @@ export const AddTaskDialog: React.FC<AddTaskDialogProps> = ({
               <Select
                 value={circle}
                 onValueChange={(v) =>
-                  setCircle(v as CreateFamilyTaskDto["circle"])
+                  setCircle(v as UpdateFamilyTaskDto["circle"])
                 }
               >
                 <SelectTrigger className="rounded-lg border-[#DCE5FF] bg-[#F5F8FF] rtl:flex-row-reverse rtl:text-right">
@@ -205,11 +239,74 @@ export const AddTaskDialog: React.FC<AddTaskDialogProps> = ({
             </div>
           </div>
 
+          <div className="flex flex-col gap-1.5">
+            <label className="text-xs font-semibold" style={{ color: "#313A56" }}>
+              {t("FamilyTasks.taskType")}
+            </label>
+            <Select
+              value={taskType}
+              onValueChange={(v) => setTaskType(v as UpdateFamilyTaskDto["type"])}
+            >
+              <SelectTrigger className="rounded-lg border-[#DCE5FF] bg-[#F5F8FF] rtl:flex-row-reverse rtl:text-right">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent className="rounded-xl" dir={isRtl ? "rtl" : undefined}>
+                <SelectItem value="no_time">{t("FamilyTasks.taskTypeNoTime")}</SelectItem>
+                <SelectItem value="exact_time">{t("FamilyTasks.taskTypeExactTime")}</SelectItem>
+                <SelectItem value="until_time">{t("FamilyTasks.taskTypeUntilTime")}</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          {(taskType === "exact_time" || taskType === "until_time") && (
+            <div className="flex flex-col gap-1.5">
+              <label className="text-xs font-semibold" style={{ color: "#313A56" }}>
+                {t("FamilyTasks.dateTime")}
+              </label>
+              <input
+                type="datetime-local"
+                value={dateTime}
+                onChange={(e) => setDateTime(e.target.value)}
+                className="rounded-lg border border-[#DCE5FF] bg-[#F5F8FF] px-3 py-2 text-sm text-[#313A56] focus:outline-none focus:ring-2 focus:ring-[#269ACF]"
+              />
+            </div>
+          )}
+
+          <div className="flex items-center gap-2">
+            <Checkbox
+              id="edit-task-repeated"
+              checked={repeated}
+              onCheckedChange={(v) => setRepeated(v === true)}
+              className="rounded border-[#DCE5FF]"
+            />
+            <label
+              htmlFor="edit-task-repeated"
+              className="text-xs font-semibold cursor-pointer"
+              style={{ color: "#313A56" }}
+            >
+              {t("FamilyTasks.repeated")}
+            </label>
+          </div>
+
+          {repeated && (
+            <div className="flex flex-col gap-1.5">
+              <label className="text-xs font-semibold" style={{ color: "#313A56" }}>
+                {t("FamilyTasks.schedule")}
+              </label>
+              <Input
+                value={schedule}
+                onChange={(e) => setSchedule(e.target.value)}
+                placeholder={t("FamilyTasks.schedulePlaceholder")}
+                className="rounded-lg border-[#DCE5FF] bg-[#F5F8FF] placeholder:text-[#A3ABC3] focus-visible:ring-[#269ACF] font-mono text-sm"
+              />
+            </div>
+          )}
+
           <DialogFooter className="mt-2 flex gap-2 flex-wrap rtl:flex-row-reverse">
             <Button
               type="button"
               variant="outline"
-              onClick={() => setOpen(false)}
+              onClick={() => onOpenChange(false)}
               className="rounded-full"
             >
               {t("Common.cancel")}
@@ -220,7 +317,7 @@ export const AddTaskDialog: React.FC<AddTaskDialogProps> = ({
               rounded="circle"
               className="font-semibold px-6"
             >
-              {isPending ? t("FamilyTasks.creating") : t("FamilyTasks.addTask")}
+              {isPending ? t("FamilyTasks.creating") : t("Common.save")}
             </Button>
           </DialogFooter>
         </form>
@@ -228,14 +325,3 @@ export const AddTaskDialog: React.FC<AddTaskDialogProps> = ({
     </Dialog>
   );
 };
-
-const PlusIcon = () => (
-  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-    <path
-      d="M7 1v12M1 7h12"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-    />
-  </svg>
-);

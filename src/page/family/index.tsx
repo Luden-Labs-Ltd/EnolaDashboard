@@ -11,13 +11,19 @@ import TooltipWrapper from "@components/TooltipWrapper";
 import ChartCard from "@widgets/ChartCard";
 import { LastActions } from "@widgets/LastActions";
 import { Notes } from "@widgets/Notes";
+import {
+  convertDataForTable,
+  getMembershipsFromApi,
+  MembershipApi,
+  MembershipStoreProvider,
+} from "entities/memberships";
 import { useFamilyStore } from "entities/families";
-import { FamilyTaskList, AddTaskDialog } from "features/family-tasks";
+import { FamilyTaskList, AddTaskDialog, MultiAddTasksDialog } from "features/family-tasks";
 import { useTranslations } from "next-intl";
-import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import EditIcon from "shared/assets/EditIcon";
 import { EditableFamilyInfo } from "features/editable-family-info";
+import MembershipsPage from "page/memberships";
 
 interface FamilyProps {
   familyId: string;
@@ -28,6 +34,15 @@ export const Family: React.FC<FamilyProps> = () => {
   const { family } = familyState;
   const [isEditable, setIsEditable] = useState(false);
   const [taskRefreshKey, setTaskRefreshKey] = useState(0);
+  const [memberships, setMemberships] = useState<MembershipApi[] | null>(null);
+
+  useEffect(() => {
+    const load = async () => {
+      const data = await getMembershipsFromApi(family.id);
+      if (data) setMemberships(data);
+    };
+    load();
+  }, [family.id]);
 
   const t = useTranslations();
   const supportersDataSet = [
@@ -84,6 +99,12 @@ export const Family: React.FC<FamilyProps> = () => {
         >
           {t("FamilyTasks.tasks")}
         </TabsTrigger>
+        <TabsTrigger
+          value="members"
+          className="rounded-lg px-5 py-2 text-sm font-semibold text-[#A3ABC3] data-[state=active]:bg-white data-[state=active]:text-[#313A56] data-[state=active]:shadow-sm"
+        >
+          {t("FamilyTasks.members")}
+        </TabsTrigger>
       </TabsList>
 
       <TabsContent value="overview" className="mt-0">
@@ -97,16 +118,6 @@ export const Family: React.FC<FamilyProps> = () => {
                   <TooltipWrapper text={t("Common.edit")}>
                     <Button onClick={() => {setIsEditable((prev)=> !prev)}} size={"icon"} variant={"ghost"}>
                       <EditIcon color={isEditable ? "#269ACF" : "#313E44"} />
-                    </Button>
-                  </TooltipWrapper>
-
-                  <TooltipWrapper
-                    text={`${t("Common.view")} ${t("Common.memberships")}`}
-                  >
-                    <Button variant={"secondary"}>
-                      <Link href={`/family/${family.id}/memberships`}>
-                        {t("Families.viewMembers")}
-                      </Link>
                     </Button>
                   </TooltipWrapper>
                 </Row>
@@ -139,13 +150,35 @@ export const Family: React.FC<FamilyProps> = () => {
         <Card>
           <CardHeader>
             <CardTitle>{t("Common.tasks")}</CardTitle>
-            <AddTaskDialog
-              familyId={family.id}
-              onCreated={() => setTaskRefreshKey((k) => k + 1)}
-            />
+            <div className="flex flex-wrap gap-2 rtl:flex-row-reverse">
+              <AddTaskDialog
+                familyId={family.id}
+                onCreated={() => setTaskRefreshKey((k) => k + 1)}
+              />
+              <MultiAddTasksDialog
+                familyId={family.id}
+                onCreated={() => setTaskRefreshKey((k) => k + 1)}
+              />
+            </div>
           </CardHeader>
           <CardContent>
             <FamilyTaskList key={taskRefreshKey} familyId={family.id} />
+          </CardContent>
+        </Card>
+      </TabsContent>
+
+      <TabsContent value="members" className="mt-0">
+        <Card>
+          <CardContent className="pt-6">
+            {memberships === null ? (
+              <div className="py-8 text-center text-muted-foreground">
+                {t("Common.loading")}
+              </div>
+            ) : (
+              <MembershipStoreProvider memberships={convertDataForTable(memberships)}>
+                <MembershipsPage />
+              </MembershipStoreProvider>
+            )}
           </CardContent>
         </Card>
       </TabsContent>

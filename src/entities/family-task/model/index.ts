@@ -12,6 +12,7 @@ export type FamilyTask = {
   category: string | null;
   categorySlug: string | null;
   categoryName: string | null;
+  categoryIcon: string | null;
   repeated: boolean;
   schedule: string | null;
   startAt: string | null;
