@@ -185,6 +185,7 @@ export type UpdateFamilyTaskDto = {
   schedule?: string | null;
   start_at?: string | null;
   end_at?: string | null;
+  status?: "initial" | "in_progress" | "completed";
 };
 
 export const updateFamilyTask = async (

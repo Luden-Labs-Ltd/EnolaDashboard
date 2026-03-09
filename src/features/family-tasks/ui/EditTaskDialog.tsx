@@ -116,7 +116,7 @@ export const EditTaskDialog: React.FC<EditTaskDialogProps> = ({
       setTaskType(task.type ?? "no_time");
       setRepeated(task.repeated ?? false);
       setSchedule(task.schedule ?? "");
-      setDateTime(toDateTimeLocal(task.endAt ?? task.startAt ?? null));
+      setDateTime(toDateTimeLocal(task.startAt ?? task.endAt ?? null));
     }
   }, [task]);
 
@@ -125,23 +125,35 @@ export const EditTaskDialog: React.FC<EditTaskDialogProps> = ({
     if (!task || !title.trim()) return;
 
     startTransition(async () => {
+      const hasDateTime = !!dateTime.trim();
+      const backendType: UpdateFamilyTaskDto["type"] =
+        taskType === "no_time" ? "no_time" : "until_time";
+
       const dto: UpdateFamilyTaskDto = {
         title: title.trim(),
         circle,
         ...(description.trim() ? { description: description.trim() } : { description: "" }),
         ...(category ? { category, category_slug: category } : {}),
-        type: taskType,
+        type: backendType,
         repeated,
-        schedule: repeated && schedule.trim() ? schedule.trim() : null,
+        status: task.status,
       };
-      if (taskType !== "no_time" && dateTime.trim()) {
+
+      if (repeated) {
+        const cron = schedule.trim();
+        if (cron) {
+          dto.schedule = cron;
+        }
+      } else {
+        dto.schedule = null;
+      }
+
+      if (backendType === "no_time" || !hasDateTime) {
+        dto.start_at = null;
+        dto.end_at = null;
+      } else {
         const iso = new Date(dateTime.trim()).toISOString();
         dto.end_at = iso;
-        if (taskType === "exact_time" && !task?.startAt) dto.start_at = iso;
-        else if (taskType === "exact_time" && task?.startAt) dto.start_at = task.startAt;
-      } else if (taskType === "no_time") {
-        dto.end_at = null;
-        dto.start_at = null;
       }
 
       await updateFamilyTask(familyId, task.id, dto);
