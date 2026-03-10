@@ -115,22 +115,24 @@ export const TaskCalendar: React.FC<TaskCalendarProps> = ({
             <div className="mb-3 flex items-center justify-between">
               <button
                 type="button"
+                dir="ltr"
                 className="flex h-8 w-8 items-center justify-center rounded-lg text-[#313A56] hover:bg-[#E8EEFF]"
                 onClick={() => setViewMonth((m) => subMonths(m, 1))}
                 aria-label="Previous month"
               >
-                <ChevronIcon className="h-4 w-4 rotate-90" />
+                <ChevronIcon className={cn("h-4 w-4", isRtl ? "-rotate-90" : "rotate-90")} />
               </button>
               <span className="text-sm font-semibold text-[#313A56]">
                 {format(viewMonth, "MMMM yyyy", { locale: dateLocale })}
               </span>
               <button
                 type="button"
+                dir="ltr"
                 className="flex h-8 w-8 items-center justify-center rounded-lg text-[#313A56] hover:bg-[#E8EEFF]"
                 onClick={() => setViewMonth((m) => addMonths(m, 1))}
                 aria-label="Next month"
               >
-                <ChevronIcon className="h-4 w-4 -rotate-90" />
+                <ChevronIcon className={cn("h-4 w-4", isRtl ? "rotate-90" : "-rotate-90")} />
               </button>
             </div>
             <div className="mb-2 grid grid-cols-7 gap-0.5 text-center text-xs font-medium text-[#A3ABC3]">
@@ -188,11 +190,12 @@ export const TaskCalendar: React.FC<TaskCalendarProps> = ({
       <div className="flex h-[70px] items-center justify-between gap-2 rounded-xl border border-[#DCE5FF] bg-[#F5F8FF] px-3 py-2">
         <button
           type="button"
+          dir="ltr"
           className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-[#313A56] hover:bg-[#E8EEFF]"
           onClick={goPrevWeek}
           aria-label="Previous week"
         >
-          <ChevronIcon className="h-5 w-5 rotate-90" />
+          <ChevronIcon className={cn("h-5 w-5", isRtl ? "-rotate-90" : "rotate-90")} />
         </button>
         <div className="flex flex-1 items-center justify-between gap-1 px-0">
           {weekDays.map((day) => {
@@ -230,11 +233,12 @@ export const TaskCalendar: React.FC<TaskCalendarProps> = ({
         </div>
         <button
           type="button"
+          dir="ltr"
           className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-[#313A56] hover:bg-[#E8EEFF]"
           onClick={goNextWeek}
           aria-label="Next week"
         >
-          <ChevronIcon className="h-5 w-5 -rotate-90" />
+          <ChevronIcon className={cn("h-5 w-5", isRtl ? "rotate-90" : "-rotate-90")} />
         </button>
       </div>
     </div>

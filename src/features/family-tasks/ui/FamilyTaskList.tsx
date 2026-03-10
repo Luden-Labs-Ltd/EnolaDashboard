@@ -211,7 +211,7 @@ export const FamilyTaskList: React.FC<FamilyTaskListProps> = ({
       />
 
       {categories.size > 2 && hasAnyTasks && (
-        <div className="flex gap-2 flex-wrap rtl:flex-row-reverse">
+        <div className="flex gap-2 flex-wrap justify-start">
           {Array.from(categories.entries()).map(([slug, name]) => {
             const isActive = activeCategory === slug;
 

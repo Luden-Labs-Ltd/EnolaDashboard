@@ -2,6 +2,7 @@ import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@components/Card";
 import dynamic from "next/dynamic";
 import Row from "@components/Row";
+import { useTranslations } from "next-intl";
 
 type DataSet = {
   value: number;
@@ -22,6 +23,7 @@ const Echarts = dynamic(() => import("@components/Chart/Echarts"), {
 });
 
 const ChartCard: React.FC<ChartCardProps> = ({ title, dataSet }) => {
+  const t = useTranslations("Common");
   const totalSum = dataSet.reduce((prev, current) => prev + current.value, 0);
   return (
     <Card>
@@ -73,7 +75,7 @@ const ChartCard: React.FC<ChartCardProps> = ({ title, dataSet }) => {
                   fontWidth: 500,
                   position: "center",
                   formatter: () => {
-                    return `${totalSum}\nTotal`;
+                    return `${totalSum}\n${t("total")}`;
                   },
                 },
                 labelLine: {

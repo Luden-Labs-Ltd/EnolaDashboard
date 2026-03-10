@@ -1,4 +1,5 @@
 import React, { PropsWithChildren } from "react";
+import { cn } from "@utils";
 import styles from "./Card.module.scss";
 
 const CardHeader: React.FC<PropsWithChildren> = ({ children }) => {
@@ -11,12 +12,22 @@ const CardTitle: React.FC<PropsWithChildren> = ({ children }) => {
 
 interface CardContent {
   padding?: string;
+  className?: string;
 }
 
-const CardContent: React.FC<PropsWithChildren<CardContent>> = ({ children, padding }) => {
-  return <div className={styles.mainContent} style={{
-    padding: padding,
-  }}>{children}</div>;
+const CardContent: React.FC<PropsWithChildren<CardContent>> = ({
+  children,
+  padding,
+  className,
+}) => {
+  return (
+    <div
+      className={cn(styles.mainContent, className)}
+      style={padding ? { padding } : undefined}
+    >
+      {children}
+    </div>
+  );
 };
 
 interface CardProps {

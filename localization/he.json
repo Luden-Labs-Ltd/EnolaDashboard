@@ -225,7 +225,7 @@
     "FamilyTasks": {
         "info": "מידע",
         "tasks": "משימות",
-        "members": "חברים",
+        "members": "תומכים",
         "noTasks": "אין משימות עדיין",
         "markAsDone": "סמן כבוצע",
         "restore": "שחזר",
@@ -251,7 +251,7 @@
         "addCustomTask": "הוסף משימה מותאמת",
         "remove": "הסר",
         "today": "היום",
-        "taskType": "סוג",
+        "taskType": "בחר תאריך ושעה",
         "taskTypeNoTime": "ללא זמן",
         "taskTypeExactTime": "זמן מדויק",
         "taskTypeUntilTime": "עד שעה",

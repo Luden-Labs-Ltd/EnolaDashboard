@@ -19,7 +19,7 @@ import {
 } from "entities/memberships";
 import { useFamilyStore } from "entities/families";
 import { FamilyTaskList, AddTaskDialog, MultiAddTasksDialog } from "features/family-tasks";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import React, { useEffect, useState } from "react";
 import EditIcon from "shared/assets/EditIcon";
 import { EditableFamilyInfo } from "features/editable-family-info";
@@ -45,6 +45,7 @@ export const Family: React.FC<FamilyProps> = () => {
   }, [family.id]);
 
   const t = useTranslations();
+  const locale = useLocale();
   const supportersDataSet = [
     {
       value: family.supportersChart.family,
@@ -82,11 +83,11 @@ export const Family: React.FC<FamilyProps> = () => {
   ];
 
   return (
-    <Tabs defaultValue="overview">
+    <Tabs defaultValue="overview" dir={locale === "he" ? "rtl" : "ltr"}>
       <h1 className="mb-5 text-2xl font-semibold text-[#313A56]">
         {family?.name ?? t("Common.family")}
       </h1>
-      <TabsList className="mb-5 h-11 gap-1 rounded-xl bg-[#F5F8FF] p-1.5">
+      <TabsList className="mb-5 h-11 gap-1 rounded-xl bg-[#F5F8FF] p-1.5 justify-start">
         <TabsTrigger
           value="overview"
           className="rounded-lg px-5 py-2 text-sm font-semibold text-[#A3ABC3] data-[state=active]:bg-white data-[state=active]:text-[#313A56] data-[state=active]:shadow-sm"

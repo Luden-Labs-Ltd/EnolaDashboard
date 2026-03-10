@@ -225,7 +225,7 @@
     "FamilyTasks": {
         "info": "Info",
         "tasks": "Tasks",
-        "members": "Members",
+        "members": "Supporters",
         "noTasks": "No tasks yet",
         "markAsDone": "Mark as done",
         "restore": "Restore",
@@ -251,7 +251,7 @@
         "addCustomTask": "Add custom task",
         "remove": "Remove",
         "today": "Today",
-        "taskType": "Type",
+        "taskType": "Select date and time",
         "taskTypeNoTime": "No time",
         "taskTypeExactTime": "Exact time",
         "taskTypeUntilTime": "Until time",
