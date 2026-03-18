@@ -11,11 +11,11 @@ services:
     command: npm run dev
 
   qa:
-    image: ghcr.io/luden-labs-ltd/enola_dashboard-next-js:qa-latest
-    # build:
-    #   context: .
-    #   dockerfile: Dockerfile
-    #   target: production # Use the 'production' stage from Dockerfile for production
+    # image: ghcr.io/luden-labs-ltd/enola_dashboard-next-js:qa-latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production # Use the 'production' stage from Dockerfile for production
     ports:
       - "3000:3000"
     environment:
