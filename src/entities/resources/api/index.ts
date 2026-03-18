@@ -17,8 +17,9 @@ export const getResourcesFromApi = async (
     category_id_eq: searchParameters.categoryId === "all" ? "" : searchParameters.categoryId,
     sorts: "created_at desc",
   });
+  const encodedParams = encodeURIComponent(params);
   const response = await fetchInstance(
-    process.env.BASE_URL_BACKEND + `/api/v2/dashboard/programs/${programId}/resources?q=${params}`,
+    process.env.BASE_URL_BACKEND + `/api/v2/dashboard/programs/${programId}/resources?q=${encodedParams}`,
     {
       method: "GET",
       next: {
@@ -36,11 +37,19 @@ export const getResourcesFromApi = async (
 };
 
 export const createResourceApi = async (programId: string, data: CreateResourceDto) => {
+  const payload: CreateResourceDto = {
+    ...data,
+    phone_number: data.phone_number?.trim(),
+  };
+  if (!payload.phone_number) {
+    delete payload.phone_number;
+  }
+
   const response = await fetchInstance(
     process.env.BASE_URL_BACKEND + `/api/v2/dashboard/programs/${programId}/resources`,
     {
       method: "POST",
-      body: JSON.stringify(data),
+      body: JSON.stringify(payload),
       headers: {
         "Content-Type": "application/json",
       },
@@ -59,11 +68,19 @@ export const createResourceApi = async (programId: string, data: CreateResourceD
 };
 
 export const editResourceApi = async (programId: string, resourceId: number, data: EditResourceDto) => {
+  const payload: EditResourceDto = {
+    ...data,
+    phone_number: data.phone_number?.trim(),
+  };
+  if (!payload.phone_number) {
+    delete payload.phone_number;
+  }
+
   const response = await fetchInstance(
     process.env.BASE_URL_BACKEND + `/api/v2/dashboard/programs/${programId}/resources/${resourceId}`,
     {
       method: "PUT",
-      body: JSON.stringify(data),
+      body: JSON.stringify(payload),
       headers: {
         "Content-Type": "application/json",
       },
@@ -112,7 +129,7 @@ export const importResourcesApi = async (
   const programId = await getCurrentProgramId()
   
   // Добавляем параметр ai в FormData
-  formData.append("ai", ai.toString());
+  formData.set("ai", ai.toString());
   
   const response = await fetchInstance(
     `${process.env.BASE_URL_BACKEND}/api/v2/dashboard/programs/${programId}/resources/import`,

@@ -6,7 +6,7 @@ export const editResourceScheme = z.object({
   contact_name: z.string().max(50).optional(),
   terms_of_service: z.string().max(50).optional(),
   access_requirements: z.string().max(50).optional(),
-  phone_number: z.string().max(50),
+  phone_number: z.string().max(50).or(z.literal("")).optional(),
   email: z.string().email().or(z.literal('')).optional(),
   link: z.string().url().or(z.literal('')).optional(),
   address: z.string().max(50).optional(),

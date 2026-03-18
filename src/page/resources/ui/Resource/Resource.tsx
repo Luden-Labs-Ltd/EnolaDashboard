@@ -18,7 +18,6 @@ interface ResourceProps {
 
 export const Resource: React.FC<ResourceProps> = ({ resource, isRTL }) => {
   const t = useTranslations();
-  EditResource;
   const resourceDropDownItems: DropDownMenuItemsType[] = [
     {
       id: `${resource.id}-edit`,
@@ -80,13 +79,16 @@ export const Resource: React.FC<ResourceProps> = ({ resource, isRTL }) => {
   return (
     <div className={styles.wrapper}>
       <Row className="justify-between rtl:flex-row-reverse" alignItems="center">
-        <span className={styles.title}>{resource.organization}</span>
+        <span className={styles.title}>{resource.serviceName}</span>
 
         <DropDownMenu items={resourceDropDownItems} />
       </Row>
       {resource.organization && (
-        <p className={cn(styles.light, styles.provider, 'rtl:text-right')}title={resource.organization}>
-          {resource.serviceName}
+        <p
+          className={cn(styles.light, styles.provider, "rtl:text-right")}
+          title={resource.organization}
+        >
+          {resource.organization}
         </p>
       )}
       {resource.contactPerson && (
@@ -132,7 +134,13 @@ export const Resource: React.FC<ResourceProps> = ({ resource, isRTL }) => {
       {resource.site && (
         <Row className="rtl:flex-row-reverse gap-[4px] items-baseline">
           <span className={styles.label}>{renderLabel(t("Common.url"))}</span>
-          <a href={resource.site} target="_blank" className={cn(styles.light, 'underline')} title={resource.site}>
+          <a
+            href={resource.site}
+            target="_blank"
+            rel="noreferrer noopener"
+            className={cn(styles.light, "underline")}
+            title={resource.site}
+          >
             {resource.site}
           </a>
         </Row>

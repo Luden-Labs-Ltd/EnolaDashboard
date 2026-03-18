@@ -80,7 +80,6 @@ export const ResourceForm: React.FC<ResourceFormProps> = ({
       id: "phone",
       label: t("Common.phone"),
       direction: "row",
-      required: true,
       placeholder: "",
     },
     {
