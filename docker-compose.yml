@@ -33,10 +33,11 @@ services:
       retries: 3
 
   production:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      target: production # Use the 'production' stage from Dockerfile for production
+    # build:
+      # context: .
+      # dockerfile: Dockerfile
+      # target: production # Use the 'production' stage from Dockerfile for production
+    image: ghcr.io/luden-labs-ltd/enola_dashboard-next-js:prod-latest
     ports:
       - "3000:3000"
     environment:
