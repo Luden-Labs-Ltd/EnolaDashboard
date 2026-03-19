@@ -10,10 +10,13 @@
     "start:standalone": "cd .next/standalone && node server.js",
     "deploy:qa": "./config/deploy/qa.sh",
     "deploy:prod": "./config/deploy/production.sh",
-    "lint": "next lint"
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.0",
+    "@opentelemetry/api": "^1.9.0",
+    "@opentelemetry/core": "^2.6.0",
     "@radix-ui/react-avatar": "^1.1.10",
     "@radix-ui/react-checkbox": "^1.3.2",
     "@radix-ui/react-dialog": "^1.1.14",

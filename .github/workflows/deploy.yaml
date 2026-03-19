@@ -1,0 +1,52 @@
+name: CD
+
+on:
+  workflow_dispatch:
+
+jobs:
+  ci:
+    uses: ./.github/workflows/ci-reusable.yaml
+  build-and-push-image:
+    runs-on: ubuntu-latest
+    needs: [ci] 
+    permissions:
+      contents: read
+      packages: write # нужно для ghcr.io
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          target: production # как в docker-compose
+          push: true
+          tags: |
+                ghcr.io/luden-labs-ltd/enola_dashboard-next-js:qa-latest
+                ghcr.io/luden-labs-ltd/enola_dashboard-next-js:${{ github.sha }}
+  deploy-qa:
+    needs: [ci, build-and-push-image]   # деплой только после успеха обоих
+    runs-on: ubuntu-latest
+    environment: Deployments
+    steps:
+      - name: Deploy to QA via SSH
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cd /home/nextProjects/dashboardNext
+            docker compose pull qa
+            docker compose up -d qa
+            docker image prune -af
