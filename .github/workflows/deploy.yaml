@@ -48,6 +48,12 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             cd /home/nextProjects/dashboardNext
+            cat > .env << 'EOF'
+            AUTH_SECRET=${AUTH_SECRET}
+            BASE_URL_BACKEND=${BASE_URL_BACKEND}
+            REACT_APP_X_DEBUG_TOKEN=${REACT_APP_X_DEBUG_TOKEN}
+            SENTRY_DSN=${SENTRY_DSN}
+            EOF
             docker compose pull qa
             docker compose up -d qa
             docker image prune -af
