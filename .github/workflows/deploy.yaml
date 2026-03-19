@@ -51,3 +51,12 @@ jobs:
             docker compose pull qa
             docker compose up -d qa
             docker image prune -af
+
+      - name: Healthcheck QA (no 502)
+        run: |
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://qa.dashboard.enolahelp.com/)
+          echo "QA status code: $STATUS"
+          if [ "$STATUS" -ne 200 ]; then
+            echo "QA is not healthy, expected 200, got $STATUS"
+            exit 1
+          fi
