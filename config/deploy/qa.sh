@@ -1,5 +1,5 @@
 #! /bin/bash
-$(date +%s)
+set -e
 
 ARCHIVE_NAME=project.tar.gz
 
@@ -18,9 +18,9 @@ done
 echo "Archive: $ARCHIVE_NAME";
 echo "Branch: $branch";
 
-# create project archive
-echo "Archiving the project: git archive --format=tar.gz --remote=$(git remote get-url --push origin) --output=$ARCHIVE_NAME $branch ..."
-git archive --format=tar.gz --remote=$(git remote get-url --push origin) --output=$ARCHIVE_NAME $branch
+# create project archive (локально, без --remote, т.к. GitHub не поддерживает git-upload-archive по SSH)
+echo "Archiving the project: git archive --format=tar.gz --output=$ARCHIVE_NAME $branch ..."
+git archive --format=tar.gz --output="$ARCHIVE_NAME" "$branch"
 
 # copy to enola server
 echo "Copying $ARCHIVE_NAME to the server: scp $ARCHIVE_NAME $USER_ROLE@$DOMAIN_NAME:$APP_PATH ..."
