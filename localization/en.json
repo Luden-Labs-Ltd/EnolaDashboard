@@ -270,6 +270,7 @@
         }
     },
     "Common": {
+        "version": "Version",
         "loading": "Loading...",
         "save": "Save",
         "pleaseCreate": "Please create {name}",

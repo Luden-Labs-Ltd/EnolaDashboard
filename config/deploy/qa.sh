@@ -22,9 +22,9 @@ echo "Branch: $branch";
 echo "Archiving the project: git archive --format=tar.gz --output=$ARCHIVE_NAME $branch ..."
 git archive --format=tar.gz --output="$ARCHIVE_NAME" "$branch"
 
-# copy to enola server
-echo "Copying $ARCHIVE_NAME to the server: scp $ARCHIVE_NAME $USER_ROLE@$DOMAIN_NAME:$APP_PATH ..."
-scp $ARCHIVE_NAME $USER_ROLE@$DOMAIN_NAME:$APP_PATH
+# copy to enola server (архив + .env для QA)
+echo "Copying $ARCHIVE_NAME and .env to the server: scp $ARCHIVE_NAME .env $USER_ROLE@$DOMAIN_NAME:$APP_PATH ..."
+scp "$ARCHIVE_NAME" .env "$USER_ROLE@$DOMAIN_NAME:$APP_PATH"
 
 # # clean up old releases
 # echo "Deleting the project to $ARCHIVE_NAME ..."
