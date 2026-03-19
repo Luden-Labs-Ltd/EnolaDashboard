@@ -55,6 +55,7 @@ const NavBar: React.FC<NavBarProps> = ({
             "use server";
             await logoutAction();
           }}
+          className="flex flex-col items-center justify-center gap-[10px]"
         >
           <Button variant="ghost">
             <Row alignItems="center" className="gap-[4px]">
@@ -62,6 +63,10 @@ const NavBar: React.FC<NavBarProps> = ({
               <div className="hidden md:block">{t("Common.signOut")}</div>
             </Row>
           </Button>
+
+          <span className="text-sm text-gray-500">
+            {t("Common.version")} {process.env.NEXT_PUBLIC_APP_VERSION || "1.0.1"}
+          </span>
         </form>
       </div>
     </div>
