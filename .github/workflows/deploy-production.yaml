@@ -1,0 +1,60 @@
+name: CD-Production
+
+on:
+  workflow_dispatch:
+
+jobs:
+  ci:
+    uses: ./.github/workflows/ci-reusable.yaml
+
+  build-and-push-image:
+    runs-on: ubuntu-latest
+    environment: Production
+    needs: [ci]
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: luden-labs-ltd
+          password: ${{ secrets.GHCR_PAT }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          target: production
+          push: true
+          tags: |
+            ghcr.io/luden-labs-ltd/enola_dashboard-next-js:prod-latest
+            ghcr.io/luden-labs-ltd/enola_dashboard-next-js:${{ github.sha }}
+
+  deploy-production:
+    needs: [ci, build-and-push-image]
+    runs-on: ubuntu-latest
+    environment: Production
+    steps:
+      - name: Deploy to Production via SSH
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.PROD_SSH_HOST }}
+          username: ${{ secrets.PROD_SSH_USER }}
+          key: ${{ secrets.PROD_SSH_KEY }}
+          script: |
+            cd /var/www/apps/dashboard/current
+            cat > .env.production << 'EOF'
+            AUTH_SECRET=${AUTH_SECRET}
+            BASE_URL_BACKEND=${BASE_URL_BACKEND}
+            SENTRY_DSN=${SENTRY_DSN}
+            EOF
+            docker compose pull production
+            docker compose up -d production
+            docker image prune -af

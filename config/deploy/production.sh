@@ -1,5 +1,5 @@
 #! /bin/bash
-$(date +%s)
+set -e
 
 RELEASE=current
 ARCHIVE_NAME=project.tar.gz
@@ -20,13 +20,13 @@ echo "Deploying release: $RELEASE";
 echo "Archive: $ARCHIVE_NAME";
 echo "Branch: $branch";
 
-# create project archive
-echo "Archiving the project: git archive --format=tar.gz --remote=$(git remote get-url --push origin) --output=$ARCHIVE_NAME $branch ..."
-git archive --format=tar.gz --remote=$(git remote get-url --push origin) --output=$ARCHIVE_NAME $branch
+# create project archive (локально, без --remote, т.к. GitHub не поддерживает git-upload-archive по SSH)
+echo "Archiving the project: git archive --format=tar.gz --output=$ARCHIVE_NAME $branch ..."
+git archive --format=tar.gz --output="$ARCHIVE_NAME" "$branch"
 
-# copy to enola server
-echo "Copying $ARCHIVE_NAME to the server: scp $ARCHIVE_NAME $USER_ROLE@$DOMAIN_NAME:$APP_PATH/$RELEASE ..."
-scp $ARCHIVE_NAME $USER_ROLE@$DOMAIN_NAME:$APP_PATH/$RELEASE
+# copy to enola server (архив + .env.production для проды)
+echo "Copying $ARCHIVE_NAME and .env.production to the server: scp $ARCHIVE_NAME .env.production $USER_ROLE@$DOMAIN_NAME:$APP_PATH/$RELEASE ..."
+scp "$ARCHIVE_NAME" .env.production "$USER_ROLE@$DOMAIN_NAME:$APP_PATH/$RELEASE"
 
 # # clean up old releases
 # echo "Deleting the project to $ARCHIVE_NAME ..."
@@ -45,7 +45,7 @@ echo "Deleting $ARCHIVE_NAME from the local machine ..."
 rm $ARCHIVE_NAME
 
 # off docker container
-echo "Stoping the old app version ..."
+echo "Stopping the old app version ..."
 ssh $USER_ROLE@$DOMAIN_NAME "cd $APP_PATH/$RELEASE && docker compose down"
 
 # up new version
