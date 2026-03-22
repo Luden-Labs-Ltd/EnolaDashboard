@@ -1,6 +1,9 @@
 name: CD-Production
 
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
     inputs:
       image_tag:
@@ -8,15 +11,14 @@ on:
         required: false
         type: string
 
-jobs:
-  ci:
-    uses: ./.github/workflows/ci-reusable.yaml
+concurrency:
+  group: dashboard-production-deploy
+  cancel-in-progress: true
 
-  build-and-push-image:
-    if: ${{ inputs.image_tag == '' }}
+jobs:
+  deploy-production:
     runs-on: ubuntu-latest
     environment: Production
-    needs: [ci]
     permissions:
       contents: read
       packages: write
@@ -24,6 +26,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Resolve image tag
+        id: image-tag
+        run: echo "value=${{ inputs.image_tag != '' && inputs.image_tag || github.sha }}" >> "$GITHUB_OUTPUT"
 
       - name: Login to GHCR
         uses: docker/login-action@v3
@@ -33,6 +39,7 @@ jobs:
           password: ${{ secrets.GHCR_PAT }}
 
       - name: Build and push
+        if: ${{ inputs.image_tag == '' }}
         uses: docker/build-push-action@v6
         with:
           context: .
@@ -43,25 +50,18 @@ jobs:
             ghcr.io/luden-labs-ltd/enola_dashboard-next-js:prod-latest
             ghcr.io/luden-labs-ltd/enola_dashboard-next-js:${{ github.sha }}
 
-  deploy-production:
-    needs: [ci, build-and-push-image]
-    if: ${{ needs.ci.result == 'success' && (needs.build-and-push-image.result == 'success' || needs.build-and-push-image.result == 'skipped') }}
-    runs-on: ubuntu-latest
-    environment: Production
-    steps:
       - name: Deploy to Production via SSH
         uses: appleboy/ssh-action@v1.2.0
         with:
-          host: ${{ secrets.PROD_SSH_HOST }}
-          username: ${{ secrets.PROD_SSH_USER }}
-          key: ${{ secrets.PROD_SSH_KEY }}
+          host: ${{ vars.SSH_HOST }}
+          username: ${{ vars.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
           script: |
-            cd /var/www/apps/dashboard/current
-            cat > .env.production << 'EOF'
-            AUTH_SECRET=${{ secrets.AUTH_SECRET }}
-            BASE_URL_BACKEND=${{ secrets.BASE_URL_BACKEND }}
-            SENTRY_DSN=${{ secrets.SENTRY_DSN }}
-            PRODUCTION_IMAGE_TAG=${{ inputs.image_tag != '' && inputs.image_tag || github.sha }}
+            cd ${{ vars.DEPLOY_PATH }}
+            cat > .env << 'EOF'
+            BASE_URL_BACKEND=${{ vars.BASE_URL_BACKEND }}
+            SENTRY_DSN=${{ vars.SENTRY_DSN }}
+            IMAGE_TAG=${{ steps.image-tag.outputs.value }}
             EOF
             docker compose pull production
             docker compose up -d --force-recreate production

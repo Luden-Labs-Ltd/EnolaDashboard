@@ -11,7 +11,7 @@ services:
     command: npm run dev
 
   qa:
-    image: ghcr.io/luden-labs-ltd/enola_dashboard-next-js:${QA_IMAGE_TAG:-qa-latest}
+    image: ghcr.io/luden-labs-ltd/enola_dashboard-next-js:${IMAGE_TAG:-qa-latest}
     # build:
       # context: .
       # dockerfile: Dockerfile
@@ -37,7 +37,7 @@ services:
       # context: .
       # dockerfile: Dockerfile
       # target: production # Use the 'production' stage from Dockerfile for production
-    image: ghcr.io/luden-labs-ltd/enola_dashboard-next-js:${PRODUCTION_IMAGE_TAG:-prod-latest}
+    image: ghcr.io/luden-labs-ltd/enola_dashboard-next-js:${IMAGE_TAG:-prod-latest}
     ports:
       - "3000:3000"
     environment:
@@ -45,7 +45,7 @@ services:
       - NODE_OPTIONS=--max-old-space-size=16384
       - BUILD_STANDALONE='true'
     env_file:
-      - .env.production
+      - .env
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "sh", "-c", "nc -z $(hostname -i) 3000"]

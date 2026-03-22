@@ -1,6 +1,9 @@
 name: CD-QA
 
 on:
+  push:
+    branches:
+      - development
   workflow_dispatch:
     inputs:
       image_tag:
@@ -8,21 +11,25 @@ on:
         required: false
         type: string
 
+concurrency:
+  group: dashboard-qa-deploy
+  cancel-in-progress: true
+
 jobs:
-  ci:
-    uses: ./.github/workflows/ci-reusable.yaml
-  build-and-push-image:
-    if: ${{ inputs.image_tag == '' }}
+  deploy-qa:
     runs-on: ubuntu-latest
     environment: Deployments
-    needs: [ci] 
     permissions:
       contents: read
-      packages: write # нужно для ghcr.io
+      packages: write
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Resolve image tag
+        id: image-tag
+        run: echo "value=${{ inputs.image_tag != '' && inputs.image_tag || github.sha }}" >> "$GITHUB_OUTPUT"
 
       - name: Login to GHCR
         uses: docker/login-action@v3
@@ -32,34 +39,29 @@ jobs:
           password: ${{ secrets.GHCR_PAT }}
 
       - name: Build and push
+        if: ${{ inputs.image_tag == '' }}
         uses: docker/build-push-action@v6
         with:
           context: .
           file: ./Dockerfile
-          target: production # как в docker-compose
+          target: production
           push: true
           tags: |
-                ghcr.io/luden-labs-ltd/enola_dashboard-next-js:qa-latest
-                ghcr.io/luden-labs-ltd/enola_dashboard-next-js:${{ github.sha }}
-  deploy-qa:
-    needs: [ci, build-and-push-image]   # деплой только после успеха обоих
-    if: ${{ needs.ci.result == 'success' && (needs.build-and-push-image.result == 'success' || needs.build-and-push-image.result == 'skipped') }}
-    runs-on: ubuntu-latest
-    environment: Deployments
-    steps:
+            ghcr.io/luden-labs-ltd/enola_dashboard-next-js:qa-latest
+            ghcr.io/luden-labs-ltd/enola_dashboard-next-js:${{ github.sha }}
+
       - name: Deploy to QA via SSH
         uses: appleboy/ssh-action@v1.2.0
         with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
+          host: ${{ vars.SSH_HOST }}
+          username: ${{ vars.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            cd /home/nextProjects/dashboardNext
+            cd ${{ vars.DEPLOY_PATH }}
             cat > .env << 'EOF'
-            AUTH_SECRET=${{ secrets.AUTH_SECRET }}
-            BASE_URL_BACKEND=${{ secrets.BASE_URL_BACKEND }}
-            SENTRY_DSN=${{ secrets.SENTRY_DSN }}
-            QA_IMAGE_TAG=${{ inputs.image_tag != '' && inputs.image_tag || github.sha }}
+            BASE_URL_BACKEND=${{ vars.BASE_URL_BACKEND }}
+            SENTRY_DSN=${{ vars.SENTRY_DSN }}
+            IMAGE_TAG=${{ steps.image-tag.outputs.value }}
             EOF
             docker compose pull qa
             docker compose up -d --force-recreate qa

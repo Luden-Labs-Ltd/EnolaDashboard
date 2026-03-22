@@ -6,7 +6,7 @@
 import * as Sentry from "@sentry/nextjs";
 
 Sentry.init({
-  dsn: process.env.SENTRY_DNS,
+  dsn: process.env.SENTRY_DSN ?? process.env.SENTRY_DNS,
 
   // Reduce sample rate to improve performance
   tracesSampleRate: process.env.NODE_ENV === "production" ? 0.1 : 0,
