@@ -1,36 +1,120 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Enola Dashboard
 
-## Getting Started
+Admin dashboard built with Next.js 15, React 19, and TypeScript.
 
-First, run the development server:
+## Local Development
+
+Install dependencies:
+
+```bash
+npm ci
+```
+
+Run the app locally:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Default local environment is read from `.env.local`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Required runtime variables for local work:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+```env
+BASE_URL_BACKEND=http://localhost:4000
+SENTRY_DSN=
+```
 
-## Learn More
+`SENTRY_DSN` is optional for local development.
 
-To learn more about Next.js, take a look at the following resources:
+## CI
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+GitHub Actions runs checks on:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- `push` to `main`
+- `pull_request` targeting `main`
 
-## Deploy on Vercel
+Checks are defined in [`.github/workflows/linter.yaml`](./.github/workflows/linter.yaml) and run:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- `npm run lint`
+- `npm run typecheck`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Deploy
+
+Deploys are handled by GitHub Actions and AWS EC2 instances over SSH.
+
+### QA
+
+- Workflow: [`.github/workflows/deploy.yaml`](./.github/workflows/deploy.yaml)
+- Automatic trigger: `push` to `main`
+- Manual trigger: `workflow_dispatch` from any selected branch
+- Service name in compose: `qa`
+
+### Production
+
+- Workflow: [`.github/workflows/deploy-production.yaml`](./.github/workflows/deploy-production.yaml)
+- Manual trigger only
+- Must be run from `main`
+- Service name in compose: `production`
+
+### Deploy Behavior
+
+Each deploy workflow:
+
+- checks out the selected commit
+- builds and pushes a GHCR image unless `image_tag` is provided manually
+- rewrites a single server-side `.env`
+- runs `docker compose pull`
+- runs `docker compose up -d --force-recreate`
+- checks `http://127.0.0.1:3000/` on the target host
+
+Rollback is done by running the workflow manually and setting `image_tag` to a previously pushed image tag, usually a commit SHA.
+
+## GitHub Environment Setup
+
+Two GitHub Environments are expected:
+
+- `Deployments` for QA
+- `Production` for production
+
+### Environment Variables
+
+Store these as GitHub Environment Variables:
+
+- `SSH_HOST`
+- `SSH_USER`
+- `DEPLOY_PATH`
+- `BASE_URL_BACKEND`
+- `SENTRY_DSN`
+
+### Environment Secrets
+
+Store these as GitHub Environment Secrets:
+
+- `GHCR_PAT`
+- `SSH_KEY`
+
+`SSH_KEY` must be the private SSH key used by GitHub Actions to connect to the target instance.
+
+## Server Layout
+
+Each instance should use a single `.env` file in the deploy directory.
+
+The workflows assume:
+
+- QA instance path is whatever `Deployments.DEPLOY_PATH` points to
+- Production instance path is whatever `Production.DEPLOY_PATH` points to
+
+`docker-compose.yml` reads runtime variables from `.env` for both `qa` and `production`.
+
+## Sentry
+
+Runtime Sentry config uses `SENTRY_DSN`.
+
+Relevant files:
+
+- [`src/instrumentation-client.ts`](./src/instrumentation-client.ts)
+- [`sentry.server.config.ts`](./sentry.server.config.ts)
+- [`sentry.edge.config.ts`](./sentry.edge.config.ts)
+
+There is also a local file `.env.sentry-build-plugin` used only for `SENTRY_AUTH_TOKEN` during Sentry source map upload workflows. It is not part of runtime deploy configuration.
