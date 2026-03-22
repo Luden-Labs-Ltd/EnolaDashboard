@@ -1,9 +1,6 @@
 name: CD-Production
 
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
     inputs:
       image_tag:
@@ -24,6 +21,12 @@ jobs:
       packages: write
 
     steps:
+      - name: Ensure production deploy runs from main
+        if: ${{ github.ref_name != 'main' }}
+        run: |
+          echo "Production deploys must be run from the main branch."
+          exit 1
+
       - name: Checkout
         uses: actions/checkout@v4
 
