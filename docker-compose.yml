@@ -11,7 +11,7 @@ services:
     command: npm run dev
 
   qa:
-    image: ghcr.io/luden-labs-ltd/enola_dashboard-next-js:qa-latest
+    image: ghcr.io/luden-labs-ltd/enola_dashboard-next-js:${QA_IMAGE_TAG:-qa-latest}
     # build:
       # context: .
       # dockerfile: Dockerfile
@@ -37,7 +37,7 @@ services:
       # context: .
       # dockerfile: Dockerfile
       # target: production # Use the 'production' stage from Dockerfile for production
-    image: ghcr.io/luden-labs-ltd/enola_dashboard-next-js:prod-latest
+    image: ghcr.io/luden-labs-ltd/enola_dashboard-next-js:${PRODUCTION_IMAGE_TAG:-prod-latest}
     ports:
       - "3000:3000"
     environment:

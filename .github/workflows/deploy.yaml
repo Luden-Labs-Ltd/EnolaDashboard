@@ -2,11 +2,17 @@ name: CD-QA
 
 on:
   workflow_dispatch:
+    inputs:
+      image_tag:
+        description: Optional image tag to deploy. Leave empty to build and deploy the current commit SHA.
+        required: false
+        type: string
 
 jobs:
   ci:
     uses: ./.github/workflows/ci-reusable.yaml
   build-and-push-image:
+    if: ${{ inputs.image_tag == '' }}
     runs-on: ubuntu-latest
     environment: Deployments
     needs: [ci] 
@@ -37,6 +43,7 @@ jobs:
                 ghcr.io/luden-labs-ltd/enola_dashboard-next-js:${{ github.sha }}
   deploy-qa:
     needs: [ci, build-and-push-image]   # деплой только после успеха обоих
+    if: ${{ needs.ci.result == 'success' && (needs.build-and-push-image.result == 'success' || needs.build-and-push-image.result == 'skipped') }}
     runs-on: ubuntu-latest
     environment: Deployments
     steps:
@@ -52,16 +59,20 @@ jobs:
             AUTH_SECRET=${{ secrets.AUTH_SECRET }}
             BASE_URL_BACKEND=${{ secrets.BASE_URL_BACKEND }}
             SENTRY_DSN=${{ secrets.SENTRY_DSN }}
+            QA_IMAGE_TAG=${{ inputs.image_tag != '' && inputs.image_tag || github.sha }}
             EOF
             docker compose pull qa
             docker compose up -d --force-recreate qa
+            healthy=0
+            for attempt in $(seq 1 20); do
+              if curl -fsS http://127.0.0.1:3000/ > /dev/null; then
+                healthy=1
+                break
+              fi
+              sleep 3
+            done
+            if [ "$healthy" -ne 1 ]; then
+              echo "QA healthcheck failed on 127.0.0.1:3000"
+              exit 1
+            fi
             docker image prune -af
-
-      - name: Healthcheck QA (no 502)
-        run: |
-          STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://qa.dashboard.enolahelp.com/)
-          echo "QA status code: $STATUS"
-          if [ "$STATUS" -ne 200 ]; then
-            echo "QA is not healthy, expected 200, got $STATUS"
-            exit 1
-          fi
