@@ -48,8 +48,13 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             cd /home/nextProjects/dashboardNext
+            cat > .env << 'EOF'
+            AUTH_SECRET=${{ secrets.AUTH_SECRET }}
+            BASE_URL_BACKEND=${{ secrets.BASE_URL_BACKEND }}
+            SENTRY_DSN=${{ secrets.SENTRY_DSN }}
+            EOF
             docker compose pull qa
-            docker compose up -d qa
+            docker compose up -d --force-recreate qa
             docker image prune -af
 
       - name: Healthcheck QA (no 502)

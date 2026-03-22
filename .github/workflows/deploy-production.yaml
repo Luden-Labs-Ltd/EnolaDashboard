@@ -56,5 +56,14 @@ jobs:
             SENTRY_DSN=${{ secrets.SENTRY_DSN }}
             EOF
             docker compose pull production
-            docker compose up -d production
+            docker compose up -d --force-recreate production
             docker image prune -af
+
+      - name: Healthcheck Production
+        run: |
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://dashboard.enolahelp.com/)
+          echo "Production status code: $STATUS"
+          if [ "$STATUS" -ne 200 ]; then
+            echo "Production is not healthy, expected 200, got $STATUS"
+            exit 1
+          fi
