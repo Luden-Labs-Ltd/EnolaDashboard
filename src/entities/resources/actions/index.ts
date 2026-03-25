@@ -1,0 +1,52 @@
+"use server";
+import { revalidateTag } from "next/cache";
+import { createResourceApi, deleteResourceApi, editResourceApi, importResourcesApi } from "../api";
+import { CreateResourceDto, EditResourceDto } from "../api/types";
+import { GET_RESOURCES_REVALIDATE_TAG } from "../api/const";
+import { getCurrentProgramId } from "entities/program";
+import { handleServerError } from "shared/error/api";
+
+export const createResource = async (data: CreateResourceDto) => {
+  try {
+    const programId = await getCurrentProgramId();
+    await createResourceApi(programId, data);
+    revalidateTag(GET_RESOURCES_REVALIDATE_TAG);
+  } catch (error) {
+    return handleServerError(error);
+  }
+};
+
+export const editResource = async (
+  resourceId: number,
+  data: EditResourceDto
+) => {
+  try {
+    const programId = await getCurrentProgramId();
+    const responseData = await editResourceApi(programId, resourceId, data);
+
+    revalidateTag(GET_RESOURCES_REVALIDATE_TAG);
+    return responseData;
+  } catch (error) {
+    return handleServerError(error);
+  }
+};
+
+export const deleteResource = async (resourceId: number) => {
+  try {
+    const data = await deleteResourceApi(resourceId);
+    revalidateTag(GET_RESOURCES_REVALIDATE_TAG);
+    return data;
+  } catch (error) {
+    return handleServerError(error);
+  }
+};
+
+export const importResources = async (formData: FormData, ai: boolean = false) => {
+  try {
+    const data = await importResourcesApi(formData, ai);
+    revalidateTag(GET_RESOURCES_REVALIDATE_TAG);
+    return data;
+  } catch (error) {
+    return handleServerError(error);
+  }
+}

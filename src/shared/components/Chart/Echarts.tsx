@@ -1,0 +1,97 @@
+import React, { useEffect, useRef, useState } from "react";
+import * as echarts from "echarts";
+import cx from "classnames";
+import { ECBasicOption } from "echarts/types/dist/shared";
+
+
+interface EchartsProps {
+  loading: boolean,
+  options: ECBasicOption,
+  className?: string,
+  style?: any,
+  message?: any,
+}
+
+const ECharts: React.FC<EchartsProps> = (props) => {
+  const { options, style, className, loading, message } = props;
+  const [chart, setChart] = useState<echarts.EChartsType | null>(null);
+  const chartRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    if (!chartRef.current) return;
+
+    const chartInstance = echarts.init(chartRef.current, null);
+    if (!chartInstance) return;
+
+    setChart(chartInstance);
+
+    return () => {
+      if (chartInstance) {
+        chartInstance.dispose();
+      }
+    };
+  }, []); // Empty dependency array - only run once on mount
+
+  useEffect(() => {
+    if (!chart || !chartRef.current) return;
+
+    // Capture the ref value to avoid stale closure issues
+    const currentElement = chartRef.current;
+
+    chart.setOption({ ...options, resizeObserver }, true); // second param is for 'noMerge'
+
+    // Set up resize observer
+    resizeObserver.observe(currentElement);
+
+    return () => {
+      resizeObserver.unobserve(currentElement);
+    };
+  }, [chart, options, chartRef]);
+
+  useEffect(() => {
+    if (!chart) {
+      return;
+    }
+    if (loading) {
+      chart.showLoading();
+      return;
+    }
+
+    chart.hideLoading();
+  }, [chart, loading]);
+
+  useEffect(() => {
+    if (chart && message) {
+      chart.clear();
+    }
+  }, [message, chart]);
+
+  const newStyle = {
+    height: 500,
+    ...style
+  };
+
+  return (
+    <div className="echarts-parent position-relative">
+      <div
+        //@ts-ignore
+        ref={chartRef}
+        style={newStyle}
+        className={cx("echarts-react", className)}
+      />
+      {message ? <div className="no-data">{message}</div> : null}
+    </div>
+  );
+}
+
+const resizeObserver = new ResizeObserver((entries) => {
+  entries.map(({ target }) => {
+    // @ts-ignore
+    const instance = echarts.getInstanceByDom(target);
+    if (instance) {
+      instance.resize();
+    }
+  });
+});
+
+export default React.memo(ECharts);

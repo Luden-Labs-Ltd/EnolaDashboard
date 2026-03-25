@@ -1,0 +1,1 @@
+export {default as DeleteResource} from './ui/DeleteResourceModal';

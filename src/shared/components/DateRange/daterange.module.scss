@@ -1,0 +1,30 @@
+.wrapper {
+    position: relative;
+}
+
+.display {
+    display: flex;
+    justify-content: center;
+    padding: 12px;
+    border: 1px solid #A3ABC3;
+    border-radius: 8px;
+    cursor: pointer;
+    min-width: 300px;
+}
+
+.dropdown {
+    position: absolute;
+    display: none;
+    z-index: 10;
+    background: white;
+    box-shadow: 0px 0px 13.1px 0px #313A5633;
+    top: 46px;
+}
+
+.wrapper.open {
+
+    .dropdown {
+        display: block;
+        direction: ltr;
+    }
+}

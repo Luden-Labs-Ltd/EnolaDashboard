@@ -1,0 +1,80 @@
+name: CD-QA
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      image_tag:
+        description: Optional image tag to deploy. Leave empty to build and deploy the current commit SHA.
+        required: false
+        type: string
+
+concurrency:
+  group: dashboard-qa-deploy
+  cancel-in-progress: true
+
+jobs:
+  deploy-qa:
+    runs-on: ubuntu-latest
+    environment: Deployments
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Resolve image tag
+        id: image-tag
+        run: echo "value=${{ inputs.image_tag != '' && inputs.image_tag || github.sha }}" >> "$GITHUB_OUTPUT"
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: luden-labs-ltd
+          password: ${{ secrets.GHCR_PAT }}
+
+      - name: Build and push
+        if: ${{ inputs.image_tag == '' }}
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          target: production
+          push: true
+          tags: |
+            ghcr.io/luden-labs-ltd/enola_dashboard-next-js:qa-latest
+            ghcr.io/luden-labs-ltd/enola_dashboard-next-js:${{ github.sha }}
+
+      - name: Deploy to QA via SSH
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ vars.SSH_HOST }}
+          username: ${{ vars.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cd ${{ vars.DEPLOY_PATH }}
+            cat > .env << 'EOF'
+            BASE_URL_BACKEND=${{ vars.BASE_URL_BACKEND }}
+            SENTRY_DSN=${{ vars.SENTRY_DSN }}
+            IMAGE_TAG=${{ steps.image-tag.outputs.value }}
+            EOF
+            docker compose pull qa
+            docker compose up -d --force-recreate qa
+            healthy=0
+            for attempt in $(seq 1 20); do
+              if curl -fsS http://127.0.0.1:3000/ > /dev/null; then
+                healthy=1
+                break
+              fi
+              sleep 3
+            done
+            if [ "$healthy" -ne 1 ]; then
+              echo "QA healthcheck failed on 127.0.0.1:3000"
+              exit 1
+            fi
+            docker image prune -af

@@ -1,0 +1,1 @@
+export { default as CharWithFilters } from "./ui/CharWithFilter"

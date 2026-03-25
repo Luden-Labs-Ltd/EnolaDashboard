@@ -1,0 +1,40 @@
+@use "../../shared/styles/utils/colors.scss" as colors;
+
+.header {
+
+  &Inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.RouteName {
+  font-weight: 700;
+  font-size: 24px;
+  color: colors.$primaryColor;
+
+  &::first-letter {
+    text-transform: capitalize;
+  }
+
+}
+
+.avatar {
+  background-color: colors.$avatarBackground;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+
+  &Name {
+    color: colors.$lightBlue;
+    font-size: 16px;
+  }
+
+  &Wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+  }
+}

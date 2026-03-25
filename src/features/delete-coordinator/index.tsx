@@ -1,0 +1,1 @@
+export {default as DeleteCoordinator} from './ui/DeleteCoordinatorModal';

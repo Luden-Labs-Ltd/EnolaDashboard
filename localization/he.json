@@ -1,0 +1,390 @@
+{
+    "HomePage": {
+        "title": "GOMORDJOBA!"
+    },
+    "Auth": {
+        "send_code": "שליחת הודעה במסרון",
+        "resend_otp": "לשלוח שוב קוד",
+        "code": "קוד שהתקבל בהודעה",
+        "log_in": "היכנס",
+        "language": "שפה לבחירה"
+    },
+    "NavBar": {
+        "families": "משפחות",
+        "log_out": "התנתק.י",
+        "users": "משתמשים",
+        "dashboard": "דשבורד",
+        "tasks": "משימות",
+        "needs": "צרכים",
+        "resources": "משאבים",
+        "supporters": "תומכים",
+        "coordinators": "רכזים"
+    },
+    "Paths": {
+        "home": "דף הבית",
+        "dashboard": "לוח מחוונים",
+        "needs": "צרכים",
+        "resources": "משאבים",
+        "supporters": "תומכים",
+        "coordinators": "רכזים",
+        "families": "משפחות",
+        "family": "משפחה",
+        "memberships": "חברות",
+        "tasks": "משימות"
+    },
+    "Dashboard": {
+        "filters": {
+            "active": "משתמש פעיל",
+            "families": "משפחות",
+            "supporters": "תומכים",
+            "openTasks": "משימות פתוחות",
+            "completedTasks": "משימות שהושלמו"
+        }
+    },
+    "TablesTranslates": {
+        "FamiliesTable": {
+            "id": "מזהה",
+            "name": "שם",
+            "caregiver": "אחראי",
+            "lastSeen": "נראה לאחרונה",
+            "lastActive": "פעיל לאחרונה",
+            "archived": "בארכיון",
+            "enrolmentSource": "מקור הרישום",
+            "tasks": "משימות",
+            "memberships": "חברויות",
+            "supporters": "תומכים"
+        },
+        "MembershipsTable": {
+            "id": "מזהה",
+            "phoneNumber": "מספר טלפון",
+            "fullName": "שם מלא",
+            "firstName": "שם פרטי",
+            "lastName": "שם משפחה",
+            "age": "גיל",
+            "gender": "מגדר",
+            "primary": "ראשי",
+            "circle": "מעגל",
+            "location": "מיקום",
+            "city": "עיר",
+            "individualDashboardLink": "קישור לדשבורד אישי"
+        },
+        "CoordinatorsTable": {
+            "id": "מזהה",
+            "role": "תפקיד",
+            "full_name": "שם מלא",
+            "phone_number": "מספר טלפון",
+            "boarded": "מצב מטופל",
+            "city": "עיר",
+            "about": "עלי",
+            "first_name": "שם פרטי",
+            "last_name": "שם משפחה",
+            "gender": "מגדר",
+            "age": "גיל",
+            "country_code": "קוד מדינה",
+            "country_name": "שם מדינה",
+            "programs": "תכניות",
+            "lastSeen": "נראה לאחרונה",
+            "dashboardAccess": "גישת דשבורד"
+        }
+    },
+    "Header": {
+        "families": "משפחות",
+        "log_out": "התנתק.י",
+        "users": "משתמשים",
+        "dashboard": "דשבורד",
+        "tasks": "משימות",
+        "needs": "צרכים",
+        "resources": "משאבים",
+        "supporters": "תומכים",
+        "coordinators": "רכזים",
+        "family": "משפחות"
+    },
+    "Coordinators": {
+        "addCoordinators": "הוסף רכזים",
+        "DeleteCoordinators": {
+            "title": "מחק רכזים",
+            "description": "אתה יכול למחוק רכז"
+        }
+    },
+    "NeedsPageOnboarding": {
+        "FirstStep": {
+            "description1": "דף זה מאפשר לנהל את הקטגוריות והמשימות עבור התוכנית שלכם. כאן תוכלו לגלות, לערוך ולהתאים אישית את הצרכים של המשפחות.",
+            "description2": "כדי להתחיל, לחצו על יצירת תכנית:",
+            "createTemplate": "יצירת תכנית"
+        },
+        "SecondStep": {
+            "infoCard1": {
+                "paragraph1": "התאימו את התוכנית אישית: ערכו את הקטגוריות כך שיתאימו למטרות התוכנית. לאחר מכן, הוסיפו משימות ספציפיות לכל קטגוריה על ידי בחירת קטגוריה ולחיצה על הוספת משימה' - כדי לקבוע אילו משימות יופיעו למשפחות באפליקציה.",
+                "paragraph2": "על סמך הניסיון שלכם, תוכלו לבחור את המשימות השכיחות או החשובות ביותר עבור כל משפחה חדשה להתחיל איתן.",
+                "paragraph3": "משפחות יוכלו לערוך או למחוק את המשימות הללו בהמשך אם הן אינן רלוונטיות עבורן.",
+                "buttonPrompt": "עריכת קטגוריות"
+            },
+            "infoCard2": {
+                "paragraph1": "לאחר מכן בחר מהרשימה או צור משימות. החליטו אילו משימות יהיו גלויות באפליקציה למשפחות לגילוי.",
+                "paragraph2": "בנוסף, בהתבסס על הניסיון שלך, תוכל לבחור את המשימות החשובות או השכיחות ביותר עבור כל משפחה חדשה לעזור לה להתחיל להשתמש באפליקציה. למשפחות תהיה אפשרות לערוך או למחוק משימות אלו מאוחר יותר אם הן לא רלוונטיות.",
+                "buttonPrompt": "השתמש בלחצן"
+            }
+        }
+    },
+    "Tasks": {
+        "manageTasks": "ניהול משימות",
+        "categoryNotSet": "קטגוריה לא מוגדרת",
+        "EditTasks": {
+            "title": "ערוך משימות ({count})",
+            "description": "לאחר לחיצה על כפתור העריכה, לא ניתן יהיה לשחזר משימות."
+        },
+        "DeleteTasks": {
+            "title": "מחק משימות ({count})",
+            "description": "לאחר לחיצה על כפתור המחיקה, לא ניתן יהיה לשחזר משימות."
+        },
+        "SetDefaultTasks": {
+            "title": "את בטוחה?",
+            "description": "לאחר לחיצה על כפתור ההפעלה, לא ניתן יהיה לבצע שינויים בקטגוריות ובמשימות."
+        },
+        "ViewTasks": {
+            "title": "מידע על משימות",
+            "fields": {
+                "title": "כותרת",
+                "description": "תיאור",
+                "circle": "מעגל",
+                "iaActive": "פעיל"
+            }
+        }
+    },
+    "Categories": {
+        "CreateCategories": {
+            "title": "צור קטגוריות"
+        },
+        "Delete": {
+            "description": "לאחר לחיצה על כפתור המחיקה, לא ניתן יהיה לשחזר קטגוריות."
+        }
+    },
+    "Resources": {
+        "newResources": "משאבים חדשים",
+        "importResources": "ייבוא משאבים",
+        "addResources": "הוסף משאבים",
+        "serviceName": "שם שירות",
+        "contactPerson": "איש קשר",
+        "serviceNature": "אופי השירות",
+        "accessRequirements": "אופן קבלת השירות",
+        "phoneInvalidFormat": "ניתן להזין רק ספרות, *, +, #, רווחים ו-()- — בלי אותיות",
+        "Categories": {
+            "medical": "רפואי",
+            "home": "בית",
+            "childcare": "טיפול בילדים",
+            "emotional": "רגשי",
+            "legal": "זכויות משפטיות",
+            "general": "כללי"
+        },
+        "DeleteResources": {
+            "description": "לאחר לחיצה על כפתור המחיקה, לא ניתן יהיה לשחזר משאבים."
+        },
+        "ImportResources": {
+            "title": "ייבוא משאבים",
+            "description": "ניתן להוריד את הקובץ בפורמטים XLS, XLSX או CSV, כך שיתאים למבנה של הקובץ המופיע למעלה, או להשתמש בקובץ המופיע למעלה כתבנית.",
+            "downloadExample": "הורד קובץ לדוגמה",
+            "import": "יבוא",
+            "success": "משאבים יובאו בהצלחה",
+            "error": "שגיאה",
+            "pleaseSelectFile": "אנא בחר קובץ",
+            "useAi": "ייבוא מונע AI"
+        }
+    },
+    "Families": {
+        "addFamilies": "משפחות חדשות",
+        "addMembers": "הוסף חברים",
+        "viewMembers": "הצג חברים",
+        "archive": "ארכיון",
+        "unarchive": "לא ארכיון",
+        "AddFamilies": {
+            "description": "אתה יכול להוסיף משפחה"
+        },
+        "AddMembers": {
+            "description": "אתה יכול להוסיף חבר"
+        },
+        "DeleteMembership": {
+            "title": "מחק חברות",
+            "description": "אתה יכול למחוק חבר"
+        },
+        "ArchiveFamilies": {
+            "title": "משפחות ארכיון",
+            "description": "אתה יכול ארכיון {familyName}",
+            "note": "אתה לא יכול לשחזר משפחה ארכיון"
+        },
+        "DeleteFamilies": {
+            "title": "מחק משפחות",
+            "description": "אתה יכול למחוק משפחה"
+        }
+    },
+    "Empty": {
+        "resources": "לחצו על ״הוספת משאב״ כדי לשמור משאבים שימושיים ",
+        "families": "לחצו על ״הוספת משפחה״ כדי להתחיל רשימה",
+        "supporters": "לחצו על ״הוספת תומכים״ כדי להתחיל רשימה",
+        "coordinators": "לחצו על ״הוספת רכז״ כדי להתחיל רשימה",
+        "default": "ריק"
+    },
+    "FamilyTasks": {
+        "info": "מידע",
+        "tasks": "משימות",
+        "members": "תומכים",
+        "noTasks": "אין משימות עדיין",
+        "markAsDone": "סמן כבוצע",
+        "restore": "שחזר",
+        "confirmDone": "לסמן את המשימה כהושלמה?",
+        "confirmDelete": "האם אתה בטוח שברצונך למחוק משימה זו?",
+        "assignee": "מוקצה",
+        "unassigned": "לא מוקצה",
+        "allCategories": "הכל",
+        "addTask": "הוסף משימה",
+        "editTask": "עריכת משימה",
+        "taskTitle": "כותרת",
+        "taskTitlePlaceholder": "הזן כותרת משימה",
+        "taskDescription": "תיאור",
+        "taskDescriptionPlaceholder": "הזן תיאור (אופציונלי)",
+        "taskCircle": "מעגל",
+        "taskCategory": "קטגוריה",
+        "creating": "יוצר...",
+        "addMultiTasks": "הוסף משימות (מבחר)",
+        "multiAddTasksTitle": "הוסף משימות מתבניות",
+        "loadingTemplates": "טוען תבניות...",
+        "noTemplates": "אין תבניות זמינות למשפחה זו.",
+        "creatingMulti": "יוצר...",
+        "addCustomTask": "הוסף משימה מותאמת",
+        "remove": "הסר",
+        "today": "היום",
+        "taskType": "בחר תאריך ושעה",
+        "taskTypeNoTime": "ללא זמן",
+        "taskTypeExactTime": "זמן מדויק",
+        "taskTypeUntilTime": "עד שעה",
+        "repeated": "חוזר",
+        "dateTime": "תאריך ושעה",
+        "schedule": "תזמון (cron)",
+        "schedulePlaceholder": "למשל 0 9 * * 1-5",
+        "weekdayShort": {
+            "sun": "א",
+            "mon": "ב",
+            "tue": "ג",
+            "wed": "ד",
+            "thu": "ה",
+            "fri": "ו",
+            "sat": "ש"
+        }
+    },
+    "Common": {
+        "version": "גרסה",
+        "loading": "טוען...",
+        "save": "שמור",
+        "pleaseCreate": "אנא צור{name}",
+        "programName": "שם התוכנית",
+        "families": "משפחות",
+        "familyId": "תעודת זהות משפחתית",
+        "showMyFamily": "המשפחות שלי",
+        "showMyFamilyDescription": "הצג רק את המשפחות שלי",
+        "email": "דואר אלקטרוני",
+        "tasks": "משימות",
+        "memberships": "חברות",
+        "supporters": "תומכים",
+        "coordinators": "רכזים",
+        "total": "סך הכל",
+        "active": "פעיל",
+        "inactive": "לא פעיל",
+        "opened": "נפתח",
+        "closed": "סגור",
+        "setDate": "תאריך הגדרה",
+        "sort": "סדר",
+        "search": "חיפוש",
+        "addCategory": "הוסף קטגוריה",
+        "editCategory": "עריכת קטגוריה",
+        "manageCategory": "ניהול קטגוריה",
+        "addTask": "הוסף משימה",
+        "add": "הוסף",
+        "categories": "קטגוריות",
+        "cancel": "ביטול",
+        "share": "שיתוף",
+        "view": "תצוגה",
+        "edit": "עריכה",
+        "delete": "מחק",
+        "activate": "הפעל",
+        "ok": "בסדר",
+        "signOut": "יציאה",
+        "name": "שם",
+        "phone": "טלפון",
+        "start": "בואו נתחיל",
+        "goBack": "חזור",
+        "taskCount": "ספירת משימות",
+        "eventCount": "ספירת אירועים",
+        "membershipCount": "מספר החברות",
+        "isArchived": "האם המשפחה בארכיון",
+        "firstName": "שם פרטי",
+        "lastName": "שם משפחה",
+        "primaryCaregiver": "מלווה",
+        "birthdate": "תאריך לידה",
+        "city": "עיר",
+        "phoneNumber": "מספר טלפון",
+        "problem": "הקשר",
+        "familyInfo": "מידע משפחתי",
+        "title": "כותרת",
+        "mainCoordinator": "רכז ראשי",
+        "notes": "הערות",
+        "lastActions": "3 פעולות אחרונות",
+        "age": "גיל",
+        "gender": "מין",
+        "circle": "מעגל",
+        "primary": "ראשי",
+        "male": "זכר",
+        "female": "נקבה",
+        "other": "אחרים",
+        "intimate": "פנימי",
+        "public": "רחב",
+        "private": "קרוב",
+        "select": "בחר",
+        "filter": "מסנן",
+        "clear": "נקה",
+        "address": "כתובת",
+        "copyLink": "העתק קישור",
+        "url": "כתובת אתר",
+        "organization": "ארגון",
+        "category": "קטגוריה",
+        "description": "תיאור",
+        "family": "משפחה",
+        "friends": "חברים",
+        "coworkers": "עמיתים לעבודה",
+        "completed": "הושלם",
+        "inProgress": "בתהליך",
+        "initial": "ראשוני",
+        "categoryName": "שם קטגוריה",
+        "icon": "אייקון",
+        "previous": "הקודם",
+        "next": "הבא",
+        "familyName": "שם משפחה",
+        "patient": "חולה",
+        "relationship": "מערכת יחסים",
+        "addPatient": "הוסף מטופל",
+        "hiddenPatient": "מוסתר החולה",
+        "resourcesFile": "קובץ משאבים",
+        "manager": "מנהל",
+        "admin": "אדמין",
+        "member": "חבר",
+        "role": "תפקיד",
+        "all": "כל",
+        "program": "תכנית",
+        "selectProgram": "בחר תכנית",
+        "programAccess": "גישת תכנית",
+        "yes": "כן",
+        "no": "לא",
+        "never": "לעולם לא",
+        "language": "שפה",
+        "english": "אנגלית",
+        "hebrew": "עברית",
+        "dateRange": {
+            "today": "היום",
+            "yesterday": "אתמול",
+            "thisWeek": "השבוע",
+            "lastWeek": "שבוע שעבר",
+            "thisMonth": "החודש",
+            "lastMonth": "חודש שעבר",
+            "daysUpToToday": "ימים עד היום",
+            "daysStartingToday": "ימים מתחילים מהיום"
+        }
+    }
+}

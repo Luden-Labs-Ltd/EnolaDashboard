@@ -1,0 +1,390 @@
+{
+    "HomePage": {
+        "title": "Hello world!"
+    },
+    "Auth": {
+        "send_code": "Send Code",
+        "resend_otp": "Resend code",
+        "code": "enter code",
+        "log_in": "log in",
+        "language": "Choose Language"
+    },
+    "NavBar": {
+        "families": "Families",
+        "log_out": "Log Out",
+        "users": "Users",
+        "dashboard": "Dashboard",
+        "tasks": "Tasks",
+        "needs": "Needs",
+        "resources": "Resources",
+        "supporters": "Supporters",
+        "coordinators": "Coordinators"
+    },
+    "Paths": {
+        "home": "Home",
+        "dashboard": "Dashboard",
+        "needs": "Needs",
+        "resources": "Resources",
+        "supporters": "Supporters",
+        "families": "Families",
+        "family": "Family card",
+        "memberships": "Memberships",
+        "coordinators": "Coordinators",
+        "tasks": "Tasks"
+    },
+    "Dashboard": {
+        "filters": {
+            "active": "Active User",
+            "families": "Families",
+            "supporters": "Supporters",
+            "openTasks": "Open Tasks",
+            "completedTasks": "Completed Tasks"
+        }
+    },
+    "TablesTranslates": {
+        "FamiliesTable": {
+            "id": "id",
+            "name": "name",
+            "caregiver": "caregiver",
+            "lastSeen": "last Seen",
+            "lastActive": "last Active",
+            "archived": "archived",
+            "enrolmentSource": "enrolment source",
+            "tasks": "tasks",
+            "memberships": "memberships",
+            "supporters": "supporters"
+        },
+        "MembershipsTable": {
+            "id": "id",
+            "phoneNumber": "phoneNumber",
+            "fullName": "fullName",
+            "firstName": "firstName",
+            "lastName": "lastName",
+            "age": "age",
+            "gender": "gender",
+            "primary": "primary",
+            "circle": "circle",
+            "location": "location",
+            "city": "city",
+            "individualDashboardLink": "individualDashboardLink"
+        },
+        "CoordinatorsTable": {
+            "id": "id",
+            "boarded": "boarded",
+            "role": "role",
+            "full_name": "full name",
+            "phone_number": "phone number",
+            "city": "city",
+            "about": "about",
+            "first_name": "first name",
+            "last_name": "last name",
+            "gender": "gender",
+            "age": "age",
+            "country_code": "country code",
+            "country_name": "country name",
+            "programs": "programs",
+            "lastSeen": "last seen",
+            "dashboardAccess": "dashboard access"
+        }
+    },
+    "Header": {
+        "families": "Families",
+        "log_out": "Log Out",
+        "users": "Users",
+        "dashboard": "Dashboard",
+        "tasks": "Tasks",
+        "needs": "Needs",
+        "resources": "Resources",
+        "supporters": "Supporters",
+        "coordinators": "Coordinators",
+        "family": "Family"
+    },
+    "NeedsPageOnboarding": {
+        "FirstStep": {
+            "description1": "This page allows you to manage the categories and tasks for your program. Here, you can discover, edit, and customize the needs for your users.",
+            "description2": "To get started, create the initial template of categories for the program.",
+            "createTemplate": "Create Template"
+        },
+        "SecondStep": {
+            "infoCard1": {
+                "paragraph1": "Get started by selecting categories. Once created, categories cannot be deleted or renamed to ensure consistency. We provide an initial set of categories and tasks for you to choose from.",
+                "paragraph2": "When adding categories, you will need to specify the name, icon, and color.",
+                "paragraph3": "Families will be able to edit or delete these tasks later on if they are not relevant to them.",
+                "buttonPrompt": "Use the button"
+            },
+            "infoCard2": {
+                "paragraph1": "Then select from the list or create tasks. Decide which tasks will be visible in the app for families to discover.",
+                "paragraph2": "Additionally, based on your experience, you can pick the most frequent or important tasks for each new family to help them start using the app. Families will be able to edit or delete these tasks later if they are not relevant.",
+                "buttonPrompt": "Use the button"
+            }
+        }
+    },
+    "Tasks": {
+        "manageTasks": "Manage Tasks",
+        "categoryNotSet": "Category Not Set",
+        "EditTasks": {
+            "title": "Edit Tasks ({count})",
+            "description": "After clicking the Edit button, it will be impossible to restore tasks."
+        },
+        "DeleteTasks": {
+            "title": "Delete Tasks ({count})",
+            "description": "After clicking the Delete button, it will be impossible to restore tasks."
+        },
+        "SetDefaultTasks": {
+            "title": "Are you sure?",
+            "description": "After clicking the Activate button, it will be impossible to make changes to categories and tasks."
+        },
+        "ViewTasks": {
+            "title": "Task Information",
+            "fields": {
+                "title": "Title",
+                "description": "Description",
+                "circle": "Circle",
+                "iaActive": "is Active"
+            }
+        }
+    },
+    "Categories": {
+        "CreateCategories": {
+            "title": "Manage categories"
+        },
+        "Delete": {
+            "description": "After clicking the Delete button, it will be impossible to restore categories."
+        }
+    },
+    "Resources": {
+        "newResources": "New resources",
+        "importResources": "Import resources",
+        "addResources": "Add resources",
+        "serviceName": "Service Name",
+        "contactPerson": "Contact person",
+        "serviceNature": "Terms of service",
+        "accessRequirements": "Access requirements",
+        "phoneInvalidFormat": "Use only digits, *, +, #, spaces, and ()-. — no letters",
+        "Categories": {
+            "medical": "Medical",
+            "home": "Home",
+            "childcare": "Childcare",
+            "emotional": "Emotional",
+            "legal": "Legal rights",
+            "general": "General"
+        },
+        "DeleteResources": {
+            "description": "After clicking the Delete button, it will be impossible to restore resources."
+        },
+        "ImportResources": {
+            "title": "Import resources",
+            "description": "You can download the file in XLS, XLSX, or CSV formats, ensuring it matches the structure of the file provided above, or you can use the file above as a template.",
+            "downloadExample": "Download Example File",
+            "import": "import",
+            "success": "Resources imported successfully",
+            "error": "Error",
+            "pleaseSelectFile": "Please select a file",
+            "useAi": "AI Powered Import"
+        }
+    },
+    "Families": {
+        "addFamilies": "Add families",
+        "addMembers": "Add Members",
+        "viewMembers": "View Members",
+        "archive": "Archive",
+        "unarchive": "Unarchive",
+        "AddFamilies": {
+            "description": "You could add family"
+        },
+        "AddMembers": {
+            "description": "You could add member"
+        },
+        "DeleteMembership": {
+            "title": "Delete Membership",
+            "description": "You could delete member"
+        },
+        "ArchiveFamilies": {
+            "title": "Archive Families",
+            "description": "You could archive {familyName}",
+            "note": "You could not restore archive family"
+        },
+        "DeleteFamilies": {
+            "title": "Delete Families",
+            "description": "You could delete Family"
+        }
+    },
+    "Coordinators": {
+        "addCoordinators": "Add coordinators",
+        "DeleteCoordinators": {
+            "title": "Delete Coordinators",
+            "description": "You could delete Coordinator"
+        }
+    },
+    "Empty": {
+        "resources": "Click “New resource” to save useful resources here.",
+        "families": "Click “Add family” to start building your list.",
+        "supporters": "Click “Add supporter” to start building your list.",
+        "coordinators": "Click “Add coordinator” to start building your list.",
+        "default": "Empty"
+    },
+    "FamilyTasks": {
+        "info": "Info",
+        "tasks": "Tasks",
+        "members": "Supporters",
+        "noTasks": "No tasks yet",
+        "markAsDone": "Mark as done",
+        "restore": "Restore",
+        "confirmDone": "Mark this task as completed?",
+        "confirmDelete": "Are you sure you want to delete this task?",
+        "assignee": "Assignee",
+        "unassigned": "Unassigned",
+        "allCategories": "All",
+        "addTask": "Add Task",
+        "editTask": "Edit task",
+        "taskTitle": "Title",
+        "taskTitlePlaceholder": "Enter task title",
+        "taskDescription": "Description",
+        "taskDescriptionPlaceholder": "Enter description (optional)",
+        "taskCircle": "Circle",
+        "taskCategory": "Category",
+        "creating": "Creating...",
+        "addMultiTasks": "Add tasks (multi)",
+        "multiAddTasksTitle": "Add tasks from templates",
+        "loadingTemplates": "Loading templates...",
+        "noTemplates": "No templates available for this family.",
+        "creatingMulti": "Creating...",
+        "addCustomTask": "Add custom task",
+        "remove": "Remove",
+        "today": "Today",
+        "taskType": "Select date and time",
+        "taskTypeNoTime": "No time",
+        "taskTypeExactTime": "Exact time",
+        "taskTypeUntilTime": "Until time",
+        "repeated": "Repeated",
+        "dateTime": "Date & time",
+        "schedule": "Schedule (cron)",
+        "schedulePlaceholder": "e.g. 0 9 * * 1-5",
+        "weekdayShort": {
+            "sun": "Su",
+            "mon": "Mo",
+            "tue": "Tu",
+            "wed": "We",
+            "thu": "Th",
+            "fri": "Fr",
+            "sat": "Sa"
+        }
+    },
+    "Common": {
+        "version": "Version",
+        "loading": "Loading...",
+        "save": "Save",
+        "pleaseCreate": "Please create {name}",
+        "programName": "Program Name",
+        "families": "Families",
+        "familyId": "family Id",
+        "showMyFamily": "my families",
+        "showMyFamilyDescription": "Show only my families",
+        "email": "Email",
+        "tasks": "Tasks",
+        "memberships": "Memberships",
+        "supporters": "Supporters",
+        "coordinators": "Coordinators",
+        "total": "Total",
+        "active": "Active",
+        "inactive": "Inactive",
+        "opened": "Opened",
+        "closed": "Closed",
+        "setDate": "Set Date",
+        "sort": "sort",
+        "search": "Search",
+        "addCategory": "Add category",
+        "editCategory": "Edit Category",
+        "manageCategory": "Manage Category",
+        "addTask": "Add Task",
+        "add": "Add",
+        "categories": "categories",
+        "cancel": "Cancel",
+        "share": "Share",
+        "view": "View",
+        "edit": "Edit",
+        "delete": "Delete",
+        "activate": "Activate",
+        "ok": "Ok",
+        "signOut": "Sign Out",
+        "name": "Name",
+        "phone": "Phone",
+        "start": "Let's Start",
+        "goBack": "go Back",
+        "taskCount": "Task Count",
+        "eventCount": "Event Count",
+        "membershipCount": "Membership Count",
+        "isArchived": "Family archived",
+        "firstName": "First name",
+        "lastName": "Last name",
+        "primaryCaregiver": "Main caregiver",
+        "birthdate": "Birthdate",
+        "city": "City",
+        "phoneNumber": "phone Number",
+        "problem": "Problem",
+        "familyInfo": "Family Info",
+        "title": "Title",
+        "mainCoordinator": "Main coordinator",
+        "notes": "Notes",
+        "lastActions": "Last 3 actions",
+        "age": "Age",
+        "gender": "Gender",
+        "circle": "Circle",
+        "primary": "Primary",
+        "male": "Male",
+        "female": "Female",
+        "other": "other",
+        "intimate": "Inner",
+        "public": "Wide",
+        "private": "Close",
+        "select": "Select",
+        "filter": "Filter",
+        "clear": "Clear",
+        "address": "Address",
+        "copyLink": "Copy Link",
+        "url": "URL",
+        "organization": "Organization",
+        "category": "Category",
+        "description": "Description",
+        "family": "family",
+        "friends": "friends",
+        "coworkers": "coworkers",
+        "completed": "completed",
+        "inProgress": "in Progress",
+        "initial": "initial",
+        "categoryName": "Category name",
+        "icon": "Icon",
+        "previous": "Previous",
+        "next": "Next",
+        "familyName": "Family name",
+        "patient": "Patient",
+        "relationship": "Relationship",
+        "addPatient": "Add Patient",
+        "hiddenPatient": "Hidden Patient",
+        "resourcesFile": "Resource File",
+        "manager": "Manager",
+        "admin": "Admin",
+        "member": "Member",
+        "role": "Role",
+        "all": "all",
+        "program": "Program",
+        "selectProgram": "Select Program",
+        "programAccess": "Program Access",
+        "yes": "Yes",
+        "no": "No",
+        "never": "Never",
+        "language": "Language",
+        "english": "English",
+        "hebrew": "Hebrew",
+        "dateRange": {
+            "today": "Today",
+            "yesterday": "Yesterday",
+            "thisWeek": "This Week",
+            "lastWeek": "Last Week",
+            "thisMonth": "This Month",
+            "lastMonth": "Last Month",
+            "daysUpToToday": "days up to today",
+            "daysStartingToday": "days starting today"
+        }
+    }
+}

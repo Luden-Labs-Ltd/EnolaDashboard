@@ -1,0 +1,114 @@
+@use "../../shared/styles/utils/colors.scss" as colors;
+
+.navbar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-height: 100vh;
+  padding: 16px 20px;
+  background-color: colors.$mainBackgroundColor;
+
+  .top {
+    margin-bottom: 24px;
+  }
+
+  .topLogoWrapper {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+
+    img {
+      // width: 84px;
+      // height: 40px;
+    }
+
+    svg {
+      cursor: pointer;
+      border-radius: 4px;
+      width: 40px;
+      height: 40px;
+
+      &:hover {
+        background-color: colors.$mainBackgroundColorLight;
+      }
+    }
+  }
+
+  .programName {
+    font-size: 20px;
+    padding-bottom: 16px;
+    color: colors.$primaryColor;
+    border-bottom: 0.5px solid #A3ABC3;
+  }
+
+  .content {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .itemList {
+    display: flex;
+    flex: 1;
+    width: 100%;
+    flex-direction: column;
+    gap: 24px;
+    align-items: flex-start;
+
+    li {
+      width: 100%;
+    }
+  }
+
+  .item {
+    display: flex;
+    gap: 16px;
+    text-decoration: none;
+    justify-content: flex-start;
+    height: 40px;
+    width: 100%;
+    border-radius: 8px;
+    padding: 8px;
+    color: colors.$primaryColor;
+    cursor: pointer;
+    transition: 0.2s;
+
+    &.active,
+    &:hover {
+      background-color: colors.$primaryColor;
+      color: colors.$white;
+
+      .itemIcon svg {
+        fill: colors.$primaryColor;
+        stroke: colors.$white;
+      }
+    }
+
+    &.disabled {
+      cursor: not-allowed;
+      pointer-events: none;
+      color: colors.$disabled;
+
+      .itemIcon svg {
+        fill: colors.$disabled;
+      }
+    }
+  }
+
+  .itemIcon {
+    min-width: 24px;
+    width: 24px;
+    height: 24px;
+  }
+
+  .itemLabel {
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 21.33px;
+  }
+
+}

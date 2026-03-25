@@ -1,0 +1,40 @@
+@use "../../shared/styles/utils/colors.scss" as colors;
+
+.layout {
+    display: grid;
+    grid-template-areas:
+        "navbar header header"
+        "navbar  main main"
+        "navbar  main main"
+    ;
+    grid-template-columns: 216px 1fr;
+    grid-template-rows: 60px 1fr;
+    min-height: 100vh;
+}
+
+[dir=rtl] .layout {
+    grid-template-areas:
+        "navbar header header"
+        "navbar main main"
+        "navbar main main"
+    ;
+}
+
+.header {
+    grid-area: header;
+    background-color: colors.$mainBackgroundColor;
+    display: flex;
+    justify-content: end;
+    padding: 10px 20px;
+}
+
+
+.navbar {
+    background-color: colors.$mainBackgroundColor;
+    grid-area: navbar;
+}
+
+.main {
+    grid-area: main;
+    padding: 20px;
+}

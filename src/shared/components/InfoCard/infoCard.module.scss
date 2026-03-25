@@ -1,0 +1,37 @@
+@use "../../../shared/styles/utils/colors.scss" as colors;
+
+.wrapper {
+  border: 1px dashed colors.$grayDark;
+  background-color: colors.$white;
+  padding: 24px 40px;
+  border-radius: 12px;
+  display: flex;
+  gap: 20px;
+}
+
+.step {
+  width: 38px;
+  height: 38px;
+  color: colors.$primaryColor;
+  border: 2px solid colors.$primaryColor;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 500;
+  align-items: center;
+}
+
+.outlet {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-weight: 300;
+  gap: 16px;
+
+  p {
+    font-weight: 400;
+    size: 20px;
+    color: #313E44;
+  }
+}
