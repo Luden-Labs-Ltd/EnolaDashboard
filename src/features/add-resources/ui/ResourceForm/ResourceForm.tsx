@@ -1,17 +1,17 @@
 "use client";
 import FormRender, { FormRenderField } from "@components/FormRender";
+import Row from "@components/Row";
 import { Button } from "@components/shadowCDN/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CategoryType, RenderCategoryIcon } from "entities/category";
 import { createResource } from "entities/resources/actions";
-import { useTranslations } from "next-intl";
-import React, { useMemo, useState } from "react";
-import { useForm } from "react-hook-form";
-import Row from "@components/Row";
 import {
   buildCreateResourceScheme,
   CreateResourceValues,
 } from "features/add-resources/model";
+import { useTranslations } from "next-intl";
+import React, { useMemo, useState } from "react";
+import { useForm } from "react-hook-form";
 import { isActionError } from "shared/error/api";
 
 type ResourceFormProps = {
