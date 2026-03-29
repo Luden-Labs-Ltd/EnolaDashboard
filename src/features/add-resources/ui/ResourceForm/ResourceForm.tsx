@@ -41,6 +41,7 @@ export const ResourceForm: React.FC<ResourceFormProps> = ({
   const [disabled, setDisabled] = useState(false);
 
   const phoneInvalidMsg = t("Resources.phoneInvalidFormat");
+  const phoneHint = t("Resources.phoneHint");
   const createResourceScheme = useMemo(
     () => buildCreateResourceScheme(phoneInvalidMsg),
     [phoneInvalidMsg]
@@ -99,7 +100,8 @@ export const ResourceForm: React.FC<ResourceFormProps> = ({
       id: "phone",
       label: t("Common.phone"),
       direction: "row",
-      placeholder: "",
+      placeholder: "0541234567 or *8960",
+      description: phoneHint,
     },
     {
       name: "email",
