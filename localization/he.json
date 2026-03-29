@@ -167,7 +167,7 @@
         "contactPerson": "איש קשר",
         "serviceNature": "אופי השירות",
         "accessRequirements": "אופן קבלת השירות",
-        "phoneInvalidFormat": "ניתן להזין רק ספרות, *, +, #, רווחים ו-()- — בלי אותיות",
+        "phoneInvalidFormat": "יש להזין מספר טלפון תקין או קוד קצר כמו *8960",
         "Categories": {
             "medical": "רפואי",
             "home": "בית",

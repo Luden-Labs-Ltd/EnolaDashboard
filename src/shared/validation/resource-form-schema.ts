@@ -2,6 +2,7 @@ import { z } from "zod";
 
 /** Digits, shortcodes (*), international (+), # (extensions), common separators — no letters */
 const RESOURCE_PHONE_CHARS = /^[\d\s*+().#-]+$/;
+const RESOURCE_SHORT_CODE = /^\*\d{3,6}$/;
 
 export function buildResourceFormSchema(phoneInvalidFormat: string) {
   return z.object({
@@ -14,7 +15,15 @@ export function buildResourceFormSchema(phoneInvalidFormat: string) {
       .string()
       .max(64)
       .refine(
-        (s) => !s.trim() || RESOURCE_PHONE_CHARS.test(s),
+        (s) => {
+          const value = s.trim();
+          if (!value) return true;
+          if (RESOURCE_SHORT_CODE.test(value)) return true;
+          if (!RESOURCE_PHONE_CHARS.test(value)) return false;
+
+          const digitsCount = (value.match(/\d/g) || []).length;
+          return digitsCount >= 6;
+        },
         { message: phoneInvalidFormat }
       ),
     email: z.string().max(255).optional(),
