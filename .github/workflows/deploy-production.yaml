@@ -107,4 +107,5 @@ jobs:
               exit 1
             fi
             curl -I http://127.0.0.1:3000/
+            docker builder prune -af
             docker image prune -af
