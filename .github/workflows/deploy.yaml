@@ -50,6 +50,16 @@ jobs:
             ghcr.io/luden-labs-ltd/enola_dashboard-next-js:qa-latest
             ghcr.io/luden-labs-ltd/enola_dashboard-next-js:${{ github.sha }}
 
+      - name: Validate deploy config
+        run: |
+          test -n "${{ vars.SSH_HOST }}" || (echo "Missing Deployments variable SSH_HOST" && exit 1)
+          test -n "${{ vars.SSH_USER }}" || (echo "Missing Deployments variable SSH_USER" && exit 1)
+          test -n "${{ vars.DEPLOY_PATH }}" || (echo "Missing Deployments variable DEPLOY_PATH" && exit 1)
+          test -n "${{ vars.BASE_URL_BACKEND }}" || (echo "Missing Deployments variable BASE_URL_BACKEND" && exit 1)
+          test -n "${{ vars.SENTRY_DSN }}" || (echo "Missing Deployments variable SENTRY_DSN" && exit 1)
+          test -n "${{ secrets.SSH_KEY }}" || (echo "Missing Deployments secret SSH_KEY" && exit 1)
+          test -n "${{ secrets.GHCR_PAT }}" || (echo "Missing Deployments secret GHCR_PAT" && exit 1)
+
       - name: Deploy to QA via SSH
         uses: appleboy/ssh-action@v1.2.0
         with:
