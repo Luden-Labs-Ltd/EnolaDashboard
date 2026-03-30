@@ -9,6 +9,7 @@ export type FamilyTask = {
   status: FamilyTaskStatus;
   type: FamilyTaskType;
   circle: string | null;
+  categoryId: string | null;
   category: string | null;
   categorySlug: string | null;
   categoryName: string | null;

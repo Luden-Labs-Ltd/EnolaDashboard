@@ -9,6 +9,7 @@ export type CategoryType = {
 
 export type CategoryTypeApi = {
   id: number;
+  slug: string;
   name: string;
   resource_count: number;
   task_template_count: number;

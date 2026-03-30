@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useTransition, useEffect } from "react";
+import React, { useState, useTransition, useEffect, useMemo } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import {
   Dialog,
@@ -22,48 +22,14 @@ import { Checkbox } from "@components/shadowCDN/checkbox";
 import { updateFamilyTask } from "entities/family-task";
 import type { UpdateFamilyTaskDto } from "entities/family-task";
 import type { FamilyTask } from "entities/family-task";
+import { CategoryType, RenderCategoryIcon } from "entities/category";
 import { translateCategoryTitle } from "shared/utils/categoryTranslation";
-import {
-  EmotionalIcon,
-  FinanceIcon,
-  HomeIcon,
-  MedicalIcon,
-  MessageIcon,
-  ParentingIcon,
-} from "shared/assets/categoryIcon";
 
 const CIRCLES = ["intimate", "private", "public"] as const;
 
-const CATEGORIES = [
-  { slug: "medical", label: "Medical" },
-  { slug: "emotional", label: "Emotional" },
-  { slug: "home", label: "Home" },
-  { slug: "legal", label: "Legal" },
-  { slug: "general", label: "General" },
-  { slug: "childcare", label: "Childcare" },
-];
-
-const renderCategoryIcon = (slug: string) => {
-  switch (slug) {
-    case "medical":
-      return <MedicalIcon />;
-    case "home":
-      return <HomeIcon />;
-    case "general":
-      return <MessageIcon />;
-    case "legal":
-      return <FinanceIcon />;
-    case "emotional":
-      return <EmotionalIcon />;
-    case "childcare":
-      return <ParentingIcon />;
-    default:
-      return <MessageIcon />;
-  }
-};
-
 interface EditTaskDialogProps {
   familyId: string;
+  categories: CategoryType[];
   task: FamilyTask | null;
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -72,6 +38,7 @@ interface EditTaskDialogProps {
 
 export const EditTaskDialog: React.FC<EditTaskDialogProps> = ({
   familyId,
+  categories,
   task,
   open,
   onOpenChange,
@@ -85,11 +52,15 @@ export const EditTaskDialog: React.FC<EditTaskDialogProps> = ({
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [circle, setCircle] = useState<UpdateFamilyTaskDto["circle"]>("intimate");
-  const [category, setCategory] = useState("");
+  const [categoryId, setCategoryId] = useState("");
   const [taskType, setTaskType] = useState<UpdateFamilyTaskDto["type"]>("no_time");
   const [repeated, setRepeated] = useState(false);
   const [schedule, setSchedule] = useState("");
   const [dateTime, setDateTime] = useState("");
+  const categoriesById = useMemo(
+    () => new Map(categories.map((category) => [category.id, category])),
+    [categories]
+  );
 
   const toDateTimeLocal = (iso: string | null | undefined): string => {
     if (!iso) return "";
@@ -112,7 +83,7 @@ export const EditTaskDialog: React.FC<EditTaskDialogProps> = ({
       setTitle(task.title);
       setDescription(task.description ?? "");
       setCircle((task.circle as UpdateFamilyTaskDto["circle"]) ?? "intimate");
-      setCategory(task.categorySlug ?? task.category ?? "");
+      setCategoryId(task.categoryId ?? task.categorySlug ?? "");
       setTaskType(task.type ?? "no_time");
       setRepeated(task.repeated ?? false);
       setSchedule(task.schedule ?? "");
@@ -125,6 +96,7 @@ export const EditTaskDialog: React.FC<EditTaskDialogProps> = ({
     if (!task || !title.trim()) return;
 
     startTransition(async () => {
+      const category = categoryId ? categoriesById.get(categoryId) : undefined;
       const hasDateTime = !!dateTime.trim();
       const backendType: UpdateFamilyTaskDto["type"] =
         taskType === "no_time" ? "no_time" : "until_time";
@@ -133,7 +105,12 @@ export const EditTaskDialog: React.FC<EditTaskDialogProps> = ({
         title: title.trim(),
         circle,
         ...(description.trim() ? { description: description.trim() } : { description: "" }),
-        ...(category ? { category, category_slug: category } : {}),
+        ...(category
+          ? {
+              category: category.title,
+              category_slug: category.id,
+            }
+          : {}),
         type: backendType,
         repeated,
         status: task.status,
@@ -233,16 +210,16 @@ export const EditTaskDialog: React.FC<EditTaskDialogProps> = ({
               <label className="text-xs font-semibold" style={{ color: "#313A56" }}>
                 {t("FamilyTasks.taskCategory")}
               </label>
-              <Select value={category} onValueChange={setCategory}>
+              <Select value={categoryId} onValueChange={setCategoryId}>
                 <SelectTrigger className="rounded-lg border-[#DCE5FF] bg-[#F5F8FF] rtl:flex-row-reverse rtl:text-right">
                   <SelectValue placeholder={t("FamilyTasks.allCategories")} />
                 </SelectTrigger>
                 <SelectContent className="rounded-xl" dir={isRtl ? "rtl" : undefined}>
-                  {CATEGORIES.map((cat) => (
-                    <SelectItem key={cat.slug} value={cat.slug}>
+                  {categories.map((category) => (
+                    <SelectItem key={category.id} value={category.id}>
                       <span className="flex items-center gap-2">
-                        {renderCategoryIcon(cat.slug)}
-                        <span>{translateCategoryTitle(t, cat.slug, cat.label)}</span>
+                        <RenderCategoryIcon icon={category.icon} />
+                        <span>{translateCategoryTitle(t, category.id, category.title)}</span>
                       </span>
                     </SelectItem>
                   ))}

@@ -5,6 +5,7 @@ export type FamilyTaskApi = {
   status: "initial" | "in_progress" | "completed";
   type: "no_time" | "exact_time" | "until_time";
   circle: string | null;
+  category_id?: string | null;
   category: string | null;
   category_slug: string | null;
   category_name: string | null;
@@ -42,6 +43,7 @@ export type CategoryWithTaskTemplates = {
 
 export type BulkTaskItem = {
   title: string;
+  category_id?: string;
   category_name?: string;
   category_slug?: string;
 };

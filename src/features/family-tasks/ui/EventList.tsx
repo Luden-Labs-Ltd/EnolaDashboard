@@ -11,8 +11,7 @@ import {
 } from "entities/family-task";
 import type { FamilyEventApi } from "entities/family-task";
 import type { FamilyTask } from "entities/family-task";
-import { RenderCategoryIcon } from "entities/category";
-import { translateCategoryTitle } from "shared/utils/categoryTranslation";
+import { CategoryType, RenderCategoryIcon } from "entities/category";
 import { Button } from "@components/shadowCDN/button";
 import {
   DropdownMenu,
@@ -21,6 +20,12 @@ import {
   DropdownMenuTrigger,
 } from "@components/shadowCDN/dropdown-menu";
 import { cn } from "@utils";
+import {
+  buildCategoryMap,
+  getCategoryIconKey,
+  getCategoryLabel,
+  getEventCategoryId,
+} from "../lib/categoryMeta";
 
 const CATEGORY_COLORS: Record<string, string> = {
   medical: "#FF6B6B",
@@ -36,6 +41,7 @@ const getCategoryColor = (key?: string | null) =>
 
 interface EventListProps {
   familyId: string;
+  categories: CategoryType[];
   selectedDate: Date;
   onRefresh: () => void;
   onEditTask: (task: FamilyTask) => void;
@@ -43,6 +49,7 @@ interface EventListProps {
 
 export const EventList: React.FC<EventListProps> = ({
   familyId,
+  categories,
   selectedDate,
   onRefresh,
   onEditTask,
@@ -50,6 +57,7 @@ export const EventList: React.FC<EventListProps> = ({
   const t = useTranslations();
   const locale = useLocale();
   const isRtl = locale === "he";
+  const categoriesById = React.useMemo(() => buildCategoryMap(categories), [categories]);
   const [events, setEvents] = React.useState<FamilyEventApi[]>([]);
   const [loading, setLoading] = React.useState(true);
 
@@ -120,6 +128,7 @@ export const EventList: React.FC<EventListProps> = ({
         <EventRow
           key={event.id}
           event={event}
+          categoriesById={categoriesById}
           isRtl={isRtl}
           t={t}
           onEdit={() => event.task && onEditTask(convertFamilyTask(event.task))}
@@ -132,6 +141,7 @@ export const EventList: React.FC<EventListProps> = ({
 
 interface EventRowProps {
   event: FamilyEventApi;
+  categoriesById: Map<string, CategoryType>;
   isRtl: boolean;
   t: ReturnType<typeof useTranslations>;
   onEdit: () => void;
@@ -140,17 +150,23 @@ interface EventRowProps {
 
 const EventRow: React.FC<EventRowProps> = ({
   event,
+  categoriesById,
   isRtl,
   t,
   onEdit,
   onMarkDone,
 }) => {
   const task = event.task;
-  const categorySlug = task?.category_slug ?? task?.category ?? undefined;
+  const categoryId = getEventCategoryId(task);
+  const categorySlug = task?.category_slug ?? categoryId ?? task?.category ?? undefined;
   const categoryColor = getCategoryColor(categorySlug);
-  const categoryLabel = categorySlug
-    ? translateCategoryTitle(t, categorySlug, task?.category_name ?? categorySlug)
-    : "";
+  const categoryLabel = getCategoryLabel({
+    t,
+    categoryId,
+    categoriesById,
+    fallbackSlug: task?.category_slug,
+    fallbackName: task?.category_name ?? task?.category,
+  });
   const timeStr = task?.end_at ?? task?.start_at ?? "";
   const dateStr = event.date ?? "";
 
@@ -162,7 +178,15 @@ const EventRow: React.FC<EventRowProps> = ({
       )}
     >
       <div className="flex h-8 w-8 shrink-0 items-center justify-center rtl:order-2">
-        <RenderCategoryIcon icon={categorySlug ?? "general"} />
+        <RenderCategoryIcon
+          icon={getCategoryIconKey(
+            categoryId,
+            categoriesById,
+            task?.category_icon,
+            task?.category_slug,
+            task?.category
+          )}
+        />
       </div>
       <div
         className="min-w-0 flex-1 rtl:order-1"

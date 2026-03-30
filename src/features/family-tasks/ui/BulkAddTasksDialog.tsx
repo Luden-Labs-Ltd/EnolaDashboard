@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useTransition, useEffect } from "react";
+import React, { useState, useTransition, useEffect, useMemo } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import {
   Dialog,
@@ -18,40 +18,15 @@ import {
   type CategoryWithTaskTemplates,
   type BulkTaskItem,
 } from "entities/family-task";
+import { CategoryType, RenderCategoryIcon } from "entities/category";
 import { translateCategoryTitle } from "shared/utils/categoryTranslation";
-import {
-  EmotionalIcon,
-  FinanceIcon,
-  HomeIcon,
-  MedicalIcon,
-  MessageIcon,
-  ParentingIcon,
-} from "shared/assets/categoryIcon";
 import { cn } from "@utils";
 
 interface MultiAddTasksDialogProps {
   familyId: string;
+  categories: CategoryType[];
   onCreated: () => void;
 }
-
-const renderCategoryIcon = (slug: string) => {
-  switch (slug) {
-    case "medical":
-      return <MedicalIcon />;
-    case "home":
-      return <HomeIcon />;
-    case "general":
-      return <MessageIcon />;
-    case "legal":
-      return <FinanceIcon />;
-    case "emotional":
-      return <EmotionalIcon />;
-    case "childcare":
-      return <ParentingIcon />;
-    default:
-      return <MessageIcon />;
-  }
-};
 
 const ChevronIcon = ({ className }: { className?: string }) => (
   <svg className={className} width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
@@ -70,6 +45,7 @@ const DEFAULT_TASK_TEMPLATES: CategoryWithTaskTemplates[] = [
 
 export const MultiAddTasksDialog: React.FC<MultiAddTasksDialogProps> = ({
   familyId,
+  categories,
   onCreated,
 }) => {
   const t = useTranslations();
@@ -81,6 +57,10 @@ export const MultiAddTasksDialog: React.FC<MultiAddTasksDialogProps> = ({
   const [loadingTemplates, setLoadingTemplates] = useState(false);
   const [selected, setSelected] = useState<BulkTaskItem[]>([]);
   const [openAccordion, setOpenAccordion] = useState<string | null>(null);
+  const categoriesById = useMemo(
+    () => new Map(categories.map((category) => [category.id, category])),
+    [categories]
+  );
 
   useEffect(() => {
     if (!open || !familyId) return;
@@ -98,6 +78,7 @@ export const MultiAddTasksDialog: React.FC<MultiAddTasksDialogProps> = ({
   const toggleTask = (title: string, categoryId: string, categoryTitle: string) => {
     const item: BulkTaskItem = {
       title,
+      category_id: categoryId,
       category_slug: categoryId,
       category_name: categoryTitle,
     };
@@ -120,7 +101,7 @@ export const MultiAddTasksDialog: React.FC<MultiAddTasksDialogProps> = ({
   const selectCategory = (cat: CategoryWithTaskTemplates, categoryTitle: string) => {
     const toAdd = cat.tasks
       .filter((title) => !isSelected(title, cat.id))
-      .map((title) => ({ title, category_slug: cat.id, category_name: categoryTitle }));
+      .map((title) => ({ title, category_id: cat.id, category_slug: cat.id, category_name: categoryTitle }));
     if (toAdd.length > 0) setSelected((prev) => [...prev, ...toAdd]);
   };
 
@@ -177,10 +158,11 @@ export const MultiAddTasksDialog: React.FC<MultiAddTasksDialogProps> = ({
             <>
             <div className="flex-1 overflow-y-auto pr-1 space-y-1">
               {templates.map((cat) => {
+                const categoryMeta = categoriesById.get(cat.id);
                 const categoryTitle = translateCategoryTitle(
                   t,
                   cat.id,
-                  cat.title
+                  categoryMeta?.title ?? cat.title
                 );
                 const isOpen = openAccordion === cat.id;
                 return (
@@ -201,7 +183,7 @@ export const MultiAddTasksDialog: React.FC<MultiAddTasksDialogProps> = ({
                       )}
                       style={{ color: "#313A56" }}
                     >
-                      {renderCategoryIcon(cat.id)}
+                      <RenderCategoryIcon icon={categoryMeta?.icon ?? "general"} />
                       <span className="flex-1">{categoryTitle}</span>
                       <div onClick={(e) => e.stopPropagation()}>
                         <Checkbox

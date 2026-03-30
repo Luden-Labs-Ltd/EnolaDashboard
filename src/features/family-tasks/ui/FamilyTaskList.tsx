@@ -11,7 +11,7 @@ import {
   getFamilyEvents,
 } from "entities/family-task";
 import type { FamilyTask, FamilyTaskStatus } from "entities/family-task";
-import { RenderCategoryIcon } from "entities/category";
+import { CategoryType, RenderCategoryIcon } from "entities/category";
 import { ScrollArea } from "@components/shadowCDN/scroll-area";
 import { Button } from "@components/shadowCDN/button";
 import {
@@ -25,9 +25,16 @@ import { cn } from "@utils";
 import { EditTaskDialog } from "./EditTaskDialog";
 import { TaskCalendar } from "./TaskCalendar";
 import { EventList } from "./EventList";
+import {
+  buildCategoryMap,
+  getCategoryIconKey,
+  getCategoryLabel,
+  getTaskCategoryId,
+} from "../lib/categoryMeta";
 
 interface FamilyTaskListProps {
   familyId: string;
+  categories: CategoryType[];
 }
 
 const STATUS_CONFIG: Record<
@@ -53,19 +60,9 @@ const getCategoryColor = (key?: string | null) => {
   return CATEGORY_COLORS[key] ?? "#A3ABC3";
 };
 
-const getCategoryIconKey = (
-  categoryIcon?: string | null,
-  categorySlug?: string | null,
-  category?: string | null
-) => {
-  if (categoryIcon) return categoryIcon;
-  if (categorySlug) return categorySlug;
-  if (category) return category;
-  return "general";
-};
-
 export const FamilyTaskList: React.FC<FamilyTaskListProps> = ({
   familyId,
+  categories: categoryOptions,
 }) => {
   const t = useTranslations();
   const [tasks, setTasks] = useState<FamilyTask[]>([]);
@@ -125,36 +122,55 @@ export const FamilyTaskList: React.FC<FamilyTaskListProps> = ({
     () => noTimeTasks.filter((task) => task.status === "completed"),
     [noTimeTasks]
   );
+  const categoriesById = useMemo(() => buildCategoryMap(categoryOptions), [categoryOptions]);
 
-  const categories = useMemo(() => {
-    const map = new Map<string, string>();
-    map.set("all", t("FamilyTasks.allCategories"));
+  const categoryTabs = useMemo(() => {
+    const map = new Map<
+      string,
+      { label: string; iconKey: string }
+    >();
+    map.set("all", {
+      label: t("FamilyTasks.allCategories"),
+      iconKey: "general",
+    });
     noTimeTasks.forEach((task) => {
-      if (task.categorySlug) {
+      const categoryId = getTaskCategoryId(task);
+      if (categoryId) {
         map.set(
-          task.categorySlug,
-          translateCategoryTitle(
-            t,
-            task.categorySlug,
-            task.categoryName || task.categorySlug
-          )
+          categoryId,
+          {
+            label: getCategoryLabel({
+              t,
+              categoryId,
+              categoriesById,
+              fallbackSlug: task.categorySlug,
+              fallbackName: task.categoryName ?? task.category,
+            }),
+            iconKey: getCategoryIconKey(
+              categoryId,
+              categoriesById,
+              task.categoryIcon,
+              task.categorySlug,
+              task.category
+            ),
+          }
         );
       }
     });
     return map;
-  }, [noTimeTasks, t]);
+  }, [categoriesById, noTimeTasks, t]);
 
   const filteredAvailable = useMemo(() => {
     if (activeCategory === "all") return availableTasks;
-    return availableTasks.filter((task) => task.categorySlug === activeCategory);
+    return availableTasks.filter((task) => getTaskCategoryId(task) === activeCategory);
   }, [availableTasks, activeCategory]);
   const filteredAssigned = useMemo(() => {
     if (activeCategory === "all") return assignedTasks;
-    return assignedTasks.filter((task) => task.categorySlug === activeCategory);
+    return assignedTasks.filter((task) => getTaskCategoryId(task) === activeCategory);
   }, [assignedTasks, activeCategory]);
   const filteredDone = useMemo(() => {
     if (activeCategory === "all") return doneTasks;
-    return doneTasks.filter((task) => task.categorySlug === activeCategory);
+    return doneTasks.filter((task) => getTaskCategoryId(task) === activeCategory);
   }, [doneTasks, activeCategory]);
 
   const handleMarkDone = async (task: FamilyTask) => {
@@ -205,14 +221,15 @@ export const FamilyTaskList: React.FC<FamilyTaskListProps> = ({
       />
       <EventList
         familyId={familyId}
+        categories={categoryOptions}
         selectedDate={selectedDate}
         onRefresh={fetchTasks}
         onEditTask={handleEdit}
       />
 
-      {categories.size > 2 && hasAnyTasks && (
+      {categoryTabs.size > 2 && hasAnyTasks && (
         <div className="flex gap-2 flex-wrap justify-start">
-          {Array.from(categories.entries()).map(([slug, name]) => {
+          {Array.from(categoryTabs.entries()).map(([slug, categoryMeta]) => {
             const isActive = activeCategory === slug;
 
             return (
@@ -232,10 +249,8 @@ export const FamilyTaskList: React.FC<FamilyTaskListProps> = ({
                     : "border-[#DCE5FF] text-[#313A56]"
                 )}
               >
-                <RenderCategoryIcon
-                  icon={slug === "all" ? "general" : slug}
-                />
-                <span>{name}</span>
+                <RenderCategoryIcon icon={categoryMeta.iconKey} />
+                <span>{categoryMeta.label}</span>
               </Button>
             );
           })}
@@ -262,6 +277,7 @@ export const FamilyTaskList: React.FC<FamilyTaskListProps> = ({
                     <TaskRow
                       key={task.id}
                       task={task}
+                      categoriesById={categoriesById}
                       onMarkDone={handleMarkDone}
                       onRestore={handleRestore}
                       onDelete={handleDelete}
@@ -282,6 +298,7 @@ export const FamilyTaskList: React.FC<FamilyTaskListProps> = ({
                     <TaskRow
                       key={task.id}
                       task={task}
+                      categoriesById={categoriesById}
                       onMarkDone={handleMarkDone}
                       onRestore={handleRestore}
                       onDelete={handleDelete}
@@ -302,6 +319,7 @@ export const FamilyTaskList: React.FC<FamilyTaskListProps> = ({
                     <TaskRow
                       key={task.id}
                       task={task}
+                      categoriesById={categoriesById}
                       onMarkDone={handleMarkDone}
                       onRestore={handleRestore}
                       onDelete={handleDelete}
@@ -317,6 +335,7 @@ export const FamilyTaskList: React.FC<FamilyTaskListProps> = ({
       )}
       <EditTaskDialog
         familyId={familyId}
+        categories={categoryOptions}
         task={editingTask}
         open={editDialogOpen}
         onOpenChange={setEditDialogOpen}
@@ -328,6 +347,7 @@ export const FamilyTaskList: React.FC<FamilyTaskListProps> = ({
 
 interface TaskRowProps {
   task: FamilyTask;
+  categoriesById: Map<string, CategoryType>;
   onMarkDone: (task: FamilyTask) => void;
   onRestore: (task: FamilyTask) => void;
   onDelete: (task: FamilyTask) => void;
@@ -337,6 +357,7 @@ interface TaskRowProps {
 
 const TaskRow: React.FC<TaskRowProps> = ({
   task,
+  categoriesById,
   onMarkDone,
   onRestore,
   onDelete,
@@ -347,11 +368,16 @@ const TaskRow: React.FC<TaskRowProps> = ({
   const isRtl = locale === "he";
   const statusConfig = STATUS_CONFIG[task.status];
   const isCompleted = task.status === "completed";
-  const categoryKey = task.categorySlug ?? task.category ?? undefined;
+  const categoryId = getTaskCategoryId(task);
+  const categoryKey = task.categorySlug ?? categoryId ?? task.category ?? undefined;
   const categoryColor = getCategoryColor(categoryKey);
-  const categoryLabel = categoryKey
-    ? translateCategoryTitle(t, categoryKey, task.categoryName || categoryKey)
-    : "";
+  const categoryLabel = getCategoryLabel({
+    t,
+    categoryId,
+    categoriesById,
+    fallbackSlug: task.categorySlug,
+    fallbackName: task.categoryName ?? task.category,
+  });
 
   return (
     <div
@@ -364,6 +390,8 @@ const TaskRow: React.FC<TaskRowProps> = ({
       <div className="flex items-center justify-center shrink-0 w-8 rtl:order-2">
         <RenderCategoryIcon
           icon={getCategoryIconKey(
+            categoryId,
+            categoriesById,
             task.categoryIcon,
             task.categorySlug,
             task.category

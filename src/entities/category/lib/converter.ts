@@ -17,7 +17,7 @@ export const convertCategoryData = (
     maxTaskCount = maxTaskCount + category.task_template_count
 
     return {
-      id: String(category.id),
+      id: category.slug,
       icon: category.svg_icon,
       taskCount: category.task_template_count,
       resourceCount: category.resource_count,

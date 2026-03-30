@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useTransition } from "react";
+import React, { useMemo, useState, useTransition } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import {
   Dialog,
@@ -21,53 +21,20 @@ import {
 } from "@components/shadowCDN/select";
 import { createFamilyTask } from "entities/family-task";
 import type { CreateFamilyTaskDto } from "entities/family-task";
+import { CategoryType, RenderCategoryIcon } from "entities/category";
 import { translateCategoryTitle } from "shared/utils/categoryTranslation";
-import {
-  EmotionalIcon,
-  FinanceIcon,
-  HomeIcon,
-  MedicalIcon,
-  MessageIcon,
-  ParentingIcon,
-} from "shared/assets/categoryIcon";
 
 interface AddTaskDialogProps {
   familyId: string;
+  categories: CategoryType[];
   onCreated: () => void;
 }
 
 const CIRCLES = ["intimate", "private", "public"] as const;
 
-const CATEGORIES = [
-  { slug: "medical", label: "Medical" },
-  { slug: "emotional", label: "Emotional" },
-  { slug: "home", label: "Home" },
-  { slug: "legal", label: "Legal" },
-  { slug: "general", label: "General" },
-  { slug: "childcare", label: "Childcare" },
-];
-
-const renderCategoryIcon = (slug: string) => {
-  switch (slug) {
-    case "medical":
-      return <MedicalIcon />;
-    case "home":
-      return <HomeIcon />;
-    case "general":
-      return <MessageIcon />;
-    case "legal":
-      return <FinanceIcon />;
-    case "emotional":
-      return <EmotionalIcon />;
-    case "childcare":
-      return <ParentingIcon />;
-    default:
-      return <MessageIcon />;
-  }
-};
-
 export const AddTaskDialog: React.FC<AddTaskDialogProps> = ({
   familyId,
+  categories,
   onCreated,
 }) => {
   const t = useTranslations();
@@ -79,13 +46,17 @@ export const AddTaskDialog: React.FC<AddTaskDialogProps> = ({
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [circle, setCircle] = useState<CreateFamilyTaskDto["circle"]>("intimate");
-  const [category, setCategory] = useState("");
+  const [categoryId, setCategoryId] = useState("");
+  const categoriesById = useMemo(
+    () => new Map(categories.map((category) => [category.id, category])),
+    [categories]
+  );
 
   const resetForm = () => {
     setTitle("");
     setDescription("");
     setCircle("intimate");
-    setCategory("");
+    setCategoryId("");
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -93,11 +64,15 @@ export const AddTaskDialog: React.FC<AddTaskDialogProps> = ({
     if (!title.trim()) return;
 
     startTransition(async () => {
+      const category = categoryId ? categoriesById.get(categoryId) : undefined;
       const dto: CreateFamilyTaskDto = {
         title: title.trim(),
         circle,
         ...(description.trim() && { description: description.trim() }),
-        ...(category && { category, category_slug: category }),
+        ...(category && {
+          category: category.title,
+          category_slug: category.id,
+        }),
       };
 
       await createFamilyTask(familyId, dto);
@@ -187,16 +162,16 @@ export const AddTaskDialog: React.FC<AddTaskDialogProps> = ({
               <label className="text-xs font-semibold" style={{ color: "#313A56" }}>
                 {t("FamilyTasks.taskCategory")}
               </label>
-              <Select value={category} onValueChange={setCategory}>
+              <Select value={categoryId} onValueChange={setCategoryId}>
                 <SelectTrigger className="rounded-lg border-[#DCE5FF] bg-[#F5F8FF] rtl:flex-row-reverse rtl:text-right">
                   <SelectValue placeholder={t("FamilyTasks.allCategories")} />
                 </SelectTrigger>
                 <SelectContent className="rounded-xl" dir={isRtl ? "rtl" : undefined}>
-                  {CATEGORIES.map((cat) => (
-                    <SelectItem key={cat.slug} value={cat.slug}>
+                  {categories.map((category) => (
+                    <SelectItem key={category.id} value={category.id}>
                       <span className="flex items-center gap-2">
-                        {renderCategoryIcon(cat.slug)}
-                        <span>{translateCategoryTitle(t, cat.slug, cat.label)}</span>
+                        <RenderCategoryIcon icon={category.icon} />
+                        <span>{translateCategoryTitle(t, category.id, category.title)}</span>
                       </span>
                     </SelectItem>
                   ))}

@@ -8,6 +8,7 @@ export const convertFamilyTask = (task: FamilyTaskApi): FamilyTask => ({
   status: task.status,
   type: task.type,
   circle: task.circle,
+  categoryId: task.category_id ?? task.category_slug,
   category: task.category,
   categorySlug: task.category_slug,
   categoryName: task.category_name,

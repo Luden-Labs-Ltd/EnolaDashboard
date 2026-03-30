@@ -120,6 +120,7 @@ export type CreateFamilyTaskDto = {
   title: string;
   description?: string;
   circle?: "public" | "private" | "intimate";
+  category_id?: string;
   category?: string;
   category_slug?: string;
   type?: "no_time" | "exact_time" | "until_time";
@@ -178,6 +179,7 @@ export type UpdateFamilyTaskDto = {
   title?: string;
   description?: string;
   circle?: "public" | "private" | "intimate";
+  category_id?: string;
   category?: string;
   category_slug?: string;
   type?: "no_time" | "exact_time" | "until_time";
@@ -225,7 +227,7 @@ export const getFamilyTaskTemplates = async (
     if (!categoriesApi?.length || !tasksApi?.length) return [];
     const byCategoryId = new Map<string, { title: string; tasks: string[] }>();
     for (const cat of categoriesApi) {
-      const id = String(cat.id);
+      const id = cat.slug;
       byCategoryId.set(id, { title: cat.name, tasks: [] });
     }
     for (const task of tasksApi) {

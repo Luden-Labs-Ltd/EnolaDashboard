@@ -11,6 +11,7 @@ import TooltipWrapper from "@components/TooltipWrapper";
 import ChartCard from "@widgets/ChartCard";
 import { LastActions } from "@widgets/LastActions";
 import { Notes } from "@widgets/Notes";
+import { CategoryType, convertCategoryData, getCategoriesApi } from "entities/category";
 import {
   convertDataForTable,
   getMembershipsFromApi,
@@ -35,11 +36,17 @@ export const Family: React.FC<FamilyProps> = () => {
   const [isEditable, setIsEditable] = useState(false);
   const [taskRefreshKey, setTaskRefreshKey] = useState(0);
   const [memberships, setMemberships] = useState<MembershipApi[] | null>(null);
+  const [categories, setCategories] = useState<CategoryType[]>([]);
 
   useEffect(() => {
     const load = async () => {
-      const data = await getMembershipsFromApi(family.id);
-      if (data) setMemberships(data);
+      const [membershipsData, categoriesApi] = await Promise.all([
+        getMembershipsFromApi(family.id),
+        getCategoriesApi(),
+      ]);
+
+      if (membershipsData) setMemberships(membershipsData);
+      setCategories(convertCategoryData(categoriesApi).categoriesData);
     };
     load();
   }, [family.id]);
@@ -154,16 +161,18 @@ export const Family: React.FC<FamilyProps> = () => {
             <div className="flex flex-wrap gap-2 rtl:flex-row-reverse">
               <AddTaskDialog
                 familyId={family.id}
+                categories={categories}
                 onCreated={() => setTaskRefreshKey((k) => k + 1)}
               />
               <MultiAddTasksDialog
                 familyId={family.id}
+                categories={categories}
                 onCreated={() => setTaskRefreshKey((k) => k + 1)}
               />
             </div>
           </CardHeader>
           <CardContent>
-            <FamilyTaskList key={taskRefreshKey} familyId={family.id} />
+            <FamilyTaskList key={taskRefreshKey} familyId={family.id} categories={categories} />
           </CardContent>
         </Card>
       </TabsContent>
