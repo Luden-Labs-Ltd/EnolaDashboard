@@ -10,6 +10,7 @@ import "./renderInfoForm.css";
 import { useFamilyStore } from "entities/families";
 import { EditFamilyInfoDto } from "entities/families/api/types";
 import { editFamily } from "entities/families/actions";
+import { buildFamilyPayload } from "entities/families/lib/payload";
 
 interface RenderEditableInfoProps {
   onCloseHandler: () => void;
@@ -36,7 +37,7 @@ type EditFamilyForm = z.infer<typeof editFormScheme>;
 export const RenderEditableInfo: React.FC<RenderEditableInfoProps> = ({
   onCloseHandler
 }) => {
-  const { familyState } = useFamilyStore();
+  const { familyState, refetchFamily } = useFamilyStore();
   const { family } = familyState;
   const t = useTranslations();
 
@@ -47,46 +48,47 @@ export const RenderEditableInfo: React.FC<RenderEditableInfoProps> = ({
     resolver: zodResolver(editFormScheme),
     defaultValues: {
       title: family.name,
-      full_name: family.patient.fullName ?? "-",
-      phone_number: family.patient.phoneNumber ?? "-",
-      address: family.patient.city ?? "-",
+      full_name: family.patient.fullName ?? "",
+      phone_number: family.patient.phoneNumber === "-" ? "" : family.patient.phoneNumber,
+      address: family.patient.city ?? "",
       problem: family.reason,
-      caregiver_city: family.primaryCaregiver.city ?? "-",
-      caregiver_relation: family.primaryCaregiver.circle ?? "-",
-      caregiver_full_name: family.primaryCaregiver.fullName ?? "-",
-      caregiver_phone_number: family.primaryCaregiver.phoneNumber ?? "-",
+      caregiver_city: family.primaryCaregiver.city ?? "",
+      caregiver_relation: family.primaryCaregiver.circle ?? "intimate",
+      caregiver_full_name: family.primaryCaregiver.fullName ?? "",
+      caregiver_phone_number: family.primaryCaregiver.phoneNumber === "-" ? "" : family.primaryCaregiver.phoneNumber,
     },
   });
 
-  function onSubmit(values: EditFamilyForm) {
-    const editFamilyDto: Omit<EditFamilyInfoDto, "program_id"> = {
+  async function onSubmit(values: EditFamilyForm) {
+    const editFamilyDto: Omit<EditFamilyInfoDto, "program_id"> = buildFamilyPayload({
       title: values.title,
-      reason: [values.problem],
+      problem: values.problem,
       patient: {
+        fullName: values.full_name,
+        phoneNumber: values.phone_number,
         city: values.address,
-        first_name: values.full_name,
-        phone_number: values.phone_number,
       },
-      primary_caregiver: {
-        first_name: values.caregiver_full_name,
+      primaryCaregiver: {
+        fullName: values.caregiver_full_name,
+        phoneNumber: values.caregiver_phone_number,
         city: values.caregiver_city,
-        phone_number: values.caregiver_phone_number,
       },
-    };
+    });
     setDisabled(true);
-    editFamily(family.id, editFamilyDto)
-      .then((res) => {
-        if (res?.nextError) {
-          return setApiError(res?.nextError);
-        }
-        onCloseHandler();
-      })
-      .catch((err) => {
-        setApiError(err.message);
-      })
-      .finally(() => {
-        setDisabled(false);
-      });
+    try {
+      const res = await editFamily(family.id, editFamilyDto);
+      if (res?.nextError) {
+        setApiError(res.nextError);
+        return;
+      }
+
+      await refetchFamily(family.id);
+      onCloseHandler();
+    } catch (err: any) {
+      setApiError(err.message);
+    } finally {
+      setDisabled(false);
+    }
   }
 
   const createFormFields: FormRenderField<EditFamilyForm>[] = [

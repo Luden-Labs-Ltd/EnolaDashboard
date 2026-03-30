@@ -1,1 +1,0 @@
-export {default as EditFamily} from './ui/EditFamilyModal';

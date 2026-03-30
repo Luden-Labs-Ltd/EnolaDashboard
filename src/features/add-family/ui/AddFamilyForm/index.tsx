@@ -3,6 +3,7 @@ import { Button } from "@components/shadowCDN/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createFamily } from "entities/families";
 import { CreateFamilyDto } from "entities/families/api/types";
+import { buildFamilyPayload } from "entities/families/lib/payload";
 import { useTranslations } from "next-intl";
 import React, { MouseEventHandler, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -42,23 +43,20 @@ export const AddFamilyForm: React.FC<AddFamilyFormProps> = ({ onClose }) => {
   });
 
   function onSubmit(values: CreateFamilyForm) {
-    const createFamilyDto: Omit<CreateFamilyDto, "program_id"> = {
+    const createFamilyDto: Omit<CreateFamilyDto, "program_id"> = buildFamilyPayload({
       title: values.title,
-      reason: [values.problem],
-      patient: undefined,
-      primary_caregiver: {
-        first_name: values.caregiver_full_name,
-        city: values.caregiver_city,
-        phone_number: values.caregiver_phone_number,
+      problem: values.problem,
+      patient: {
+        fullName: values.full_name,
+        phoneNumber: values.phone_number,
+        city: values.address,
       },
-    };
-    if (values?.address && values?.full_name && values?.phone_number) {
-      createFamilyDto.patient = {
-        city: values?.address,
-        first_name: values?.full_name,
-        phone_number: values?.phone_number,
-      };
-    }
+      primaryCaregiver: {
+        fullName: values.caregiver_full_name,
+        phoneNumber: values.caregiver_phone_number,
+        city: values.caregiver_city,
+      },
+    });
     setDisabled(true);
     createFamily(createFamilyDto)
       .then((res) => {

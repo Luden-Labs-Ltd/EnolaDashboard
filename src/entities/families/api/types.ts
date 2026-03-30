@@ -72,8 +72,10 @@ export type EditFamilyDto = {
 
 type PatientDto = {
   first_name: string;
-  phone_number: string;
-  city: string;
+  last_name?: string;
+  phone_number?: string;
+  city?: string;
+  address?: string;
 }
 export type EditFamilyInfoDto = {
   title: string;
@@ -81,8 +83,9 @@ export type EditFamilyInfoDto = {
   patient: PatientDto | undefined;
   primary_caregiver: {
     first_name: string;
+    last_name?: string;
     phone_number: string;
-    city: string;
+    city?: string;
   };
   program_id: string;
 };
@@ -93,8 +96,9 @@ export type CreateFamilyDto = {
   patient: PatientDto | undefined;
   primary_caregiver: {
     first_name: string;
+    last_name?: string;
     phone_number: string;
-    city: string;
+    city?: string;
   };
   program_id: string;
 };
