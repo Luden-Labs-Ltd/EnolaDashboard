@@ -3,6 +3,7 @@ interface Caregiver {
   circle: string;
   city: string | null;
   first_name: string | null;
+  formatted_phone_number?: string;
   full_name: string | null;
   gender: string | null;
   id: string;
@@ -49,6 +50,7 @@ export interface FamilyApi {
   company_id: string;
   program_id: any;
   archived: boolean;
+  source: string | null;
   last_seen_at: string;
 }
 

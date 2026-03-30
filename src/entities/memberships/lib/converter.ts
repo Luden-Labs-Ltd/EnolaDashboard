@@ -9,14 +9,10 @@ export const convertDataForTable = (
       id: membership.id,
       phoneNumber: membership.user.formatted_phone_number,
       fullName: membership.full_name,
-      firstName: membership.first_name ?? '',
-      lastName: membership.last_name ?? '',
-      age: membership.age ?? "unknown",
-      gender: membership.gender,
+      firstName: membership.first_name ?? "",
+      lastName: membership.last_name ?? "",
       primary: String(membership.primary),
       circle: membership.circle,
-      location: membership.location,
-      city: membership.city,
       individualDashboardLink: membership.individual_dashboard_link,
     };
   });

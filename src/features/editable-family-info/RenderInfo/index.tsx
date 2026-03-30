@@ -14,6 +14,7 @@ export const RenderInfo: React.FC<RenderInfoProps> = ({ renderItems }) => {
             type={item.type}
             label={item.label}
             value={item.value}
+            href={item.href}
           />
         );
       })}

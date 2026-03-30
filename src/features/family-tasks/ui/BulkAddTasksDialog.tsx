@@ -130,10 +130,8 @@ export const MultiAddTasksDialog: React.FC<MultiAddTasksDialogProps> = ({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button
-          size="sm"
           variant="outline"
-          rounded="circle"
-          className="font-semibold px-4 flex gap-2 rtl:flex-row-reverse"
+          className="font-semibold rtl:flex-row-reverse"
         >
           {t("FamilyTasks.addMultiTasks")}
         </Button>

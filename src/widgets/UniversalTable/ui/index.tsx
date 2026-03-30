@@ -19,6 +19,10 @@ interface UniversalTableProps {
   selectedColumnIds?: string[];
   sorterObject?: SorterObject;
   tableName: string;
+  headerRowClassName?: string;
+  bodyClassName?: string;
+  rowClassName?: string;
+  hiddenColumns?: string[];
   toggleMainSelect?: () => void;
   toggleSelectedItems?: (id: string) => void;
   renderCeilDropDownItems: renderCeilDropDownItemsType;
@@ -31,6 +35,10 @@ const UniversalTable: React.FC<UniversalTableProps> = ({
   tableRawData,
   selectedColumnIds,
   sorterObject,
+  headerRowClassName,
+  bodyClassName,
+  rowClassName,
+  hiddenColumns,
   toggleMainSelect,
   toggleSelectedItems,
   renderCeilDropDownItems,
@@ -41,6 +49,7 @@ const UniversalTable: React.FC<UniversalTableProps> = ({
     tableRawData: tableRawData,
     selectedColumnIds: selectedColumnIds ?? [],
     tableName: tableName,
+    hiddenColumns,
   });
 
   const isIndeterminate =
@@ -72,7 +81,7 @@ const UniversalTable: React.FC<UniversalTableProps> = ({
     <>
       <Table>
         <TableHeader className="[&_tr]:border-0 border-0">
-          <TableRow className="border-0">
+          <TableRow className={cn("border-0", headerRowClassName)}>
             {tableData.headers.map((header) => header.type === HeaderItemType.SELECT && !withSelection ? null : (
               <HeaderCeil
                 isChecked={isChecked}
@@ -85,12 +94,16 @@ const UniversalTable: React.FC<UniversalTableProps> = ({
             ))}
           </TableRow>
         </TableHeader>
-        <TableBody>
+        <TableBody className={bodyClassName}>
           {tableData.rows.map((row, index) => {
             return (
               <TableRow
                 key={index}
-                className={cn(!!onRowDoubleClick ? "cursor-pointer" : "", "border-0")}
+                className={cn(
+                  !!onRowDoubleClick ? "cursor-pointer" : "",
+                  "border-0",
+                  rowClassName
+                )}
                 onDoubleClick={() => onDoubleClickHandler?.(row)}
               >
                 {row.map((ceil) => ceil.type === CeilItemType.SELECT && !withSelection ? null : (

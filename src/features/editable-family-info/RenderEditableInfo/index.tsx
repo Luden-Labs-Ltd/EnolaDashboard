@@ -20,16 +20,34 @@ const editFormScheme = z.object({
   // family
   title: z.string().min(3).max(50),
   // family - patient
-  full_name: z.string().min(3).max(50),
-  phone_number: z.string().max(50),
-  address: z.string().max(50),
-  problem: z.string().max(50),
+  full_name: z.string().max(50).optional(),
+  phone_number: z.string().max(50).optional(),
 
   // primary caregiver (primary membership)
   caregiver_full_name: z.string().min(3).max(50),
-  caregiver_relation: z.string().min(3).max(50),
   caregiver_phone_number: z.string().max(50),
-  caregiver_city: z.string().max(50),
+}).superRefine((data, ctx) => {
+  const hasPatientData = Boolean(
+    data.full_name?.trim() || data.phone_number?.trim()
+  );
+
+  if (!hasPatientData) return;
+
+  if (!data.full_name?.trim()) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ["full_name"],
+      message: "Patient name is required",
+    });
+  }
+
+  if (!data.phone_number?.trim()) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ["phone_number"],
+      message: "Patient phone is required",
+    });
+  }
 });
 
 type EditFamilyForm = z.infer<typeof editFormScheme>;
@@ -50,10 +68,6 @@ export const RenderEditableInfo: React.FC<RenderEditableInfoProps> = ({
       title: family.name,
       full_name: family.patient.fullName ?? "",
       phone_number: family.patient.phoneNumber === "-" ? "" : family.patient.phoneNumber,
-      address: family.patient.city ?? "",
-      problem: family.reason,
-      caregiver_city: family.primaryCaregiver.city ?? "",
-      caregiver_relation: family.primaryCaregiver.circle ?? "intimate",
       caregiver_full_name: family.primaryCaregiver.fullName ?? "",
       caregiver_phone_number: family.primaryCaregiver.phoneNumber === "-" ? "" : family.primaryCaregiver.phoneNumber,
     },
@@ -62,16 +76,13 @@ export const RenderEditableInfo: React.FC<RenderEditableInfoProps> = ({
   async function onSubmit(values: EditFamilyForm) {
     const editFamilyDto: Omit<EditFamilyInfoDto, "program_id"> = buildFamilyPayload({
       title: values.title,
-      problem: values.problem,
       patient: {
         fullName: values.full_name,
         phoneNumber: values.phone_number,
-        city: values.address,
       },
       primaryCaregiver: {
         fullName: values.caregiver_full_name,
         phoneNumber: values.caregiver_phone_number,
-        city: values.caregiver_city,
       },
     });
     setDisabled(true);
@@ -96,7 +107,7 @@ export const RenderEditableInfo: React.FC<RenderEditableInfoProps> = ({
       name: "title",
       type: "input",
       id: "title",
-      label: <Header type="header">{t("Common.familyName")}</Header>,
+      label: <Header type="header">{`${t("Common.familyName")}*`}</Header>,
       placeholder: "Enter family name",
       direction: "row",
     },
@@ -104,31 +115,15 @@ export const RenderEditableInfo: React.FC<RenderEditableInfoProps> = ({
       name: "full_name",
       type: "input",
       id: "first_name",
-      label: <Header type="header">{t("Common.patient")}</Header>,
+      label: <Header type="header">{`${t("Common.patient")}*`}</Header>,
       direction: "row",
       placeholder: t("Common.patient"),
-    },
-    {
-      name: "address",
-      type: "input",
-      id: "address",
-      label: <Header type="info">{t("Common.city")}</Header>,
-      direction: "row",
-      placeholder: t("Common.city"),
-    },
-    {
-      name: "problem",
-      type: "input",
-      id: "problem",
-      label: <Header type="info">{t("Common.problem")}</Header>,
-      direction: "row",
-      placeholder: t("Common.problem"),
     },
     {
       name: "phone_number",
       type: "phone",
       id: "phone",
-      label: <Header type="info">{t("Common.phone")}</Header>,
+      label: <Header type="info">{`${t("Common.phone")}*`}</Header>,
       direction: "row",
       placeholder: "",
     },
@@ -136,45 +131,15 @@ export const RenderEditableInfo: React.FC<RenderEditableInfoProps> = ({
       name: "caregiver_full_name",
       type: "input",
       id: "caregiver_full_name",
-      label: <Header type="header">{t("Common.primaryCaregiver")}</Header>,
+      label: <Header type="header">{`${t("Common.primaryCaregiver")}*`}</Header>,
       direction: "row",
       placeholder: "Enter caregiver name",
-    },
-    {
-      name: "caregiver_relation",
-      type: "select",
-      id: "caregiver_relation",
-      label: <Header type="info">{t("Common.relationship")}</Header>,
-      direction: "row",
-      placeholder: t("Common.relationship"),
-      options: [
-        {
-          value: "public",
-          name: t("Common.public"),
-        },
-        {
-          value: "private",
-          name: t("Common.private"),
-        },
-        {
-          value: "intimate",
-          name: t("Common.intimate"),
-        },
-      ],
-    },
-    {
-      name: "caregiver_city",
-      type: "input",
-      id: "caregiver_city",
-      label: <Header type="info">{t("Common.city")}</Header>,
-      direction: "row",
-      placeholder: t("Common.city"),
     },
     {
       name: "caregiver_phone_number",
       type: "phone",
       id: "caregiver_phone_number",
-      label: <Header type="info">{t("Common.phone")}</Header>,
+      label: <Header type="info">{`${t("Common.phone")}*`}</Header>,
       direction: "row",
       placeholder: t("Common.phone"),
     },
@@ -191,9 +156,19 @@ export const RenderEditableInfo: React.FC<RenderEditableInfoProps> = ({
         customErrorMessage={apiError}
       >
         <div className="w-full mt-[30px]">
-          <div className="flex justify-center">
-            <Button rounded={"circle"} type="submit" size={"lg"}>
-              Save Changes
+          <div className="flex justify-end gap-6">
+            <Button
+              rounded={"circle"}
+              onClick={onCloseHandler}
+              variant={"secondary"}
+              size={"lg"}
+              type="button"
+              disabled={disabled}
+            >
+              {t("Common.cancel")}
+            </Button>
+            <Button rounded={"circle"} type="submit" size={"lg"} disabled={disabled}>
+              {t("Common.edit")}
             </Button>
           </div>
         </div>

@@ -3,10 +3,8 @@ import { z } from "zod";
 
 export const AddMembershipFormScheme = z.object({
   first_name: z.string().min(1).max(50),
-  last_name: z.string().min(1).max(50),
-  age: z.number().max(150),
+  last_name: z.string().max(50).optional(),
   phone_number: z.string(),
-  gender: z.enum(["female", "male", "other"]),
   circle: z.enum(["public", "private", "intimate"]),
   primary: z.boolean(),
 });
@@ -40,14 +38,6 @@ export const getAddMembershipFormFields = (
       placeholder: "",
     },
     {
-      name: "age",
-      type: "input",
-      inputType: "number",
-      id: "age",
-      label: t("Common.age"),
-      placeholder: "",
-    },
-    {
       name: "circle",
       type: "select",
       id: "circle",
@@ -66,27 +56,6 @@ export const getAddMembershipFormFields = (
         },
       ],
       label: t("Common.circle"),
-      placeholder: "",
-    },
-    {
-      name: "gender",
-      type: "select",
-      id: "gender",
-      options: [
-        {
-          value: "female",
-          name: t("Common.female"),
-        },
-        {
-          value: "male",
-          name: t("Common.male"),
-        },
-        {
-          value: "other",
-          name: t("Common.other"),
-        },
-      ],
-      label: t("Common.gender"),
       placeholder: "",
     },
     {

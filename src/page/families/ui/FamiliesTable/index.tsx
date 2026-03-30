@@ -114,6 +114,7 @@ const FamiliesTable: React.FC<FamiliesTableProps> = ({
         tableName="FamiliesTable"
         tableRawData={familiesState.families}
         sorterObject={sorterTableObject}
+        hiddenColumns={["lastSeen"]}
         selectedColumnIds={familiesState.selectedFamilies}
         toggleMainSelect={toggleMainSelect}
         toggleSelectedItems={toggleSelectedFamilies}

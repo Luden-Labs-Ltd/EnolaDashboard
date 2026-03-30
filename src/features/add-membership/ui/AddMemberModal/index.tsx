@@ -3,10 +3,6 @@
 import { Button } from "@components/shadowCDN/button";
 import {
   Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
   DialogTrigger,
 } from "@components/shadowCDN/dialog";
 import { useTranslations } from "next-intl";
@@ -15,6 +11,7 @@ import AddIcon from "shared/assets/AddIcon";
 import { AddMemberForm } from "../AddMemberForm";
 import { useMembershipsStore } from "entities/memberships";
 import { useParams } from "next/navigation";
+import { MembershipDialogContent } from "features/membership-form/ui/MembershipDialogContent";
 
 interface AddMemberModalActionProps {}
 
@@ -37,16 +34,11 @@ const AddMemberModal: React.FC<AddMemberModalActionProps> = ({}) => {
           <span>{t("Families.addMembers")}</span>
         </Button>
       </DialogTrigger>
-      <DialogContent className="flex items-center flex-col w-full max-w-lg">
-        <DialogHeader>
-          <DialogTitle>{t("Families.addMembers")}</DialogTitle>
-        </DialogHeader>
-        <DialogDescription className="text-center">
-          {t("Families.AddMembers.description")}
-        </DialogDescription>
-
+      <MembershipDialogContent
+        title={t("Families.addMembers")}
+      >
         <AddMemberForm familyId={familyId} refresh={() => { refetchMembers(familyId)}} onClose={onClose} />
-      </DialogContent>
+      </MembershipDialogContent>
     </Dialog>
   );
 };

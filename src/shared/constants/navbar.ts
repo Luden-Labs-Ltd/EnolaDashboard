@@ -23,8 +23,7 @@ export type AVAILABLE_PATHS_ALIAS =
   | "supporters"
   | "coordinators"
   | "families"
-  | "family"
-  | "memberships";
+  | "family";
 
 export type PathInfo = {
   dynamicParamsCount: number,
@@ -80,11 +79,6 @@ export const AVAILABLE_PATHS: AVAILABLE_PATHS_TYPE = {
     key: "family",
     keyTo: "/family/{{id}}",
     dynamicParamsCount: 1,
-  },
-  "memberships": {
-    key: "memberships",
-    keyTo: "/memberships",
-    dynamicParamsCount: 0,
   }
 }
 

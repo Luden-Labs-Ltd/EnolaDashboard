@@ -7,6 +7,7 @@ export type ChangeableFieldItem = {
   value: string;
   name: string;
   type: "header" | "info";
+  href?: string;
   bottomSeparator?: boolean;
 };
 
@@ -14,12 +15,14 @@ interface ChangeableFieldProps {
   label: string;
   value: string;
   type?: "header" | "info";
+  href?: string;
 }
 
 export const ChangeableField: React.FC<ChangeableFieldProps> = ({
   label,
   value,
   type = "info",
+  href,
 }) => {
   switch (type) {
     case "header":
@@ -42,7 +45,17 @@ export const ChangeableField: React.FC<ChangeableFieldProps> = ({
           </div>
 
           <div className="w-[70%] h-[26px] flex items-center">
-            <p>{value}</p>
+            {href ? (
+              <a
+                className="inline-block text-[#313E44] no-underline hover:no-underline text-left"
+                href={href}
+                dir="ltr"
+              >
+                {value}
+              </a>
+            ) : (
+              <p>{value}</p>
+            )}
           </div>
         </Row>
       );

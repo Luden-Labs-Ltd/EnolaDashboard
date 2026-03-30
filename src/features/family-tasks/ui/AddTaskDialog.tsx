@@ -86,10 +86,8 @@ export const AddTaskDialog: React.FC<AddTaskDialogProps> = ({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button
-          size="sm"
-          rounded="circle"
           withIcon
-          className="font-semibold px-4 flex gap-2 rtl:flex-row-reverse"
+          className="font-semibold rtl:flex-row-reverse"
         >
           <PlusIcon />
           {t("FamilyTasks.addTask")}

@@ -58,15 +58,9 @@
             "id": "מזהה",
             "phoneNumber": "מספר טלפון",
             "fullName": "שם מלא",
-            "firstName": "שם פרטי",
-            "lastName": "שם משפחה",
-            "age": "גיל",
-            "gender": "מגדר",
             "primary": "ראשי",
             "circle": "מעגל",
-            "location": "מיקום",
-            "city": "עיר",
-            "individualDashboardLink": "קישור לדשבורד אישי"
+            "individualDashboardLink": "קישור אישי לדשבורד"
         },
         "CoordinatorsTable": {
             "id": "מזהה",

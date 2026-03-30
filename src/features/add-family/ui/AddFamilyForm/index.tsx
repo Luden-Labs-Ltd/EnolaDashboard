@@ -21,12 +21,31 @@ const createFormScheme = z.object({
   // primary caregiver (primary membership)
   caregiver_full_name: z.string().min(3).max(50),
   caregiver_phone_number: z.string().max(50),
-  caregiver_city: z.string().max(50),
-  problem: z.string().max(50),
   // family - patient
   full_name: z.string().max(50).optional(),
   phone_number: z.string().max(50).optional(),
-  address: z.string().max(50).optional(),
+}).superRefine((data, ctx) => {
+  const hasPatientData = Boolean(
+    data.full_name?.trim() || data.phone_number?.trim()
+  );
+
+  if (!hasPatientData) return;
+
+  if (!data.full_name?.trim()) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ["full_name"],
+      message: "Patient name is required",
+    });
+  }
+
+  if (!data.phone_number?.trim()) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ["phone_number"],
+      message: "Patient phone is required",
+    });
+  }
 });
 
 type CreateFamilyForm = z.infer<typeof createFormScheme>;
@@ -45,16 +64,13 @@ export const AddFamilyForm: React.FC<AddFamilyFormProps> = ({ onClose }) => {
   function onSubmit(values: CreateFamilyForm) {
     const createFamilyDto: Omit<CreateFamilyDto, "program_id"> = buildFamilyPayload({
       title: values.title,
-      problem: values.problem,
       patient: {
         fullName: values.full_name,
         phoneNumber: values.phone_number,
-        city: values.address,
       },
       primaryCaregiver: {
         fullName: values.caregiver_full_name,
         phoneNumber: values.caregiver_phone_number,
-        city: values.caregiver_city,
       },
     });
     setDisabled(true);
@@ -107,27 +123,10 @@ export const AddFamilyForm: React.FC<AddFamilyFormProps> = ({ onClose }) => {
       placeholder: t("Common.phone"),
     },
     {
-      name: "caregiver_city",
-      type: "input",
-      id: "caregiver_city",
-      label: t("Common.city"),
-      direction: "row",
-      placeholder: t("Common.city"),
-    },
-    {
-      name: "problem",
-      type: "input",
-      id: "problem",
-      label: t("Common.problem"),
-      direction: "row",
-      placeholder: t("Common.problem"),
-      separator: true,
-    },
-    {
       name: "full_name",
       type: "input",
       id: "first_name",
-      label: `${t("Common.patient")}`,
+      label: `${t("Common.patient")}*`,
       direction: "row",
       placeholder: t("Common.patient"),
       optional: true,
@@ -136,18 +135,9 @@ export const AddFamilyForm: React.FC<AddFamilyFormProps> = ({ onClose }) => {
       name: "phone_number",
       type: "phone",
       id: "phone",
-      label: `${t("Common.phone")}`,
+      label: `${t("Common.phone")}*`,
       direction: "row",
       placeholder: "",
-      optional: true,
-    },
-    {
-      name: "address",
-      type: "input",
-      id: "address",
-      label: t("Common.city"),
-      direction: "row",
-      placeholder: t("Common.city"),
       optional: true,
     },
   ];
@@ -168,13 +158,15 @@ export const AddFamilyForm: React.FC<AddFamilyFormProps> = ({ onClose }) => {
         customErrorMessage={apiError}
         showOptionalFields={showOptionalFields}
       >
-        <div className="w-full">
-          <div className="flex justify-between gap-6">
+        <div className="w-full pt-6">
+          <div className="flex justify-end gap-4">
             <Button
               rounded={"circle"}
               onClick={togglePatient}
               variant={"outline"}
               size={"lg"}
+              type="button"
+              disabled={disabled}
             >
               {
                 showOptionalFields ? t('Common.hiddenPatient') : t('Common.addPatient')

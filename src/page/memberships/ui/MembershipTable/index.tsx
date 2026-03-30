@@ -111,6 +111,10 @@ export const MembershipTable = () => {
     <UniversalTable
       tableName="MembershipsTable"
       tableRawData={memberships}
+      headerRowClassName="!bg-transparent hover:!bg-transparent !border-b !border-[#DCE5FF]"
+      bodyClassName="[&_tr>td]:bg-transparent [&_tr:hover>td]:bg-[#EEF3FF]"
+      rowClassName="!bg-transparent"
+      hiddenColumns={["id", "firstName", "lastName"]}
       selectedColumnIds={selectedMemberships}
       toggleMainSelect={toggleMainSelect}
       toggleSelectedItems={toggleSelectedMemberships}

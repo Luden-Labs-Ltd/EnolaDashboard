@@ -55,18 +55,12 @@
             "supporters": "supporters"
         },
         "MembershipsTable": {
-            "id": "id",
-            "phoneNumber": "phoneNumber",
-            "fullName": "fullName",
-            "firstName": "firstName",
-            "lastName": "lastName",
-            "age": "age",
-            "gender": "gender",
-            "primary": "primary",
-            "circle": "circle",
-            "location": "location",
-            "city": "city",
-            "individualDashboardLink": "individualDashboardLink"
+            "id": "ID",
+            "phoneNumber": "Phone number",
+            "fullName": "Full name",
+            "primary": "Primary",
+            "circle": "Circle",
+            "individualDashboardLink": "Personal dashboard link"
         },
         "CoordinatorsTable": {
             "id": "id",

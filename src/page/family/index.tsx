@@ -20,11 +20,12 @@ import {
 } from "entities/memberships";
 import { useFamilyStore } from "entities/families";
 import { FamilyTaskList, AddTaskDialog, MultiAddTasksDialog } from "features/family-tasks";
+import { AddMember } from "features/add-membership";
 import { useLocale, useTranslations } from "next-intl";
 import React, { useEffect, useState } from "react";
 import EditIcon from "shared/assets/EditIcon";
 import { EditableFamilyInfo } from "features/editable-family-info";
-import MembershipsPage from "page/memberships";
+import { MembershipTable } from "page/memberships/ui/MembershipTable";
 
 interface FamilyProps {
   familyId: string;
@@ -178,19 +179,27 @@ export const Family: React.FC<FamilyProps> = () => {
       </TabsContent>
 
       <TabsContent value="members" className="mt-0">
-        <Card>
-          <CardContent className="pt-6">
-            {memberships === null ? (
+        {memberships === null ? (
+          <Card>
+            <CardContent className="pt-6">
               <div className="py-8 text-center text-muted-foreground">
                 {t("Common.loading")}
               </div>
-            ) : (
-              <MembershipStoreProvider memberships={convertDataForTable(memberships)}>
-                <MembershipsPage />
-              </MembershipStoreProvider>
-            )}
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        ) : (
+          <MembershipStoreProvider memberships={convertDataForTable(memberships)}>
+            <Card>
+              <CardHeader>
+                <CardTitle>{t("Common.memberships")}</CardTitle>
+                <AddMember />
+              </CardHeader>
+              <CardContent className="pt-6">
+                <MembershipTable />
+              </CardContent>
+            </Card>
+          </MembershipStoreProvider>
+        )}
       </TabsContent>
     </Tabs>
   );

@@ -46,21 +46,10 @@ export const EditableFamilyInfo: React.FC<FamilyInfoProps> = ({
     },
     {
       type: "info",
-      name: "patient_city",
-      label: t("Common.city"),
-      value: family.patient.city ?? "-",
-    },
-    {
-      type: "info",
-      name: "patient_problem",
-      label: t("Common.problem"),
-      value: family.reason ?? "-",
-    },
-    {
-      type: "info",
       name: "patient_phone_number",
       label: t("Common.phoneNumber"),
       value: family.patient.phoneNumber,
+      href: family.patient.phoneNumber ? `tel:${family.patient.phoneNumber.replace(/\D/g, "")}` : undefined,
       bottomSeparator: true,
     },
     {
@@ -72,21 +61,25 @@ export const EditableFamilyInfo: React.FC<FamilyInfoProps> = ({
     },
     {
       type: "info",
-      name: "caregiver_relationship",
-      label: t("Common.relationship"),
-      value: family.primaryCaregiver.circle ?? "-",
-    },
-    {
-      type: "info",
-      name: "caregiver_city",
-      label: t("Common.city"),
-      value: family.primaryCaregiver.city ?? "-",
-    },
-    {
-      type: "info",
       name: "caregiver_phone_number",
       label: t("Common.phoneNumber"),
       value: family.primaryCaregiver.phoneNumber ?? "-",
+      href: family.primaryCaregiver.phoneNumber
+        ? `tel:${family.primaryCaregiver.phoneNumber.replace(/\D/g, "")}`
+        : undefined,
+      bottomSeparator: true,
+    },
+    {
+      type: "info",
+      name: "last_active",
+      label: t("TablesTranslates.FamiliesTable.lastActive"),
+      value: family.lastActive ?? "-",
+    },
+    {
+      type: "info",
+      name: "enrolment_source",
+      label: t("TablesTranslates.FamiliesTable.enrolmentSource"),
+      value: family.enrolmentSource || "-",
     },
   ];
 

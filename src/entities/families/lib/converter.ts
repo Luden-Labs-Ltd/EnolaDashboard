@@ -7,6 +7,13 @@ type ReturnDataForTableType = {
   familiesTableData: FamilyType[];
   sorterTableObject: SorterObject;
 };
+
+const mapFamilySource = (source: string | null | undefined) => {
+  if (source === "api") return "mobile";
+
+  return source ?? "";
+};
+
 export const convertDataForTable = (
   familiesData: FamilyApi[]
 ): ReturnDataForTableType => {
@@ -73,11 +80,11 @@ export const convertDataForTable = (
       caregiver: family.primary_caregiver?.full_name ?? "no",
       lastSeen: new Date(family.last_seen_at).toLocaleDateString(),
       lastActive: new Date(family.last_seen_at).toLocaleDateString(),
-      archived: String(family.archived),
-      enrolmentSource: "enrolmentSource",
       tasks: currentTasksCount,
       memberships: family.membership_count ?? 0,
       supporters: family.supporter_count,
+      enrolmentSource: mapFamilySource(family.source),
+      archived: String(family.archived),
     };
   });
 
@@ -109,7 +116,8 @@ export const convertSingleFamilyData = (
     taskCount: familyData.task_count,
     reason: familyData.reason[0] || "",
     primaryCaregiver: {
-      phoneNumber: familyData?.primary_caregiver?.phone_number || "",
+      phoneNumber: familyData?.primary_caregiver?.formatted_phone_number ||
+        familyData?.primary_caregiver?.phone_number || "",
       fullName: familyData.primary_caregiver?.full_name || "",
       circle: familyData?.primary_caregiver?.circle ?? "",
       city: familyData?.primary_caregiver?.city ?? "",
@@ -122,7 +130,7 @@ export const convertSingleFamilyData = (
     inviteLink: familyData.supporters_invite_link,
     lastSeen: new Date(familyData.last_seen_at).toLocaleDateString(),
     lastActive: new Date(familyData.last_seen_at).toLocaleDateString(),
-    enrolmentSource: "enrolmentSource",
+    enrolmentSource: mapFamilySource(familyData.source),
     tasksChart: {
       completed,
       inProgress,

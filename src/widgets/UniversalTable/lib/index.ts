@@ -9,6 +9,7 @@ type TableDataConverterDto = {
   tableRawData: any[];
   selectedColumnIds: string[];
   tableName: string;
+  hiddenColumns?: string[];
 };
 
 const createHeader = ({
@@ -63,6 +64,7 @@ export const tableDataConverter = ({
   tableRawData,
   selectedColumnIds,
   tableName,
+  hiddenColumns = [],
 }: TableDataConverterDto) => {
   const resultData: TableData = {
     headers: [],
@@ -70,7 +72,9 @@ export const tableDataConverter = ({
   };
 
   tableRawData.forEach((item, index) => {
-    const headersAndRows = Object.entries(item);
+    const headersAndRows = Object.entries(item).filter(
+      ([headerValue]) => !hiddenColumns.includes(headerValue)
+    );
     headersAndRows.forEach(([headerValue, rowValue], headersAndRowsIndex) => {
       const currentHeaderId = `header-${item.id}-${headersAndRowsIndex}`;
       const currentRowId = `row-${item.id}-${headersAndRowsIndex}`;

@@ -31,6 +31,8 @@ export const AddMemberForm: React.FC<AddMemberFormProps> = ({
   const form = useForm<AddMembershipForm>({
     resolver: zodResolver(AddMembershipFormScheme),
     defaultValues: {
+      circle: "public",
+      last_name: "",
       primary: false,
     },
   });
@@ -70,13 +72,14 @@ export const AddMemberForm: React.FC<AddMemberFormProps> = ({
       fields={ADD_MEMBERSHIP_FORM_FIELDS}
       customErrorMessage={apiError}
     >
-      <div className="w-full">
-        <div className="flex justify-between gap-6">
+      <div className="w-full pt-6">
+        <div className="flex justify-end gap-4">
           <Button
             rounded={"circle"}
             onClick={onCloseHandler}
             variant={"secondary"}
             size={"lg"}
+            type="button"
           >
             {t("Common.cancel")}
           </Button>
