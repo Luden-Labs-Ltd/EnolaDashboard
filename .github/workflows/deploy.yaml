@@ -38,6 +38,25 @@ jobs:
           username: luden-labs-ltd
           password: ${{ secrets.GHCR_PAT }}
 
+      - name: Validate deploy config
+        run: |
+          test -n "${{ vars.SSH_HOST }}" || (echo "Missing Deployments variable SSH_HOST" && exit 1)
+          test -n "${{ vars.SSH_USER }}" || (echo "Missing Deployments variable SSH_USER" && exit 1)
+          test -n "${{ vars.DEPLOY_PATH }}" || (echo "Missing Deployments variable DEPLOY_PATH" && exit 1)
+          test -n "${{ vars.BASE_URL_BACKEND }}" || (echo "Missing Deployments variable BASE_URL_BACKEND" && exit 1)
+          test -n "${{ vars.SENTRY_DSN }}" || (echo "Missing Deployments variable SENTRY_DSN" && exit 1)
+          test -n "${{ secrets.SSH_KEY }}" || (echo "Missing Deployments secret SSH_KEY" && exit 1)
+          test -n "${{ secrets.GHCR_PAT }}" || (echo "Missing Deployments secret GHCR_PAT" && exit 1)
+
+      - name: Print deploy context
+        run: |
+          echo "github.ref=${{ github.ref }}"
+          echo "github.ref_name=${{ github.ref_name }}"
+          echo "github.sha=${{ github.sha }}"
+          echo "resolved_image_tag=${{ steps.image-tag.outputs.value }}"
+          echo "deploy_host=${{ vars.SSH_HOST }}"
+          echo "deploy_path=${{ vars.DEPLOY_PATH }}"
+
       - name: Build and push
         if: ${{ inputs.image_tag == '' }}
         uses: docker/build-push-action@v6
@@ -50,31 +69,28 @@ jobs:
             ghcr.io/luden-labs-ltd/enola_dashboard-next-js:qa-latest
             ghcr.io/luden-labs-ltd/enola_dashboard-next-js:${{ github.sha }}
 
-      - name: Validate deploy config
-        run: |
-          test -n "${{ vars.SSH_HOST }}" || (echo "Missing Deployments variable SSH_HOST" && exit 1)
-          test -n "${{ vars.SSH_USER }}" || (echo "Missing Deployments variable SSH_USER" && exit 1)
-          test -n "${{ vars.DEPLOY_PATH }}" || (echo "Missing Deployments variable DEPLOY_PATH" && exit 1)
-          test -n "${{ vars.BASE_URL_BACKEND }}" || (echo "Missing Deployments variable BASE_URL_BACKEND" && exit 1)
-          test -n "${{ vars.SENTRY_DSN }}" || (echo "Missing Deployments variable SENTRY_DSN" && exit 1)
-          test -n "${{ secrets.SSH_KEY }}" || (echo "Missing Deployments secret SSH_KEY" && exit 1)
-          test -n "${{ secrets.GHCR_PAT }}" || (echo "Missing Deployments secret GHCR_PAT" && exit 1)
-
       - name: Deploy to QA via SSH
         uses: appleboy/ssh-action@v1.2.0
         with:
+          debug: true
           host: ${{ vars.SSH_HOST }}
           username: ${{ vars.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
+            set -eux
             cd ${{ vars.DEPLOY_PATH }}
             cat > .env << 'EOF'
             BASE_URL_BACKEND=${{ vars.BASE_URL_BACKEND }}
             SENTRY_DSN=${{ vars.SENTRY_DSN }}
             IMAGE_TAG=${{ steps.image-tag.outputs.value }}
             EOF
+            echo "Deploying IMAGE_TAG=${{ steps.image-tag.outputs.value }}"
+            cat .env
             docker compose pull qa
             docker compose up -d --force-recreate qa
+            docker compose images qa
+            docker compose ps qa
+            docker inspect $(docker compose ps -q qa) --format '{{.Image}} {{.Config.Image}}'
             healthy=0
             for attempt in $(seq 1 20); do
               if curl -fsS http://127.0.0.1:3000/ > /dev/null; then
@@ -87,4 +103,5 @@ jobs:
               echo "QA healthcheck failed on 127.0.0.1:3000"
               exit 1
             fi
+            curl -I http://127.0.0.1:3000/
             docker image prune -af
