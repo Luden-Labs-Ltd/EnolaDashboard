@@ -21,6 +21,7 @@ export type HeaderItem = {
 
 export type CeilItem = {
   id: string;
+  columnId: string;
   itemId: string;
   value: string | number;
   type: CeilItemType;

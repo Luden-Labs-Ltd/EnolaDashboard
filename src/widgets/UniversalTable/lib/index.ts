@@ -37,6 +37,7 @@ const createHeader = ({
 
 const createRow = ({
   rowId,
+  columnId,
   itemId,
   rowValue,
   type,
@@ -44,6 +45,7 @@ const createRow = ({
   itemData,
 }: {
   rowId: string;
+  columnId: string;
   itemId: string;
   rowValue: string | number;
   type: CeilItemType;
@@ -52,6 +54,7 @@ const createRow = ({
 }): CeilItem => {
   return {
     id: rowId,
+    columnId,
     itemId: itemId,
     itemData: itemData,
     value: rowValue,
@@ -97,6 +100,7 @@ export const tableDataConverter = ({
         resultData.rows[index] = [
           createRow({
             rowId: "select-" + currentRowId,
+            columnId: "select",
             itemId: item.id,
             rowValue: "",
             type: CeilItemType.SELECT,
@@ -105,6 +109,7 @@ export const tableDataConverter = ({
           }),
           createRow({
             rowId: currentRowId,
+            columnId: headerValue,
             itemId: item.id,
             rowValue: rowValue as number | string,
             type: CeilItemType.VALUE,
@@ -116,6 +121,7 @@ export const tableDataConverter = ({
         resultData.rows[index].push(
           createRow({
             rowId: currentRowId,
+            columnId: headerValue,
             itemId: item.id,
             rowValue: rowValue as number | string,
             type: CeilItemType.VALUE,
@@ -131,6 +137,7 @@ export const tableDataConverter = ({
         resultData.rows[index].push(
           createRow({
             rowId: "actions-" + currentRowId,
+            columnId: "actions",
             itemId: item.id,
             rowValue: "",
             type: CeilItemType.ACTIONS,

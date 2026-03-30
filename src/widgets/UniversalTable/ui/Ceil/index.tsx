@@ -1,4 +1,5 @@
 import React from "react";
+import { cn } from "@utils";
 
 import { Checkbox } from "@components/shadowCDN/checkbox";
 import { TableCell } from "@components/shadowCDN/table";
@@ -29,5 +30,14 @@ export const Ceil: React.FC<CeilProps> = ({ ceil, toggleSelectedItems, renderCei
       </TableCell>
     );
   }
-  return <TableCell>{ceil.value}</TableCell>;
+  return (
+    <TableCell
+      dir={ceil.columnId === "phone_number" ? "ltr" : undefined}
+      className={cn(
+        ceil.columnId === "phone_number" ? "ltr:text-left rtl:text-right" : undefined
+      )}
+    >
+      {ceil.value}
+    </TableCell>
+  );
 };

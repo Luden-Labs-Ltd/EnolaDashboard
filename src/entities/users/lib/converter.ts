@@ -43,6 +43,7 @@ export function convertDataForCoordinatorsTable(
   coordinatorsData: CoordinatorApi[],
   programs: Program[],
   t: TFunction,
+  locale: string,
 ): ReturnDataForCoordinatorsTableType {
   const sorterObject: SorterObject = {
     id: {
@@ -76,9 +77,22 @@ export function convertDataForCoordinatorsTable(
     full_name: coordinator.full_name,
     phone_number: coordinator.formatted_phone_number,
     dashboardAccess: coordinator.dashboard_access ? t("Common.yes") : t("Common.no"),
-    role: String(coordinator.role),
-    programs: programs.filter((program) => coordinator.program_ids.includes(program.id)).map((program) => program.name).join(", "),
-    lastSeen: coordinator.last_seen_at ? new Date(coordinator.last_seen_at).toLocaleDateString("en-US", { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' }) : t("Common.never"),
+    role: coordinator.role === "admin" ? t("Common.admin") : t("Common.manager"),
+    programs:
+      coordinator.role === "admin"
+        ? t("Common.all")
+        : programs
+            .filter((program) => coordinator.program_ids.includes(program.id))
+            .map((program) => program.name)
+            .join(", "),
+    lastSeen: coordinator.last_seen_at
+      ? new Intl.DateTimeFormat(locale, {
+          weekday: "short",
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+        }).format(new Date(coordinator.last_seen_at))
+      : t("Common.never"),
   }));
 
   return {
