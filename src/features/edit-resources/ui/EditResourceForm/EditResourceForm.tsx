@@ -29,6 +29,7 @@ export const EditResourceForm: React.FC<EditResourceFormProps> = ({
   const { categories } = categoryState;
 
   const phoneInvalidMsg = t("Resources.phoneInvalidFormat");
+  const phoneHint = t("Resources.phoneHint");
   const editResourceScheme = useMemo(
     () => buildEditResourceScheme(phoneInvalidMsg),
     [phoneInvalidMsg]
@@ -97,7 +98,8 @@ export const EditResourceForm: React.FC<EditResourceFormProps> = ({
       id: "phone",
       label: t("Common.phone"),
       direction: "row",
-      placeholder: "",
+      placeholder: "0541234567 or *8960",
+      description: phoneHint,
     },
     {
       name: "email",

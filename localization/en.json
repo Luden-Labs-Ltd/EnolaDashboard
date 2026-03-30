@@ -160,7 +160,8 @@
         "contactPerson": "Contact person",
         "serviceNature": "Terms of service",
         "accessRequirements": "Access requirements",
-        "phoneInvalidFormat": "Use only digits, *, +, #, spaces, and ()-. — no letters",
+        "phoneHint": "Enter an Israeli phone number in local or international format, or a short code like *8960.",
+        "phoneInvalidFormat": "Enter a valid phone number or a short code like *8960",
         "Categories": {
             "medical": "Medical",
             "home": "Home",
