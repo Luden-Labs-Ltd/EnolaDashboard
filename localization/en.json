@@ -204,6 +204,35 @@
             "description": "You could delete Family"
         }
     },
+    "LastActions": {
+        "empty": "No recent actions yet",
+        "sources": {
+            "dashboard": "Dashboard",
+            "supporters_web": "Supporters web",
+            "mobile": "Mobile"
+        },
+        "actions": {
+            "task_created": "Created a task",
+            "task_bulk_created": "Created tasks in bulk",
+            "task_updated": "Updated a task",
+            "task_deleted": "Deleted a task",
+            "task_assigned": "Assigned a task",
+            "task_unassigned": "Unassigned a task",
+            "task_completed": "Completed a task",
+            "membership_created": "Added a supporter",
+            "membership_bulk_created": "Added supporters in bulk",
+            "membership_bulk_updated": "Updated supporters in bulk",
+            "membership_updated": "Updated a supporter",
+            "membership_deleted": "Removed a supporter",
+            "note_created": "Added a note",
+            "note_updated": "Updated a note",
+            "note_deleted": "Deleted a note",
+            "family_updated": "Updated family info",
+            "event_assigned": "Assigned an event",
+            "event_unassigned": "Unassigned an event",
+            "event_completed": "Completed an event"
+        }
+    },
     "Coordinators": {
         "addCoordinators": "Add coordinators",
         "DeleteCoordinators": {

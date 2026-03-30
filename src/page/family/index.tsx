@@ -118,7 +118,7 @@ export const Family: React.FC<FamilyProps> = () => {
 
       <TabsContent value="overview" className="mt-0">
         <div className="flex gap-[24px]">
-          <div className="flex-1">
+          <div className="min-w-0 flex-1">
             <Card>
               <CardHeader>
                 <CardTitle>{family?.name ?? t("Common.family")}</CardTitle>
@@ -136,8 +136,8 @@ export const Family: React.FC<FamilyProps> = () => {
               </CardContent>
             </Card>
           </div>
-          <div className="flex flex-col gap-[24px]">
-            <div className="flex gap-[24px]">
+          <div className="flex min-w-0 max-w-[420px] flex-1 flex-col gap-[24px]">
+            <div className="flex gap-[24px] [&>*]:min-w-0 [&>*]:flex-1">
               <ChartCard
                 dataSet={supportersDataSet}
                 title={t("Common.supporters")}
@@ -146,7 +146,7 @@ export const Family: React.FC<FamilyProps> = () => {
             </div>
 
             <div>
-              <LastActions />
+              <LastActions familyId={family.id} />
             </div>
             <div>
               <Notes familyId={family.id} />

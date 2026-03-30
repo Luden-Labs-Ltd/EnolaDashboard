@@ -35,12 +35,10 @@ const ECharts: React.FC<EchartsProps> = (props) => {
   useEffect(() => {
     if (!chart || !chartRef.current) return;
 
-    // Capture the ref value to avoid stale closure issues
     const currentElement = chartRef.current;
 
-    chart.setOption({ ...options, resizeObserver }, true); // second param is for 'noMerge'
+    chart.setOption({ ...options, resizeObserver }, true);
 
-    // Set up resize observer
     resizeObserver.observe(currentElement);
 
     return () => {

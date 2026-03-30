@@ -211,6 +211,35 @@
             "description": "אתה יכול למחוק משפחה"
         }
     },
+    "LastActions": {
+        "empty": "אין פעולות אחרונות עדיין",
+        "sources": {
+            "dashboard": "דשבורד",
+            "supporters_web": "אתר תומכים",
+            "mobile": "מובייל"
+        },
+        "actions": {
+            "task_created": "יצר משימה",
+            "task_bulk_created": "יצר משימות בכמות",
+            "task_updated": "עדכן משימה",
+            "task_deleted": "מחק משימה",
+            "task_assigned": "שייך משימה",
+            "task_unassigned": "הסיר שיוך ממשימה",
+            "task_completed": "השלים משימה",
+            "membership_created": "הוסיף תומך",
+            "membership_bulk_created": "הוסיף תומכים בכמות",
+            "membership_bulk_updated": "עדכן תומכים בכמות",
+            "membership_updated": "עדכן תומך",
+            "membership_deleted": "הסיר תומך",
+            "note_created": "הוסיף הערה",
+            "note_updated": "עדכן הערה",
+            "note_deleted": "מחק הערה",
+            "family_updated": "עדכן פרטי משפחה",
+            "event_assigned": "שייך אירוע",
+            "event_unassigned": "הסיר שיוך מאירוע",
+            "event_completed": "השלים אירוע"
+        }
+    },
     "Empty": {
         "resources": "לחצו על ״הוספת משאב״ כדי לשמור משאבים שימושיים ",
         "families": "לחצו על ״הוספת משפחה״ כדי להתחיל רשימה",
